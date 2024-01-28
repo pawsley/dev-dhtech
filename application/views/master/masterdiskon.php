@@ -58,13 +58,6 @@
                         <div class="valid-tooltip">Looks good!</div>
                     </div>
                     <input class="form-control" id="total" name="total" type="hidden" placeholder="Input Jumlah Kuota Diskon" required>
-                    <!-- Total -->
-                    <!-- <div class="col-md-12 position-relative">
-                        <label class="form-label" for="FormBuatKuotaDiskon">Total Diskon</label>
-                        <div class="input-group has-validation">
-                            <span class="input-group-text">Rp</span>
-                        </div>
-                    </div>                     -->
                     <!-- Button Tambah Diskon Baru -->
                     <div class="col-12 btn-showcase">
                         <button class="btn btn-primary tambahdiskon" type="button" onclick="push(['_trackEvent', 'example', 'try', 'tambahdiskon']);">Buat Diskon Baru</button>
