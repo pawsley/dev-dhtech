@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="This Project Made by Akira Digital Creative with CLIENT ID AWS005">
+    <meta name="keywords" content="akira.id adalah softwarehouse terkemuka di dalam dunia digital yang fokus memberikan solusi bagi pelaku bisnis untuk transisi dalam dunia digital">
+    <meta name="author" content="akira.id">
+    <link rel="icon" href="<?=base_url()?>assets/images/favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" type="image/x-icon">
+    <title>DEHA - HOLDINGS | Akira System</title>
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Rubik:400,400i,500,500i,700,700i&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/font-awesome.css">
+    <!-- ico-font-->
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/vendors/icofont.css">
+    <!-- Themify icon-->
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/vendors/themify.css">
+    <!-- Flag icon-->
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/vendors/flag-icon.css">
+    <!-- Feather icon-->
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/vendors/feather-icon.css">
+    <!-- Plugins css start-->
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/vendors/slick.css">
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/vendors/slick-theme.css">
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/vendors/scrollbar.css">
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/vendors/animate.css">
+    <!-- Plugins css Ends-->
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/vendors/bootstrap.css">
+    <!-- App css-->
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/style.css">
+    <link id="color" rel="stylesheet" href="<?=base_url()?>assets/css/color-1.css" media="screen">
+    <!-- Responsive css-->
+    <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/responsive.css">
+    <?php echo $css; ?>
+  </head>
+  <body> 
+    <!-- loader starts-->
+    <div class="loader-wrapper">
+      <div class="loader-index"> <span></span></div>
+      <svg>
+        <defs></defs>
+        <filter id="goo">
+          <fegaussianblur in="SourceGraphic" stddeviation="11" result="blur"></fegaussianblur>
+          <fecolormatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"> </fecolormatrix>
+        </filter>
+      </svg>
+    </div>
+    <!-- loader ends-->
+    <!-- tap on top starts-->
+    <div class="tap-top"><i data-feather="chevrons-up"></i></div>
+    <!-- tap on tap ends-->
+    <!-- page-wrapper Start-->
+    <div class="page-wrapper compact-wrapper modern-type" id="pageWrapper">
+      <!-- Page Header Start-->
+      <div class="page-header">
+        <div class="header-wrapper row m-0">
+          <!-- Logo -->
+          <div class="header-logo-wrapper col-auto p-0">
+            <div class="logo-wrapper">
+              <a href="<?=base_url()?>">
+                <img class="img-fluid" src="<?=base_url()?>assets/images/logo/logo.png" alt="logohope" loading="lazy">
+              </a>
+            </div>
+            <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i></div>
+          </div>
+          <!-- End Logo -->
+          <div class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0">
+            <div class="notification-slider">
+              <div class="d-flex h-100"> <img src="<?=base_url()?>assets/images/giftools.gif" alt="gif">
+                <h6 class="mb-0 f-w-400"><span class="font-primary">Hey, Founder! </span> <span class="f-light"> Wellcome to Akira Creative System.</span></h6><i class="icon-arrow-top-right f-light"></i>
+              </div>
+              <div class="d-flex h-100"><img src="<?=base_url()?>assets/images/giftools.gif" alt="gif">
+                <h6 class="mb-0 f-w-400"><span class="f-light">Regrats from me </span></h6><a class="ms-1" href="https://www.akira.id/" target="_blank">AKIRA Official !</a>
+              </div>
+            </div>
+          </div>
+          <div class="nav-right col-xxl-7 col-xl-6 col-md-7 col-8 pull-right right-header p-0 ms-auto">
+            <ul class="nav-menus">
+              <!-- Dark Mode -->
+              <li>
+                <div class="mode">
+                  <svg>
+                    <use href="<?=base_url()?>assets/svg/icon-sprite.svg#moon"></use>
+                  </svg>
+                </div>
+              </li>
+              <!-- Notifikasi -->
+              <li class="onhover-dropdown">
+                <div class="notification-box">
+                  <svg>
+                    <use href="<?=base_url()?>assets/svg/icon-sprite.svg#notification"></use>
+                  </svg>
+                </div>
+                <div class="onhover-show-div notification-dropdown">
+                  <h6 class="f-18 mb-0 dropdown-title">Notifikasi</h6>
+                  <ul>
+                    <li class="b-l-primary border-4">
+                      <p>Delivery processing <span class="font-danger">10 min.</span></p>
+                    </li>
+                    <li class="b-l-success border-4">
+                      <p>Order Complete<span class="font-success">1 hr</span></p>
+                    </li>
+                    <li class="b-l-secondary border-4">
+                      <p>Tickets Generated<span class="font-secondary">3 hr</span></p>
+                    </li>
+                    <li class="b-l-warning border-4">
+                      <p>Delivery Complete<span class="font-warning">6 hr</span></p>
+                    </li>
+                    <li><a class="f-w-700" href="#">Check all</a></li>
+                  </ul>
+                </div>
+              </li>
+              <li class="profile-nav onhover-dropdown pe-0 py-0">
+                <div class="media profile-media">
+                    <img class="b-r-10" src="<?=base_url()?>assets/images/dashboard/profile.png" alt="gambar-principle" loading="lazy">
+                  <div class="media-body"><span>Mr. Deha</span>
+                    <p class="mb-0">Principle <i class="middle fa fa-angle-down"></i></p>
+                  </div>
+                </div>
+                <ul class="profile-dropdown onhover-show-div">
+                  <li><a href="#"><i data-feather="settings"></i><span>Pengaturan</span></a></li>
+                  <li><a href="#"><i data-feather="log-in"> </i><span>Keluar</span></a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- Page Header Ends -->
+      <!-- Page Body Start-->
+      <div class="page-body-wrapper">
+        <!-- Page Sidebar Start-->
+        <div class="sidebar-wrapper" sidebar-layout="stroke-svg">
+          <div>
+            <div class="logo-wrapper">
+                <a href="<?=base_url()?>">
+                    <img class="img-fluid for-light" src="<?=base_url()?>assets/images/logo/logo.png" alt="logodeha">
+                    <img class="img-fluid for-dark" src="<?=base_url()?>assets/images/logo/logo_dark.png" alt="logodeha">
+                </a>
+              <div class="back-btn"><i class="fa fa-angle-left"></i></div>
+              <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
+            </div>
+            <div class="logo-icon-wrapper">
+                <a href="<?=base_url()?>">
+                    <img class="img-fluid" src="<?=base_url()?>assets/images/logo/logo-icon.png" alt="">
+                </a>
+            </div>
+            <nav class="sidebar-main">
+              <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
+              <div id="sidebar-menu">
+                <ul class="sidebar-links" id="simple-bar">
+                  <li class="back-btn"><a href="<?=base_url()?>"><img class="img-fluid" src="<?=base_url()?>assets/images/logo/logo-icon.png" alt=""></a>
+                    <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
+                  </li>
+                  <li class="pin-title sidebar-main-title">
+                    <div> 
+                      <h6>Pinned</h6>
+                    </div>
+                  </li>
+                  <li class="sidebar-main-title">
+                    <div>
+                      <h6 class="lan-1">General</h6>
+                    </div>
+                  </li>
+                  <!-- Menu Dashboard General -->
+                  <li class="sidebar-list dash"><i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title dash" href="#">
+                      <svg class="stroke-icon">
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-home"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-home"></use>
+                      </svg><span>Dashboard</span></a>
+                    <ul class="sidebar-submenu">
+                      <li class="gen"><a class="gen" href="<?=base_url()?>">General</a></li>
+                      <li class="gen"><a class="fin" href="<?=base_url()?>finansial/">Finansial</a></li>
+                      <li class="gen"><a class="prd" href="<?=base_url()?>produk/">Produk</a></li>
+                    </ul>
+                  </li>                 
+                  <!-- Menu Master Menu -->
+                  <li class="sidebar-main-title">
+                    <div>
+                      <h6 class="lan-0">Data Master</h6>
+                    </div>
+                  </li>
+                    <!-- Master Cabang -->
+                    <li class="sidebar-list mascab">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav mascab" href="<?=base_url()?>master-cabang">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
+                        </svg><span>Master Cabang</span></a>
+                    </li>
+                    <!-- Master Diskon -->
+                    <li class="sidebar-list masdis">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav masdis" href="<?=base_url()?>master-diskon">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
+                        </svg><span>Master Diskon</span></a>
+                    </li>
+                    <!-- Master Supplier -->
+                    <li class="sidebar-list massup">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav massup" href="<?=base_url()?>master-supplier">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
+                        </svg><span>Master Supplier</span></a>
+                    </li>
+                    <!-- Master Karyawan -->
+                    <li class="sidebar-list maskar">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav maskar" href="<?=base_url()?>master-karyawan">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
+                        </svg><span>Master Karyawan</span></a>
+                    </li>
+                    <!-- Master Kustomer -->
+                    <li class="sidebar-list maskus">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav maskus" href="<?=base_url()?>master-kustomer">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
+                        </svg><span>Master Kustomer</span></a>
+                    </li>
+                    <!-- Master Kategori -->
+                    <li class="sidebar-list maskat">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav maskat" href="<?=base_url()?>master-kategori">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
+                        </svg><span>Master Kategori</span></a>
+                    </li>
+                    <!-- Master Barang -->
+                    <li class="sidebar-list masbar">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav masbar" href="<?=base_url()?>master-barang">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
+                        </svg><span>Master Barang</span></a>
+                    </li>
+                  <!-- Menu Aplikasi-->
+                  <li class="sidebar-main-title">
+                      <div>
+                          <h6 class="lan-8">Applications</h6>
+                      </div>
+                  </li>
+                  <!-- End Menu Aplikasi -->
+                  <!-- Menu Order Masuk -->
+                  <li class="sidebar-list">
+                    <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="letter-box.html">
+                    <svg class="stroke-icon">
+                      <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-social"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-social"></use>
+                    </svg><span>Order Masuk</span></a>
+                  </li>
+                  <!-- End Menu Order Masuk -->
+                  <!-- Menu Toko -->
+                  <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title" href="#">
+                      <svg class="stroke-icon">
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-ecommerce"></use>
+                      </svg><span>Produk Toko</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                      <li><a href="add-products.html">Add Products</a></li>
+                      <li><a href="product.html">Product</a></li>
+                      <li><a href="category.html">Category page</a></li>
+                      <li><a href="product-page.html">Product page</a></li>
+                      <li><a href="list-products.html">Product list</a></li>
+                      <li><a href="payment-details.html">Payment Details</a></li>
+                      <li><a href="order-history.html">Order History</a></li>
+                      <li><a class="submenu-title" href="#">Invoices<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
+                        <ul class="nav-sub-childmenu submenu-content">
+                          <li><a href="invoice-1.html">Invoice-1</a></li>
+                          <li><a href="invoice-2.html">Invoice-2</a></li>
+                          <li><a href="invoice-3.html">Invoice-3</a></li>
+                          <li><a href="invoice-4.html">Invoice-4</a></li>
+                          <li><a href="invoice-5.html">Invoice-5</a></li>
+                          <li><a href="invoice-template.html">Invoice-6</a></li>
+                        </ul>
+                      </li>
+                      <li><a href="cart.html">Cart</a></li>
+                      <li><a href="list-wish.html">Wishlist</a></li>
+                      <li><a href="checkout.html">Checkout</a></li>
+                      <li><a href="pricing.html">Pricing</a></li>
+                    </ul>
+                  </li>
+                  <!-- End Menu Toko -->
+                </ul>
+              </div>
+              <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
+            </nav>
+          </div>
+        </div>
+
+        <?=$content;?>
+
+        <?=$modal;?>
+
+        <!-- footer start-->
+        <footer class="footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12 footer-copyright text-center">
+                <p class="mb-0">Copyright 2023 © touch by AKIRA DIGITAL CREATIVE | akira.id</p>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="<?=base_url()?>assets/js/jquery-3.6.0.min.js"></script>
+    <?php echo $js; ?>
+    <!-- latest jquery-->
+    <!-- Bootstrap js-->
+    <script src="<?=base_url()?>assets/js/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- feather icon js-->
+    <script src="<?=base_url()?>assets/js/icons/feather-icon/feather.min.js"></script>
+    <script src="<?=base_url()?>assets/js/icons/feather-icon/feather-icon.js"></script>
+    <!-- scrollbar js-->
+    <script src="<?=base_url()?>assets/js/scrollbar/simplebar.js"></script>
+    <script src="<?=base_url()?>assets/js/scrollbar/custom.js"></script>
+    <!-- Sidebar jquery-->
+    <script src="<?=base_url()?>assets/js/config.js"></script>
+    <!-- Plugins JS start-->
+    <script src="<?=base_url()?>assets/js/sidebar-menu.js"></script>
+    <script src="<?=base_url()?>assets/js/sidebar-pin.js"></script>
+    <script src="<?=base_url()?>assets/js/slick/slick.min.js"></script>
+    <script src="<?=base_url()?>assets/js/slick/slick.js"></script>
+    <script src="<?=base_url()?>assets/js/header-slick.js"></script>
+    <script src="<?=base_url()?>assets/js/height-equal.js"></script>
+    <!-- etc -->
+    <script src="<?=base_url()?>assets/js/script.js"></script>
+    <script>
+        $(document).ready(function () {
+            var segment1 = "<?php echo $this->uri->segment(1); ?>";
+            var segment2 = "<?php echo $this->uri->segment(2); ?>";
+
+            $(".dash, .gen, .fin, .prd, .maskar, .mascab, .maskus, .massup, .maskat, .masbar,.masdis").removeClass("active");
+                
+            if (segment1 == "") {
+                $(".dash").addClass("active");
+                $(".gen").addClass("active");
+                $(".sidebar-list.dash").addClass('active');
+                $(".sidebar-list.dash .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.dash ul.sidebar-submenu").slideDown('normal');                    
+            } else if (segment1 == "finansial"){
+                $(".dash").addClass("active");
+                $(".fin").addClass("active");
+                $(".sidebar-list.dash").addClass('active');
+                $(".sidebar-list.dash .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.dash ul.sidebar-submenu").slideDown('normal');   
+            } else if (segment1 == "produk"){
+                $(".dash").addClass("active");
+                $(".prd").addClass("active");
+                $(".sidebar-list.dash").addClass('active');
+                $(".sidebar-list.dash .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.dash ul.sidebar-submenu").slideDown('normal');   
+            }else if (segment1 == "master-karyawan"){
+                $(".maskar").addClass("active");
+            }else if (segment1 == "master-cabang"){
+                $(".mascab").addClass("active");
+            }else if (segment1 == "master-kustomer"){
+                $(".maskus").addClass("active");
+            }else if (segment1 == "master-supplier"){
+                $(".massup").addClass("active");
+            }else if (segment1 == "master-kategori"){
+                $(".maskat").addClass("active");
+            }else if (segment1 == "master-barang"){
+                $(".masbar").addClass("active");
+            }else if (segment1 == "master-diskon"){
+                $(".masdis").addClass("active");
+            }
+        });
+    </script>    
+  </body>
+</html>        
