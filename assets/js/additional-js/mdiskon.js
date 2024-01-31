@@ -1,9 +1,14 @@
 $(document).ready(function () {
-    reload();
-    initSweetAlert();
+    var formatter = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0
+    });
+    reload(formatter);
+    initSweetAlert(formatter);
 });
 
-function reload() {
+function reload(formatter) {
     $("#table-diskon").DataTable({
         "processing": true,
         "language": { 
@@ -18,9 +23,19 @@ function reload() {
         },
         "columns": [
             { "data": "kode_diskon"},
-            { "data": "nilai"},
+            { 
+                "data": "nilai",
+                "render": function (data, type, row) {
+                    return formatter.format(data);
+                }
+            },
             { "data": "kuota"},
-            { "data": "total_diskon" },
+            { 
+                "data": "total_diskon",
+                "render": function (data, type, row) {
+                    return formatter.format(data);
+                }
+            },
             { 
               "data": "kode_diskon",
               "orderable": false, // Disable sorting for this column
@@ -42,7 +57,7 @@ function reload() {
     });    
 }
 
-function initSweetAlert() {
+function initSweetAlert(formatter) {
     $(".tambahdiskon").on("click", function () {
         var nilaiDiskon = $("#FormBuatKuotaDiskon").val();
         var kuotaDiskon = $("#kuota").val();
@@ -51,12 +66,12 @@ function initSweetAlert() {
         var numbdiscount = parseFloat(nilaiDiskon.replace(/\D/g, ''));
         var total = numbdiscount * kuotaDiskon;
 
-        var formatter = new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0
-        });
 
+        if (!nilaiDiskon || !kuotaDiskon || !kode || !selectedValues) {
+            // Display an error message or take appropriate action for missing values
+            swal("Error", "Please fill out all required fields.", "error");
+            return;
+        }
         $("#total").val(total);
         swal({
             title: "Apa anda yakin?",
@@ -112,4 +127,9 @@ function initSweetAlert() {
 
 function refresh() {
     $("#table-diskon").DataTable().ajax.reload();
+    $("#tipe").val('0');
+    $("#kode").val('');
+    $("#FormBuatKuotaDiskon").val('');
+    $("#kuota").val('');
+    $("#total").val('');
 }

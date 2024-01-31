@@ -259,56 +259,89 @@
                     </li>
                   <!-- Menu Aplikasi-->
                   <li class="sidebar-main-title">
-                      <div>
-                          <h6 class="lan-8">Applications</h6>
-                      </div>
+                    <div>
+                        <h6 class="lan-8">Applications</h6>
+                    </div>
                   </li>
-                  <!-- End Menu Aplikasi -->
                   <!-- Menu Order Masuk -->
                   <li class="sidebar-list">
-                    <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="letter-box.html">
-                    <svg class="stroke-icon">
-                      <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-social"></use>
-                    </svg>
-                    <svg class="fill-icon">
-                      <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-social"></use>
-                    </svg><span>Order Masuk</span></a>
-                  </li>
-                  <!-- End Menu Order Masuk -->
-                  <!-- Menu Toko -->
-                  <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title" href="#">
+                      <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="<?=base_url()?>">
                       <svg class="stroke-icon">
-                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-social"></use>
                       </svg>
                       <svg class="fill-icon">
-                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-ecommerce"></use>
-                      </svg><span>Produk Toko</span>
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-social"></use>
+                      </svg><span>Order Masuk</span></a>
+                  </li>
+                  <!-- Finnance -->
+                  <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
+                      <a class="sidebar-link sidebar-title" href="#">
+                          <svg class="stroke-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-table"></use>
+                          </svg>
+                          <svg class="fill-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-table"></use>
+                          </svg><span>Akuntansi</span>
+                      </a>
+                      <ul class="sidebar-submenu">
+                          <li><a href="#">Sub Menu</a></li>
+                          <li><a href="#">Sub Menu</a></li>
+                          <li><a href="#">Sub Menu</a></li>
+                          <li><a href="#">Sub Menu</a></li>
+                          <li><a href="#">Sub Menu</a></li>
+                      </ul>
+                  </li>
+                  <!-- Menu Karyawan -->
+                  <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title" href="#">
+                        <svg class="stroke-icon">
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-user"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-user"></use>
+                        </svg><span>Karyawan</span>
                     </a>
                     <ul class="sidebar-submenu">
-                      <li><a href="add-products.html">Add Products</a></li>
-                      <li><a href="product.html">Product</a></li>
-                      <li><a href="category.html">Category page</a></li>
-                      <li><a href="product-page.html">Product page</a></li>
-                      <li><a href="list-products.html">Product list</a></li>
-                      <li><a href="payment-details.html">Payment Details</a></li>
-                      <li><a href="order-history.html">Order History</a></li>
-                      <li><a class="submenu-title" href="#">Invoices<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
-                        <ul class="nav-sub-childmenu submenu-content">
-                          <li><a href="invoice-1.html">Invoice-1</a></li>
-                          <li><a href="invoice-2.html">Invoice-2</a></li>
-                          <li><a href="invoice-3.html">Invoice-3</a></li>
-                          <li><a href="invoice-4.html">Invoice-4</a></li>
-                          <li><a href="invoice-5.html">Invoice-5</a></li>
-                          <li><a href="invoice-template.html">Invoice-6</a></li>
-                        </ul>
-                      </li>
-                      <li><a href="cart.html">Cart</a></li>
-                      <li><a href="list-wish.html">Wishlist</a></li>
-                      <li><a href="checkout.html">Checkout</a></li>
-                      <li><a href="pricing.html">Pricing</a></li>
+                        <li><a href="/karyawan/index.html">Perfoma Karyawan</a></li>
+                        <li><a href="/karyawan/datakaryawan.html">Data Karyawan</a></li>
+                        <li><a href="/karyawan/presensikaryawan.html">Presensi Karyawan</a></li>
                     </ul>
                   </li>
+                  <!-- Menu Inventori -->
+                  <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title" href="#">
+                        <svg class="stroke-icon">
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-job-search"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-job-search"></use>
+                        </svg><span>Inventori Stok</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                        <li><a href="daftarinventori.html">Daftar Invetori</a></li>
+                        <li><a href="barangmasuk.html">Barang Masuk</a></li>
+                        <li><a href="barangkeluar.html">Barang Keluar</a></li>
+                        <li><a href="stockopname.html">Stok Opname</a></li>
+                    </ul>
+                  </li>
+                  <!-- Penjualan -->
+                  <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
+                      <a class="sidebar-link sidebar-title" href="#">
+                          <svg class="stroke-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
+                          </svg>
+                          <svg class="fill-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-ecommerce"></use>
+                          </svg><span>Penjualan</span>
+                      </a>
+                      <ul class="sidebar-submenu">
+                          <li><a href="#">Sub Menu</a></li>
+                          <li><a href="#">Sub Menu</a></li>
+                          <li><a href="#">Sub Menu</a></li>
+                          <li><a href="#">Sub Menu</a></li>
+                          <li><a href="#">Sub Menu</a></li>
+                      </ul>
+                  </li>                  
                   <!-- End Menu Toko -->
                 </ul>
               </div>

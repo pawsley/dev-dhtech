@@ -31,8 +31,8 @@
                     <!-- Tipe Diskon -->
                     <div class="col-md-12 position-relative">
                         <label class="form-label" for="FormTipeDiskon">Tipe Diskon</label>
-                        <select class="form-select" id="tipe" required name="tipe">
-                            <option selected="" disabled="" value="">Pilih Tipe Diskon ...</option>
+                        <select class="form-select" id="tipe" name="tipe" required>
+                            <option selected="" disabled="" value="0">Pilih Tipe Diskon ...</option>
                             <option value="Nominal">Nominal</option>
                         </select>
                         <div class="invalid-tooltip">Silahkan Pilih Tipe Diskon.</div>
@@ -60,7 +60,7 @@
                     <input class="form-control" id="total" name="total" type="hidden" placeholder="Input Jumlah Kuota Diskon" required>
                     <!-- Button Tambah Diskon Baru -->
                     <div class="col-12 btn-showcase">
-                        <button class="btn btn-primary tambahdiskon" type="button" onclick="push(['_trackEvent', 'example', 'try', 'tambahdiskon']);">Buat Diskon Baru</button>
+                        <button class="btn btn-primary tambahdiskon" type="button">Buat Diskon Baru</button>
                     </div>
                     </form>
                   </div>
@@ -84,7 +84,7 @@
                                         <th>NILAI DISKON</th>
                                         <th>KUOTA DISKON</th>
                                         <th>TOTAL DISKON</th>
-                                        <th>AKSI</th>
+                                        <th style="text-align: center;">AKSI</th>
                                     </tr>
                                     </thead>
                                     <tbody>

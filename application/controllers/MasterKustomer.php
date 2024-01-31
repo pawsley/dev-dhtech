@@ -16,9 +16,9 @@ class MasterKustomer extends CI_Controller
     if (!empty($data['lastID'])) {
       $numericPart = isset($data['lastID'][0]['id_plg']) ? preg_replace('/[^0-9]/', '', $data['lastID'][0]['id_plg']) : '';
       $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
-      $data['newID'] = 'DHKUSTOMER-' . $incrementedNumericPart;
+      $data['newID'] = 'DHCS-' . $incrementedNumericPart;
     }else {
-      $data['newID'] = 'DHKUSTOMER-0001';
+      $data['newID'] = 'DHCS-0001';
     }
     return $data;
   }
