@@ -257,6 +257,16 @@
                             <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
                         </svg><span>Master Barang</span></a>
                     </li>
+                    <!-- Master Bank -->
+                    <li class="sidebar-list masbank">
+                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav masbank" href="<?=base_url()?>master-bank">
+                        <svg class="stroke-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
+                        </svg><span>Master Bank</span></a>
+                    </li>                    
                   <!-- Menu Aplikasi-->
                   <li class="sidebar-main-title">
                     <div>
@@ -318,7 +328,7 @@
                         </svg><span>Inventori Stok</span>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li><a href="daftarinventori.html">Daftar Invetori</a></li>
+                        <li><a href="<?=base_url()?>daftar-inventori">Daftar Invetori</a></li>
                         <li><a href="barangmasuk.html">Barang Masuk</a></li>
                         <li><a href="barangkeluar.html">Barang Keluar</a></li>
                         <li><a href="stockopname.html">Stok Opname</a></li>
@@ -394,7 +404,7 @@
             var segment1 = "<?php echo $this->uri->segment(1); ?>";
             var segment2 = "<?php echo $this->uri->segment(2); ?>";
 
-            $(".dash, .gen, .fin, .prd, .maskar, .mascab, .maskus, .massup, .maskat, .masbar,.masdis").removeClass("active");
+            $(".dash, .gen, .fin, .prd, .maskar, .mascab, .maskus, .massup, .maskat, .masbar,.masdis,.masbank").removeClass("active");
                 
             if (segment1 == "") {
                 $(".dash").addClass("active");
@@ -428,6 +438,8 @@
                 $(".masbar").addClass("active");
             }else if (segment1 == "master-diskon"){
                 $(".masdis").addClass("active");
+            }else if (segment1 == "master-bank"){
+                $(".masbank").addClass("active");
             }
         });
     </script>    

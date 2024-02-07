@@ -32,33 +32,6 @@ function getid() {
                     $("#e_gaji").val(item.gaji);
                     formatRupiah(document.getElementById("e_gaji"));
                     $("#e_status").val(item.status);
-
-                    // if (item.provinsi === $("#ex_prov").val()) {
-                    //     $("#e_province option:contains(" + item.provinsi + ")").prop('selected', true);
-                    // }
-                    // $.ajax({
-                    //     url: base_url + "RajaOngkir/getCity/"+ $('#e_province').val(),
-                    //     dataType: "json",
-                    //     success: function(data) {
-                    //         $("#e_kabupaten").empty();
-                    //         var defaultOption =
-                    //         "<option value='0' disabled selected required>Pilih Kota / Kab ...</option>";
-                    //         $("#e_kabupaten").append(defaultOption);
-                    //         $.each(data, function(index, item) {
-                    //             var option = $("<option>", {
-                    //                 value: item.city_id,
-                    //                 text: item.city_name
-                    //             });
-                
-                    //             // Set the selected attribute if the option's text matches selectedKabupaten
-                    //             if (item.city_name === $("#ex_kab").val()) {
-                    //                 option.attr('selected', 'selected');
-                    //             }
-                
-                    //             $("#e_kabupaten").append(option);
-                    //         });
-                    //     }
-                    // });
                 });
             }
         });
