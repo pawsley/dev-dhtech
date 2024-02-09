@@ -54,8 +54,8 @@ class MasterBarang extends CI_Controller
 
   public function loadbrg(){
     $this->load->library('datatables');
-    $this->datatables->select('id_brg,id_supplier,nama_supplier,merk,jenis,nama_brg,deskripsi,kondisi,status');
-    $this->datatables->from('vbarang');
+    $this->datatables->select('id_brg,merk,jenis,nama_brg,status');
+    $this->datatables->from('tb_barang');
     return print_r($this->datatables->generate());
   }
 
@@ -105,12 +105,9 @@ class MasterBarang extends CI_Controller
     if ($this->input->is_ajax_request()) {
       $data = [
         'id_brg'      => $this->input->post('id_brg'),
-        'id_supplier'      => $this->input->post('id_supplier'),
         'merk'      => $this->input->post('merk'),
         'jenis'      => $this->input->post('jenis'),
         'nama_brg'      => $this->input->post('nama_brg'),
-        'deskripsi'      => $this->input->post('deskripsi'),
-        'kondisi'      => $this->input->post('radio3'),
         'status'      => '1',
       ];
       
@@ -170,12 +167,9 @@ class MasterBarang extends CI_Controller
     if ($this->input->is_ajax_request()) {
       $id = $this->input->post('e_id_brg');
       $data = [
-        'id_supplier'      => $this->input->post('e_id_supplier'),
         'merk'      => $this->input->post('e_merk'),
         'jenis'      => $this->input->post('e_jenis'),
         'nama_brg'      => $this->input->post('e_nama_brg'),
-        'deskripsi'      => $this->input->post('e_deskripsi'),
-        'kondisi'      => $this->input->post('e_kondisi'),
         'status'      => '1',
       ];
       

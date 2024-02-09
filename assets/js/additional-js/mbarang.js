@@ -17,35 +17,9 @@ function tablemrk() {
         },
         "columns": [
             { "data": "id_brg" },
-            { "data": "nama_supplier" },
             { "data": "merk" },
             { "data": "jenis" },
             { "data": "nama_brg" },
-            { 
-                "data": "kondisi",
-                "render": function (data, type, full, meta) {
-                    // You can customize the rendering here
-                    if (type === "display") {
-                        if (data === "baru") {
-                            return `<span class="badge rounded-pill badge-light-primary">BARU</span>`;
-                          } else {
-                            return `<span class="badge rounded-pill badge-light-warning">BEKAS</span>`;
-                        }
-                        return data; // return the original value for other cases
-                    }
-                    return data;
-                }
-            },
-            {
-                "data": "deskripsi",
-                "render": function (data, type, full, meta) {
-                    if (type === "display") {
-                        var formattedDeskripsi = data.replace(/\n/g, '<br>');
-                        return formattedDeskripsi;
-                    }
-                    return data;
-                }
-            },
             {
                 "data": "id_brg",
                 "orderable": false, // Disable sorting for this column
@@ -120,30 +94,6 @@ $(document).on('click', '#delete-btn', function (e) {
 });
 
 $(document).ready(function () {
-    $('#FormIDSupplier').select2({
-        language: 'id',
-        ajax: {
-            url: base_url + 'MasterBarang/loadsupp',
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return {
-                    q: params.term, // Add the search term to your AJAX request
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            id: item.id_supplier,
-                            text: item.id_supplier + ' | ' + item.nama_supplier,
-                        };
-                    }),
-                };
-            },
-            cache: false,
-        },
-    });
     $('#brandproduk').select2({
         language: 'id',
         ajax: {
@@ -227,12 +177,9 @@ function getid(){
             success: function(data) {
                 $.each(data.get_id, function(index, item) {
                     $("#e_id_brg").val(item.id_brg);
-                    $("#e_id_supplier").empty().append('<option value="' + item.id_supplier + '">' + item.id_supplier +' | '+ item.nama_supplier + '</option>').trigger('change.select2');
                     $("#e_merk").empty().append('<option value="' + item.merk + '">' + item.merk + '</option>').trigger('change.select2');
                     $("#e_jenis").empty().append('<option value="' + item.jenis + '">' + item.jenis + '</option>').trigger('change.select2');
                     $("#e_nama_brg").val(item.nama_brg);
-                    $("input[name='e_kondisi'][value='" + item.kondisi + "']").prop('checked', true);
-                    $("#e_deskripsi").val(item.deskripsi);
                 });
             }
         });
@@ -241,31 +188,8 @@ function getid(){
 }
 
 function getselect(){
-    $('#e_id_supplier').select2({
-        language: 'id',
-        ajax: {
-            url: base_url + 'MasterBarang/loadsupp',
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return {
-                    q: params.term, // Add the search term to your AJAX request
-                };
-            },
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            id: item.id_supplier,
-                            text: item.id_supplier + ' | ' + item.nama_supplier,
-                        };
-                    }),
-                };
-            },
-            cache: false,
-        },
-    });
     $('#e_merk').select2({
+        dropdownParent: $("#EditBarang"),
         language: 'id',
         ajax: {
             url: base_url + 'MasterBarang/loadmerk',
@@ -290,6 +214,7 @@ function getselect(){
         },
     });
     $('#e_jenis').select2({
+        dropdownParent: $("#EditBarang"),
         language: 'id',
         ajax: {
             url: base_url + 'MasterBarang/loadjenis',
@@ -318,13 +243,10 @@ function getselect(){
 function edit(){
     $("#edit").on("click", function (){
         var id = $("#e_id_brg").val();
-        var sup = $("#e_id_supplier").val();
         var merk = $("#e_merk").val(); 
         var jenis = $("#e_jenis").val();
         var nama = $("#e_nama_brg").val();
-        var spek = $("#e_deskripsi").val();
-        var kond = $("input[name='e_kondisi']:checked").val();
-        if (!jenis || !sup || !merk || !nama || !spek) {
+        if (!jenis || !merk || !nama) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
         }
@@ -333,12 +255,9 @@ function edit(){
             url: "master-barang/update-data",
             data: {
                 e_id_brg: id,
-                e_id_supplier: sup,
                 e_merk: merk,
                 e_jenis: jenis,
                 e_nama_brg: nama,
-                e_deskripsi: spek,
-                e_kondisi: kond,
             },
             dataType: "json", 
             success: function (response) {
@@ -347,12 +266,9 @@ function edit(){
                         icon: "success",
                     }).then((value) => {
                         $("#e_id_brg").val('');
-                        $("#e_id_supplier").val('0').trigger('change.select2');
                         $("#e_merk").val('0').trigger('change.select2');
                         $("#e_jenis").val('0').trigger('change.select2');
                         $("#e_nama_brg").val('');
-                        $("#e_deskripsi").val('');
-                        $('[name="radio3"]').val('baru');
                         $('#EditBarang').modal('hide');
                         reload();
                         generate();
@@ -479,12 +395,10 @@ function addkat(){
 
 function add(){
     $("#tambah").on("click", function () {
-        var sup = $("#FormIDSupplier").val('0').trigger('change.select2');
-        var merk = $("#brandproduk").val('0').trigger('change.select2');
-        var jenis = $("#jenisproduk").val('0').trigger('change.select2');
+        var merk = $("#brandproduk").val();
+        var jenis = $("#jenisproduk").val();
         var nama = $("#NamaProduk").val();
-        var spek = $("#spek").val();
-        if (!jenis || !sup || !merk || !nama || !spek) {
+        if (!jenis || !merk || !nama) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
         } 
@@ -493,12 +407,9 @@ function add(){
             url: "master-barang/simpan-data",
             data: {
                 id_brg: $("#idproduk").val(),
-                id_supplier: $("#FormIDSupplier").val(),
                 merk: $("#brandproduk").val(),
                 jenis: $("#jenisproduk").val(),
                 nama_brg: $("#NamaProduk").val(),
-                deskripsi: $("#spek").val(),
-                radio3: $("input[name='radio3']:checked").val(),
             },
             dataType: "json", 
             success: function (response) {
@@ -507,12 +418,9 @@ function add(){
                         icon: "success",
                     });
                     generate();
-                    $("#FormIDSupplier").val('0').trigger('change.select2');
                     $("#brandproduk").val('0').trigger('change.select2');
                     $("#jenisproduk").val('0').trigger('change.select2');
                     $("#NamaProduk").val('');
-                    $("#spek").val('');
-                    $("input[name='radio3']:checked").val('baru');
                     reload();
                 } else {
                     swal("Gagal menambahkan data", {

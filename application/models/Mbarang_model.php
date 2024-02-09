@@ -60,7 +60,7 @@ class Mbarang_model extends CI_Model {
 
   public function getWhere($id)
   {   
-    $query = $this->db->get_where('vbarang', array('id_brg' => $id));
+    $query = $this->db->get_where('tb_barang', array('id_brg' => $id));
     return $query->result_array();
   }
 

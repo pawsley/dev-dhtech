@@ -30,17 +30,17 @@
                           <div class="card-body">
                               <form class="row g-2 needs-validation">
                                   <!-- ID Produk -->
-                                  <div class="col-md-6 position-relative"> 
+                                  <div class="col-md-2 position-relative"> 
                                       <label class="form-label" for="idproduk">Product ID</label>
                                       <input class="form-control" id="idproduk" name="id_brg" value="<?=$newID?>" type="text" aria-label="idproduk" required readonly>
                                   </div>
-                                  <!-- Supplier -->
-                                  <div class="col-md-6 position-relative"> 
-                                      <label class="form-label" for="FormIDSupplier">Supplier</label>
-                                      <select class="form-select" id="FormIDSupplier" name="id_supplier" required="">
-                                          <option selected="" disabled="" value="0">Pilih Supplier</option>
-                                      </select>
+                                  
+                                  <!-- Nama Produk -->
+                                  <div class="col-md-10 position-relative">
+                                      <label class="form-label" for="NamaProduk">Nama Produk</label>
+                                      <input class="form-control" id="NamaProduk" name="nama_brg" type="text" placeholder="Silahkan Masukkan Nama Produk" required>
                                   </div>
+
                                   <!-- Brand Product -->
                                   <div class="col-md-4 position-relative"> 
                                       <label class="form-label" for="brandproduk">Merek</label>
@@ -55,6 +55,7 @@
                                           <a class="btn badge-light-primary f-w-500" type="button" data-type="MRK" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" onclick="changeInputName('SubKategoriItem', 'newmerk')"><i class="fa fa-plus"></i></a>
                                       </div>
                                   </div>
+
                                   <!-- Jenis Product -->
                                   <div class="col-md-4 position-relative"> 
                                       <label class="form-label" for="jenisproduk">Jenis</label>
@@ -69,32 +70,7 @@
                                           <a class="btn badge-light-primary f-w-500" type="button" data-type="JNS" data-bs-toggle="modal" data-bs-target="#TambahSubKategoriItem" onclick="changeInputName('SubKategoriItem', 'newjenis')"><i class="fa fa-plus"></i></a>
                                       </div>
                                   </div>
-                                  <!-- Nama Produk -->
-                                  <div class="col-md-12 position-relative">
-                                      <label class="form-label" for="NamaProduk">Nama Produk</label>
-                                      <input class="form-control" id="NamaProduk" name="nama_brg" type="text" placeholder="Silahkan Masukkan Nama Produk" required>
-                                  </div>
-                                  <!-- Kondisi Barang -->
-                                  <div class="col-md-4 position-relative">
-                                      <label class="form-label" for="kondisiproduk">Kondisi Barang</label>
-                                      <div class="card-wrapper border rounded-3 fill-radios checkbox-checked">
-                                          <h6 class="sub-title">Pilih Kondisi Barang</h6>
-                                          <div class="radio-form">
-                                              <div class="form-check radio radio-primary">
-                                                <input class="form-check-input" id="radio111" type="radio" name="radio3" value="baru" checked="">
-                                                <label class="form-check-label" for="radio111">Barang Baru</label>
-                                              </div>
-                                              <div class="form-check radio radio-warning">
-                                                <input class="form-check-input" id="radio333" type="radio" name="radio3" value="bekas">
-                                                <label class="form-check-label" for="radio333">Barang Bekas</label>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="col-md-8 position-relative"> 
-                                      <label class="form-label" for="exampleFormControlTextarea1">Spesifikasi Lengkap</label>
-                                      <textarea class="form-control" style="resize: none;" name="deskripsi" id="spek" rows="3"></textarea>
-                                  </div>
+                                  
                                   <!-- Submit Barang -->
                                   <div class="col-md-12 position-relative">
                                       <button class="btn btn-primary" id="tambah" type="button">Tambah Produk</button>
@@ -118,12 +94,9 @@
                               <thead>
                                 <tr>
                                   <th>ID PRODUK</th>
-                                  <th>NAMA SUPPLIER</th>
                                   <th>MEREK</th>
                                   <th>JENIS</th>
                                   <th>NAMA PRODUK</th>
-                                  <th>KONDISI</th>
-                                  <th>SPESIFIKASI</th>
                                   <th>AKSI</th>
                                 </tr>
                               </thead>
