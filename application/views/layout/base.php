@@ -318,8 +318,8 @@
                     </ul>
                   </li>
                   <!-- Menu Inventori -->
-                  <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title" href="#">
+                  <li class="sidebar-list inven"><i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title inven" href="#">
                         <svg class="stroke-icon">
                         <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-job-search"></use>
                         </svg>
@@ -328,10 +328,10 @@
                         </svg><span>Inventori Stok</span>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li><a href="<?=base_url()?>daftar-inventori">Daftar Invetori</a></li>
-                        <li><a href="barangmasuk.html">Barang Masuk</a></li>
-                        <li><a href="barangkeluar.html">Barang Keluar</a></li>
-                        <li><a href="stockopname.html">Stok Opname</a></li>
+                        <li class="idaf"><a class="idaf" href="<?=base_url()?>daftar-inventori">Daftar Invetori</a></li>
+                        <li class="ibm"><a class="ibm" href="<?=base_url()?>barang-masuk">Barang Masuk</a></li>
+                        <li><a href="<?=base_url()?>barang-keluar">Barang Keluar</a></li>
+                        <li><a href="<?=base_url()?>stockopname">Stok Opname</a></li>
                     </ul>
                   </li>
                   <!-- Penjualan -->
@@ -440,6 +440,12 @@
                 $(".masdis").addClass("active");
             }else if (segment1 == "master-bank"){
                 $(".masbank").addClass("active");
+            }else if (segment1 == "barang-masuk"){
+                $(".inven").addClass("active");
+                $(".ibm").addClass("active");
+                $(".sidebar-list.inven").addClass('active');
+                $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
             }
         });
     </script>    
