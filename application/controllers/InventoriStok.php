@@ -149,9 +149,19 @@ class InventoriStok extends CI_Controller
   }
 
   public function deletepost($id) {
-    $result = $this->InventoriStok_model->delete($id);
-    echo json_encode($result);
-  }
+    // Get the 'sn_brg' value from the database
+    $getsn = $this->db->select('sn_brg')->from('tb_brg_masuk')->where('id_masuk', $id)->get();
+    $result = $getsn->row(); // Fetch the single row
+    $sn_brg = $result->sn_brg; // Extract the 'sn_brg' value
+    $deleteResult = $this->InventoriStok_model->delete($id);
+    $imagePath = './assets/dhdokumen/snbarcode/';
+    $fileName = $imagePath . $sn_brg . '.jpg';
+    if (file_exists($fileName)) {
+        unlink($fileName);
+    }
+    echo json_encode($deleteResult);
+}
+
 
 }
 
