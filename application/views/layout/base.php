@@ -328,10 +328,12 @@
                         </svg><span>Inventori Stok</span>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li class="idaf"><a class="idaf" href="<?=base_url()?>daftar-inventori">Daftar Invetori</a></li>
+                        <li class="idaf"><a class="idaf" href="<?=base_url()?>daftar-inventori">Daftar Inventori</a></li>
                         <li class="ibm"><a class="ibm" href="<?=base_url()?>barang-masuk">Barang Masuk</a></li>
-                        <li><a href="<?=base_url()?>barang-keluar">Barang Keluar</a></li>
-                        <li><a href="<?=base_url()?>stockopname">Stok Opname</a></li>
+                        <li class="ibk"><a class="ibk" href="<?=base_url()?>barang-keluar">Barang Keluar</a></li>
+                        <li class="iskb"><a class="iskb" href="<?=base_url()?>terima-barang">Penerimaan Barang</a></li>
+                        <li class="ipb"><a class="ipb" href="<?=base_url()?>pindah-barang">Pemindahan Barang</a></li>
+                        <li class="iso"><a class="iso" href="<?=base_url()?>stock-opname">Stok Opname</a></li>
                     </ul>
                   </li>
                   <!-- Penjualan -->
@@ -443,6 +445,30 @@
             }else if (segment1 == "barang-masuk"){
                 $(".inven").addClass("active");
                 $(".ibm").addClass("active");
+                $(".sidebar-list.inven").addClass('active');
+                $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
+            }else if (segment1 == "barang-keluar"){
+                $(".inven").addClass("active");
+                $(".ibk").addClass("active");
+                $(".sidebar-list.inven").addClass('active');
+                $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
+            }else if (segment1 == "terima-barang"){
+                $(".inven").addClass("active");
+                $(".iskb").addClass("active");
+                $(".sidebar-list.inven").addClass('active');
+                $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
+            }else if (segment1 == "pindah-barang"){
+                $(".inven").addClass("active");
+                $(".ipb").addClass("active");
+                $(".sidebar-list.inven").addClass('active');
+                $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
+            }else if (segment1 == "stock-opname"){
+                $(".inven").addClass("active");
+                $(".iso").addClass("active");
                 $(".sidebar-list.inven").addClass('active');
                 $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
