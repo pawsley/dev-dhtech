@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 // $config['base_url'] = 'http://localhost:9090/dhtech/';
-$config['base_url'] = 'https://live.akira.id/dhtech/dev-dhtech/';
+$config['base_url'] = 'https://live.akira.id/dev-dhtech/';
 
 /*
 |--------------------------------------------------------------------------
