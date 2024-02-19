@@ -17,6 +17,7 @@ class BarangTerima extends CI_Controller
     $data['css'] = '
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/datatables.css') . '">
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
     <style>
         .select2-selection__rendered {
             line-height: 35px !important;
@@ -39,11 +40,10 @@ class BarangTerima extends CI_Controller
     $data['js'] = '
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
+    <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/ibarangt.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
-    <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
-    <script src="' . base_url('assets/js/datatable/datatables/datatable.custom.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.colVis.min.js') . '"></script>
@@ -64,6 +64,13 @@ class BarangTerima extends CI_Controller
     $this->load->view('layout/base', $data);
   }
 
+  public function loadstore(){
+    $searchTerm = $this->input->get('q');
+    $results = $this->BarangTerima_model->getCabang($searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }
+
   public function groupsk(){
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,tgl_keluar, no_surat_keluar, nama_toko, status');
@@ -71,6 +78,31 @@ class BarangTerima extends CI_Controller
     $this->datatables->where('status','1');
     $this->datatables->group_by('no_surat_keluar');
     return print_r($this->datatables->generate());    
+  }
+
+  public function filtersk($cab=null){
+    $decoded_cab = urldecode($cab);
+    $this->load->library('datatables');
+    $this->datatables->select('id_keluar,tgl_keluar, no_surat_keluar, nama_toko, status');
+    $this->datatables->from('vbarangkeluar');
+    $this->datatables->where('status','1');
+    $this->datatables->like('nama_toko', $decoded_cab);
+    $this->datatables->group_by('no_surat_keluar');
+    return print_r($this->datatables->generate());    
+  }
+
+  public function approve(){
+    if ($this->input->is_ajax_request()) {
+      $sk = $this->input->post('ska');
+      $data = [
+        'status'      => '2',
+      ];
+      
+      $this->BarangTerima_model->approve($sk, $data);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('terima-barang');
+    }
   }
 
 }

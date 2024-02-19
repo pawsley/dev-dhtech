@@ -28,7 +28,16 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header pb-0 card-no-border">
-                            <h4>Daftar Surat Keluar</h4>
+                            <div class="row">
+                                <div class="col-md-8 position-relative">
+                                    <h4>Daftar Surat Keluar</h4>
+                                </div>
+                                <div class="col-md-4 position-relative">
+                                    <select class="form-select" id="cab" name="cab" required="">
+                                        <option selected="" disabled="" value="0">Pilih Cabang</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

@@ -109,4 +109,7 @@ $route['barang-keluar/simpan-barang-bekas']='BarangKeluar/addmk';
 $route['barang-keluar/hapus/(:num)'] = 'BarangKeluar/deletepost/$1';
 $route['barang-keluar/printsk/(:any)'] = 'BarangKeluar/formatsk/$1';
 $route['terima-barang']='BarangTerima';
+$route['terima-barang/groupsk']='BarangTerima/groupsk';
+$route['terima-barang/filtersk/(:any)']='BarangTerima/filtersk/$1';
+$route['terima-barang/approve']='BarangTerima/approve';
 $route['stock-opname']='StockOpname';
