@@ -167,7 +167,12 @@ class InventoriStok extends CI_Controller
         unlink($fileName);
     }
     echo json_encode($deleteResult);
-}
+  }
+
+  public function check(){
+    $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/snbarcode/';
+    echo $imagePath;
+  }
 
 
 }
