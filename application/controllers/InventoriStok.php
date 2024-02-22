@@ -96,7 +96,14 @@ class InventoriStok extends CI_Controller
     $this->zend->load('Zend/Barcode');
     $imageResource = Zend_Barcode::factory('code128','image', array('text'=>$sn), array())->draw();
     $imageName = $sn.'.jpg';
-    $imagePath = './assets/dhdokumen/snbarcode/';
+        // Define the image path based on the environment
+        if ($_SERVER['SERVER_NAME'] == 'localhost') {
+          // Path for localhost
+          $imagePath = './assets/dhdokumen/snbarcode/';
+      } else {
+          // Path for server
+          $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/snbarcode/';
+      }
     imagejpeg($imageResource, $imagePath.$imageName);    
   }
 
