@@ -1,6 +1,11 @@
 var tableBK;
 var tableSK;
 var detailSK;
+var now = new Date();
+var day = String(now.getDate()).padStart(2, '0');
+var month = String(now.getMonth() + 1).padStart(2, '0');
+var year = now.getFullYear();
+var formattedDate = day + month + year;
 var formatter = new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR',
@@ -561,6 +566,18 @@ function selectedbrg() {
         $('#merkbekas').val(merk);
         $('#jenisbekas').val(jenis);
         $('#spekbekas').val(spek);
+    });
+    $('#cabangbaru').on('select2:select', function(e) {
+        var data = e.params.data;
+        var cab = data.id.split('-');
+        var get = cab[1].trim();
+        $('#nosuratb').val('SK'+get+formattedDate);
+    });
+    $('#cabangbekas').on('select2:select', function(e) {
+        var data = e.params.data;
+        var cab = data.id.split('-');
+        var get = cab[1].trim();
+        $('#nosuratk').val('SK'+get+formattedDate);
     });
 }
 

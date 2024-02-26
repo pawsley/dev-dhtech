@@ -167,106 +167,35 @@
                     </div>
                   </li>
                   <!-- Menu Dashboard General -->
-                  <li class="sidebar-list dash"><i class="fa fa-thumb-tack"></i>
-                    <a class="sidebar-link sidebar-title dash" href="#">
+                  <li class="sidebar-list dash">
+                    <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav dash" href="<?=base_url()?>">
+                    <svg class="stroke-icon">
+                      <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-home"></use>
+                    </svg>
+                    <svg class="fill-icon">
+                      <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-home"></use>
+                    </svg><span>Home</span></a>
+                  </li>
+                  <!-- Menu Master Menu -->
+                  <li class="sidebar-list master"><i class="fa fa-thumb-tack"></i>
+                      <a class="sidebar-link sidebar-title master" href="#">
                       <svg class="stroke-icon">
-                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-home"></use>
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
                       </svg>
                       <svg class="fill-icon">
-                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-home"></use>
-                      </svg><span>Dashboard</span></a>
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
+                      </svg><span>Data Master</span></a>
                     <ul class="sidebar-submenu">
-                      <li class="gen"><a class="gen" href="<?=base_url()?>">General</a></li>
-                      <li class="gen"><a class="fin" href="<?=base_url()?>finansial/">Finansial</a></li>
-                      <li class="gen"><a class="prd" href="<?=base_url()?>produk/">Produk</a></li>
+                      <li class="mcab"><a class="mcab" href="<?=base_url()?>master-cabang">Master Cabang</a></li>
+                      <li class="mdis"><a class="mdis" href="<?=base_url()?>master-diskon">Master Diskon</a></li>
+                      <li class="msup"><a class="msup" href="<?=base_url()?>master-supplier">Master Supplier</a></li>
+                      <li class="mkar"><a class="mkar" href="<?=base_url()?>master-karyawan">Master Karyawan</a></li>
+                      <li class="mkus"><a class="mkus" href="<?=base_url()?>master-kustomer">Master Kustomer</a></li>
+                      <li class="mkat"><a class="mkat" href="<?=base_url()?>master-kategori">Master Kategori</a></li>
+                      <li class="mbrg"><a class="mbrg" href="<?=base_url()?>master-barang">Master Barang</a></li>
+                      <li class="mbnk"><a class="mbnk" href="<?=base_url()?>master-bank">Master Bank</a></li>
                     </ul>
-                  </li>                 
-                  <!-- Menu Master Menu -->
-                  <li class="sidebar-main-title">
-                    <div>
-                      <h6 class="lan-0">Data Master</h6>
-                    </div>
-                  </li>
-                    <!-- Master Cabang -->
-                    <li class="sidebar-list mascab">
-                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav mascab" href="<?=base_url()?>master-cabang">
-                        <svg class="stroke-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
-                        </svg>
-                        <svg class="fill-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
-                        </svg><span>Master Cabang</span></a>
-                    </li>
-                    <!-- Master Diskon -->
-                    <li class="sidebar-list masdis">
-                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav masdis" href="<?=base_url()?>master-diskon">
-                        <svg class="stroke-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
-                        </svg>
-                        <svg class="fill-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
-                        </svg><span>Master Diskon</span></a>
-                    </li>
-                    <!-- Master Supplier -->
-                    <li class="sidebar-list massup">
-                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav massup" href="<?=base_url()?>master-supplier">
-                        <svg class="stroke-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
-                        </svg>
-                        <svg class="fill-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
-                        </svg><span>Master Supplier</span></a>
-                    </li>
-                    <!-- Master Karyawan -->
-                    <li class="sidebar-list maskar">
-                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav maskar" href="<?=base_url()?>master-karyawan">
-                        <svg class="stroke-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
-                        </svg>
-                        <svg class="fill-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
-                        </svg><span>Master Karyawan</span></a>
-                    </li>
-                    <!-- Master Kustomer -->
-                    <li class="sidebar-list maskus">
-                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav maskus" href="<?=base_url()?>master-kustomer">
-                        <svg class="stroke-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
-                        </svg>
-                        <svg class="fill-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
-                        </svg><span>Master Kustomer</span></a>
-                    </li>
-                    <!-- Master Kategori -->
-                    <li class="sidebar-list maskat">
-                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav maskat" href="<?=base_url()?>master-kategori">
-                        <svg class="stroke-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
-                        </svg>
-                        <svg class="fill-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
-                        </svg><span>Master Kategori</span></a>
-                    </li>
-                    <!-- Master Barang -->
-                    <li class="sidebar-list masbar">
-                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav masbar" href="<?=base_url()?>master-barang">
-                        <svg class="stroke-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
-                        </svg>
-                        <svg class="fill-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
-                        </svg><span>Master Barang</span></a>
-                    </li>
-                    <!-- Master Bank -->
-                    <li class="sidebar-list masbank">
-                        <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav masbank" href="<?=base_url()?>master-bank">
-                        <svg class="stroke-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-animation"></use>
-                        </svg>
-                        <svg class="fill-icon">
-                            <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
-                        </svg><span>Master Bank</span></a>
-                    </li>                    
+                  </li>            
                   <!-- Menu Aplikasi-->
                   <li class="sidebar-main-title">
                     <div>
@@ -406,54 +335,58 @@
             var segment1 = "<?php echo $this->uri->segment(1); ?>";
             var segment2 = "<?php echo $this->uri->segment(2); ?>";
 
-            $(".dash, .gen, .fin, .prd, .maskar, .mascab, .maskus, .massup, .maskat, .masbar,.masdis,.masbank").removeClass("active");
+            $(".dash, .gen, .fin, .prd").removeClass("active");
                 
             if (segment1 == "") {
-                $(".dash").addClass("active");
-                $(".gen").addClass("active");
-                $(".sidebar-list.dash").addClass('active');
-                $(".sidebar-list.dash .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.dash ul.sidebar-submenu").slideDown('normal');                    
-            } else if (segment1 == "finansial"){
-                $(".dash").addClass("active");
-                $(".fin").addClass("active");
-                $(".sidebar-list.dash").addClass('active');
-                $(".sidebar-list.dash .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.dash ul.sidebar-submenu").slideDown('normal');   
-            } else if (segment1 == "produk"){
-                $(".dash").addClass("active");
-                $(".prd").addClass("active");
-                $(".sidebar-list.dash").addClass('active');
-                $(".sidebar-list.dash .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.dash ul.sidebar-submenu").slideDown('normal');   
-            }else if (segment1 == "master-karyawan"){
-                $(".maskar").addClass("active");
+              $(".dash").addClass("active");
             }else if (segment1 == "master-cabang"){
-                $(".mascab").addClass("active");
-            }else if (segment1 == "master-kustomer"){
-                $(".maskus").addClass("active");
-            }else if (segment1 == "master-supplier"){
-                $(".massup").addClass("active");
-            }else if (segment1 == "master-kategori"){
-                $(".maskat").addClass("active");
-            }else if (segment1 == "master-barang"){
-                $(".masbar").addClass("active");
+                $(".master").addClass("active");
+                $(".mcab").addClass("active");
+                $(".sidebar-list.master").addClass('active');
+                $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');                                  
             }else if (segment1 == "master-diskon"){
-                $(".masdis").addClass("active");
+                $(".master").addClass("active");
+                $(".mdis").addClass("active");
+                $(".sidebar-list.master").addClass('active');
+                $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+            }else if (segment1 == "master-supplier"){
+                $(".master").addClass("active");
+                $(".msup").addClass("active");
+                $(".sidebar-list.master").addClass('active');
+                $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+            }else if (segment1 == "master-karyawan"){
+                $(".master").addClass("active");
+                $(".mkar").addClass("active");
+                $(".sidebar-list.master").addClass('active');
+                $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+            }else if (segment1 == "master-kustomer"){
+                $(".master").addClass("active");
+                $(".mkus").addClass("active");
+                $(".sidebar-list.master").addClass('active');
+                $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+            }else if (segment1 == "master-kategori"){
+                $(".master").addClass("active");
+                $(".mkat").addClass("active");
+                $(".sidebar-list.master").addClass('active');
+                $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
+            }else if (segment1 == "master-barang"){
+                $(".master").addClass("active");
+                $(".mbrg").addClass("active");
+                $(".sidebar-list.master").addClass('active');
+                $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
             }else if (segment1 == "master-bank"){
-                $(".masbank").addClass("active");
-            }else if (segment1 == "barang-masuk"){
-                $(".inven").addClass("active");
-                $(".ibm").addClass("active");
-                $(".sidebar-list.inven").addClass('active');
-                $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
-            }else if (segment1 == "barang-keluar"){
-                $(".inven").addClass("active");
-                $(".ibk").addClass("active");
-                $(".sidebar-list.inven").addClass('active');
-                $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
+                $(".master").addClass("active");
+                $(".mbnk").addClass("active");
+                $(".sidebar-list.master").addClass('active');
+                $(".sidebar-list.master .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.master ul.sidebar-submenu").slideDown('normal');   
             }else if (segment1 == "terima-barang"){
                 $(".inven").addClass("active");
                 $(".iskb").addClass("active");
@@ -469,6 +402,18 @@
             }else if (segment1 == "stock-opname"){
                 $(".inven").addClass("active");
                 $(".iso").addClass("active");
+                $(".sidebar-list.inven").addClass('active');
+                $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
+            }else if (segment1 == "barang-masuk"){
+                $(".inven").addClass("active");
+                $(".ibm").addClass("active");
+                $(".sidebar-list.inven").addClass('active');
+                $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
+            }else if (segment1 == "barang-keluar"){
+                $(".inven").addClass("active");
+                $(".ibk").addClass("active");
                 $(".sidebar-list.inven").addClass('active');
                 $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   

@@ -380,7 +380,9 @@ var currentDate = new Date();
 return currentDate.toLocaleDateString('id-ID', options);
 }
 // Mengubah konten elemen dengan ID "tanggalPresensi" menjadi tanggal sekarang
-document.getElementById('tanggalPresensi').innerText = 'Presensi ' + getCurrentDate();
+function presen() {
+  document.getElementById('tanggalPresensi').innerText = 'Presensi ' + getCurrentDate();
+}
 
 function formatRupiah(angka) {
     var number_string = angka.value.replace(/[^,\d]/g, '').toString(),
