@@ -266,8 +266,8 @@
                     </ul>
                   </li>
                   <!-- Penjualan -->
-                  <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
-                      <a class="sidebar-link sidebar-title" href="#">
+                  <li class="sidebar-list sales"><i class="fa fa-thumb-tack"></i>
+                      <a class="sidebar-link sidebar-title sales" href="#">
                           <svg class="stroke-icon">
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-ecommerce"></use>
                           </svg>
@@ -276,11 +276,12 @@
                           </svg><span>Penjualan</span>
                       </a>
                       <ul class="sidebar-submenu">
-                          <li><a href="#">Sub Menu</a></li>
-                          <li><a href="#">Sub Menu</a></li>
-                          <li><a href="#">Sub Menu</a></li>
-                          <li><a href="#">Sub Menu</a></li>
-                          <li><a href="#">Sub Menu</a></li>
+                          <li class="sdas"><a class="sdas" href="<?=base_url()?>">Dashboard Penjualan</a></li>
+                          <li class="scst"><a class="scst" href="<?=base_url()?>">Data Customer</a></li>
+                          <li class="sprd"><a class="sprd" href="<?=base_url()?>">Produk List</a></li>
+                          <li class="seta"><a class="seta" href="<?=base_url()?>etalase-toko/">Etalase Toko</a></li>
+                          <li class="slap"><a class="slap" href="<?=base_url()?>">Laporan Sales</a></li>
+                          <li class="shst"><a class="shst" href="<?=base_url()?>">Riwayat Penjualan</a></li>
                       </ul>
                   </li>                  
                   <!-- End Menu Toko -->

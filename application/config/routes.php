@@ -114,4 +114,5 @@ $route['terima-barang/filtersk/(:any)']='BarangTerima/filtersk/$1';
 $route['terima-barang/approve']='BarangTerima/approve';
 $route['pindah-barang']='BarangPindah';
 $route['pindah-barang/loadbk']='BarangPindah/loadbk';
+$route['pindah-barang/update']='BarangPindah/update';
 $route['stock-opname']='StockOpname';
