@@ -122,7 +122,7 @@ function approve() {
                     swal("Surat keluar berhasil disetujui", {
                         icon: "success",
                     }).then((value) => {
-                        reload();
+                        tableSK.ajax.reload();
                     });
                 } else {
                     swal("Gagal approve surat keluar", {
