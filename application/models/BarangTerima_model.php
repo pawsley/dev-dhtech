@@ -6,6 +6,12 @@ class BarangTerima_model extends CI_Model {
         $this->db->where('no_surat_keluar', $sk);
         $this->db->update('tb_brg_keluar', $data);
     }
+
+    public function approvegd($sk, $data) {
+        $this->db->where('tb_brg_masuk.id_masuk IN (SELECT id_masuk FROM tb_brg_keluar WHERE no_surat_keluar = "'.$sk.'")', NULL, FALSE);
+        $this->db->update('tb_brg_masuk', $data);
+    }    
+
     public function getCabang($searchTerm=null){
         $this->db->select(['id_toko', 'nama_toko']);
         $this->db->from('tb_toko');

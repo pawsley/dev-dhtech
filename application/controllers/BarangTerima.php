@@ -97,8 +97,12 @@ class BarangTerima extends CI_Controller
       $data = [
         'status'      => '2',
       ];
+      $data2 = [
+        'tb_brg_masuk.status' => '2'
+      ];
       
       $this->BarangTerima_model->approve($sk, $data);
+      $this->BarangTerima_model->approvegd($sk, $data2);
       echo json_encode(['status' => 'success']);
     } else {
       redirect('terima-barang');
