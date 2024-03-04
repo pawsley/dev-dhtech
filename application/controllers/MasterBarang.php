@@ -15,7 +15,7 @@ class MasterBarang extends CI_Controller
     $uniqueId = uniqid('', true); // Include more entropy
     $randomNumericPart = rand(1000, 9999); // Generate a random 4-digit number using rand()
     
-    $data['newID'] = 'DHPB-' . str_pad($randomNumericPart, 4, '0', STR_PAD_LEFT);
+    $data['newID'] = 'DHP-' . str_pad($randomNumericPart, 4, '0', STR_PAD_LEFT);
 
     return $data;
   }
@@ -24,7 +24,7 @@ class MasterBarang extends CI_Controller
     $uniqueId = uniqid('', true); // Include more entropy
     $randomNumericPart = rand(1000, 9999); // Generate a random 4-digit number using rand()
     
-    $data['newID'] = 'DHPB-' . str_pad($randomNumericPart, 4, '0', STR_PAD_LEFT);
+    $data['newID'] = 'DHP-' . str_pad($randomNumericPart, 4, '0', STR_PAD_LEFT);
     
     $this->output
          ->set_content_type('application/json')
