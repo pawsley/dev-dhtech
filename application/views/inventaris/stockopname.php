@@ -28,19 +28,18 @@
             <div class="row">
                 <!-- Card Barang Masuk -->
                 <div class="col-md-4 col-sm-6">
-                    <a href="#" id="cardLink">
-                        <div class="card widget-hover overflow-hidden">
-                        
-                        <div class="card-header card-no-border pb-2">
-                            <h5>Produk Masuk</h5>
-                        </div>
-                        <div class="card-body pt-0 count-student">
-                            <div class="school-wrapper"> 
+                  <a href="#" id="cardLink">
+                    <div class="card widget-hover overflow-hidden">
+                      <div class="card-header card-no-border pb-2">
+                          <h5>Produk Masuk Gudang</h5>
+                      </div>
+                      <div class="card-body pt-0 count-student">
+                          <div class="school-wrapper"> 
                             <div class="school-header">
                                 <div class="spinner-border text-primary d-none" role="status" id="spinner">
-                                    <span class="visually-hidden">Memuat...</span>
+                                    <span class="visually-hidden"></span>
                                 </div>
-                                <h4 class="txt-primary" id="pm">Memuat...</h4>
+                                <h4 class="txt-primary" id="pm"></h4>
                                 <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
                                     <p class="text-muted">Realtime Updated</p>
                                 </div>
@@ -48,21 +47,25 @@
                             <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/icon-produk-masuk.png" alt="produk-dh-masuk">
                                 <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
                             </div>
-                            </div>
-                        </div>
-                        </div>
-                    </a>
+                          </div>
+                      </div>
+                    </div>
+                  </a>
                 </div>
                 <!-- Card Barang Keluar -->
                 <div class="col-md-4 col-sm-6">
+                  <a href="#" id="cardpk">
                     <div class="card widget-hover overflow-hidden">
                       <div class="card-header card-no-border pb-2">
-                        <h5>Produk Keluar</h5>
+                        <h5>Produk Keluar Gudang</h5>
                       </div>
                       <div class="card-body pt-0 count-student">
                         <div class="school-wrapper"> 
                           <div class="school-header">
-                            <h4 class="txt-primary">2.738</h4>
+                            <div class="spinner-border text-primary d-none" role="status" id="spinpk">
+                                <span class="visually-hidden"></span>
+                            </div>
+                            <h4 class="txt-primary" id="pk"></h4>
                             <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
                                 <p class="text-muted">Realtime Updated</p>
                             </div>
@@ -73,9 +76,11 @@
                         </div>
                       </div>
                     </div>
+                  </a>
                 </div>
                 <!-- Card Total Barang -->
                 <div class="col-md-4 col-sm-6">
+                  <a href="#" id="cardtp">
                     <div class="card widget-hover overflow-hidden">
                       <div class="card-header card-no-border pb-2">
                         <h5>Total Produk</h5>
@@ -83,7 +88,10 @@
                       <div class="card-body pt-0 count-student">
                         <div class="school-wrapper"> 
                           <div class="school-header">
-                            <h4 class="txt-primary">6.098</h4>
+                            <div class="spinner-border text-primary d-none" role="status" id="spintp">
+                                <span class="visually-hidden"></span>
+                            </div>
+                            <h4 class="txt-primary" id="tp"></h4>
                             <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
                                 <p class="text-muted">Realtime Updated</p>
                             </div>
@@ -94,70 +102,36 @@
                         </div>
                       </div>
                     </div>
+                  </a>
                 </div>
-                <!-- Total Barang WTC -->
-                <div class="col-md-4 col-sm-6">
-                    <div class="card widget-hover overflow-hidden">
-                        <div class="card-header card-no-border pb-2">
-                        <h5>DHC-0001</h5>
-                        </div>
-                        <div class="card-body pt-0 count-student">
-                        <div class="school-wrapper"> 
-                            <div class="school-header">
-                            <h4 class="txt-primary">1.743</h4>
-                            <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
-                                <p class="text-muted">WTC STORE</p>
+                <!-- Card Cabang -->
+                <?php foreach ($setcabang as $sc) { ?>
+                    <div class="col-md-4 col-sm-6">
+                        <a href="#" class="cardLink" data-id="<?=$sc['id_toko']?>">
+                            <div class="card widget-hover overflow-hidden">
+                                <div class="card-header card-no-border pb-2">
+                                <h5 id="id_toko" data-id="<?=$sc['id_toko']?>"><?=$sc['id_toko']?></h5>
+                                </div>
+                                <div class="card-body pt-0 count-student">
+                                <div class="school-wrapper"> 
+                                    <div class="school-header" data-id="<?=$sc['id_toko']?>">
+                                        <div class="spinner-border text-primary d-none" role="status" id="spinner-<?=$sc['id_toko']?>">
+                                            <span class="visually-hidden">Memuat...</span>
+                                        </div>
+                                        <h4 class="txt-primary counting" id="counting-<?=$sc['id_toko']?>"></h4>
+                                        <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
+                                            <p class="text-muted"><?=$sc['nama_toko']?></p>
+                                        </div>
+                                    </div>
+                                    <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/store-dh.png" alt="store-produk-dh">
+                                    <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
+                                    </div>
+                                </div>
+                                </div>
                             </div>
-                            </div>
-                            <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/store-dh.png" alt="store-produk-dh">
-                            <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
-                            </div>
-                        </div>
-                        </div>
+                        </a>
                     </div>
-                </div>
-                <!-- Total Barang PTC -->
-                <div class="col-md-4 col-sm-6">
-                    <div class="card widget-hover overflow-hidden">
-                        <div class="card-header card-no-border pb-2">
-                        <h5>DHC-0002</h5>
-                        </div>
-                        <div class="card-body pt-0 count-student">
-                        <div class="school-wrapper"> 
-                            <div class="school-header">
-                            <h4 class="txt-primary">1.143</h4>
-                            <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
-                                <p class="text-muted">PTC STORE</p>
-                            </div>
-                            </div>
-                            <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/store-dh.png" alt="store-produk-dh">
-                            <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Total Barang ELEVEN -->
-                <div class="col-md-4 col-sm-6">
-                    <div class="card widget-hover overflow-hidden">
-                        <div class="card-header card-no-border pb-2">
-                        <h5>DHC-0003</h5>
-                        </div>
-                        <div class="card-body pt-0 count-student">
-                        <div class="school-wrapper"> 
-                            <div class="school-header">
-                            <h4 class="txt-primary">713</h4>
-                            <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
-                                <p class="text-muted">Eleven STORE</p>
-                            </div>
-                            </div>
-                            <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/store-dh.png" alt="store-produk-dh">
-                            <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
+                <?php } ?>
             </div>
             <!-- Listing Stock Opname -->
             <div class="row">
@@ -166,14 +140,14 @@
                         <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
                             <h4>Riwayat Stock Opname</h4>
                             <div class="d-flex align-items-center">
-                                <a href="<?=base_url()?>tambah-stock-opname" class="btn btn-primary">
+                                <a href="<?=base_url()?>stock-opname/tambah-stock-opname" class="btn btn-primary" target="_blank">
                                     <i class="fa fa-cubes"></i> Stock Opname Baru
                                 </a>
                             </div>
                         </div>
                       <div class="card-body">
                         <div class="table-responsive">
-                          <table class="display" id="basic-1">
+                          <table class="display" id="table-ro">
                             <thead>
                                 <tr>
                                     <th>ID</th>
