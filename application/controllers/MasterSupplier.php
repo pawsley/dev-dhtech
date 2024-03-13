@@ -29,10 +29,32 @@ class MasterSupplier extends CI_Controller
     $data['modal'] = '';
     $data['css'] = '
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
+    <style>
+        .select2-selection__rendered {
+            line-height: 35px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 38px !important;
+            padding: 2px !important;
+        }
+        .select2-dropdown--below {
+          margin-top:-2% !important;
+        }
+        .select2-selection__arrow {
+            height: 37px !important;
+        }
+        .select2-container{
+          margin-bottom :-2%;
+        }
+    </style>    
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/additional-js/rajaongkir.js') . '"></script>
+    <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/additional-js/msupplier.js') . '"></script>
+    <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/datatable.custom.js') . '"></script>
@@ -53,6 +75,37 @@ class MasterSupplier extends CI_Controller
 		$this->Msupplier_model->create($ids, $ns, $wa, $pic, $prov, $kab, $kec, $alamat);
 
     redirect('master-supplier');
+  }
+
+  public function edit($id){
+    $data['get_id']= $this->Msupplier_model->getWhere($id);
+    echo json_encode($data);
+  }
+
+  public function updatepost(){
+    if ($this->input->is_ajax_request()) {
+      $id = $this->input->post('eid');
+      $data = [
+        'nama_supplier'     => $this->input->post('enama'),
+        'kontak'   => $this->input->post('ekontak'),
+        'pic'   => $this->input->post('epic'),
+        'provinsi'    => $this->input->post('eprov'),
+        'kabupaten'   => $this->input->post('ekot'),
+        'kecamatan'   => $this->input->post('ekec'),
+        'alamat'      => $this->input->post('ealamat'),
+        'status'      => $this->input->post('estatus'),
+      ];
+      
+      $this->Msupplier_model->update($id, $data);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('master-supplier');
+    }
+  }
+
+  public function deletepost($id) {
+    $result = $this->Msupplier_model->delete($id);
+    echo json_encode($result);
   }
 
   public function jsonsup(){

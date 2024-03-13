@@ -52,6 +52,32 @@ class MasterDiskon extends CI_Controller
       }
   }
 
+  public function edit($id){
+    $data['get_id']= $this->Mdiskon_model->getWhere($id);
+    echo json_encode($data);
+  }
+  public function updatepost(){
+    if ($this->input->is_ajax_request()) {
+      $id = $this->input->post('ekode');
+      $data = [
+        'tipe'     => $this->input->post('etipe'),
+        'nilai'   => $this->input->post('ediskon'),
+        'kuota'    => $this->input->post('ekuota'),
+        'total_diskon'   => $this->input->post('etotal'),
+      ];
+      
+      $this->Mdiskon_model->update($id, $data);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('master-diskon');
+    }
+  }
+
+  public function deletepost($id) {
+    $result = $this->Mdiskon_model->delete($id);
+    echo json_encode($result);
+  }
+
 }
 
 

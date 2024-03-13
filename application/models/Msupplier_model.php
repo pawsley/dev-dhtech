@@ -31,21 +31,13 @@ class Msupplier_model extends CI_Model {
 
   public function delete($id)
   {
-    return $this->db->delete('tb_supplier', array("id_supplier" => $id));
+    $success = $this->db->delete('tb_supplier', array("id_supplier" => $id));
+    $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
+    return array('success' => $success, 'message' => $message);
   }
 
-  public function update($ids, $ns, $wa, $pic, $prov, $kab, $kec, $alamat)
+  public function update($ids, $data)
   {
-    $data = [
-      'id_supplier' => $ids,
-      'nama_supplier' => $ns,
-      'kontak' => $wa,
-      'pic'=> $pic,
-      'provinsi'=> $prov,
-      'kabupaten'=> $kab,
-      'kecamatan'=> $kec,
-      'alamat'=> $alamat
-    ];
     $this->db->where('id_supplier', $ids);
     $this->db->update('tb_supplier', $data);
   }

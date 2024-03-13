@@ -10,7 +10,9 @@ function tablemrk() {
             "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
         },
         "serverSide": true,
-        "order": [],
+        "order": [
+            [0, 'asc']
+        ],
         "ajax": {
             "url": base_url + 'master-barang/loadbrg/',
             "type": "POST"

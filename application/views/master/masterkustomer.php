@@ -82,8 +82,8 @@
                                     <tr>
                                         <th>ID KUSTOMER</th>
                                         <th>NAMA KUSTOMER</th>
-                                        <th>EMAIL KUSTOMER</th>
                                         <th>KONTAK KUSTOMER</th>
+                                        <th>EMAIL KUSTOMER</th>
                                         <th>ALAMAT KUSTOMER</th>
                                         <th>AKSI</th>
                                     </tr>
@@ -98,7 +98,7 @@
             </div>
             <!-- End Listing Kustomer -->
             <!-- Modal Edit Data Master -->
-            <div class="modal fade" id="EditMasterSupplierModal" tabindex="-1" role="dialog" aria-labelledby="EditMasterCabangModal" aria-hidden="true">
+            <div class="modal fade" id="EditMasterKustomerModal" tabindex="-1" role="dialog" aria-labelledby="EditMasterKustomerModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content dark-sign-up">
                     <div class="modal-body social-profile text-start">
@@ -107,80 +107,32 @@
                         <form class="row g-3">
                         <!-- ID Supplier -->
                         <div class="col-md-6 position-relative">
-                            <label class="form-label" for="FormIDSupplier">ID Supplier</label>
-                            <input class="form-control" id="FormIDSupplier" type="text" placeholder="DHSUPP-0001" disabled>
+                            <label class="form-label" for="FormIDKustomer">ID Kustomer</label>
+                            <input class="form-control" id="eid" name="eid" type="text" placeholder="DHSUPP-0001" disabled>
                         </div>
-                        <!-- Nama Supplier -->
+                        <!-- Nama Kustomer -->
                         <div class="col-md-6 position-relative">
-                            <label class="form-label" for="FormNamaSupplier">Nama Supplier</label>
-                            <input class="form-control" id="FormNamaSupplier" type="text" placeholder="Masukkan Namma Supplier">
+                            <label class="form-label" for="FormNamaKustomer">Nama Kustomer</label>
+                            <input class="form-control" id="enama" name="enama" type="text" placeholder="Masukkan Namma Kustomer">
                         </div>
-                        <!-- PIC Supplier -->
+                        <!-- Email Kustomer -->
                         <div class="col-md-6 position-relative">
-                            <label class="form-label" for="FormPICSupplier">PIC Supplier</label>
-                            <input class="form-control" id="FormPICSupplier" type="text" placeholder="Masukkan Nama PIC Supplier" required="">
+                            <label class="form-label" for="FormPICKustomer">Email Kustomer</label>
+                            <input class="form-control" id="emailkus" name="emailkus" type="email" placeholder="Masukkan Email Kustomer" required="">
                         </div>
-                        <!-- Kontak Supplier -->
+                        <!-- Kontak Kustomer -->
                         <div class="col-md-6 position-relative">
-                            <label class="form-label" for="FormNomorSupplier">Kontak Supplier</label>
-                            <input class="form-control" id="FormNomorSupplier" type="text" placeholder="ex: 081220812206" required="">
+                            <label class="form-label" for="FormNomorKustomer">Kontak Kustomer</label>
+                            <input class="form-control" id="ekontak" name="ekontak" type="text" oninput="formatPhoneNumber(this)" placeholder="ex: 081220812206" required="">
                         </div>
-                        <!-- Provinsi Supplier -->
-                        <div class="col-md-6 position-relative">
-                            <label class="form-label" for="FormProvinsiSupplier">Provinsi Supplier</label>
-                            <select class="form-select" id="FormProvinsiSupplier" required="">
-                                <option selected="" disabled="" value="">Pilih Provinsi Supplier ...</option>
-                                <option>Jawa Timur</option>
-                                <option>Jawa Tengah</option>
-                                <option>Jawa Barat</option>
-                            </select>
-                        </div>
-                        <!-- Kabupaten / Kota -->
-                        <div class="col-md-6 position-relative">
-                            <label class="form-label" for="FormKotaKabSupplier">Kota / Kabupaten Supplier</label>
-                            <select class="form-select" id="FormKotaKabSupplier" required="">
-                                <option selected="" disabled="" value="">Pilih Kota / Kab Supplier ...</option>
-                                <option>Kota Surabaya</option>
-                                <option>Kabupaten Sidoarjo</option>
-                                <option>Kabupaten Malang</option>
-                            </select>
-                        </div>
-                        <!-- Kecamatan -->
-                        <div class="col-md-6 position-relative">
-                            <label class="form-label" for="FormKecamatanSupplier">Kecamatan</label>
-                            <select class="form-select" id="FormKecamatanSupplier" required="">
-                                <option selected="" disabled="" value="">Pilih Kecamatan Supplier ...</option>
-                                <option>Jagir</option>
-                                <option>Wonokromo</option>
-                                <option>Kedung Asri</option>
-                            </select>
-                        </div>
-                        <!-- Kelurahaan -->
-                        <div class="col-md-6 position-relative">
-                            <label class="form-label" for="FormKelurahaanSupplier">Kelurahan Supplier</label>
-                            <select class="form-select" id="FormKelurahaanSupplier" required="">
-                                <option selected="" disabled="" value="">Pilih Kelurahaan Supplier ...</option>
-                                <option>Sawunggaling</option>
-                                <option>Kesatrian</option>
-                                <option>Gedangan</option>
-                            </select>
-                        </div>
-                        <!-- Detai Alamat Supplier -->
+                        <!-- Detai Alamat Kustomer -->
                         <div class="col-md-12 position-relative">
-                            <label class="form-label" for="FormDetailAlamatSupplier">Detail Alamat Supplier</label>
-                            <input class="form-control" id="FormDetailAlamatSupplier" type="text" placeholder="contoh: Jl. Tamtama No 19" required="">
-                        </div>
-                        <!-- Status Supplier -->
-                        <div class="col-md-12 position-relative">
-                            <label class="form-label" for="StatusSupplier">Status Supplier</label>
-                            <select class="form-select" id="StatusSupplier" required="">
-                                <option selected="" disabled="" value="">Aktif</option>
-                                <option>Tidak Aktif</option>
-                            </select>
+                            <label class="form-label" for="FormDetailAlamatKustomer">Detail Alamat Kustomer</label>
+                            <input class="form-control" id="ealamat" name="ealamat" type="text" placeholder="contoh: Jl. Tamtama No 19" required="">
                         </div>
                         <!-- Button Simpan -->
                           <div class="col-12">
-                            <button class="btn btn-primary" type="submit" data-bs-dismiss="modal">Simpan Perubahan</button>
+                            <button class="btn btn-primary" type="button" id="update" data-bs-dismiss="modal">Simpan Perubahan</button>
                           </div>
                         </form>
                       </div>

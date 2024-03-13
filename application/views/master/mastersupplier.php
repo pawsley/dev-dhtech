@@ -49,7 +49,7 @@
                     <!-- Kontak Supplier -->
                     <div class="col-md-6 position-relative">
                         <label class="form-label" for="FormNomorSupplier">Kontak Supplier</label>
-                        <input class="form-control" id="wa" name="wa" type="text" placeholder="ex: 081220812206" required="">
+                        <input class="form-control" id="wa" name="wa" type="text" placeholder="ex: 081220812206" oninput="formatPhoneNumber(this)" required="">
                         <div class="valid-tooltip">Looks good!</div>
                     </div>
                     <!-- Provinsi Supplier -->
@@ -107,16 +107,16 @@
                           <table class="display" id="table-supplier">
                             <thead>
                               <tr>
-                                <th>ID SUPPLIER</th>
-                                <th>NAMA SUPPLIER</th>
-                                <th>PIC SUPPLIER</th>
-                                <th>NOMOR SUPPLIER</th>
+                                <th style="min-width: 100px;">ID SUPPLIER</th>
+                                <th style="min-width: 180px;">NAMA SUPPLIER</th>
+                                <th style="min-width: 100px;">PIC SUPPLIER</th>
+                                <th style="min-width: 150px;">KONTAK SUPPLIER</th>
                                 <th>PROVINSI</th>
-                                <th>KAB / KOTA</th>
+                                <th style="min-width: 100px;">KAB / KOTA</th>
                                 <th>KECAMATAN</th>
-                                <th>DETAIL ALAMAT</th>
+                                <th style="min-width: 200px;">DETAIL ALAMAT</th>
                                 <th>STATUS</th>
-                                <th>AKSI</th>
+                                <th style="text-align: center;">AKSI</th>
                               </tr>
                             </thead>
                             <tbody>                              
@@ -129,7 +129,7 @@
             </div>
             <!-- End Listing Supplier -->
             <!-- Modal Edit Data Master -->
-            <div class="modal fade" id="EditMasterSupplierModal" tabindex="-1" role="dialog" aria-labelledby="EditMasterCabangModal" aria-hidden="true">
+            <div class="modal fade" id="EditMasterSupplierModal" tabindex="-1" role="dialog" aria-labelledby="EditMasterSupplierModal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content dark-sign-up">
                     <div class="modal-body social-profile text-start">
@@ -139,79 +139,54 @@
                         <!-- ID Supplier -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormIDSupplier">ID Supplier</label>
-                            <input class="form-control" id="FormIDSupplier" type="text" placeholder="DHSUPP-0001" disabled>
+                            <input class="form-control" id="eid" name="eid" type="text" placeholder="DHSUPP-0001" disabled>
                         </div>
                         <!-- Nama Supplier -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormNamaSupplier">Nama Supplier</label>
-                            <input class="form-control" id="FormNamaSupplier" type="text" placeholder="Masukkan Namma Supplier">
+                            <input class="form-control" id="enama" name="enama" type="text" placeholder="Masukkan Namma Supplier">
                         </div>
                         <!-- PIC Supplier -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormPICSupplier">PIC Supplier</label>
-                            <input class="form-control" id="FormPICSupplier" type="text" placeholder="Masukkan Nama PIC Supplier" required="">
+                            <input class="form-control" id="epic" name="epic" type="text" placeholder="Masukkan Nama PIC Supplier" required="">
                         </div>
                         <!-- Kontak Supplier -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormNomorSupplier">Kontak Supplier</label>
-                            <input class="form-control" id="FormNomorSupplier" type="text" placeholder="ex: 081220812206" required="">
+                            <input class="form-control" id="ekontak" name="ekontak" type="text" placeholder="ex: 081220812206" oninput="formatPhoneNumber(this)" required="">
                         </div>
                         <!-- Provinsi Supplier -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormProvinsiSupplier">Provinsi Supplier</label>
-                            <select class="form-select" id="FormProvinsiSupplier" required="">
-                                <option selected="" disabled="" value="">Pilih Provinsi Supplier ...</option>
-                                <option>Jawa Timur</option>
-                                <option>Jawa Tengah</option>
-                                <option>Jawa Barat</option>
-                            </select>
+                            <input class="form-control" id="eprov" name="eprov" type="text" required="">
                         </div>
                         <!-- Kabupaten / Kota -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormKotaKabSupplier">Kota / Kabupaten Supplier</label>
-                            <select class="form-select" id="FormKotaKabSupplier" required="">
-                                <option selected="" disabled="" value="">Pilih Kota / Kab Supplier ...</option>
-                                <option>Kota Surabaya</option>
-                                <option>Kabupaten Sidoarjo</option>
-                                <option>Kabupaten Malang</option>
-                            </select>
+                            <input class="form-control" id="ekot" name="ekot" type="text" required="">
                         </div>
                         <!-- Kecamatan -->
-                        <div class="col-md-6 position-relative">
-                            <label class="form-label" for="FormKecamatanSupplier">Kecamatan</label>
-                            <select class="form-select" id="FormKecamatanSupplier" required="">
-                                <option selected="" disabled="" value="">Pilih Kecamatan Supplier ...</option>
-                                <option>Jagir</option>
-                                <option>Wonokromo</option>
-                                <option>Kedung Asri</option>
-                            </select>
-                        </div>
-                        <!-- Kelurahaan -->
-                        <div class="col-md-6 position-relative">
-                            <label class="form-label" for="FormKelurahaanSupplier">Kelurahan Supplier</label>
-                            <select class="form-select" id="FormKelurahaanSupplier" required="">
-                                <option selected="" disabled="" value="">Pilih Kelurahaan Supplier ...</option>
-                                <option>Sawunggaling</option>
-                                <option>Kesatrian</option>
-                                <option>Gedangan</option>
-                            </select>
+                        <div class="col-md-12 position-relative">
+                            <label class="form-label" for="FormKecamatanSupplier">Kecamatan Supplier</label>
+                            <input class="form-control" id="ekec" name="ekec" type="text" required="">
                         </div>
                         <!-- Detai Alamat Supplier -->
                         <div class="col-md-12 position-relative">
                             <label class="form-label" for="FormDetailAlamatSupplier">Detail Alamat Supplier</label>
-                            <input class="form-control" id="FormDetailAlamatSupplier" type="text" placeholder="contoh: Jl. Tamtama No 19" required="">
+                            <input class="form-control" id="ealamat" name="ealamat" type="text" placeholder="contoh: Jl. Tamtama No 19" required="">
                         </div>
                         <!-- Status Supplier -->
                         <div class="col-md-12 position-relative">
                             <label class="form-label" for="StatusSupplier">Status Supplier</label>
-                            <select class="form-select" id="StatusSupplier" required="">
-                                <option selected="" disabled="" value="">Aktif</option>
-                                <option>Tidak Aktif</option>
+                            <select class="form-select" id="estatus" name="estatus" required="">
+                                <option value="1">Aktif</option>
+                                <option value="2">Tidak Aktif</option>
                             </select>
                         </div>
                         <!-- Button Simpan -->
                           <div class="col-12">
-                            <button class="btn btn-primary" type="submit" data-bs-dismiss="modal">Simpan Perubahan</button>
+                            <button class="btn btn-primary" type="button" id="update" data-bs-dismiss="modal">Simpan Perubahan</button>
                           </div>
                         </form>
                       </div>

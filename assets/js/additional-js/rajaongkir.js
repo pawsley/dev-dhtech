@@ -1,4 +1,13 @@
 $(document).ready(function() {
+    $('#province').select2({
+        language: 'id',
+    });
+    $('#kabupaten').select2({
+        language: 'id',
+    });
+    $('#kecamatan').select2({
+        language: 'id',
+    });
     $.ajax({
         url: base_url + "RajaOngkir/getProvince",
         dataType: "json",
@@ -12,6 +21,9 @@ $(document).ready(function() {
                     value: item.province_id,
                     text: item.province
                 }));
+            });
+            $('#province').select2({
+                language: 'id',
             });
         }
     });
@@ -32,6 +44,9 @@ $(document).ready(function() {
                         value: item.city_id,
                         text: item.city_name
                     }));
+                });
+                $('#kabupaten').select2({
+                    language: 'id',
                 });
             }
         });
@@ -54,12 +69,18 @@ $(document).ready(function() {
                         text: item.subdistrict_name
                     }));
                 });
+                $('#kecamatan').select2({
+                    language: 'id',
+                });
             }
         });
     });
 
     $("#kecamatan").change(function() {
         var kecamatan = $(this).val();
+        $('#kecamatan').select2({
+            language: 'id',
+        });
         $("#kec_name").val($(this).find(":selected").text());
     });
 });

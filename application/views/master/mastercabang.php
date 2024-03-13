@@ -70,7 +70,7 @@
                     <!-- kodepos -->
                     <div class="col-md-6 position-relative">
                     <label class="form-label" for="kode_pos">Kode Pos</label>
-                    <input class="form-control" id="kode_pos" name="kode_pos" type="text" placeholder="contoh: 602999" required="">
+                    <input class="form-control" id="kode_pos" name="kode_pos" type="number" placeholder="contoh: 602999" required="">
                     <div class="invalid-tooltip">Masukkan kode pos</div>
                     </div>
                     <!-- Detai Alamat Cabang -->
@@ -79,19 +79,26 @@
                         <input class="form-control" id="FormDetailAlamatCabang" name="alamat" type="text" placeholder="contoh: Jl. Tamtama No 19" required="">
                         <div class="valid-tooltip">Looks good!</div>
                     </div>
+                    <!-- Pilih Jenis Cabang -->
+                    <div class="col-md-12 position-relative">
+                        <label class="form-label" for="FormJenis">Jenis Cabang</label>
+                        <select class="form-select" id="jenis" name="jenis" required="">
+                            <option selected="" disabled="" value="">Pilih Jenis Cabang ...</option>
+                            <option value="Pusat">Pusat</option>
+                            <option value="Cabang">Cabang</option>
+                        </select>
+                        <div class="invalid-tooltip">Silahkan Pilih Jenis Cabang.</div>
+                    </div>
                     <!-- Pilih Kepala Cabang -->
                     <div class="col-md-12 position-relative">
                         <label class="form-label" for="FormKepalaCabang">Kepala Cabang</label>
                         <select class="form-select" id="FormKepalaCabang" name="kc" required="">
                             <option selected="" disabled="" value="">Pilih Kepala Cabang ...</option>
-                            <?php foreach ($kacab as $kc) { ?>
-                              <option value="<?=$kc['id_user']?>"><?=$kc['id_user']?> | <?=$kc['nama_lengkap']?></option>
-                            <?php } ?>
                         </select>
                         <div class="invalid-tooltip">Silahkan Pilih Kepala Cabang.</div>
                     </div>
                     <!-- Button Tambah Cabang Baru -->
-                    <div class="col-12">
+                    <div class="col-12 position-relative">
                     <button class="btn btn-primary" type="submit">Tambah Cabang</button>
                     </div>
                     </form>
@@ -112,13 +119,13 @@
                           <table class="display" id="table-cabang">
                             <thead>
                               <tr>
-                                <th>ID CABANG</th>
-                                <th>KEPALA CABANG</th>
-                                <th>NAMA CABANG</th>
+                                <th style="min-width: 90px;">ID CABANG</th>
+                                <th style="min-width: 150px;">KEPALA CABANG</th>
+                                <th style="min-width: 150px;">NAMA CABANG</th>
                                 <th>PROVINSI</th>
-                                <th>KAB / KOTA</th>
+                                <th style="min-width: 100px;">KAB/KOTA</th>
                                 <th>KECAMATAN</th>
-                                <th>DETAIL ALAMAT</th>
+                                <th style="min-width: 200px;">DETAIL ALAMAT</th>
                                 <th>STATUS</th>
                                 <th style="text-align: center;">AKSI</th>
                               </tr>
@@ -143,78 +150,65 @@
                         <!-- ID Cabang -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormIDCabang">ID Cabang</label>
-                            <input class="form-control" id="FormIDCabang" type="text" placeholder="DHC-0001" disabled>
+                            <input class="form-control" name="eid" id="eid" type="text" placeholder="DHC-0001" disabled>
                         </div>
                         <!-- Nama Cabang -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormNamaCabang">Nama Cabang</label>
-                            <input class="form-control" id="FormNamaCabang" type="text" placeholder="Masukkan Namma Cabang">
+                            <input class="form-control" name="ecab" id="ecab" type="text" placeholder="Masukkan Namma Cabang">
                         </div>
                         <!-- Provinsi Cabang -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormProvinsiCabang">Provinsi Cabang</label>
-                            <select class="form-select" id="FormProvinsiCabang" required="">
-                                <option selected="" disabled="" value="">Pilih Provinsi Cabang ...</option>
-                                <option>Jawa Timur</option>
-                                <option>Jawa Tengah</option>
-                                <option>Jawa Barat</option>
-                            </select>
+                            <input class="form-control" name="eprov" id="eprov" type="text">
                         </div>
                         <!-- Kabupaten / Kota -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormKotaKabCabang">Kota / Kabupaten Cabang</label>
-                            <select class="form-select" id="FormKotaKabCabang" required="">
-                                <option selected="" disabled="" value="">Pilih Kota / Kab Cabang ...</option>
-                                <option>Kota Surabaya</option>
-                                <option>Kabupaten Sidoarjo</option>
-                                <option>Kabupaten Malang</option>
-                            </select>
+                            <input class="form-control" name="ekot" id="ekot" type="text">
                         </div>
                         <!-- Kecamatan -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormKecamatanCabang">Kecamatan Cabang</label>
-                            <select class="form-select" id="FormKecamatanCabang" required="">
-                                <option selected="" disabled="" value="">Pilih Kecamatan Cabang ...</option>
-                                <option>Jagir</option>
-                                <option>Wonokromo</option>
-                                <option>Kedung Asri</option>
-                            </select>
+                            <input class="form-control" name="ekec" id="ekec" type="text">
                         </div>
                         <!-- Kelurahaan -->
                         <div class="col-md-6 position-relative">
-                            <label class="form-label" for="FormKelurahaanCabang">Kelurahan Cabang</label>
-                            <select class="form-select" id="FormKelurahaanCabang" required="">
-                                <option selected="" disabled="" value="">Pilih Kelurahaan Cabang ...</option>
-                                <option>Sawunggaling</option>
-                                <option>Kesatrian</option>
-                                <option>Gedangan</option>
-                            </select>
+                            <label class="form-label" for="kodepos">Kode Pos</label>
+                            <input class="form-control" name="ekode" id="ekode" type="number">
                         </div>
                         <!-- Detai Alamat Cabang -->
                         <div class="col-md-12 position-relative">
                             <label class="form-label" for="FormDetailAlamatCabang">Detail Alamat Cabang</label>
-                            <input class="form-control" id="FormDetailAlamatCabang" type="text" placeholder="contoh: Jl. Tamtama No 19" required="">
-                        </div>
+                            <input class="form-control" id="ealamat" name="ealamat"  type="text" placeholder="contoh: Jl. Tamtama No 19" required="">
+                        </div>                        
                         <!-- Pilih Kepala Cabang -->
-                        <div class="col-md-6 position-relative">
+                        <div class="col-md-12 position-relative">
                             <label class="form-label" for="FormKepalaCabang">Kepala Cabang</label>
-                            <select class="form-select" id="FormKepalaCabang" required="">
-                                <option selected="" disabled="" value="">Pilih Kepala Cabang ...</option>
-                                <option>DHE-01020001 | FIGO VIO HIDAYAT</option>
-                                <option>DHE-01020002 | ALDO HIDAYAT</option>
+                            <select class="form-select" id="ekacab" name="ekacab" required="">
+                              <option selected="" disabled="" value="">Pilih Kepala Cabang ...</option>
                             </select>
                         </div>
-                        <!-- Statu Cabang -->
+                        <!-- Jenis Cabang -->
+                        <div class="col-md-6 position-relative">
+                            <label class="form-label" for="FormJenisCabang">Jenis Cabang</label>
+                            <select class="form-select" id="ejenis" name="ejenis" required="">
+                              <option selected="" disabled="" value="">Pilih Jenis Cabang ...</option>
+                              <option value="Pusat">Pusat</option>
+                              <option value="Cabang">Cabang</option>
+                            </select>
+                        </div>                        
+                        <!-- Status Cabang -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="StatusCabang">Status Cabang</label>
-                            <select class="form-select" id="StatusCabang" required="">
-                                <option selected="" disabled="" value="">Aktif</option>
-                                <option>Tidak Aktif</option>
+                            <select class="form-select" id="estatus" name="estatus" required="">
+                              <option value="1">Aktif</option>
+                              <option value="2">Tidak Aktif</option>
                             </select>
                         </div>
                         <!-- Button Simpan -->
                           <div class="col-12">
-                            <button class="btn btn-primary" type="submit" data-bs-dismiss="modal">Simpan Perubahan</button>
+                            <button class="btn btn-primary" type="button" id="update" data-bs-dismiss="modal">Simpan Perubahan</button>
                           </div>
                         </form>
                       </div>

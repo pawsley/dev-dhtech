@@ -137,11 +137,6 @@
                         <label class="form-label" for="FormJabatanKaryawan">Jabatan Karyawan</label>
                         <select class="form-select" id="jabatan" name="jabatan" required>
                           <option selected="" disabled="" value="">Pilih Jabatan Karyawan ...</option>
-                          <option value="OWNER">OWNER</option>
-                          <option value="KEPALA CABANG">KEPALA CABANG</option>
-                          <option value="KARYAWAN TETAP">KARYAWAN TETAP</option>
-                          <option value="KARYAWAN KONTRAK">KARYAWAN KONTRAK</option>
-                          <option value="MAGANG LEPAS">MAGANG LEPAS</option>
                         </select>
                         <div class="invalid-tooltip">Silahkan Pilih Jabatan.</div>
                       </div>
@@ -149,18 +144,14 @@
                       <div class="col-1">
                         <label class="form-label" for="shortcuttambahdata">Add New</label>
                         <div class="button">
-                            <a class="btn badge-light-primary f-w-500" type="button" data-bs-toggle="modal" data-bs-target="#TambahRoleBaru"><i class="fa fa-plus"></i></a>
+                            <a class="btn badge-light-primary f-w-500" type="button" data-bs-toggle="modal" data-bs-target="#TambahJabatanBaru" onclick="changeInputName('SubKategoriItem', 'newjab')"><i class="fa fa-plus"></i></a>
                         </div>
                       </div>
                       <!-- Pilih Role -->
                       <div class="col-md-5 position-relative">
                         <label class="form-label" for="FormRoleKaryawan">Role Karyawan</label>
-                        <select class="form-select" id="role2" name="role" required>
+                        <select class="form-select" id="role" name="role" required>
                           <option selected="" disabled="" value="">Pilih Role Karyawan ...</option>
-                          <option value="OWNER">OWNER</option>
-                          <option value="FINANSIAL">FINANSIAL</option>
-                          <option value="KASIR & SALES">KASIR & SALES</option>
-                          <option value="DIGITAL MARKETING">DIGITAL MARKETING</option>
                         </select>
                         <div class="invalid-tooltip">Silahkan Pilih Role Karyawan.</div>
                       </div>
@@ -168,7 +159,7 @@
                       <div class="col-1">
                         <label class="form-label" for="shortcuttambahdata">Add New</label>
                         <div class="button">
-                            <a class="btn badge-light-primary f-w-500" type="button" data-bs-toggle="modal" data-bs-target="#TambahRoleBaru"><i class="fa fa-plus"></i></a>
+                            <a class="btn badge-light-primary f-w-500" type="button" data-bs-toggle="modal" data-bs-target="#TambahRoleBaru" onclick="changeInputName('SubKategoriItem', 'newrole')"><i class="fa fa-plus"></i></a>
                         </div>
                       </div>
                       <!-- Masukkan Gaji Karyawan -->
@@ -201,19 +192,17 @@
                       <table class="display" id="table-karyawan">
                         <thead>
                           <tr>
-                            <th rowspan="2">ID Karyawan</th>
-                            <th rowspan="2">Nama Karyawan</th>
-                          </tr>
-                          <tr>
-                            <th>Jabatan Karyawan</th>
-                            <th>Role Karyawan</th>
-                            <th>Gaji Karyawan</th>
-                            <th>CV Karyawan</th>
-                            <th>Kontak Karyawan</th>
-                            <th>E-mail Karyawan</th>
-                            <th>Password Karyawan</th>
-                            <th>Status Karyawan</th>
-                            <th>Menu Aksi</th>
+                            <th style="min-width: 120px;">ID KARYAWAN</th>
+                            <th style="min-width: 150px;">NAMA KARYAWAN</th>
+                            <th style="min-width: 180px;">JABATAN KARYAWAN</th>
+                            <th style="min-width: 150px;">ROLE KARYAWAN</th>
+                            <th style="min-width: 100px;">GAJI POKOK</th>
+                            <th>DOC.KARYAWAN</th>
+                            <th>CP.KARYAWAN</th>
+                            <th style="min-width: 150px;">EMAIL KARYAWAN</th>
+                            <th>PASSWORD</th>
+                            <th>STATUS</th>
+                            <th style="text-align: center;">Aksi</th>
                           </tr>
                         </thead>
                       </table>

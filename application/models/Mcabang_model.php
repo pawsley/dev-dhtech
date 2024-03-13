@@ -18,16 +18,21 @@ class Mcabang_model extends CI_Model {
     return $query->result_array();
   }
 
-  public function getAllKar() {
+  public function getAllKar($searchTerm=null) {
     $this->db->select(['id_user', 'nama_lengkap']);
     $this->db->from('tb_user');
+    if ($searchTerm) {
+      $this->db->group_start();
+      $this->db->like('nama_lengkap', $searchTerm);
+      $this->db->group_end();
+    }
     $this->db->where_in('status', ['1']);
     $this->db->order_by('id_user', 'asc');
     $query = $this->db->get();
     return $query->result_array();
   }
 
-  public function create($idt, $idk, $nt, $prov, $kab, $kec, $kode, $alamat)
+  public function create($idt, $idk, $nt, $prov, $kab, $kec, $kode, $alamat,$jenis)
   {
     $data = array(
       'id_toko' => $idt,
@@ -38,6 +43,7 @@ class Mcabang_model extends CI_Model {
       'kecamatan'=> $kec,
       'kode_pos'=> $kode,
       'alamat' => $alamat,
+      'jenis_toko' => $jenis,
       'status' => '1'
     );  
     $this->db->insert('tb_toko',$data);
@@ -45,29 +51,20 @@ class Mcabang_model extends CI_Model {
 
   public function delete($id)
   {
-    return $this->db->delete('tb_toko', array("id_toko" => $id));
+    $success = $this->db->delete('tb_toko', array("id_toko" => $id));
+    $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
+    return array('success' => $success, 'message' => $message);
   }
 
-  public function update($idt, $idk, $nt, $prov, $kab, $kec, $kode, $alamat, $status)
+  public function update($idt, $data)
   {
-    $data = [
-      'id_toko' => $idt,
-      'id_karyawan' => $idk,
-      'nama_toko' => $nt,
-      'provinsi'=> $prov,
-      'kabupaten'=> $kab,
-      'kecamatan'=> $kec,
-      'kode_pos'=> $kode,
-      'alamat' => $alamat,
-      'status' => $status
-    ];
     $this->db->where('id_toko', $idt);
     $this->db->update('tb_toko', $data);
   }
 
   public function getWhere($id)
   {   
-    $query = $this->db->get_where('tb_toko', array('id_toko' => $id));
+    $query = $this->db->get_where('vtoko', array('id_toko' => $id));
     return $query->result_array();
   }
 

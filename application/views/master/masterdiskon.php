@@ -97,8 +97,8 @@
             </div>
             <!-- End Listing Diskon -->
             <!-- Modal Edit Data Master -->
-            <div class="modal fade bd-example-modal-xl" id="EditMasterDiskonModal" tabindex="-1" role="dialog" aria-labelledby="EditMasterCabangModal" aria-hidden="true">
-                <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal fade" id="EditMasterDiskonModal" tabindex="-1" role="dialog" aria-labelledby="EditMasterCabangModal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content dark-sign-up">
                     <div class="modal-body social-profile text-start">
                       <div class="modal-toggle-wrapper">
@@ -110,16 +110,16 @@
                         <!-- Tipe Diskon -->
                         <div class="col-md-12 position-relative">
                             <label class="form-label" for="FormTipeDiskon">Tipe Diskon</label>
-                            <select class="form-select" id="FormTipeDiskon" required="">
+                            <select class="form-select" id="etipe" name="etipe" required="">
                                 <option selected="" disabled="" value="">Pilih Tipe Diskon ...</option>
-                                <option>Nominal</option>
+                                <option value="Nominal">Nominal</option>
                             </select>
                             <div class="invalid-tooltip">Silahkan Pilih Tipe Diskon.</div>
                         </div>
                         <!-- Kode Diskon -->
                         <div class="col-md-12 position-relative">
                             <label class="form-label" for="FormBuatKodeDiskon">Kode Diskon</label>
-                            <input class="form-control" id="kode" type="text" placeholder="Buat Kode Diskon" required="">
+                            <input class="form-control" id="ekode" name="ekode" type="text" placeholder="Buat Kode Diskon" readonly>
                             <div class="valid-tooltip">Looks good!</div>
                         </div>
                         <!-- Nilai Diskon -->
@@ -127,18 +127,26 @@
                             <label class="form-label" for="FormBuatKuotaDiskon">Nilai Diskon</label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text">Rp</span>
-                                <input class="form-control is-invalid" id="FormBuatKuotaDiskon" type="text" onkeyup="formatRupiah(this)" required="">
+                                <input class="form-control is-invalid" id="ediskon" name="ediskon" type="text" onkeyup="formatRupiah(this)" required="">
                             </div>
                         </div>
                         <!-- Kuota Diskon -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormBuatKuotaDiskon">Kuota Diskon</label>
-                            <input class="form-control" id="kuota" type="text" placeholder="Input Jumlah Kuota Diskon" required oninput="kuotaDiskon(this)">
+                            <input class="form-control" id="ekuota" name="ekuota" type="text" placeholder="Input Jumlah Kuota Diskon" required oninput="kuotaDiskon(this)">
                             <div class="valid-tooltip">Looks good!</div>
+                        </div>
+                        <!-- Total Diskon -->
+                        <div class="col-md-12 position-relative">
+                            <label class="form-label" for="TotalDiskon">Total Diskon</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text">Rp</span>                        
+                                <input class="form-control is-invalid" id="etotal" name="etotal" type="text" readonly>
+                            </div>
                         </div>
                         <!-- Button Simpan -->
                         <div class="col-12">
-                            <button class="btn btn-primary" type="submit" data-bs-dismiss="modal">Simpan Perubahan</button>
+                            <button class="btn btn-primary" type="button" id="update" data-bs-dismiss="modal">Simpan Perubahan</button>
                         </div>
                         </form>
                       </div>

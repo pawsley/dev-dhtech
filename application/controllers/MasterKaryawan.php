@@ -10,28 +10,51 @@ class MasterKaryawan extends CI_Controller
     $this->load->model('Mkaryawan_model');
   }
 
-  function generateid(){
-    $data['lastID'] = $this->Mkaryawan_model->getLastID();
-    if (!empty($data['lastID'])) {
-      $numericPart = preg_replace('/[^0-9]/', '', is_array($data['lastID']));
-      $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
-      $data['newID'] = 'DHEMP-' . $incrementedNumericPart;
-    }else {
-      $data['newID'] = 'DHEMP-0001';
+  public function generateid() {
+    $lastID = $this->Mkaryawan_model->getLastID();
+    if (!empty($lastID)) {
+        $numericPart = preg_replace('/[^0-9]/', '', $lastID); // Extract numeric part
+        $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1); // Increment numeric part
+        $newID = 'DHEMP-' . $incrementedNumericPart;
+    } else {
+        $newID = 'DHEMP-0001';
     }
-    return $data;
+    return $newID;
   }
+
 
   public function index()
   {
-    $data = $this->generateid();
+    $data['newID'] = $this->generateid();
     $data['content'] = $this->load->view('master/masterkaryawan', $data, true);
     $data['modal'] = $this->load->view('master/modal/m_editkar','',true);
     $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
-    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">';
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
+    <style>
+      .select2-selection__rendered {
+          line-height: 35px !important;
+      }
+      .select2-container .select2-selection--single {
+          height: 38px !important;
+          padding: 2px !important;
+      }
+      .select2-dropdown--below {
+        margin-top:-2% !important;
+      }
+      .select2-selection__arrow {
+          height: 37px !important;
+      }
+      .select2-container{
+        margin-bottom :-2%;
+      }
+    </style>
+    ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/additional-js/rajaongkir.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/serverside.js') . '"></script>
+    <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/datatable.custom.js') . '"></script>
@@ -42,12 +65,54 @@ class MasterKaryawan extends CI_Controller
     ';
     $this->load->view('layout/base', $data);    
   }
-
+  public function createjabatan() {
+    if ($this->input->is_ajax_request()) {
+      $nj = $this->input->post('namajab');
+      $data = [
+        'nama_jab'      => $this->input->post('namajab'),
+      ];
+      $inserted = $this->Mkaryawan_model->tambahjabatan($nj,$data);
+      if ($inserted) {
+          echo json_encode(['status' => 'success']);
+      } else {
+          echo json_encode(['status' => 'exists']);
+      }
+    } else {
+        redirect('master-karyawan');
+    }
+  }
+  public function createrole() {
+    if ($this->input->is_ajax_request()) {
+      $nr = $this->input->post('namarole');
+      $data = [
+        'nama_role'      => $this->input->post('namarole'),
+      ];
+      $inserted = $this->Mkaryawan_model->tambahrole($nr,$data);
+      if ($inserted) {
+          echo json_encode(['status' => 'success']);
+      } else {
+          echo json_encode(['status' => 'exists']);
+      }
+    } else {
+        redirect('master-karyawan');
+    }    
+  }
+  public function loadjab(){
+    $searchTerm = $this->input->get('q');
+    $results = $this->Mkaryawan_model->getJabatan($searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }
+  public function loadrole(){
+    $searchTerm = $this->input->get('q');
+    $results = $this->Mkaryawan_model->getRole($searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }    
   function edit($id){
     $data['get_id']= $this->Mkaryawan_model->getWhere($id);
     echo json_encode($data);
   }
-
   function createpost(){
     $id = $this->input->post('id');
     $nl = $this->input->post('nl');
@@ -88,7 +153,68 @@ class MasterKaryawan extends CI_Controller
     }
 		
 		$this->Mkaryawan_model->create($id,$nl,$tl,$jk,$email,$password,$prov,$kab,$kec,$kode,$alamat,$wa,$cv,$jabatan,$role,$gaji);
+    redirect('master-karyawan');
   }
+  public function updatepost(){
+    if ($this->input->is_ajax_request()) {
+      $id = $this->input->post('eid');
+      $fileupload = isset($_FILES['e_filecv']) ? $_FILES['e_filecv']['name'] : null;
+      $data = [
+        'nama_lengkap'     => $this->input->post('enama'),
+        'tanggal_lahir'   => $this->input->post('etgl'),
+        'jen_kel'   => $this->input->post('ejk'),
+        'email'   => $this->input->post('email'),
+        'password'   => $this->input->post('epassword'),
+        'provinsi'    => $this->input->post('eprov'),
+        'kabupaten'   => $this->input->post('ekot'),
+        'kecamatan'   => $this->input->post('ekec'),
+        'kode_pos'    => $this->input->post('ekode'),
+        'alamat'      => $this->input->post('ealamat'),
+        'no_wa'  => $this->input->post('ewa'),
+        'file_cv'  => $this->input->post('efile'),
+        'jabatan'  => $this->input->post('ejabatan'),
+        'role_user'  => $this->input->post('erole'),
+        'gaji'  => $this->input->post('egaji'),
+        'status'      => $this->input->post('estatus'),
+      ];
+
+      $file_path = realpath(APPPATH . '../assets/dhdokumen/karyawan');
+      $config['upload_path'] = $file_path;
+      $config['allowed_types'] = 'pdf';
+      $config['overwrite'] = true;
+      $config['file_name'] = $fileupload;
+      $config['max_size'] = 10048;
+          
+      $this->load->library('upload', $config);
+          
+      if (!empty($fileupload)) {
+        if ($this->upload->do_upload('e_filecv')) {
+            $data1 = $this->upload->data();
+            $cv = $data1['file_name'];
+            $data['file_cv'] = $cv; // Update the file_cv field with the new filename
+        } else {
+            $error = $this->upload->display_errors();
+            echo "Upload failed: $error";
+            return; // Stop execution if upload fails
+        }
+      } 
+      $this->Mkaryawan_model->update($id, $data);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('master-karyawan');
+    }
+  }
+  public function deletepost($id) {
+    $image = $this->Mkaryawan_model->getWhere($id);
+    $result = $this->Mkaryawan_model->delete($id);
+    // realpath(APPPATH . '../assets/dhdokumen/karyawan');
+    foreach ($image as $i) {
+			if ($result) {
+				unlink(realpath(APPPATH . '../assets/dhdokumen/karyawan/') . '/' . $i['file_cv']);
+			}
+		}
+    echo json_encode($result);
+  }  
   public function jsonkar(){
     $this->load->library('datatables');
     $this->datatables->select('id_user, nama_lengkap, jabatan, role_user, gaji, file_cv, no_wa, email, password, status');

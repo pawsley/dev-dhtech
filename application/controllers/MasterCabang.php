@@ -25,7 +25,8 @@ class MasterCabang extends CI_Controller
   }
 
   public function loadkar(){
-    $kar = $this->Mcabang_model->getAllKar();
+    $searchTerm = $this->input->get('q');
+    $kar = $this->Mcabang_model->getAllKar($searchTerm);
     header('Content-Type: application/json');
     echo json_encode($kar);
   }
@@ -38,10 +39,33 @@ class MasterCabang extends CI_Controller
     $data['modal'] = '';
     $data['css'] = '
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    <style>
+        .select2-selection__rendered {
+            line-height: 35px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 38px !important;
+            padding: 2px !important;
+        }
+        .select2-dropdown--below {
+          margin-top:-2% !important;
+        }
+        .select2-selection__arrow {
+            height: 37px !important;
+        }
+        .select2-container{
+          margin-bottom :-2%;
+        }
+    </style>
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/additional-js/rajaongkir.js') . '"></script>
+    <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
+    <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/mcabang.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/datatable.custom.js') . '"></script>
@@ -58,10 +82,43 @@ class MasterCabang extends CI_Controller
     $kec = $this->input->post('kec_name');
     $kode = $this->input->post('kode_pos');
     $alamat = $this->input->post('alamat');
+    $jenis = $this->input->post('jenis');
 		
-		$this->Mcabang_model->create($idt, $idk, $nt, $prov, $kab, $kec, $kode, $alamat);
+		$this->Mcabang_model->create($idt, $idk, $nt, $prov, $kab, $kec, $kode, $alamat,$jenis);
 
     redirect('master-cabang');
+  }
+
+  public function edit($id){
+    $data['get_id']= $this->Mcabang_model->getWhere($id);
+    echo json_encode($data);
+  }
+
+  public function updatepost(){
+    if ($this->input->is_ajax_request()) {
+      $id = $this->input->post('eid');
+      $data = [
+        'id_karyawan'     => $this->input->post('ekacab'),
+        'nama_toko'   => $this->input->post('ecab'),
+        'provinsi'    => $this->input->post('eprov'),
+        'kabupaten'   => $this->input->post('ekot'),
+        'kecamatan'   => $this->input->post('ekec'),
+        'kode_pos'    => $this->input->post('ekode'),
+        'alamat'      => $this->input->post('ealamat'),
+        'jenis_toko'  => $this->input->post('ejenis'),
+        'status'      => $this->input->post('estatus'),
+      ];
+      
+      $this->Mcabang_model->update($id, $data);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('master-cabang');
+    }
+  }
+
+  public function deletepost($id) {
+    $result = $this->Mcabang_model->delete($id);
+    echo json_encode($result);
   }
 
   public function jsoncab(){

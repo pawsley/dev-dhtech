@@ -17,18 +17,13 @@ class Mdiskon_model extends CI_Model {
 
   public function delete($id)
   {
-    return $this->db->delete('tb_diskon', array("kode_diskon" => $id));
+    $success = $this->db->delete('tb_diskon', array("kode_diskon" => $id));
+    $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
+    return array('success' => $success, 'message' => $message);
   }
 
-  public function update($kode, $tipe, $nilai, $kuota, $total)
+  public function update($idp, $data)
   {
-    $data = [
-      'kode_diskon' => $kode,
-      'tipe' => $tipe,
-      'nilai' => $nilai,
-      'kuota'=> $kuota,
-      'total_diskon'=> $total
-    ];
     $this->db->where('kode_diskon', $idp);
     $this->db->update('tb_diskon', $data);
   }

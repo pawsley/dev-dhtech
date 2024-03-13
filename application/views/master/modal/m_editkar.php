@@ -1,19 +1,19 @@
             <!-- Modal Tambah Posisi Baru -->
-            <div class="modal fade" id="TambahJabatanBaru" tabindex="-1" role="dialog" aria-labelledby="TambahMasterJabatanModal" aria-hidden="true">
+            <div class="modal fade" id="TambahJabatanBaru" tabindex="-1" role="dialog" aria-labelledby="TambahJabatanBaru" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content dark-sign-up">
                   <div class="modal-body social-profile text-start">
                     <div class="modal-toggle-wrapper">
-                      <h3>Tambah Role Baru</h3>
+                      <h3>Tambah Jabatan Baru</h3>
                       <form class="row g-3">
                         <!-- Role Baru -->
                         <div class="col-md-12 position-relative">
-                            <label class="form-label" for="FormRoleKaryawan">Role Karyawan</label>
-                            <input class="form-control" id="role3" type="text" placeholder="Input Role Karyawan">
+                            <label class="form-label" for="FormJabatanKaryawan">Jabatan Karyawan</label>
+                            <input class="form-control" id="jabkar" name="jabkar" type="text" placeholder="Input Jabatan Karyawan">
                         </div>
                         <!-- Button Simpan -->
                         <div class="col-12">
-                          <button class="btn btn-primary" type="submit" data-bs-dismiss="modal">Simpan Perubahan</button>
+                          <button class="btn btn-primary" type="button" id="tambahjab">Simpan Perubahan</button>
                         </div>
                       </form>
                     </div>
@@ -32,11 +32,11 @@
                           <!-- Role Baru -->
                           <div class="col-md-12 position-relative">
                               <label class="form-label" for="FormRoleKaryawan">Role Karyawan</label>
-                              <input class="form-control" id="role4" type="text" placeholder="Input Role Karyawan">
+                              <input class="form-control" id="rolekar" name="rolekar" type="text" placeholder="Input Role Karyawan">
                           </div>
                           <!-- Button Simpan -->
                           <div class="col-12">
-                            <button class="btn btn-primary" type="submit" data-bs-dismiss="modal">Simpan Perubahan</button>
+                            <button class="btn btn-primary" type="button" id="tambahrole">Simpan Perubahan</button>
                           </div>
                         </form>
                       </div>
@@ -93,28 +93,19 @@
                         <!-- Provinsi -->
                         <div class="col-md-6 position-relative">
                           <label class="form-label" for="FormProvinsi">Provinsi </label>
-                          <!-- <select class="form-select" id="e_province" name="e_prov" required="">
-                            <option value='0' disabled selected>Pilih Provinsi ...</option>
-                          </select> -->
                           <input class="form-control" id="ex_prov" name="ex_prov" type="text"required="">
                         </div>
                         <!-- Kabupaten / Kota -->
                         <div class="col-md-6 position-relative">
                           <label class="form-label" for="FormKotaKab">Kota / Kabupaten</label>
-                          <!-- <select class="form-select" id="e_kabupaten" name="e_kab" required="">
-                              <option selected="" disabled="" value="">Pilih Kota / Kab ...</option>
-                          </select> -->
                           <input class="form-control" id="ex_kab" name="ex_kab" type="text"required="">
                         </div>
                         <!-- Kecamatan -->
                         <div class="col-md-6 position-relative">
                           <label class="form-label" for="FormKecamatan">Kecamatan</label>
-                          <!-- <select class="form-select" id="e_kecamatan" name="e_kec" required="">
-                              <option selected="" disabled="" value="Kedung Asri">Pilih Kecamatan ...</option>
-                          </select> -->
                           <input class="form-control" id="ex_kec" name="ex_kec" type="text" required="">
                         </div>
-                        <!-- Kelurahaan -->
+                        <!-- Kode Pos -->
                         <div class="col-md-6 position-relative">
                             <label class="form-label" for="FormKodePos">Kode Pos </label>
                             <input class="form-control" id="e_kode" name="e_kode" type="number" placeholder="contoh: 60293">
@@ -134,9 +125,12 @@
                         </div>
                         <!-- Upload CV -->
                         <div class="col-md-6 position-relative"> 
-                            <input class="form-control" type="hidden" id="filecv_filename" name="filecv_filename" readonly>
+                            <input class="form-control" type="hidden" id="oldfile" name="oldfile" readonly>
                             <label class="form-label" for="formFile">Upload Curiculum Vitae</label>
                             <input class="form-control" id="e_filecv" name="e_filecv" type="file" accept=".pdf">
+                            <a id="filecv_filename" href="#" target="_blank">
+                              <span id="filecv"></span>
+                            </a>
                           <div class="valid-tooltip">Max ukuran 10Mb</div>
                         </div>
                         <!-- Pilih Posisi -->
@@ -144,10 +138,6 @@
                           <label class="form-label" for="FormJabatanKaryawan">Jabatan Karyawan</label>
                           <select class="form-select" id="e_jabatan" name="e_jabatan" required="">
                             <option selected="" disabled="">Pilih Jabatan Karyawan ...</option>
-                            <option value="KEPALA CABANG">KEPALA CABANG</option>
-                            <option value="KARYAWAN TETAP">KARYAWAN TETAP</option>
-                            <option value="KARYAWAN KONTRAK">KARYAWAN KONTRAK</option>
-                            <option value="MAGANG LEPAS">MAGANG LEPAS</option>
                           </select>
                         </div>
                         <!-- Pilih Role -->
@@ -155,9 +145,6 @@
                           <label class="form-label" for="FormRoleKaryawan">Role Karyawan</label>
                           <select class="form-select" id="e_role" name="e_role" required="">
                             <option selected="" disabled="">Pilih Role Karyawan ...</option>
-                            <option value="AKUNTAN">AKUNTAN</option>
-                            <option value="KASIR & SALES">KASIR & SALES</option>
-                            <option value="DIGITAL MARKETING">DIGITAL MARKETING</option>
                           </select>
                         </div>
                         <!-- Masukkan Gaji Karyawan -->
@@ -178,7 +165,7 @@
                         </div>
                         <!-- Button Simpan -->
                         <div class="col-12">
-                          <button class="btn btn-primary" type="submit" data-bs-dismiss="modal">Simpan Perubahan</button>
+                          <button class="btn btn-primary" type="button" id="update" data-bs-dismiss="modal">Simpan Perubahan</button>
                         </div>
                       </form>
                     </div>

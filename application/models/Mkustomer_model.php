@@ -27,18 +27,13 @@ class Mkustomer_model extends CI_Model {
 
   public function delete($id)
   {
-    return $this->db->delete('tb_pelanggan', array("id_plg" => $id));
+    $success = $this->db->delete('tb_pelanggan', array("id_plg" => $id));
+    $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
+    return array('success' => $success, 'message' => $message);
   }
 
-  public function update($idp, $np, $wa, $email, $alamat)
+  public function update($idp, $data)
   {
-    $data = [
-      'id_plg' => $idp,
-      'nama_plg' => $np,
-      'no_ponsel' => $wa,
-      'email'=> $email,
-      'alamat'=> $alamat
-    ];
     $this->db->where('id_plg', $idp);
     $this->db->update('tb_pelanggan', $data);
   }

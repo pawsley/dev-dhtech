@@ -32,6 +32,7 @@ class MasterKustomer extends CI_Controller
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/additional-js/mkustomer.js') . '"></script>
+    <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/datatable.custom.js') . '"></script>
@@ -50,7 +51,30 @@ class MasterKustomer extends CI_Controller
 
     redirect('master-kustomer');
   }
-
+  public function edit($id){
+    $data['get_id']= $this->Mkustomer_model->getWhere($id);
+    echo json_encode($data);
+  }
+  public function updatepost(){
+    if ($this->input->is_ajax_request()) {
+      $id = $this->input->post('eid');
+      $data = [
+        'nama_plg'     => $this->input->post('enama'),
+        'no_ponsel'   => $this->input->post('ekontak'),
+        'email'    => $this->input->post('emailkus'),
+        'alamat'   => $this->input->post('ealamat'),
+      ];
+      
+      $this->Mkustomer_model->update($id, $data);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('master-kustomer');
+    }
+  }
+  public function deletepost($id) {
+    $result = $this->Mkustomer_model->delete($id);
+    echo json_encode($result);
+  }  
   public function jsonkus(){
     $this->load->library('datatables');
     $this->datatables->select('id_plg,nama_plg,no_ponsel,email,alamat');
