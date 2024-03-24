@@ -20,7 +20,7 @@
                                   <div class="col-md-4 position-relative"> 
                                       <label class="form-label" for="no_rek">Nomor Rekening</label>
                                       <input class="form-control" id="e_no_rek" name="e_no_rek" type="number" aria-label="no_rek" required>
-                                      <input class="form-control" id="h_no_rek" name="h_no_rek" type="number" aria-label="no_rek" required>
+                                      <input class="form-control" id="h_no_rek" name="h_no_rek" type="hidden" aria-label="no_rek" required>
                                   </div>
                                   <!-- Nama Rekening -->
                                   <div class="col-md-4 position-relative"> 

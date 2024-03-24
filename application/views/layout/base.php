@@ -213,22 +213,60 @@
                       </svg><span>Order Masuk</span></a>
                   </li>
                   <!-- Finnance -->
-                  <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
-                      <a class="sidebar-link sidebar-title" href="#">
-                          <svg class="stroke-icon">
-                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-table"></use>
-                          </svg>
-                          <svg class="fill-icon">
-                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-table"></use>
-                          </svg><span>Akuntansi</span>
-                      </a>
-                      <ul class="sidebar-submenu">
-                          <li><a href="#">Sub Menu</a></li>
-                          <li><a href="#">Sub Menu</a></li>
-                          <li><a href="#">Sub Menu</a></li>
-                          <li><a href="#">Sub Menu</a></li>
-                          <li><a href="#">Sub Menu</a></li>
-                      </ul>
+                  <li class="sidebar-list finance"><i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title" href="#">
+                        <svg class="stroke-icon">
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-table"></use>
+                        </svg>
+                        <svg class="fill-icon">
+                        <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-table"></use>
+                        </svg><span>Akuntansi</span>
+                    </a>
+                    <ul class="sidebar-submenu">
+                      <li><a href="boardneraca.html">Board Neraca</a></li>
+                      <!-- Karyawan -->
+                      <li><a class="submenu-title" href="#">Karyawan<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
+                          <ul class="nav-sub-childmenu submenu-content">
+                              <li><a href="datadendakaryawan.html">Data Denda</a></li>
+                              <li><a href="dataliburcutikaryawan.html">Data Cuti & Libur</a></li>
+                              <li><a href="datainsentive.html">Data Insentive</a></li>
+                              <li><a href="pembayarangpi.html">Pembayaran GPI</a></li>
+                          </ul>
+                      </li>
+                      <!-- Neraca Besar -->
+                      <li><a class="submenu-title" href="#">Neraca Besar<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
+                          <ul class="nav-sub-childmenu submenu-content">
+                              <li><a href="">Neraca Perusahaan</a></li>
+                              <li><a href="">Kas Modal</a></li>
+                              <li><a href="">Kas Masuk</a></li>
+                              <li><a href="">Kas Keluar</a></li>
+                              <li><a href="">Operasional</a></li>
+                          </ul>
+                      </li>
+                      <!-- Neraca Kecil -->
+                      <li><a class="submenu-title" href="#">Neraca Kecil<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
+                          <ul class="nav-sub-childmenu submenu-content">
+                              <li><a href="neracatoko.html">Neraca Toko</a></li>
+                              <li><a href="datatradein.html">Data Trade In</a></li>
+                              <li><a href="datapenjualan.html">Data Penjualan</a></li>
+                              <li><a href="dpcustomer.html">DP Customer</a></li>
+                              <li><a href="kasmodalkecil.html">Kas Modal</a></li>
+                              <li><a href="kasmasuk.html">Kas Masuk</a></li>
+                              <li><a href="kaskeluar.html">Kas Keluar</a></li>
+                              <li><a href="operasional.html">Operasional</a></li>
+                              <li><a href="laporantransaksi.html">Laporan Transaksi</a></li>
+                          </ul>
+                      </li>
+                      <!-- Supplier -->
+                      <li><a class="submenu-title fnc" href="#">Suppliers<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
+                          <ul class="nav-sub-childmenu submenu-content">
+                            <li class="dps"><a class="dps" href="<?=base_url()?>finance-supplier/dp-supplier">DP Supplier</a></li>
+                            <li class="cbs"><a class="cbs" href="cashbacksupplier.html">Casback Supplier</a></li>
+                            <li class="pbs"><a class="pbs" href="pembayaransupplier.html">Pembayaran Supplier</a></li>
+                            <li class="trs"><a class="trs" href="suppliertransaksi.html">Riwayat Transaksi</a></li>
+                          </ul>
+                      </li>
+                    </ul>
                   </li>
                   <!-- Menu Karyawan -->
                   <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
@@ -301,7 +339,7 @@
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-12 footer-copyright text-center">
-                <p class="mb-0">Copyright 2023 © touch by AKIRA DIGITAL CREATIVE | akira.id</p>
+                <p class="mb-0">Copyright <span class="copyright-year"></span> © touch by AKIRA DIGITAL CREATIVE | akira.id</p>
               </div>
             </div>
           </div>
@@ -333,8 +371,10 @@
     <script src="<?=base_url()?>assets/js/script.js"></script>
     <script>
         $(document).ready(function () {
+            var currentYear = new Date().getFullYear();
             var segment1 = "<?php echo $this->uri->segment(1); ?>";
             var segment2 = "<?php echo $this->uri->segment(2); ?>";
+            $(".copyright-year").text(currentYear);
 
             $(".dash, .gen, .fin, .prd").removeClass("active");
                 
@@ -418,6 +458,21 @@
                 $(".sidebar-list.inven").addClass('active');
                 $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
+            }else if (segment1 == "etalase-toko"){
+              $(".sales").addClass("active");
+              $(".seta").addClass("active");
+              $(".sidebar-list.sales").addClass('active');
+              $(".sidebar-list.sales .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+              $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
+            }else if (segment1 == "finance-supplier" && segment2 == "dp-supplier"){
+                $(".finance").addClass("active");
+                $(".dps").addClass("active");
+                $(".sidebar-list.finance").addClass('active');
+                $(".sidebar-list.finance .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.finance ul.sidebar-submenu").slideDown('normal');
+                $(".submenu-title.fnc").addClass('active'); 
+                $(".submenu-title.fnc").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".submenu-title.fnc + .submenu-content").slideDown('normal');
             }
         });
     </script>    
