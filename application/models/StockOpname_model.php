@@ -62,14 +62,13 @@ class StockOpname_model extends CI_Model {
   public function getLastKode() {
     $this->db->select('kode_opname');
     $this->db->from('tb_opname');
-    $this->db->where('status','1');
     $this->db->order_by('kode_opname', 'desc');
     $this->db->limit(1);
     $query = $this->db->get();
     return $query->result_array();
   }
   public function getWhere($id){   
-    $query = $this->db->group_by('kode_opname')->get_where('vopname', array('kode_opname' => $id));
+    $query = $this->db->group_by('kode_opname')->get_where('vopname', array('id_opname' => $id));
     return $query->result_array();
   }
   public function create($data){
@@ -82,6 +81,13 @@ class StockOpname_model extends CI_Model {
     $this->db->where('status','1');
     $this->db->update('tb_opname', $data);
   }
+  public function delete($id){
+    $success_opname = $this->db->delete('tb_opname', array("id_opname" => $id));
+    $success_detail = $this->db->delete('tb_opname_detail', array("id_opname" => $id));
+    $success = $success_opname && $success_detail;
+    $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
+    return array('success' => $success, 'message' => $message);
+  }  
 }
 
 /* End of file StockOpname_model.php */

@@ -178,61 +178,28 @@
                               <h3>Detail Stockopname</h3>
                               <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="display" id="basic-2">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID PRODUK</th>
-                                                    <th>ID SUPPLIER</th>
-                                                    <th>SN PRODUK</th>
-                                                    <th>NAMA PRODUK</th>
-                                                    <th>MEREK PRODUK</th>
-                                                    <th>JENIS PRODUK</th>
-                                                    <th>PENYIMPANAN</th>
-                                                    <th>VARIANT WARNA</th>
-                                                    <th>KONDISI PRODUK</th>
-                                                    <th>BARCODE</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                            </table>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <ul class="list-group">
-                                <!-- ID OPNAME -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>ID OPNAME</span>
-                                    <strong>#OPNM-0010001</strong>
-                                </li>
-                                <!-- Nama Auditor -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>NAMA AUDITOR</span>
-                                    <strong>FIGO VIO HIDAYAT</strong>
-                                </li>
-                                <!-- NAMA CABANG -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>DETAIL CABANG</span>
-                                    <strong>DHC-0002 | DH STORE PTC</strong>
-                                </li>
-                                <!-- TANGGAL & WAKTU -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>TANGGAL & WAKTU</span>
-                                    <strong>23/01/2024 18:39 WIB</strong>
-                                </li>
-                                <!-- TOTAL PRODUK -->
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span>TOTAL PRODUK</span>
-                                    <strong>786</strong>
-                                </li>
-                            </ul>
+                          <div class="row">
+                              <div class="col-lg-12">
+                                  <div class="card">
+                                      <div class="card-body">
+                                      <div class="table-responsive">
+                                          <table class="display" id="table-do">
+                                          <thead>
+                                              <tr>
+                                                  <th>SN PRODUK</th>
+                                                  <th>NAMA PRODUK</th>
+                                                  <th>MEREK PRODUK</th>
+                                                  <th>JENIS PRODUK</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                          </tbody>
+                                          </table>
+                                      </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
                         </div>
                       </div>
                     </div>

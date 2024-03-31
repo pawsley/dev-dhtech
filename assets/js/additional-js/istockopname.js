@@ -4,6 +4,7 @@ var formatter = new Intl.NumberFormat('id-ID', {
     minimumFractionDigits: 0
 });
 var tableRO;
+var tableDO;
 
 $(document).ready(function () {
     getCountPM();
@@ -14,6 +15,7 @@ $(document).ready(function () {
     card(formatter);
     reload();
     exportexcel();
+    detailopname();
 });
 //count produk in and out
 function cardgd() {
@@ -125,7 +127,7 @@ function tablero() {
                     return `<span class="badge badge-primary">${data}</span>`;
                 }
             },            
-            { "data": "kode_opname",
+            { "data": "id_opname",
                 "orderable": false,
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
@@ -195,6 +197,67 @@ function exportexcel() {
     $('#table-ro').on('click', '#export', function() {
         var kode = $(this).data('kode');
         window.location.href = base_url + 'StockOpname/exportexcel/' + kode;
+    });
+}
+function tabledo(id) {
+    if ($.fn.DataTable.isDataTable('#table-do')) {
+        tableDO.destroy();
+    }
+    tableDO = $("#table-do").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [
+            [0, 'asc'] // Urutkan kolom pertama (indeks 0) secara ascending (asc)
+        ],
+        "ajax": {
+            "url": base_url + 'stock-opname/detail-opname/'+id,
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },
+            { "data": "merk" },
+            { "data": "jenis" },       
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'col-sm-12 col-md-2'B>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
+            "buttons": [
+                {
+                    "text": 'Refresh', // Font Awesome icon for refresh
+                    "className": 'custom-refresh-button', // Add a class name for identification
+                    "attr": {
+                        "id": "refresh-button" // Set the ID attribute
+                    },
+                    "init": function (api, node, config) {
+                        $(node).removeClass('btn-default');
+                        $(node).addClass('btn-primary');
+                        $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                    },
+                    "action": function () {
+                        tableDO.ajax.reload();
+                    }
+                },
+                {
+                    extend: 'excelHtml5', // Specify the Excel button
+                    text: 'Export', // Text for the button
+                    className: 'btn btn-success', // Add a class for styling
+                    title: 'Detail Stock Opname',
+                }
+            ]
+            
+    });
+    return tableDO;
+}
+function detailopname() {
+    $('#DetailStockopname').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        var id = button.data('id');
+        tabledo(id);
     });
 }
 // table riwayat

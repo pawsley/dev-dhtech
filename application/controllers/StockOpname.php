@@ -17,14 +17,11 @@ class StockOpname extends CI_Controller
 
   function generateid(){
     $data['lastID'] = $this->StockOpname_model->getLastKode();
-    if (!empty($data['lastID'])) {
-      $numericPart = isset($data['lastID'][0]['kode_opname']) ? preg_replace('/[^0-9]/', '', $data['lastID'][0]['kode_opname']) : '';
-      $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
-      $data['newID'] = 'OPNM-' . $incrementedNumericPart;
-    }else {
-      $data['newID'] = 'OPNM-0001';
-    }
-    return $data;
+    $numericPart = isset($data['lastID'][0]['kode_opname']) ? preg_replace('/[^0-9]/', '', $data['lastID'][0]['kode_opname']) : '';
+    $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
+    $data['newID'] = 'OPNM-' . $incrementedNumericPart;
+    $data['defID'] = 'OPNM-0001';
+    $this->output->set_content_type('application/json')->set_output(json_encode($data));
   }
 
   public function index()
@@ -137,13 +134,20 @@ class StockOpname extends CI_Controller
     header('Cache-Control: max-age=0');
 
     $writer->save('php://output');
-  }  
+  } 
+  public function loaddetail($id_opname) {
+    $this->load->library('datatables');
+    $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis');
+    $this->datatables->from('vopname_dtl');
+    $this->datatables->where('id_opname',$id_opname);
+    return print_r($this->datatables->generate());
+  }     
 
   // function for opnm_new
   public function addstockopname()
   {
-    $data = $this->generateid();
-    $data['content'] = $this->load->view('inventaris/opnamebaru', $data, true);
+    // $data = $this->generateid();
+    $data['content'] = $this->load->view('inventaris/opnamebaru', '', true);
     $data['modal'] = '';
     $data['css'] = '
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/datatables.css') . '">
@@ -247,10 +251,9 @@ class StockOpname extends CI_Controller
   public function loadproduklist($id_toko,$tgl) {
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis');
-    $this->datatables->from('vopname_dtl');
-    $this->datatables->where_in('status',[2,4]);
+    $this->datatables->from('vprdop');
     $this->datatables->where('id_toko',$id_toko);
-    $this->datatables->where("DATE_FORMAT(tgl_opname, '%Y-%m-%d') <> '".$tgl."'");
+    $this->datatables->where("DATE_FORMAT(tgl_opname, '%Y-%m-%d') = '".$tgl."'");
     return print_r($this->datatables->generate());
   }  
   public function getbarang($id){
@@ -267,6 +270,10 @@ class StockOpname extends CI_Controller
     } else {
       redirect('stock-opname');
     }
+  }
+  public function deletepost($id){
+    $result = $this->StockOpname_model->delete($id);
+    echo json_encode($result);
   }
 }
 

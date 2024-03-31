@@ -2,6 +2,7 @@ var tableOL;
 var tablePR;
 
 $(document).ready(function () {
+    generateid();
     getSelect();
     setInterval(updateDateTime, 1000);
     addauditor();
@@ -14,7 +15,29 @@ $(document).ready(function () {
     $('#simpanopnm').click(function() {
         simpanop();
     });
+    deleteop();
 });
+
+function generateid() {
+    $.ajax({
+        url: base_url+'StockOpname/generateid', 
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            var def = response.defID;
+            var opnameid = response.newID;
+
+            if (opnameid != def){
+                $('#idstockopname').val(opnameid);
+            }else{
+                $('#idstockopname').val(def);
+            }
+        },
+        error: function(xhr, status, error) {
+          console.error('Error fetching id data:', error);
+        }
+    });
+}
 
 function tableol() {
     if ($.fn.DataTable.isDataTable('#table-ol')) {
@@ -26,7 +49,9 @@ function tableol() {
             "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
         },
         "serverSide": true,
-        "order": [],
+        "order": [
+            [0, 'asc']
+        ],
         "ajax": {
             "url": base_url + 'stock-opname/opname-list/',
             "type": "POST"
@@ -42,7 +67,7 @@ function tableol() {
             { "data": "nama_lengkap" },
             { "data": "nama_toko" },
             {
-                "data": "kode_opname",
+                "data": "id_opname",
                 "orderable": false,
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
@@ -50,7 +75,7 @@ function tableol() {
                                 <ul class="action">
                                     <div class="btn-group">
                                         <button class="btn btn-success" data-id="${data}" data-bs-toggle="modal" data-bs-target="#CariBarang"><i class="fa fa-plus"></i></button>
-                                        <button class="btn btn-secondary" data-id="${data}"><i class="fa fa-trash-o"></i></button>
+                                        <button class="btn btn-secondary" id="delete-btn" data-id="${data}"><i class="fa fa-trash-o"></i></button>
                                     </div>
                                 </ul>
                             `;
@@ -242,9 +267,10 @@ function addauditor() {
                         $("#cabang").val('0').trigger('change.select2');
                         $("#auditor").val('0').trigger('change.select2');
                         reload();
+                        generateid();
                     });
                 } else if(response.status === 'exists') {
-                    swal("Warning", "Barang sudah diinputkan", "warning").then(() => {
+                    swal("Warning", "Opname sudah diinputkan", "warning").then(() => {
                         // $("#prodbaru").val($("#prodbaru").find('option').last().val()).trigger('change.select2');
                     });
                 }
@@ -362,7 +388,8 @@ function simpanop() {
         success: function(response) {
             if (response.status === 'success') {
                 swal("success", "List opname berhasil disetujui", "success").then(() => {
-                    reload()
+                    reload();
+                    generateid();
                 });
             }
         },
@@ -371,5 +398,52 @@ function simpanop() {
                 icon: "error",
             });
         }
+    });
+}
+function deleteop() {
+    $('#table-ol').on('click', '#delete-btn', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        swal({
+            title: 'Apa anda yakin?',
+            text: 'Data yang sudah terhapus hilang permanen!',
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Cancel',
+                    value: null,
+                    visible: true,
+                    className: 'btn-secondary',
+                    closeModal: true,
+                },
+                confirm: {
+                    text: 'Delete',
+                    value: true,
+                    visible: true,
+                    className: 'btn-danger',
+                    closeModal: true
+                }
+            }
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'stock-opname/hapus/' + id,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            swal('Deleted!', response.message, 'success');
+                            reload();
+                            generateid();
+                        } else {
+                            swal('Error!', response.message, 'error');
+                        }
+                    },
+                    error: function (error) {
+                        swal('Error!', 'An error occurred while processing the request.', 'error');
+                    }
+                });
+            }
+        });        
     });
 }

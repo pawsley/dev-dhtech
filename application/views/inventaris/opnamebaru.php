@@ -37,7 +37,7 @@
                                 <!-- ID StockOpname -->
                                 <div class="col-6"> 
                                     <label class="form-label" for="idstockopname">ID STOCK OPNAME</label>
-                                    <input class="form-control" id="idstockopname" name="idstockopname" type="text" value="<?= $newID ?>" placeholder="TERISI OTOMATIS" aria-label="idproduk" readonly>
+                                    <input class="form-control" id="idstockopname" name="idstockopname" type="text" placeholder="TERISI OTOMATIS" aria-label="idproduk" readonly>
                                 </div>
                                 <!-- Tanggal Catatan -->
                                 <div class="col-6"> 
@@ -48,14 +48,14 @@
                                 <div class="col-6"> 
                                     <label class="form-label" for="pilihcabang">CABANG</label>
                                     <select class="form-select" id="cabang" name="cabang" required="">
-                                        <option selected="" disabled="" value="">Pilih Cabang</option>
+                                        <option selected="" disabled="" value="0">Pilih Cabang</option>
                                     </select>
                                 </div>
                                 <!-- Pilih Auditor -->
                                 <div class="col-6"> 
                                     <label class="form-label" for="pilihauditor">AUDITOR</label>
                                     <select class="form-select" id="auditor" name="auditor" required="">
-                                        <option selected="" disabled="" value="">Pilih Auditor</option>
+                                        <option selected="" disabled="" value="0">Pilih Auditor</option>
                                     </select>
                                 </div>
                                 <!-- Submit -->
