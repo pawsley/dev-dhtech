@@ -149,3 +149,4 @@ $route['etalase-toko'] = 'PenEtalase';
 $route['etalase-toko/produk-list'] = 'PenEtalase/loadproduk';
 $route['etalase-toko/update-data']='PenEtalase/updatepost';
 $route['etalase-toko/filter-supp/(:any)']='PenEtalase/filtersupp/$1';
+$route['order-masuk'] = 'PenOrderIn';

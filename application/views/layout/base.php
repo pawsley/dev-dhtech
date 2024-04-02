@@ -203,8 +203,8 @@
                     </div>
                   </li>
                   <!-- Menu Order Masuk -->
-                  <li class="sidebar-list">
-                      <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav" href="<?=base_url()?>">
+                  <li class="sidebar-list order">
+                      <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav order" href="<?=base_url()?>order-masuk/">
                       <svg class="stroke-icon">
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-social"></use>
                       </svg>
@@ -213,7 +213,7 @@
                       </svg><span>Order Masuk</span></a>
                   </li>
                   <!-- Finnance -->
-                  <li class="sidebar-list finance"><i class="fa fa-thumb-tack"></i>
+                  <!-- <li class="sidebar-list finance"><i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title" href="#">
                         <svg class="stroke-icon">
                         <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-table"></use>
@@ -224,7 +224,6 @@
                     </a>
                     <ul class="sidebar-submenu">
                       <li><a href="boardneraca.html">Board Neraca</a></li>
-                      <!-- Karyawan -->
                       <li><a class="submenu-title" href="#">Karyawan<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
                           <ul class="nav-sub-childmenu submenu-content">
                               <li><a href="datadendakaryawan.html">Data Denda</a></li>
@@ -233,7 +232,6 @@
                               <li><a href="pembayarangpi.html">Pembayaran GPI</a></li>
                           </ul>
                       </li>
-                      <!-- Neraca Besar -->
                       <li><a class="submenu-title" href="#">Neraca Besar<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
                           <ul class="nav-sub-childmenu submenu-content">
                               <li><a href="">Neraca Perusahaan</a></li>
@@ -243,7 +241,6 @@
                               <li><a href="">Operasional</a></li>
                           </ul>
                       </li>
-                      <!-- Neraca Kecil -->
                       <li><a class="submenu-title" href="#">Neraca Kecil<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
                           <ul class="nav-sub-childmenu submenu-content">
                               <li><a href="neracatoko.html">Neraca Toko</a></li>
@@ -257,19 +254,18 @@
                               <li><a href="laporantransaksi.html">Laporan Transaksi</a></li>
                           </ul>
                       </li>
-                      <!-- Supplier -->
                       <li><a class="submenu-title fnc" href="#">Suppliers<span class="sub-arrow"><i class="fa fa-angle-right"></i></span></a>
                           <ul class="nav-sub-childmenu submenu-content">
                             <li class="dps"><a class="dps" href="<?=base_url()?>finance-supplier/dp-supplier">DP Supplier</a></li>
-                            <li class="cbs"><a class="cbs" href="cashbacksupplier.html">Casback Supplier</a></li>
+                            <li class="cbs"><a class="cbs" href="<?=base_url()?>finance-supplier/cashback-supplier">Casback Supplier</a></li>
                             <li class="pbs"><a class="pbs" href="pembayaransupplier.html">Pembayaran Supplier</a></li>
                             <li class="trs"><a class="trs" href="suppliertransaksi.html">Riwayat Transaksi</a></li>
                           </ul>
                       </li>
                     </ul>
-                  </li>
+                  </li> -->
                   <!-- Menu Karyawan -->
-                  <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
+                  <!-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title" href="#">
                         <svg class="stroke-icon">
                         <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-user"></use>
@@ -283,7 +279,7 @@
                         <li><a href="/karyawan/datakaryawan.html">Data Karyawan</a></li>
                         <li><a href="/karyawan/presensikaryawan.html">Presensi Karyawan</a></li>
                     </ul>
-                  </li>
+                  </li> -->
                   <!-- Menu Inventori -->
                   <li class="sidebar-list inven"><i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title inven" href="#">
@@ -459,14 +455,25 @@
                 $(".sidebar-list.inven .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".sidebar-list.inven ul.sidebar-submenu").slideDown('normal');   
             }else if (segment1 == "etalase-toko"){
-              $(".sales").addClass("active");
-              $(".seta").addClass("active");
-              $(".sidebar-list.sales").addClass('active');
-              $(".sidebar-list.sales .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
-              $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
+                $(".sales").addClass("active");
+                $(".seta").addClass("active");
+                $(".sidebar-list.sales").addClass('active');
+                $(".sidebar-list.sales .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
+            }else if (segment1 == "order-masuk"){
+                $(".order").addClass("active");
             }else if (segment1 == "finance-supplier" && segment2 == "dp-supplier"){
                 $(".finance").addClass("active");
                 $(".dps").addClass("active");
+                $(".sidebar-list.finance").addClass('active');
+                $(".sidebar-list.finance .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.finance ul.sidebar-submenu").slideDown('normal');
+                $(".submenu-title.fnc").addClass('active'); 
+                $(".submenu-title.fnc").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".submenu-title.fnc + .submenu-content").slideDown('normal');
+            }else if (segment1 == "finance-supplier" && segment2 == "cashback-supplier"){
+                $(".finance").addClass("active");
+                $(".cbs").addClass("active");
                 $(".sidebar-list.finance").addClass('active');
                 $(".sidebar-list.finance .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".sidebar-list.finance ul.sidebar-submenu").slideDown('normal');
