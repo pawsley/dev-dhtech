@@ -67,6 +67,7 @@ $route['master-cabang/edit/(:any)']='MasterCabang/edit/$1';
 $route['master-cabang/update-data']='MasterCabang/updatepost';
 $route['master-cabang/hapus/(:any)'] = 'MasterCabang/deletepost/$1';
 $route['master-kustomer']='MasterKustomer';
+$route['data-kustomer']='MasterKustomer/datacustomer';
 $route['master-kustomer/simpan-data']='MasterKustomer/createpost';
 $route['master-kustomer/jsonkus']='MasterKustomer/jsonkus';
 $route['master-kustomer/edit/(:any)']='MasterKustomer/edit/$1';

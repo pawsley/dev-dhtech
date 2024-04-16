@@ -81,6 +81,33 @@ class MasterKustomer extends CI_Controller
     $this->datatables->from('tb_pelanggan');
     return print_r($this->datatables->generate());
   }
+  public function datacustomer(){
+    $data['content'] = $this->load->view('kasir/datacustomer', '', true);
+    $data['modal'] = '';
+    $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">';
+    $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
+    <script src="' . base_url('assets/js/additional-js/pdatacust.js') . '"></script>
+    <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.colVis.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/vfs_fonts.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.select.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/buttons.html5.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.responsive.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
+    <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
+    ';
+    $this->load->view('layout/base', $data);  
+  }  
 
 }
 

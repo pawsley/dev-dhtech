@@ -311,7 +311,7 @@
                       </a>
                       <ul class="sidebar-submenu">
                           <!-- <li class="sdas"><a class="sdas" href="<?=base_url()?>">Dashboard Penjualan</a></li> -->
-                          <li class="scst"><a class="scst" href="<?=base_url()?>">Data Customer</a></li>
+                          <li class="scst"><a class="scst" href="<?=base_url()?>data-kustomer/">Data Kustomer</a></li>
                           <li class="sprd"><a class="sprd" href="<?=base_url()?>">Produk List</a></li>
                           <li class="seta"><a class="seta" href="<?=base_url()?>etalase-toko/">Etalase Toko</a></li>
                           <li class="slap"><a class="slap" href="<?=base_url()?>">Laporan Sales</a></li>
@@ -457,6 +457,12 @@
             }else if (segment1 == "etalase-toko"){
                 $(".sales").addClass("active");
                 $(".seta").addClass("active");
+                $(".sidebar-list.sales").addClass('active');
+                $(".sidebar-list.sales .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
+            }else if (segment1 == "data-kustomer"){
+                $(".sales").addClass("active");
+                $(".scst").addClass("active");
                 $(".sidebar-list.sales").addClass('active');
                 $(".sidebar-list.sales .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
