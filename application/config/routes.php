@@ -158,3 +158,6 @@ $route['order-masuk/hrgj/(:any)']='PenOrderIn/datacountHJ/$1';
 $route['order-masuk/approve']='PenOrderIn/approve';
 $route['order-masuk/cancel']='PenOrderIn/cancel';
 $route['order-masuk/detail-invoice/(:any)'] = 'PenOrderIn/detialinv/$1';
+$route['riwayat-penjualan'] = 'PenRiwayat';
+$route['riwayat-penjualan/laporan-penjualan'] = 'PenRiwayat/laporansales';
+$route['riwayat-penjualan/laporan-detail-penjualan/(:any)'] = 'PenRiwayat/detailsales/$1';

@@ -40,7 +40,10 @@ function tableom() {
         "ajax": ajaxConfig,
         "columns": [
             { "data": "kode_penjualan" },
-            { "data": "format_tgl" },
+            { 
+                "data": "format_tgl",
+                "searchable": false
+            },
             { "data": "nama_toko" },             
             { "data": "cara_bayar" },
             { "data": "nama_rek" },

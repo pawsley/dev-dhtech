@@ -20,13 +20,14 @@ function tablebk() {
                 "sortable": false,
                 "render": function (data, type, row, meta) {
                     return meta.row + meta.settings._iDisplayStart + 1;
-                }
+                },
+                "searchable": false
             },            
             {
                 "data": "nama_toko",
                 "render": function (data, type, row, meta) {
                     return '<select class="select2" id="cab" value="'+row.id_toko+'" data-id_toko="'+row.id_toko+'" data-id_keluar="' + row.id_keluar + '" data-current-value="' + data + '" data-cab="' + row.id_toko + '"></select>';
-                }
+                },
             },            
             { "data": "sn_brg" },
             { "data": "nama_brg" },
