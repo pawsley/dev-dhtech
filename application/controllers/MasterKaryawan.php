@@ -148,12 +148,12 @@ class MasterKaryawan extends CI_Controller
             $error = $this->upload->display_errors();
             echo "Upload failed: $error";
         }
+        $this->Mkaryawan_model->create($id,$nl,$tl,$jk,$email,$password,$prov,$kab,$kec,$kode,$alamat,$wa,$cv,$jabatan,$role,$gaji);
+        redirect('master-karyawan');
     } else {
-        echo "No file selected for upload.";
+      $this->Mkaryawan_model->create($id,$nl,$tl,$jk,$email,$password,$prov,$kab,$kec,$kode,$alamat,$wa,$cv,$jabatan,$role,$gaji);
+      redirect('master-karyawan');
     }
-		
-		$this->Mkaryawan_model->create($id,$nl,$tl,$jk,$email,$password,$prov,$kab,$kec,$kode,$alamat,$wa,$cv,$jabatan,$role,$gaji);
-    redirect('master-karyawan');
   }
   public function updatepost(){
     if ($this->input->is_ajax_request()) {
