@@ -223,17 +223,19 @@ class MasterKaryawan extends CI_Controller
     $result = $this->Mkaryawan_model->delete($id);
     $result2 = $this->Mkaryawan_model->deleteksr($id);
     $result3 = $this->Mkaryawan_model->deleteadm($id);
-    // realpath(APPPATH . '../assets/dhdokumen/karyawan');
-    foreach ($image as $i) {
-			if ($result) {
-				unlink(realpath(APPPATH . '../assets/dhdokumen/karyawan/') . '/' . $i['file_cv']);
-			}
-		}
     $response = array(
       'result' => $result,
       'result2' => $result2,
       'result3' => $result3
     );
+
+    foreach ($image as $i) {
+        if (!empty($i['file_cv'])) {
+            if ($result) {
+                unlink(realpath(APPPATH . '../assets/dhdokumen/karyawan/') . '/' . $i['file_cv']);
+            }
+        }
+    }
     echo json_encode($response);
   }  
   public function jsonkar(){
