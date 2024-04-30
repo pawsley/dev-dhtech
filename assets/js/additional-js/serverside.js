@@ -325,11 +325,11 @@ function deletedata() {
                     url: base_url + 'master-karyawan/hapus/' + id,
                     dataType: 'json',
                     success: function (response) {
-                        if (response.success) {
-                            swal('Deleted!', response.message, 'success');
+                        if (response.result && response.result.success) {
+                            swal('Deleted!', response.result.message, 'success');
                             reload();
                         } else {
-                            swal('Error!', response.message, 'error');
+                            swal('Error!', 'An error occurred while deleting the data.', 'error');
                         }
                     },
                     error: function (error) {
