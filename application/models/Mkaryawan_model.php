@@ -89,10 +89,30 @@ class Mkaryawan_model extends CI_Model {
     $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
     return array('success' => $success, 'message' => $message);
   }
+  public function deleteksr($id)
+  {
+    $success = $this->db->delete('tb_kasir', array("id_ksr" => $id));
+    $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
+    return array('success' => $success, 'message' => $message);
+  }
+  public function deleteadm($id)
+  {
+    $success = $this->db->delete('tb_admin', array("id_admin" => $id));
+    $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
+    return array('success' => $success, 'message' => $message);
+  }
 
   public function update($id,$data){
     $this->db->where('id_user', $id);
     $this->db->update('tb_user', $data);
+  }
+  public function updateksr($id,$data){
+    $this->db->where('id_ksr', $id);
+    $this->db->update('tb_kasir', $data);
+  }
+  public function updateadm($id,$data){
+    $this->db->where('id_admin', $id);
+    $this->db->update('tb_admin', $data);
   }
 
   public function getWhere($id)

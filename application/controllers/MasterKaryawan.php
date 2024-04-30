@@ -177,6 +177,18 @@ class MasterKaryawan extends CI_Controller
         'gaji'  => $this->input->post('egaji'),
         'status'      => $this->input->post('estatus'),
       ];
+      $data2 = [
+        'nama_ksr'=>$this->input->post('enama'),
+        'no_ponsel'=>$this->input->post('ewa'),
+        'email'=>$this->input->post('email'),
+        'alamat'=>$this->input->post('ealamat'),
+      ];
+      $data3 = [
+        'nama_admin'=>$this->input->post('enama'),
+        'email_admin'=>$this->input->post('email'),
+        'password'=>$this->input->post('epassword'),
+        'level'=>$this->input->post('erole'),
+      ];
 
       $file_path = realpath(APPPATH . '../assets/dhdokumen/karyawan');
       $config['upload_path'] = $file_path;
@@ -199,6 +211,8 @@ class MasterKaryawan extends CI_Controller
         }
       } 
       $this->Mkaryawan_model->update($id, $data);
+      $this->Mkaryawan_model->updateksr($id, $data2);
+      $this->Mkaryawan_model->updateadm($id, $data3);
       echo json_encode(['status' => 'success']);
     } else {
       redirect('master-karyawan');
@@ -207,13 +221,20 @@ class MasterKaryawan extends CI_Controller
   public function deletepost($id) {
     $image = $this->Mkaryawan_model->getWhere($id);
     $result = $this->Mkaryawan_model->delete($id);
+    $result2 = $this->Mkaryawan_model->deleteksr($id);
+    $result3 = $this->Mkaryawan_model->deleteadm($id);
     // realpath(APPPATH . '../assets/dhdokumen/karyawan');
     foreach ($image as $i) {
 			if ($result) {
 				unlink(realpath(APPPATH . '../assets/dhdokumen/karyawan/') . '/' . $i['file_cv']);
 			}
 		}
-    echo json_encode($result);
+    $response = array(
+      'result' => $result,
+      'result2' => $result2,
+      'result3' => $result3
+    );
+    echo json_encode($response);
   }  
   public function jsonkar(){
     $this->load->library('datatables');
