@@ -325,6 +325,7 @@ function deletedata() {
                     url: base_url + 'master-karyawan/hapus/' + id,
                     dataType: 'json',
                     success: function (response) {
+                        console.log(response);
                         if (response.result && response.result.success) {
                             swal('Deleted!', response.result.message, 'success');
                             reload();
