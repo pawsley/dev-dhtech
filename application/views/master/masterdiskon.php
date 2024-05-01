@@ -127,7 +127,7 @@
                             <label class="form-label" for="FormBuatKuotaDiskon">Nilai Diskon</label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text">Rp</span>
-                                <input class="form-control is-invalid" id="ediskon" name="ediskon" type="text" onkeyup="formatRupiah(this)" required="">
+                                <input class="form-control is-invalid" id="ediskon" name="ediskon" type="text" onkeyup="formatRupiah(this)" readonly>
                             </div>
                         </div>
                         <!-- Kuota Diskon -->

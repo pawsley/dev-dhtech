@@ -63,7 +63,7 @@ function tableom() {
                                 <ul class="action">
                                     <div class="btn-group">
                                         <button class="btn btn-primary" data-id="${data}" data-total="${full.total_keranjang}" data-diskon="${full.diskon}" data-grand="${full.bayar}" data-bs-toggle="modal" data-bs-target="#DetailInvoice" title="detail invoice"><i class="fa fa-exclamation-circle"></i></button>
-                                        <button class="btn btn-success" id="approve" data-id="${data}" title="approve"><i class="icofont icofont-ui-check"></i></button>
+                                        <button class="btn btn-success" id="approve" data-id="${data}" data-id_toko="${full.id_toko}" title="approve"><i class="icofont icofont-ui-check"></i></button>
                                         <button class="btn btn-danger" id="cancel" data-id="${data}" data-keluar="${full.id_keluar}" title="cancel"><i class="icofont icofont-ui-close"></i></button>
                                     </div>
                                 </ul>
@@ -120,7 +120,7 @@ function tabledt(id) {
             { "data": "sn_brg" },
             { "data": "nama_brg" },   
             { 
-                "data": "bayar",
+                "data": "harga_bayar",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
@@ -234,6 +234,7 @@ function detailinv(){
 function approve() {
     $('#table-om').on('click', '#approve', function() {
         var id = $(this).data('id');
+        var idt = $(this).data('id_toko');
         $.ajax({
             type: "POST",
             url: base_url+"order-masuk/approve",
@@ -247,6 +248,10 @@ function approve() {
                         icon: "success",
                     }).then((value) => {
                         tableOM.ajax.reload();
+                        $('#spinner-' + idt).removeClass('d-none');
+                        $('#counting-' + idt).addClass('d-none');
+                        countbystore(idt, formatcur);
+                        card();
                     });
                 } else {
                     swal("Transaksi gagal disetujui", {
@@ -345,7 +350,7 @@ function filtercabang(url, selectedName) {
         }
     }
 }
-function card(formatcur) {
+function card() {
     $('.cardLink').click(function(event) {
         event.preventDefault();
         var id = $(this).data('id');
@@ -365,7 +370,7 @@ function countbystore(id, formatcur){
             $('#counting-' + id).removeClass('d-none');
             $.each(data, function(index, item) {
                 if (item.id_toko === id) {
-                    $('#counting-' + id).text(formatcur.format(item.total_penjualan));
+                    $('#counting-' + id).text('Rp '+item.total_penjualan);
                     matched = true;
                     return false;
                 }

@@ -2,34 +2,143 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
-	public function index()
-	{
-		$data['content'] = $this->load->view('dashboard/index', '', true);
+	public function __construct(){
+		parent::__construct();
+		$this->load->model('Welcome_model');
+		$this->load->model('BarangKeluar_model');
+		$this->load->model('PenList_model');
+	}
+	public function index(){
+		$data['hpp'] = $this->PenList_model->countHJ();
+		$data['setcabang'] = $this->BarangKeluar_model->getCabang();
+		$data['content'] = $this->load->view('dashboard/index', $data, true);
 		$data['modal'] = '';
-		$data['css'] = '';
-		$data['js'] = '<script src="' . base_url() . 'assets/js/chart/apex-chart/apex-chart.js"></script>
-			<script src="' . base_url() . 'assets/js/chart/apex-chart/stock-prices.js"></script>
+		$data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">';
+		$data['js'] = '<script>var base_url = "' . base_url() . '";</script>
 			<script src="' . base_url() . 'assets/js/counter/jquery.waypoints.min.js"></script>
 			<script src="' . base_url() . 'assets/js/counter/jquery.counterup.min.js"></script>
 			<script src="' . base_url() . 'assets/js/counter/counter-custom.js"></script>
-			<script src="' . base_url() . 'assets/js/dashboard/dashboard_2.js"></script>
+			
 			<script src="' . base_url() . 'assets/js/animation/wow/wow.min.js"></script>
+			<script src="' . base_url('assets/js/additional-js/dashboard.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/buttons.colVis.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/vfs_fonts.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.select.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/buttons.html5.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.responsive.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
+			<script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
 			<script>new WOW().init();</script>';
 		$this->load->view('layout/base', $data);		
 	}
-	public function finansial()
-	{
+	public function finansial(){
 		$data['content'] = $this->load->view('dashboard/index', '', true);
 		$data['modal'] = '';
     	$data['css'] = '';
 		$data['js'] = '';
 		$this->load->view('layout/base', $data);
 	}
-	public function produk()
-	{
+	public function produk(){
 		$data['content'] = $this->load->view('dashboard/index', '', true);
     	$data['css'] = '';
 		$data['js'] = '';
 		$this->load->view('layout/base', $data);
-	}		
+	}
+	public function labakotor() {
+		$results = $this->Welcome_model->countlaba();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+	public function tpenjualan() {
+		$results = $this->Welcome_model->countpenjualan();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+	public function tdiskon() {
+		$results = $this->Welcome_model->countdiskon();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+	public function tcust() {
+		$results = $this->Welcome_model->countcust();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+	public function tuser() {
+		$results = $this->Welcome_model->countuser();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+	public function tsupp() {
+		$results = $this->Welcome_model->countsupp();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+	public function topsales() {
+		$results = $this->Welcome_model->countTopSales();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+	public function tproduk() {
+		$results = $this->Welcome_model->countasset();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+	public function detaillabak(){
+		$this->load->library('datatables');
+		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,COALESCE(harga_diskon, 0) AS nilai,harga_bayar as bayar,status,tipe_penjualan,nama_toko');
+		$this->datatables->from('vpenjualan');
+		$this->datatables->where_in('status',[1,2]);
+		$this->datatables->where('MONTH(tgl_transaksi)', date('m'));
+		$this->datatables->where('YEAR(tgl_transaksi)', date('Y'));
+		return print_r($this->datatables->generate());
+	}
+	public function detailasset(){
+		$this->load->library('datatables');
+		$this->datatables->select('sn_brg,nama_brg,hrg_hpp,nama_toko');
+		$this->datatables->from('vbarangkeluar');
+		$this->datatables->where_in('status',[2]);
+		return print_r($this->datatables->generate());
+	}	
+	public function detailsales(){
+		$this->load->library('datatables');
+		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,nama_toko');
+		$this->datatables->from('vpenjualan');
+		$this->datatables->where_in('status',[1,2]);
+		$this->datatables->where('MONTH(tgl_transaksi)', date('m'));
+		$this->datatables->where('YEAR(tgl_transaksi)', date('Y'));
+		return print_r($this->datatables->generate());
+	}	
+	public function detaildiskon(){
+		$this->load->library('datatables');
+		$this->datatables->select('id_toko,nama_toko,total_diskon');
+		$this->datatables->from('vtotaldiskon');
+		return print_r($this->datatables->generate());
+	}	
+	public function detailcust(){
+		$this->load->library('datatables');
+		$this->datatables->select('id_plg,nama_plg,no_ponsel,email,alamat');
+		$this->datatables->from('tb_pelanggan');
+		return print_r($this->datatables->generate());
+	}
+	public function detailksr(){
+		$this->load->library('datatables');
+		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,harga_diskon as diskon,harga_bayar as harga_ril');
+		$this->datatables->from('vpenjualan');
+		$this->datatables->where_in('status',[1,2]);
+		$this->datatables->where('id_ksr',$id);
+		$this->datatables->where('MONTH(tgl_transaksi)', date('m'));
+		$this->datatables->where('YEAR(tgl_transaksi)', date('Y'));
+		return print_r($this->datatables->generate());
+	}
 }

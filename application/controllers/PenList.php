@@ -1,21 +1,43 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class PenRiwayat extends CI_Controller
+class PenList extends CI_Controller
 {
     
   public function __construct()
   {
     parent::__construct();
-    $this->load->model('PenRiwayat_model');
+    $this->load->model('PenList_model');
   }
 
   public function index(){
-    $data['content'] = $this->load->view('kasir/riwayatsales', '', true);
+    $data['setcabang'] = $this->PenList_model->countHJ();
+    $data['content'] = $this->load->view('kasir/produklist', $data, true);
     $data['modal'] = '';
-    $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">';
+    $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
+    <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
+    <style>
+        .select2-selection__rendered {
+            line-height: 35px !important;
+        }
+        .select2-container .select2-selection--single {
+            height: 38px !important;
+            padding: 2px !important;
+        }
+        .select2-dropdown--below {
+          margin-top:-2% !important;
+        }
+        .select2-selection__arrow {
+            height: 37px !important;
+        }
+        .select2-container{
+          margin-bottom :-6%;
+        }
+    </style>';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/priwayat.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/plistproduk.js') . '"></script>
+    <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
@@ -35,28 +57,40 @@ class PenRiwayat extends CI_Controller
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
     ';
-    $this->load->view('layout/base', $data);      
+    $this->load->view('layout/base', $data);
   }
-
-  public function laporansales() {
+  public function produklist(){
     $this->load->library('datatables');
-    $this->datatables->select('id_ksr, nama_ksr, CONCAT(id_ksr, " | ", nama_ksr) AS sales, total_penjualan, total_diskon');
-    $this->datatables->from('vsales');
-    $this->datatables->where_in('status',[1,2]);
-    $this->datatables->group_by('id_ksr');
+    $this->datatables->select('id_keluar,sn_brg,nama_brg,hrg_hpp,hrg_jual,nama_toko,status');
+    $this->datatables->from('vbarangkeluar');
+    $this->datatables->where('hrg_hpp !=0');
+    $this->datatables->where('hrg_jual !=0');
+    $this->datatables->where_in('status',[2,3,4]);
     return print_r($this->datatables->generate());
   }
-  public function detailsales($id) {
+  public function infoBrg($id){
+    $data['get_id']= $this->PenList_model->getWhere($id);
+    echo json_encode($data);
+  }
+  public function filtercab($cab=null){
+    $decoded_cab = urldecode($cab);
     $this->load->library('datatables');
-    $this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,harga_diskon as diskon,harga_bayar as harga_ril');
-    $this->datatables->from('vpenjualan');
-    $this->datatables->where_in('status',[1,2]);
-    $this->datatables->where('id_ksr',$id);
-    return print_r($this->datatables->generate());
+    $this->datatables->select('id_keluar,sn_brg,nama_brg,hrg_hpp,hrg_jual,nama_toko,status');
+    $this->datatables->from('vbarangkeluar');
+    $this->datatables->where('hrg_hpp !=0');
+    $this->datatables->where('hrg_jual !=0');
+    $this->datatables->where_in('status',[2,3,4]);
+    $this->datatables->like('nama_toko', $decoded_cab);
+    return print_r($this->datatables->generate());    
+  }
+  public function datacountHP($id = null){
+    $results = $this->PenList_model->countHJ($id);
+    header('Content-Type: application/json');
+    echo json_encode($results);
   }
 
 }
 
 
-/* End of file PenRiwayat.php */
-/* Location: ./application/controllers/PenRiwayat.php */
+/* End of file PenList.php */
+/* Location: ./application/controllers/PenList.php */

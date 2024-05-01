@@ -67,7 +67,7 @@ class PenOrderIn extends CI_Controller
 
   public function orderin(){
     $this->load->library('datatables');
-    $this->datatables->select('id_keluar,kode_penjualan,sn_brg,DATE_FORMAT(tgl_transaksi, "%d %M %Y %H:%i")AS format_tgl,nama_toko,cara_bayar,bayar,status,tipe_penjualan,nama_rek,total_keranjang,diskon');
+    $this->datatables->select('id_keluar,id_toko,kode_penjualan,sn_brg,DATE_FORMAT(tgl_transaksi, "%d %M %Y %H:%i")AS format_tgl,nama_toko,cara_bayar,bayar,status,tipe_penjualan,nama_rek,total_keranjang,diskon');
     $this->datatables->from('vpenjualan');
     $this->datatables->where_in('status',0);
     $this->datatables->group_by('kode_penjualan');
@@ -82,20 +82,20 @@ class PenOrderIn extends CI_Controller
     return print_r($this->datatables->generate());
   }
   public function detailsales($idt){
-    $this->load->library('datatables');
     $currentDate = date('Y-m-d');
+    $this->load->library('datatables');
     $this->datatables->select('kode_penjualan,sn_brg,nama_brg,
-    DATE_FORMAT(tgl_transaksi, "%d %M %Y %H:%i")AS format_tgl,bayar,status,tipe_penjualan,id_toko');
+    DATE_FORMAT(tgl_transaksi, "%Y-%m-%d") AS format_tgl,harga_bayar,status,tipe_penjualan,id_toko');
     $this->datatables->from('vpenjualan');
     $this->datatables->where('id_toko',$idt);
-    $this->datatables->where('tgl_transaksi', $currentDate);
+    $this->datatables->where('DATE(tgl_transaksi)', $currentDate);
     $this->datatables->where_in('status',[1,2]);
     return print_r($this->datatables->generate());
   }
   public function filtercab($cab=null){
     $decoded_cab = urldecode($cab);
     $this->load->library('datatables');
-    $this->datatables->select('id_keluar,kode_penjualan,sn_brg,DATE_FORMAT(tgl_transaksi, "%d %M %Y %H:%i")AS format_tgl,nama_toko,cara_bayar,bayar,status,tipe_penjualan');
+    $this->datatables->select('id_keluar,id_toko,kode_penjualan,sn_brg,DATE_FORMAT(tgl_transaksi, "%d %M %Y %H:%i")AS format_tgl,nama_toko,cara_bayar,bayar,status,tipe_penjualan,nama_rek,total_keranjang,diskon');
     $this->datatables->from('vpenjualan');
     $this->datatables->where_in('status',0);
     $this->datatables->like('nama_toko', $decoded_cab);
@@ -133,19 +133,32 @@ class PenOrderIn extends CI_Controller
   public function cancel() {
     if ($this->input->is_ajax_request()) {
         $inv = $this->input->post('inv');
-        $idk = $this->input->post('idk');
+        // $idk = $this->input->post('idk');
+        $getbrg = $this->PenOrderIn_model->getidbarang($inv);
         $data = [
           'status' => '3',
         ];
-        $data2 = [
-          'status' => '2',
-        ];
         $this->PenOrderIn_model->cancel($inv, $data);
-        $this->PenOrderIn_model->stok($idk, $data2);
+        foreach ($getbrg as $idk ) {
+          $data2 = [
+            'status' => '2',
+          ];
+          $data3 = [
+            'total_diskon'=>$idk['total_diskon'],
+            'kuota'=>$idk['kuota']
+          ];
+          $this->PenOrderIn_model->stok($idk['id_keluar'], $data2);
+          $this->PenOrderIn_model->diskon($idk['id_diskon'], $data3);
+        }
         echo json_encode(['status' => 'success']);
     } else {
         redirect('order-masuk');
     }
+  }
+  public function getinv($idkel){
+    $results = $this->PenOrderIn_model->getidbarang($idkel);
+		header('Content-Type: application/json');
+		echo json_encode($results);
   }
 }
 

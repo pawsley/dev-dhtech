@@ -211,7 +211,7 @@
                       <svg class="fill-icon">
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-social"></use>
                       </svg><span>Order Masuk</span></a>
-                  </li>
+                  </li>                  
                   <!-- Finnance -->
                   <!-- <li class="sidebar-list finance"><i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title" href="#">
@@ -291,7 +291,7 @@
                         </svg><span>Inventori Stok</span>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li class="idaf"><a class="idaf" href="<?=base_url()?>daftar-inventori">Daftar Inventori</a></li>
+                        <!-- <li class="idaf"><a class="idaf" href="<?=base_url()?>daftar-inventori">Daftar Inventori</a></li> -->
                         <li class="ibm"><a class="ibm" href="<?=base_url()?>barang-masuk">Barang Masuk</a></li>
                         <li class="ibk"><a class="ibk" href="<?=base_url()?>barang-keluar">Barang Keluar</a></li>
                         <li class="iskb"><a class="iskb" href="<?=base_url()?>terima-barang">Penerimaan Barang</a></li>
@@ -311,7 +311,7 @@
                       </a>
                       <ul class="sidebar-submenu">
                           <li class="scst"><a class="scst" href="<?=base_url()?>data-kustomer/">Data Kustomer</a></li>
-                          <li class="sprd"><a class="sprd" href="<?=base_url()?>">Produk List</a></li>
+                          <li class="sprd"><a class="sprd" href="<?=base_url()?>produk-list/">Produk List</a></li>
                           <li class="seta"><a class="seta" href="<?=base_url()?>etalase-toko/">Etalase Toko</a></li>
                           <li class="shst"><a class="shst" href="<?=base_url()?>riwayat-penjualan/">Riwayat Penjualan</a></li>
                       </ul>
@@ -467,6 +467,12 @@
             }else if(segment1 == "riwayat-penjualan"){
                 $(".sales").addClass("active");
                 $(".shst").addClass("active");
+                $(".sidebar-list.sales").addClass('active');
+                $(".sidebar-list.sales .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
+            }else if(segment1 == "produk-list"){
+                $(".sales").addClass("active");
+                $(".sprd").addClass("active");
                 $(".sidebar-list.sales").addClass('active');
                 $(".sidebar-list.sales .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
