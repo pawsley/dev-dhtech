@@ -100,6 +100,11 @@ class Welcome_model extends CI_Model {
     $query = $this->db->get();
     return $query->result_array();
   }
+  public function updatekar($id, $data) {
+    $this->db->where('id_admin', $id);
+    $this->db->update('tb_admin', $data);
+    // $this->db->update_batch('tb_brg_keluar', $data);
+}
 
 }
 

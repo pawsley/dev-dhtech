@@ -3,6 +3,7 @@ var tableLB;
 var tableSP;
 var tableDK;
 var tableCT;
+var tableKY;
 var formatcur = new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR',
@@ -22,6 +23,7 @@ $(document).ready(function () {
     detailsales();
     detaildiskon();
     detailcust();
+    detailkar();
 });
 
 function card() {
@@ -792,4 +794,136 @@ function detailksr(){
         $("#saldh").text(ids+' | '+sl);
         tabledts(ids);
     });
+}
+function detailkar() {
+    $('#DetailUser').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        var total = button.data('total_cust');
+        $("#tk").text(total);
+        tablekar();
+    });
+}
+function tablekar() {
+    if ($.fn.DataTable.isDataTable('#table-kar')) {
+        tableKY.destroy();
+    }
+    tableKY = $("#table-kar").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [],
+        "ajax": {
+            "url": base_url + 'Welcome/detailkar',
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "id_admin" },
+            { "data": "nama_admin" },
+            // { "data": "email_admin" },
+            {
+                "data": "id_toko",
+                "render": function (data, type, row, meta) {
+                    return '<select class="select2" id="cab" value="'+row.id_toko+'" data-id_toko="'+row.id_toko+'" data-id_admin="' + row.id_admin + '" data-current-value="' + data + '" data-cab="' + row.id_toko + '"></select>';
+                },
+            },                     
+        ],
+        "drawCallback": function(settings) {
+            $('.select2').each(function() {
+                var $select = $(this);
+                var currentValue = $select.data('current-value');
+                var value = $select.data('id_toko');
+                var id_admin = $select.data('id_admin');
+        
+                $select.select2({
+                    language: 'id',
+                    ajax: {
+                        url: base_url + 'BarangTerima/loadstore',
+                        type: 'GET',
+                        dataType: 'json',
+                        delay: 250,
+                        data: function(params) {
+                            return {
+                                q: params.term
+                            };
+                        },
+                        processResults: function(data) {
+                            return {
+                                results: $.map(data, function(item) {
+                                    return {
+                                        id: item.id_toko,
+                                        text: item.id_toko
+                                    };
+                                })
+                            };
+                        },
+                        cache: true
+                    }
+                });
+                if (currentValue) {
+                    $select.append('<option value="' + value + '" selected>' + currentValue + '</option>').trigger('change');
+                }
+
+                $select.on('change', function() {
+                    var newValue = $(this).val();
+                    var toko = $(this).find('option:selected').text();
+                    var id_admin = $select.data('id_admin');
+                    console.log(id_admin);
+                    
+                    $.ajax({
+                        url: 'Welcome/updatekar',
+                        method: 'POST',
+                        data: {
+                            ids: id_admin, // Array of IDs
+                            cab: newValue // Value of cab
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                swal("Berhasil dipindah "+toko, {
+                                    icon: "success",
+                                }).then((value) => {
+                                    reload();
+                                });
+                            } else {
+                                swal("Gagal pindah barang", {
+                                    icon: "error",
+                                });
+                            }
+                        },
+                    });
+                });
+            });
+        },
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'col-sm-12 col-md-2'B>" +
+               "<'row'<'col-sm-12'tr>>" +
+               "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
+               "buttons": [
+                {
+                    "text": 'Refresh', // Font Awesome icon for refresh
+                    "className": 'custom-refresh-button', // Add a class name for identification
+                    "attr": {
+                        "id": "refresh-button" // Set the ID attribute
+                    },
+                    "init": function (api, node, config) {
+                        $(node).removeClass('btn-default');
+                        $(node).addClass('btn-primary');
+                        $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                    },
+                    "action": function () {
+                        tableKY.ajax.reload();
+                    }
+                },
+            ]
+    });
+    return tableKY;
+}
+function reload() {
+    var bkReloaded = tablekar();
+    if (bkReloaded) {
+        bkReloaded.clear().draw();
+        bkReloaded.ajax.reload();
+    }
 }

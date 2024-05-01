@@ -343,7 +343,7 @@
               </div>
             </div>
             <!-- Modal Gambar Absen -->
-            <div class="modal fade" id="FotoKaryawanAbsen" tabindex="-1" role="dialog" aria-labelledby="FotoKaryawanAbsen" aria-hidden="true">
+            <!-- <div class="modal fade" id="FotoKaryawanAbsen" tabindex="-1" role="dialog" aria-labelledby="FotoKaryawanAbsen" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content dark-sign-up">
                       <div class="modal-body social-profile text-start" style="border-radius:5%; max-height: 90vh; overflow-y: auto;">
@@ -359,7 +359,7 @@
                     </div>
                   </div>
               </div>
-            </div>
+            </div> -->
             <div class="modal fade bd-example-modal-xl" id="DetailLaba" tabindex="-1" role="dialog" aria-labelledby="DetailLaba" aria-hidden="true">
               <div class="modal-dialog modal-xl" role="document">
                   <div class="modal-content dark-sign-up">
@@ -578,40 +578,34 @@
                   </div>
               </div>
             </div>
-            <div class="modal fade bd-example-modal-xl" id="DetailKasir" tabindex="-1" role="dialog" aria-labelledby="DetailKasir" aria-hidden="true">
+            <div class="modal fade bd-example-modal-xl" id="DetailUser" tabindex="-1" role="dialog" aria-labelledby="DetailUser" aria-hidden="true">
               <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content dark-sign-up">
                   <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
                       <div class="modal-toggle-wrapper">
                           <div class="modal-header mb-4">
-                              <h3>Detail Penjualan</h3>
+                              <h3>Detail Karyawan</h3>
                               <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <!-- Isi Konten -->
                           <ul class="list-group">
                               <!-- Total -->
                               <li class="list-group-item d-flex justify-content-between align-items-center">
-                                  <strong><span>Total Penjualan</span></strong>
-                                  <strong id="ttdh">-</strong>
+                                  <strong><span>Total Karyawan</span></strong>
+                                  <strong id="ttk">-</strong>
                               </li>
                           </ul>
                           <!-- Data Table -->
                           <div class="col-lg-12"> 
                               <div class="card"> 
-                                  <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
-                                      <h5 id="saldh">-</h5>
-                                  </div>
                                   <div class="card-body">
                                   <div class="table-responsive">
-                                      <table class="display" id="table-dt">
+                                      <table class="display" id="table-kar">
                                           <thead>
                                               <tr>
-                                                  <th><span class="f-light f-w-600">INVOICE</span></th>
-                                                  <th><span class="f-light f-w-600">SN PRODUK</span></th>
-                                                  <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
-                                                  <th><span class="f-light f-w-600">HARGA PRODUK</span></th>
-                                                  <th><span class="f-light f-w-600">DISKON</span></th>
-                                                  <th><span class="f-light f-w-600">HARGA JUAL</span></th>
+                                                  <th><span class="f-light f-w-600">ID KARYAWAN</span></th>
+                                                  <th><span class="f-light f-w-600">NAMA KARYAWAN</span></th>
+                                                  <th><span class="f-light f-w-600">CABANG</span></th>
                                               </tr>
                                           </thead>
                                           <tbody>

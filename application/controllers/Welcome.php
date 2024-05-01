@@ -13,12 +13,35 @@ class Welcome extends CI_Controller {
 		$data['setcabang'] = $this->BarangKeluar_model->getCabang();
 		$data['content'] = $this->load->view('dashboard/index', $data, true);
 		$data['modal'] = '';
-		$data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">';
+		$data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
+		<link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
+		<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+		<style>
+			.select2-selection__rendered {
+				line-height: 35px !important;
+			}
+			.select2-container .select2-selection--single {
+				height: 38px !important;
+				padding: 2px !important;
+			}
+			.select2-dropdown--below {
+			margin-top:-2%; !important;
+			}
+			.select2-selection__arrow {
+				height: 37px !important;
+			}
+			.select2-container{
+			margin-bottom :-6%;
+			}
+    	</style>
+		';
 		$data['js'] = '<script>var base_url = "' . base_url() . '";</script>
 			<script src="' . base_url() . 'assets/js/counter/jquery.waypoints.min.js"></script>
 			<script src="' . base_url() . 'assets/js/counter/jquery.counterup.min.js"></script>
 			<script src="' . base_url() . 'assets/js/counter/counter-custom.js"></script>
-			
+			<script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
+			<script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
+			<script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
 			<script src="' . base_url() . 'assets/js/animation/wow/wow.min.js"></script>
 			<script src="' . base_url('assets/js/additional-js/dashboard.js') . '"></script>
 			<script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
@@ -141,4 +164,25 @@ class Welcome extends CI_Controller {
 		$this->datatables->where('YEAR(tgl_transaksi)', date('Y'));
 		return print_r($this->datatables->generate());
 	}
+	public function detailkar(){
+		$this->load->library('datatables');
+		$this->datatables->select('id_admin,nama_admin,email_admin,password,level,id_toko');
+		$this->datatables->from('tb_admin');
+		return print_r($this->datatables->generate());
+	}
+	public function updatekar(){
+		if ($this->input->is_ajax_request()) {
+			$ids = $this->input->post('ids');
+			$cab = $this->input->post('cab');
+	
+			$data = array(
+				'id_toko' => $cab,
+			);
+			$this->Welcome_model->updatekar($ids, $data);
+	
+			echo json_encode(['status' => 'success']);
+		} else {
+			redirect('pindah-barang');
+		}
+	}	
 }
