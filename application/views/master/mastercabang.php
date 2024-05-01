@@ -92,7 +92,7 @@
                     <!-- Pilih Kepala Cabang -->
                     <div class="col-md-12 position-relative">
                         <label class="form-label" for="FormKepalaCabang">Kepala Cabang</label>
-                        <select class="form-select" id="FormKepalaCabang" name="kc" required="">
+                        <select class="form-select" id="FormKepalaCabang" name="kc">
                             <option selected="" disabled="" value="">Pilih Kepala Cabang ...</option>
                         </select>
                         <div class="invalid-tooltip">Silahkan Pilih Kepala Cabang.</div>
