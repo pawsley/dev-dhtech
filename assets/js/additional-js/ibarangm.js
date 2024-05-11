@@ -1,4 +1,9 @@
 var table;
+var formatcur = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0
+});
 
 function tablebm() {
     if ($.fn.DataTable.isDataTable('#table-bm')) {
@@ -20,7 +25,20 @@ function tablebm() {
             { "data": "no_fm" },
             { "data": "nama_supplier" },
             { "data": "sn_brg" },
+            { "data": "no_imei" },
             { "data": "nama_brg" },
+            { 
+                "data": "hrg_hpp",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "hrg_jual",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
             {
                 "data": "spek",
                 "render": function (data, type, full, meta) {
@@ -79,10 +97,10 @@ function tablebm() {
                 }
             }
         ],
-        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                "<'col-sm-12 col-md-2'B>" +
-               "<'row'<'col-sm-12'tr>>" +
-               "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
+        "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-12'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
                "buttons": [
                 {
                     "text": 'Refresh', // Font Awesome icon for refresh
@@ -174,7 +192,9 @@ function reload() {
         table.ajax.reload();
     }
 }
-
+$(document).on('select2:open', () => {
+    document.querySelector('.select2-search__field').focus();
+});
 function getselect(){
     $('#suppbaru').select2({
         language: 'id',
@@ -325,9 +345,14 @@ function addmb() {
         var fk = $("#fakturbarang").val();
         var brg = $("#prodbaru").val();
         var sn = $("#snbaru").val();
+        var imei = $("#imeibaru").val();
+        var hpp = $("#hppbaru").val();
+        var hj = $("#hjbaru").val();
         var spek = $("#spekbaru").val();
         var kond = 'Baru';
-        if (!sup || !fk || !brg || !sn || !spek) {
+        var genhpp = parseFloat(hpp.replace(/\D/g, ''));
+        var genhj = parseFloat(hj.replace(/\D/g, ''));
+        if (!sup || !fk || !brg || !sn || !imei || !hpp || !hj) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
         } 
@@ -340,6 +365,9 @@ function addmb() {
                 nofakbaru: fk,
                 prodbaru: brg,
                 snbaru: sn,
+                imeibaru: imei,
+                hppbaru: genhpp,
+                hjbaru: genhj,
                 spekbaru: spek,
                 kondisi: kond,
             },
@@ -350,6 +378,9 @@ function addmb() {
                         $("#suppbaru").val($("#suppbaru").find('option').last().val()).trigger('change.select2');
                         $("#prodbaru").val('0').trigger('change.select2');
                         $("#snbaru").val('');
+                        $("#imeibaru").val('');
+                        $("#hppbaru").val('');
+                        $("#hjbaru").val('');
                         $("#spekbaru").val('');
                         reload();
                     });
@@ -375,9 +406,14 @@ function addmk() {
         var fk = $("#nofakbekas").val();
         var brg = $("#prodbekas").val();
         var sn = $("#snbekas").val();
+        var imei = $("#imeibekas").val();
+        var hpp = $("#hppbekas").val();
+        var hj = $("#hjbekas").val();
         var spek = $("#spekbekas").val();
         var kond = 'Bekas';
-        if (!sup || !fk || !brg || !sn || !spek) {
+        var genhpp = parseFloat(hpp.replace(/\D/g, ''));
+        var genhj = parseFloat(hj.replace(/\D/g, ''));
+        if (!sup || !fk || !brg || !sn || !imei || !hpp || !hj) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
         } 
@@ -390,6 +426,9 @@ function addmk() {
                 nofakbekas: fk,
                 prodbekas: brg,
                 snbekas: sn,
+                imeibekas: imei,
+                hppbekas: genhpp,
+                hjbekas: genhj,
                 spekbekas: spek,
                 kondisik: kond,
             },
@@ -397,12 +436,12 @@ function addmk() {
             success: function (response) {
                 if (response.status === 'success') {
                     swal("success", "Data berhasil ditambahkan", "success").then(() => {
-                        fk.val('');
-                        sn.val('');
-                        spek.val('');
                         $("#suppbekas").val($("#suppbekas").find('option').last().val()).trigger('change.select2');
                         $("#prodbekas").val('0').trigger('change.select2');
                         $("#snbekas").val('');
+                        $("#imeibekas").val('');
+                        $("#hppbekas").val('');
+                        $("#hjbekas").val('');
                         $("#spekbekas").val('');
                         reload();
                     });

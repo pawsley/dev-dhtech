@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
-class InventoriStok extends CI_Controller
+include_once(APPPATH . 'controllers/Auth.php');
+class InventoriStok extends Auth
 {
     
   public function __construct()
@@ -32,7 +32,7 @@ class InventoriStok extends CI_Controller
 
   public function loadbm(){
     $this->load->library('datatables');
-    $this->datatables->select('id_masuk,tgl_masuk,nama_supplier,sn_brg,no_fm,nama_brg,spek,kondisi,status');
+    $this->datatables->select('id_masuk,tgl_masuk,nama_supplier,sn_brg,no_imei,hrg_hpp,hrg_jual,hrg_cashback,no_fm,nama_brg,spek,kondisi,status');
     $this->datatables->from('vbarangmasuk');
     return print_r($this->datatables->generate());    
   }
@@ -115,6 +115,9 @@ class InventoriStok extends CI_Controller
         'tgl_masuk'      => $this->input->post('tglbaru'),
         'no_fm'      => $this->input->post('nofakbaru'),
         'sn_brg'      => $this->input->post('snbaru'),
+        'no_imei'      => $this->input->post('imeibaru'),
+        'hrg_hpp'      => $this->input->post('hppbaru'),
+        'hrg_jual'      => $this->input->post('hjbaru'),
         'spek'      => $this->input->post('spekbaru'),
         'kondisi'      => $this->input->post('kondisi'),
         'status'      => '1',
@@ -139,6 +142,9 @@ class InventoriStok extends CI_Controller
         'tgl_masuk'      => $this->input->post('tglbekas'),
         'no_fm'      => $this->input->post('nofakbekas'),
         'sn_brg'      => $this->input->post('snbekas'),
+        'no_imei'      => $this->input->post('imeibekas'),
+        'hrg_hpp'      => $this->input->post('hppbekas'),
+        'hrg_jual'      => $this->input->post('hjbekas'),
         'spek'      => $this->input->post('spekbekas'),
         'kondisi'      => $this->input->post('kondisik'),
         'status'      => '1',

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
-class PenRiwayat extends CI_Controller
+include_once(APPPATH . 'controllers/Auth.php');
+class PenRiwayat extends Auth
 {
     
   public function __construct()

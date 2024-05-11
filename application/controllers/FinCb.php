@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
-class FinCb extends CI_Controller
+include_once(APPPATH . 'controllers/Auth.php');
+class FinCb extends Auth
 {
     
   public function __construct()

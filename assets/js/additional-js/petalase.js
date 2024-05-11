@@ -73,7 +73,7 @@ function table_etalase() {
                     var inputId = 'checkbox-' + row.id_keluar + '-mar';
                     return `
                         <div class="input-group has-validation">
-                            <input class="form-control input-mar" id="${inputId}" value="${data}" type="text" onkeyup="formatRupiah(this);" disabled readonly>
+                            <input class="form-control input-mar" id="${inputId}" value="${data}" type="text" disabled readonly>
                         </div>
                     `;
                 }
@@ -200,7 +200,10 @@ function table_etalase() {
         var inputCbField = $('#'+ inputCb);
         inputField.prop('disabled', !this.checked);
         inputPubField.prop('disabled', !this.checked);
-        inputMarField.prop('disabled', !this.checked);
+        inputMarField.prop({
+            'disabled': !this.checked,
+            'readonly': true
+        });
         inputCbField.prop('disabled', !this.checked);
     });
     $('#table-etalase').on('input', '.input-hpp, .input-pub', function() {

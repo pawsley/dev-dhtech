@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+include_once(APPPATH . 'controllers/Auth.php');
 
-class BarangKeluar extends CI_Controller
+class BarangKeluar extends Auth
 {
     
   public function __construct()
@@ -107,6 +108,9 @@ class BarangKeluar extends CI_Controller
         'id_toko'      => $this->input->post('cabangbaru'),
         'tgl_keluar'      => $this->input->post('tglbaru'),
         'no_surat_keluar'      => $this->input->post('nosuratb'),
+        'hrg_hpp' => $this->input->post('hrg_hpp'),
+        'hrg_jual' => $this->input->post('hrg_jual'),
+        'margin' => $this->input->post('margin'),
         'status'      => '1',
       ];
       $inserted = $this->BarangKeluar_model->create($data);
@@ -127,11 +131,14 @@ class BarangKeluar extends CI_Controller
         'id_toko'      => $this->input->post('cabangbekas'),
         'tgl_keluar'      => $this->input->post('tglbekas'),
         'no_surat_keluar'      => $this->input->post('nosuratk'),
+        'hrg_hpp' => $this->input->post('hrg_hpp'),
+        'hrg_jual' => $this->input->post('hrg_jual'),
+        'margin' => $this->input->post('margin'),
         'status'      => '1',
       ];
       $inserted = $this->BarangKeluar_model->create($data);
       if ($inserted) {
-        $this->barcode($this->input->post('snbekas'));
+        // $this->barcode($this->input->post('snbekas'));
         echo json_encode(['status' => 'success']);
       } else {
         echo json_encode(['status' => 'exists']);
@@ -150,6 +157,7 @@ class BarangKeluar extends CI_Controller
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,tgl_keluar, no_surat_keluar, nama_toko, status');
     $this->datatables->from('vbarangkeluar');
+    $this->datatables->where_in('status',[1,2]);
     $this->datatables->group_by('no_surat_keluar');
     return print_r($this->datatables->generate());    
   }

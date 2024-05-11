@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
-class MasterBank extends CI_Controller
+include_once(APPPATH . 'controllers/Auth.php');
+class MasterBank extends Auth
 {
     
   public function __construct()

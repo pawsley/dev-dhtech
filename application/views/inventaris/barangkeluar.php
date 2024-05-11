@@ -154,7 +154,7 @@
                                   <div class="col-6 position-relative">
                                       <label class="form-label" for="NamaProduk">Nama Produk</label>
                                       <select class="form-select" id="prodbekas" name="prodbekas" required="">
-                                        <option selected="" disabled="" value="">Pilih Produk</option>
+                                        <option selected="" disabled="" value="0">Pilih Produk</option>
                                     </select>
                                   </div>
 

@@ -71,7 +71,7 @@
           <div class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0">
             <div class="notification-slider">
               <div class="d-flex h-100"> <img src="<?=base_url()?>assets/images/giftools.gif" alt="gif">
-                <h6 class="mb-0 f-w-400"><span class="font-primary">Hey, Founder! </span> <span class="f-light"> Wellcome to Akira Creative System.</span></h6><i class="icon-arrow-top-right f-light"></i>
+                <h6 class="mb-0 f-w-400"><span class="font-primary">Hey, Founder! </span> <span class="f-light"> Welcome to Akira Creative System.</span></h6><i class="icon-arrow-top-right f-light"></i>
               </div>
               <div class="d-flex h-100"><img src="<?=base_url()?>assets/images/giftools.gif" alt="gif">
                 <h6 class="mb-0 f-w-400"><span class="f-light">Regrats from me </span></h6><a class="ms-1" href="https://www.akira.id/" target="_blank">AKIRA Official !</a>
@@ -89,7 +89,7 @@
                 </div>
               </li>
               <!-- Notifikasi -->
-              <li class="onhover-dropdown">
+              <!-- <li class="onhover-dropdown">
                 <div class="notification-box">
                   <svg>
                     <use href="<?=base_url()?>assets/svg/icon-sprite.svg#notification"></use>
@@ -113,17 +113,17 @@
                     <li><a class="f-w-700" href="#">Check all</a></li>
                   </ul>
                 </div>
-              </li>
+              </li> -->
               <li class="profile-nav onhover-dropdown pe-0 py-0">
                 <div class="media profile-media">
                     <img class="b-r-10" src="<?=base_url()?>assets/images/dashboard/profile.png" alt="gambar-principle" loading="lazy">
-                  <div class="media-body"><span>Mr. Deha</span>
-                    <p class="mb-0">Principle <i class="middle fa fa-angle-down"></i></p>
+                  <div class="media-body"><span><?php echo $this->session->userdata('nama_lengkap'); ?></span>
+                    <p class="mb-0"><?php echo $this->session->userdata('jabatan'); ?> <i class="middle fa fa-angle-down"></i></p>
                   </div>
                 </div>
                 <ul class="profile-dropdown onhover-show-div">
-                  <li><a href="#"><i data-feather="settings"></i><span>Pengaturan</span></a></li>
-                  <li><a href="#"><i data-feather="log-in"> </i><span>Keluar</span></a></li>
+                  <!-- <li><a href="#"><i data-feather="settings"></i><span>Pengaturan</span></a></li> -->
+                  <li><a href="<?=base_url()?>logout/"><i data-feather="log-in"> </i><span>Keluar</span></a></li>
                 </ul>
               </li>
             </ul>
@@ -497,6 +497,9 @@
                 $(".submenu-title.fnc").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".submenu-title.fnc + .submenu-content").slideDown('normal');
             }
+            $(document).on('select2:open', () => {
+                document.querySelector('.select2-search__field').focus();
+            });
         });
     </script>    
   </body>

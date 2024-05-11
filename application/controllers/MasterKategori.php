@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
-class MasterKategori extends CI_Controller
+include_once(APPPATH . 'controllers/Auth.php');
+class MasterKategori extends Auth
 {
     
   public function __construct()

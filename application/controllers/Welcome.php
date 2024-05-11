@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+include_once(APPPATH . 'controllers/Auth.php');
 
-class Welcome extends CI_Controller {
+class Welcome extends Auth {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Welcome_model');

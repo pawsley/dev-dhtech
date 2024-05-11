@@ -68,11 +68,26 @@
                                       <select class="form-select" id="prodbaru" name="prodbaru" required="">
                                         <option selected="" disabled="" value="0">Pilih Produk</option>
                                     </select>
-                                  </div>
+                                  </div>                               
 
                                   <div class="col-4 position-relative"> 
                                     <label class="form-label" for="SNProduk">SN Produk</label>
                                     <input class="form-control" id="snbaru" type="text" name="snbaru" placeholder="Masukkan Nomor SN Produk" aria-label="SNProduk" required="">
+                                  </div>
+
+                                  <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="IMEIProduk">IMEI Produk</label>
+                                    <input class="form-control" id="imeibaru" type="number" name="imeibaru" placeholder="Masukkan Nomor IMEI" aria-label="IMEIProduk" required="">
+                                  </div>   
+
+                                  <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="hppProduk">Harga HPP</label>
+                                    <input class="form-control" id="hppbaru" type="text" name="hppbaru" placeholder="Masukkan Harga HPP" aria-label="hppProduk" onkeyup="formatRupiah(this)" required="">
+                                  </div>                                  
+
+                                  <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="hjProduk">Harga Jual</label>
+                                    <input class="form-control" id="hjbaru" type="text" name="hjbaru" placeholder="Masukkan Harga Jual" aria-label="hjProduk" onkeyup="formatRupiah(this)" required="">
                                   </div>
 
                                   <div class="col-md-12 position-relative"> 
@@ -114,13 +129,28 @@
                                   <div class="col-8 position-relative">
                                       <label class="form-label" for="NamaProduk">Nama Produk</label>
                                       <select class="form-select" id="prodbekas" name="prodbekas" required="">
-                                        <option selected="" disabled="" value="">Pilih Produk</option>
+                                        <option selected="" disabled="" value="0">Pilih Produk</option>
                                     </select>
                                   </div>
 
                                   <div class="col-4 position-relative"> 
                                     <label class="form-label" for="SNProduk">SN Produk</label>
                                     <input class="form-control" id="snbekas" name="snbekas" type="text" placeholder="Masukkan Nomor SN Produk" aria-label="SNProduk" required="">
+                                  </div>
+
+                                  <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="IMEIProduk">IMEI Produk</label>
+                                    <input class="form-control" id="imeibekas" type="number" name="imeibekas" placeholder="Masukkan Nomor IMEI" aria-label="IMEIProduk" required="">
+                                  </div>   
+
+                                  <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="hppProduk">Harga HPP</label>
+                                    <input class="form-control" id="hppbekas" type="text" name="hppbekas" placeholder="Masukkan Harga HPP" aria-label="hppProduk" onkeyup="formatRupiah(this)" required="">
+                                  </div>                                  
+
+                                  <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="hjProduk">Harga Jual</label>
+                                    <input class="form-control" id="hjbekas" type="text" name="hjbekas" placeholder="Masukkan Harga Jual" aria-label="hjProduk" onkeyup="formatRupiah(this)" required="">
                                   </div>
 
                                   <div class="col-md-12 position-relative"> 
@@ -155,7 +185,10 @@
                                 <th>NO FAKTUR</th>
                                 <th>SUPPLIER</th>
                                 <th>SN PRODUK</th>
+                                <th>NO IMEI</th>
                                 <th>NAMA PRODUK</th>
+                                <th>HARGA HPP</th>
+                                <th>HARGA JUAL</th>
                                 <th>SPESIFIKASI</th>
                                 <th>KONDISI PRODUK</th>
                                 <th>BARCODE</th>

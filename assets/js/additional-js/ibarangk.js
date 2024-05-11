@@ -118,10 +118,10 @@ function tablebk(formatter) {
                 }
             }            
         ],
-        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                "<'col-sm-12 col-md-2'B>" +
-               "<'row'<'col-sm-12'tr>>" +
-               "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
+        "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-2'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
                "buttons": [
                 {
                     "text": 'Refresh', // Font Awesome icon for refresh
@@ -214,9 +214,9 @@ function tablesk(formatter) {
             }            
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                "<'col-sm-12 col-md-2'B>" +
+                "<'row'<'col-sm-12 col-md-2'B>>" +
                "<'row'<'col-sm-12'tr>>" +
-               "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
+               "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
                "buttons": [
                 {
                     "text": 'Refresh', // Font Awesome icon for refresh
@@ -353,11 +353,11 @@ function detailsk(sk) {
                 }
             }            
         ],
-        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                "<'col-sm-12 col-md-2'B>" +
-               "<'row'<'col-sm-12'tr>>" +
-               "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
-               "buttons": [
+        "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-2'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+                "buttons": [
                 {
                     "text": 'Refresh', // Font Awesome icon for refresh
                     "className": 'custom-refresh-button', // Add a class name for identification
@@ -471,6 +471,17 @@ $(document).ready(function () {
     printsk();
 });
 
+// $('#prodbaru').on('select2:select', function (e) {
+//     var hrg_hpp = e.params.data.hrg_hpp;
+//     var hrg_jual = e.params.data.hrg_jual;
+//     console.log(hrg_hpp+''+hrg_jual);
+// });
+// $('#prodbekas').on('select2:select', function (e) {
+//     var hrg_hpp = e.params.data.hrg_hpp;
+//     var hrg_jual = e.params.data.hrg_jual;
+//     console.log(hrg_hpp+''+hrg_jual);
+// });
+
 function printsk() {
     $('#table-sk').on('click', '.download-button', function() {
         var nosk = $(this).data('id');
@@ -550,9 +561,9 @@ function selectedbrg() {
     $('#prodbaru').on('select2:select', function(e) {
         var data = e.params.data;
         var textParts = data.id.split('-');
-        var merk = textParts[1].trim();
-        var jenis = textParts[2].trim();
-        var spek = textParts[3].trim();
+        var merk = e.params.data.merk;
+        var jenis = e.params.data.jenis;
+        var spek = e.params.data.spek;
         $('#merkbaru').val(merk);
         $('#jenisbaru').val(jenis);
         $('#spekbaru').val(spek);
@@ -560,9 +571,9 @@ function selectedbrg() {
     $('#prodbekas').on('select2:select', function(e) {
         var data = e.params.data;
         var textParts = data.id.split('-');
-        var merk = textParts[1].trim();
-        var jenis = textParts[2].trim();
-        var spek = textParts[3].trim();
+        var merk = e.params.data.merk;
+        var jenis = e.params.data.jenis;
+        var spek = e.params.data.spek;
         $('#merkbekas').val(merk);
         $('#jenisbekas').val(jenis);
         $('#spekbekas').val(spek);
@@ -623,6 +634,7 @@ function getselect(){
                         return {
                             id: item.id_toko,
                             text: item.id_toko+' | '+item.nama_toko,
+                            // id_total: item.id_toko
                         };
                     }),
                 };
@@ -651,8 +663,13 @@ function getselect(){
                         groups[groupName] = [];
                     }
                     groups[groupName].push({
-                        id: item.id_masuk+'-'+item.merk+'-'+item.jenis+'-'+item.spek,
-                        text: item.sn_brg+' | '+item.nama_brg
+                        id: item.id_masuk,
+                        text: item.sn_brg+' | '+item.nama_brg,
+                        merk : item.merk,
+                        spek : item.spek,
+                        jenis : item.jenis,
+                        hrg_hpp: item.hrg_hpp, 
+                        hrg_jual: item.hrg_jual
                     });
                 });
     
@@ -669,6 +686,12 @@ function getselect(){
             },
             cache: false,
         },
+        templateResult: function (data) {
+            if (!data.id) {
+                return data.text;
+            }
+            return getDataBM(data);
+        }
     });
     $('#prodbekas').select2({
         language: 'id',
@@ -691,8 +714,13 @@ function getselect(){
                         groups[groupName] = [];
                     }
                     groups[groupName].push({
-                        id: item.id_masuk+'-'+item.merk+'-'+item.jenis+'-'+item.spek,
-                        text: item.sn_brg+' | '+item.nama_brg
+                        id: item.id_masuk,
+                        text: item.sn_brg+' | '+item.nama_brg,
+                        merk : item.merk,
+                        spek : item.spek,
+                        jenis : item.jenis,
+                        hrg_hpp: item.hrg_hpp, 
+                        hrg_jual: item.hrg_jual
                     });
                 });
     
@@ -709,7 +737,24 @@ function getselect(){
             },
             cache: false,
         },
+        templateResult: function (data) {
+            if (!data.id) {
+                return data.text;
+            }
+            return getDataBM(data);
+        }        
     });    
+}
+
+function getDataBM(data) {
+    var $option = $('<span></span>');
+    $option.text(data.text);
+    $option.attr('data-hrg_hpp', data.hrg_hpp);
+    $option.attr('data-hrg_jual', data.hrg_jual);
+    $option.attr('data-merk', data.merk);
+    $option.attr('data-spek', data.spek);
+    $option.attr('data-jenis', data.jenis);
+    return $option;
 }
 
 function updateDateTime() {
@@ -729,12 +774,17 @@ function addmb(formatter) {
         var tgl = $("#tglbaru").val();
         var cab = $("#cabangbaru").val();
         var sk = $("#nosuratb").val();
-        var brg = $("#prodbaru").val().split('-');
-        var idm = brg[0].trim();
-        if (!cab || !sk || !brg ) {
+        var idm = $("#prodbaru").val();
+        var selectBM = $("#prodbaru").select2('data')[0];
+        var hrg_hpp = selectBM.hrg_hpp;
+        var hrg_jual = selectBM.hrg_jual;
+        var margin = ((hrg_jual - hrg_hpp) / hrg_hpp) * 100;
+
+        if (!cab || !sk || !hrg_hpp || !hrg_jual) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
-        } 
+        }
+        
         $.ajax({
             type: "POST",
             url: "barang-keluar/simpan-barang-baru",
@@ -743,6 +793,9 @@ function addmb(formatter) {
                 cabangbaru: cab,
                 nosuratb: sk,
                 prodbaru: idm,
+                hrg_hpp: hrg_hpp,
+                hrg_jual: hrg_jual,
+                margin: margin.toFixed(2)
             },
             dataType: "json", 
             success: function (response) {
@@ -775,12 +828,16 @@ function addmk(formatter) {
         var tgl = $("#tglbekas").val();
         var cab = $("#cabangbekas").val();
         var sk = $("#nosuratk").val();
-        var brg = $("#prodbekas").val().split('-');
-        var idm = brg[0].trim();
-        if (!cab || !sk || !brg ) {
+        var idm = $("#prodbekas").val();
+        var selectBM = $("#prodbekas").select2('data')[0];
+        var hrg_hpp = selectBM.hrg_hpp;
+        var hrg_jual = selectBM.hrg_jual;
+        var margin = ((hrg_jual - hrg_hpp) / hrg_hpp) * 100;
+        
+        if (!cab || !sk || !hrg_hpp || !hrg_jual) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
-        } 
+        }
         $.ajax({
             type: "POST",
             url: "barang-keluar/simpan-barang-bekas",
@@ -789,6 +846,9 @@ function addmk(formatter) {
                 cabangbekas: cab,
                 nosuratk: sk,
                 prodbekas: idm,
+                hrg_hpp: hrg_hpp,
+                hrg_jual: hrg_jual,
+                margin: margin.toFixed(2)
             },
             dataType: "json", 
             success: function (response) {

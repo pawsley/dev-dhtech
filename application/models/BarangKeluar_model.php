@@ -17,7 +17,7 @@ class BarangKeluar_model extends CI_Model {
   }
 
   public function getBrgb($searchTerm = null) {
-    $this->db->select(['vm.id_masuk', 'vm.sn_brg', 'vm.merk', 'vm.jenis', 'vm.nama_brg','vm.kondisi','vm.spek'])
+    $this->db->select(['vm.id_masuk', 'vm.sn_brg', 'vm.merk', 'vm.jenis', 'vm.nama_brg','vm.kondisi','vm.spek','vm.hrg_hpp','vm.hrg_jual'])
              ->from('vbarangmasuk AS vm')
              ->join('vbarangkeluar AS vk', 'vm.id_masuk = vk.id_masuk', 'left')
              ->where('vk.id_masuk IS NULL')
@@ -37,7 +37,7 @@ class BarangKeluar_model extends CI_Model {
   }
 
   public function getBrgk($searchTerm = null) {
-    $this->db->select(['vm.id_masuk', 'vm.sn_brg', 'vm.merk', 'vm.jenis', 'vm.nama_brg','vm.kondisi','vm.spek'])
+    $this->db->select(['vm.id_masuk', 'vm.sn_brg', 'vm.merk', 'vm.jenis', 'vm.nama_brg','vm.kondisi','vm.spek','vm.hrg_hpp','vm.hrg_jual'])
              ->from('vbarangmasuk AS vm')
              ->join('vbarangkeluar AS vk', 'vm.id_masuk = vk.id_masuk', 'left')
              ->where('vk.id_masuk IS NULL')

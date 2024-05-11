@@ -62,7 +62,7 @@ function tablesk() {
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-2'B>>" +
                 "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
         "buttons": [
             {
                 "text": 'Refresh', // Font Awesome icon for refresh

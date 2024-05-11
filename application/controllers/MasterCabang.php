@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 // Don't forget include/define REST_Controller path
+include_once(APPPATH . 'controllers/Auth.php');
 
-
-class MasterCabang extends CI_Controller
+class MasterCabang extends Auth
 {
     
   public function __construct()

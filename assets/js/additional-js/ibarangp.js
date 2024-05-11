@@ -1,4 +1,6 @@
 var tableBK;
+var tableSP;
+var tableDT;
 function tablebk() {
     if ($.fn.DataTable.isDataTable('#table-bk')) {
         tableBK.destroy();
@@ -185,8 +187,19 @@ function tablebk() {
 }
 
 $(document).ready(function () {
-    reload();
+    // reload();
+    setInterval(updateDateTime, 1000);
 });
+
+function updateDateTime() {
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = (now.getMonth() + 1).toString().padStart(2, '0');
+    var day = now.getDate().toString().padStart(2, '0');
+    var hours = now.getHours().toString().padStart(2, '0');
+    var minutes = now.getMinutes().toString().padStart(2, '0');
+    $('#tanggalwaktubarang').val(year + '-' + month + '-' + day + 'T' + hours + ':' + minutes);   
+}
 
 function reload() {
     var bkReloaded = tablebk();

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class RajaOngkir extends CI_Controller { 
+include_once(APPPATH . 'controllers/Auth.php');
+class RajaOngkir extends Auth { 
 
     private $api_key = 'a30998a8efc9c1d1ee6d055b72dcc9db';
 
