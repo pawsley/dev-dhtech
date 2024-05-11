@@ -12,7 +12,7 @@ class PenList extends Auth
 
   public function index(){
     $data['setcabang'] = $this->PenList_model->countHJ();
-    $data['content'] = $this->load->view('kasir/produklist', $data, true);
+    $data['content'] = $this->load->view('kasir/produklist', '', true);
     $data['modal'] = '';
     $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">

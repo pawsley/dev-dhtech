@@ -25,8 +25,7 @@
           <!-- Container-fluid starts-->
           <div class="container-fluid">
             <!-- Card Status Data Barang -->
-            <div class="row">
-                <!-- Card Cabang -->
+            <!-- <div class="row">
                 <?php foreach ($setcabang as $sc) { ?>
                     <div class="col-md-4 col-sm-6">
                         <a href="#" class="cardLink" data-id="<?=$sc['id_toko']?>" data-total="<?=$sc['total_asset']?>" data-cabang="<?=$sc['nama_toko']?>">
@@ -54,7 +53,7 @@
                         </a>
                     </div>
                 <?php } ?>
-            </div>
+            </div> -->
             <!-- Listing Produk -->
             <div class="row">
                 <div class="col-sm-12">

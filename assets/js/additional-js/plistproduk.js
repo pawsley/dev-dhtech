@@ -12,7 +12,7 @@ $(document).ready(function () {
     tablepl();
     detailbrg();
     getselect();
-    card(formatcur);
+    // card(formatcur);
 });
 function tablepl() {
     var ajaxConfig = {
