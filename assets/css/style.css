@@ -5403,7 +5403,7 @@ a.badge:hover.badge-dark:hover {
 }
 
 body.modal-open .select2-container--open {
-  width: unset !important;
+  /* width: unset !important; */
   display: block;
 }
 body.modal-open .select2-container--open .select2-dropdown {
