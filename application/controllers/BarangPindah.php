@@ -8,6 +8,7 @@ class BarangPindah extends Auth
   {
     parent::__construct();
     $this->load->model('BarangPindah_model');
+    $this->load->library('zend');
   }
 
   public function index()
@@ -80,7 +81,7 @@ class BarangPindah extends Auth
             padding: 2px !important;
         }
         .select2-dropdown--below {
-          margin-top:-2%; !important;
+          margin-top: -2% !important;
         }
         .select2-selection__arrow {
             height: 37px !important;
@@ -115,6 +116,119 @@ class BarangPindah extends Auth
     <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
     ';
     $this->load->view('layout/base', $data);
+  }
+  public function loadsp(){
+    $this->load->library('datatables');
+    $this->datatables->select('id_pindah,nosp,tgl_pindah,fcabang,dari_cab,tcabang,kpd_cab,status');
+    $this->datatables->from('vpindah');
+    return print_r($this->datatables->generate());
+  }
+  public function loadtsp($idp){
+    $this->load->library('datatables');
+    $this->datatables->select('id_detailp,id_pindah,id_keluar,sn_brg,nama_brg,merk,jenis,fcabang');
+    $this->datatables->from('vpindahdtl');
+    $this->datatables->where('id_pindah', $idp);
+    return print_r($this->datatables->generate());
+  }
+  public function createsp() {
+    if ($this->input->is_ajax_request()) {
+      $data = [
+        'nosp'      => $this->input->post('nsp'),
+        'fcabang'      => $this->input->post('fcab'),
+        'tcabang'      => $this->input->post('tcab'),
+        'tgl_pindah'      => $this->input->post('tglp'),
+        'id_user' => $this->session->userdata('id_user'),
+        'status'      => '0',
+      ];
+      $inserted = $this->BarangPindah_model->create($data);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('pindah-barang');
+    }
+  }
+  public function addbrg() {
+    if ($this->input->is_ajax_request()) {
+      $ids = $this->input->post('idk');
+      $data = [
+        'id_pindah'      => $this->input->post('idp'),
+        'id_keluar'      => $this->input->post('idk')
+      ];
+      $data2 = [
+        'id_toko' => $this->input->post('kcab'),
+        'status' => '5'
+      ];
+      $this->BarangPindah_model->addpindahbrg($data);
+      $this->BarangPindah_model->update($ids, $data2);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('pindah-barang');
+    }
+  }
+  public function loadprodf($fcab) {
+    $searchTerm = $this->input->get('q');
+    $results = $this->BarangPindah_model->getProd($fcab,$searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);    
+  }
+  public function deletebrg() {
+    if ($this->input->is_ajax_request()) {
+      $idtl = $this->input->post('idtl');
+      $idk = $this->input->post('idk');
+      $idt = $this->input->post('idt');
+      $data = [
+        'id_toko'=> $idt,
+        'status'=> '2'
+      ];
+      $result = $this->BarangPindah_model->deletebrg($idtl,$idk,$data);
+      echo json_encode($result);
+    }else{
+      redirect('pindah-barang');
+    }
+  }
+  public function deletesp() {
+    if ($this->input->is_ajax_request()) {
+      $idp = $this->input->post('idp');
+      $idt = $this->input->post('idt');
+      $data = [
+        'id_toko'=> $idt,
+        'status'=> '2'
+      ];
+      $result = $this->BarangPindah_model->deletesp($idp,$data);
+      echo json_encode($result);
+    }else{
+      redirect('pindah-barang');
+    }
+  }
+  public function approvesp(){
+    if ($this->input->is_ajax_request()) {
+      $sp = $this->input->post('nosp');
+      $fsp = $this->input->post('fsp');
+      
+      $this->BarangPindah_model->approvepindah($sp);
+      $this->barcode($fsp);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('pindah-barang');
+    }
+  }
+  public function barcode($sp){
+    $this->zend->load('Zend/Barcode');
+    $imageResource = Zend_Barcode::factory('code128','image', array('text'=>$sp), array())->draw();
+    $imageName = $sp.'.jpg';
+        // Define the image path based on the environment
+        if ($_SERVER['SERVER_NAME'] == 'localhost') {
+          // Path for localhost
+          $imagePath = './assets/dhdokumen/suratpindahbarcode/';
+      } else {
+          // Path for server
+          $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/suratpindahbarcode/';
+      }
+    imagejpeg($imageResource, $imagePath.$imageName);    
+  }
+  public function printsp($id) {
+    $data['get_id']= $this->BarangPindah_model->getWhere($id);
+    $data['detail']= $this->BarangPindah_model->detailprint($id);
+    $this->load->view('print/formatsp',$data);
   }
 
   public function loadbk(){

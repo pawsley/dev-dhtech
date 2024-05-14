@@ -107,9 +107,9 @@ function table_etalase() {
             }                        
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                "<'col-sm-12 col-md-2'B>" +
+               "<'row'<'col-sm-12 col-md-2'B>>" +
                "<'row'<'col-sm-12'tr>>" +
-               "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
+               "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
                "buttons": [
                 {
                     "text": 'Refresh', // Font Awesome icon for refresh
@@ -189,6 +189,10 @@ function table_etalase() {
             ]
             
     });
+    var lvhp = '';
+    var lvpb = '';
+    var lvmr = '';
+    var lvcb = '';
     $('#table-etalase').on('change', '.checkbox-class', function() {
         var inputId = $(this).data('input-id');
         var inputPub = $(this).data('input-pub');
@@ -198,6 +202,19 @@ function table_etalase() {
         var inputPubField = $('#'+ inputPub);
         var inputMarField = $('#'+ inputMar);
         var inputCbField = $('#'+ inputCb);
+        if (this.checked) {
+            // Store the value when the checkbox is checked
+            lvcb = inputCbField.val();
+            lvhp = inputField.val();
+            lvpb = inputPubField.val();
+            lvmr = inputMarField.val();
+        } else {
+            // Restore the last value when the checkbox is unchecked
+            inputCbField.val(lvcb);
+            inputField.val(lvhp);
+            inputPubField.val(lvpb);
+            inputMarField.val(lvmr);
+        }
         inputField.prop('disabled', !this.checked);
         inputPubField.prop('disabled', !this.checked);
         inputMarField.prop({
@@ -205,6 +222,12 @@ function table_etalase() {
             'readonly': true
         });
         inputCbField.prop('disabled', !this.checked);
+        inputCbField.on('click', function() {
+            // If the value is "0", clear the value
+            if ($(this).val() === "0") {
+                $(this).val('');
+            }
+        });
     });
     $('#table-etalase').on('input', '.input-hpp, .input-pub', function() {
         var row = Tetalase.row($(this).closest('tr')).data();

@@ -71,6 +71,8 @@ function tablebk(formatter) {
                             return `<span class="badge rounded-pill badge-success">TERJUAL</span>`;
                         } else if(data==="4"){
                             return `<span class="badge rounded-pill badge-info">BOOKING</span>`;
+                        } else if(data==="5"){
+                            return `<span class="badge rounded-pill badge-danger">PINDAH</span>`;
                         }
                         return data; // return the original value for other cases
                     }
@@ -471,16 +473,6 @@ $(document).ready(function () {
     printsk();
 });
 
-// $('#prodbaru').on('select2:select', function (e) {
-//     var hrg_hpp = e.params.data.hrg_hpp;
-//     var hrg_jual = e.params.data.hrg_jual;
-//     console.log(hrg_hpp+''+hrg_jual);
-// });
-// $('#prodbekas').on('select2:select', function (e) {
-//     var hrg_hpp = e.params.data.hrg_hpp;
-//     var hrg_jual = e.params.data.hrg_jual;
-//     console.log(hrg_hpp+''+hrg_jual);
-// });
 
 function printsk() {
     $('#table-sk').on('click', '.download-button', function() {
@@ -582,13 +574,29 @@ function selectedbrg() {
         var data = e.params.data;
         var cab = data.id.split('-');
         var get = cab[1].trim();
-        $('#nosuratb').val('SK'+get+formattedDate);
+        var nowdate = new Date();
+        var day = String(nowdate.getDate()).padStart(2, '0');
+        var month = String(nowdate.getMonth() + 1).padStart(2, '0');
+        var year = nowdate.getFullYear();
+        var hours = String(nowdate.getHours()).padStart(2, '0');
+        var minutes = String(nowdate.getMinutes()).padStart(2, '0');
+        var seconds = String(nowdate.getSeconds()+1).padStart(2, '0');
+        var formatsk = 'SK'+get+hours+minutes+seconds+day+month+year;
+        $('#nosuratb').val(formatsk);
     });
     $('#cabangbekas').on('select2:select', function(e) {
         var data = e.params.data;
         var cab = data.id.split('-');
         var get = cab[1].trim();
-        $('#nosuratk').val('SK'+get+formattedDate);
+        var nowdate = new Date();
+        var day = String(nowdate.getDate()).padStart(2, '0');
+        var month = String(nowdate.getMonth() + 1).padStart(2, '0');
+        var year = nowdate.getFullYear();
+        var hours = String(nowdate.getHours()).padStart(2, '0');
+        var minutes = String(nowdate.getMinutes()).padStart(2, '0');
+        var seconds = String(nowdate.getSeconds()+1).padStart(2, '0');
+        var formatsk = 'SK'+get+hours+minutes+seconds+day+month+year;
+        $('#nosuratk').val(formatsk);
     });
 }
 
