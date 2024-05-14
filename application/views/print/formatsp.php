@@ -63,7 +63,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Tanggal Surat</td>
+                        <td>Tanggal Surat Pemindahan</td>
                         <td>: <?= $formatter->format(new DateTime($gsk['tgl_pindah'])) ?></td>
                     </tr>
                     <tr>
@@ -73,6 +73,10 @@
                     <tr>
                         <td>Kepada Cabang</td>
                         <td>: <?=$gsk['kpd_cab']?></td>
+                    </tr>
+                    <tr>
+                        <td>Pengirim</td>
+                        <td>: <?=$gsk['nama_lengkap']?></td>
                     </tr>
                 <?php } ?>
             </tbody>
