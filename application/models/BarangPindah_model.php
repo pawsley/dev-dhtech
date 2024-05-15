@@ -49,12 +49,10 @@ class BarangPindah_model extends CI_Model {
         $this->db->where('id_pindah', $sp);
         $this->db->update('tb_pindahbrg', array("status" => "1"));
     }
-    public function getWhere($id)
-    {   
+    public function getWhere($id){   
       $query = $this->db->group_by('nosp')->get_where('vpindah', array('nosp' => $id));
       return $query->result_array();
     }
-  
     public function detailprint($sp) {
       $this->db->select('id_detailp,tgl_pindah,nosp,sn_brg,nama_brg,merk,jenis,spek')
       ->from('vpindahdtl')
@@ -70,9 +68,10 @@ class BarangPindah_model extends CI_Model {
         ->join('tb_pindahbrgdetail AS tpd', 'vbk.id_keluar = tpd.id_keluar', 'left')
         // ->join('tb_pindahbrg AS tpb', 'tpd.id_pindah = tpb.id_pindah', 'left')
         // ->where('tpd.id_keluar IS NULL')
-        // ->where('tpd.id_pindah IN (SELECT id_pindah FROM tb_pindahbrg)')
+        // ->where('tpd.id_pindah NOT IN (SELECT id_pindah FROM tb_pindahbrg)')
         ->where('id_toko',$fcab)
-        ->where('vbk.status','2');
+        ->where('vbk.status','2')
+        ->group_by('vbk.id_keluar');
         if ($searchTerm) {
             $this->db->group_start();
             $this->db->like('sn_brg', $searchTerm);
