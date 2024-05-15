@@ -59,6 +59,41 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header pb-0 card-no-border">
+                            <div class="row">
+                                <div class="col-md-8 position-relative">
+                                    <h4>Daftar Surat Pindah</h4>
+                                </div>
+                                <div class="col-md-4 position-relative">
+                                    <select class="form-select" id="cabsp" name="cabsp" required="">
+                                        <option selected="" disabled="" value="0">Pilih Cabang</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="display" id="table-sp">
+                                <thead>
+                                    <tr>
+                                    <th>TANGGAL</th>
+                                    <th>NOMOR SURAT KELUAR</th>
+                                    <th>CABANG</th>
+                                    <th>STATUS</th>
+                                    <th>AKSI</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
             <!-- End Listing Inventori-->
             <div class="modal fade bd-example-modal-xl" id="DetailSuratKeluar" tabindex="-1" role="dialog" aria-labelledby="DetailSuratKeluar" aria-hidden="true">
                 <div class="modal-dialog modal-xl" role="document">

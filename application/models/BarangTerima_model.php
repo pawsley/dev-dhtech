@@ -23,7 +23,27 @@ class BarangTerima_model extends CI_Model {
         }
         $query = $this->db->get();
         return $query->result_array();
-      }
+    }
+    public function getKCabang($searchTerm=null){
+        $this->db->select(['id_toko', 'nama_toko']);
+        $this->db->from('tb_toko');
+        if ($searchTerm) {
+            $this->db->group_start();
+            $this->db->like('id_toko', $searchTerm);
+            $this->db->or_like('nama_toko', $searchTerm);
+            $this->db->group_end();
+        }
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    public function approvesp($idp, $data) {
+        $this->db->where('id_pindah', $idp);
+        $this->db->update('tb_pindahbrg', $data);
+    }
+    public function approvestp($idp, $data) {
+        $this->db->where('tb_brg_keluar.id_keluar IN (SELECT id_keluar FROM tb_pindahbrgdetail WHERE id_pindah = "'.$idp.'")', NULL, FALSE);
+        $this->db->update('tb_brg_keluar', $data);
+    }
 }
 
 /* End of file BarangTerima_model.php */

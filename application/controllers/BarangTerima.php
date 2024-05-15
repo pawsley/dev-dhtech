@@ -90,6 +90,24 @@ class BarangTerima extends Auth
     $this->datatables->group_by('no_surat_keluar');
     return print_r($this->datatables->generate());    
   }
+  public function filtersp($cab=null){
+    $decoded_cab = urldecode($cab);
+    $this->load->library('datatables');
+    $this->datatables->select('id_pindah,nosp,tgl_pindah,fcabang,dari_cab,tcabang,kpd_cab,status');
+    $this->datatables->from('vpindah');
+    $this->datatables->where('status','1');
+    $this->datatables->like('kpd_cab', $decoded_cab);
+    $this->datatables->group_by('nosp');
+    return print_r($this->datatables->generate());    
+  }
+  public function groupsp() {
+    $this->load->library('datatables');
+    $this->datatables->select('id_pindah,nosp,tgl_pindah,fcabang,dari_cab,tcabang,kpd_cab,status');
+    $this->datatables->where('status','1');
+    $this->datatables->from('vpindah');
+    $this->datatables->group_by('nosp');
+    return print_r($this->datatables->generate()); 
+  }
 
   public function approve(){
     if ($this->input->is_ajax_request()) {
@@ -103,6 +121,23 @@ class BarangTerima extends Auth
       
       $this->BarangTerima_model->approve($sk, $data);
       $this->BarangTerima_model->approvegd($sk, $data2);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('terima-barang');
+    }
+  }
+  public function approvesp(){
+    if ($this->input->is_ajax_request()) {
+      $idp = $this->input->post('idp');
+      $data = [
+        'status'      => '2',
+      ];
+      $data2 = [
+        'tb_brg_keluar.status' => '2'
+      ];
+      
+      $this->BarangTerima_model->approvesp($idp, $data);
+      $this->BarangTerima_model->approvestp($idp, $data2);
       echo json_encode(['status' => 'success']);
     } else {
       redirect('terima-barang');
