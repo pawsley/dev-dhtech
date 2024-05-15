@@ -71,7 +71,7 @@ class PenEtalase extends Auth
 
   public function loadproduk(){
     $this->load->library('datatables');
-    $this->datatables->select('id_keluar,sn_brg,nama_brg,jenis,id_supplier,nama_supplier,nama_toko,
+    $this->datatables->select('id_keluar,id_masuk,sn_brg,nama_brg,jenis,id_supplier,nama_supplier,nama_toko,
     hrg_hpp,hrg_jual,margin,hrg_cashback,status');
     $this->datatables->from('vbarangkeluar');
     $this->datatables->where('status','2');
@@ -97,6 +97,7 @@ class PenEtalase extends Auth
         if (!empty($checkedData)) {
             foreach ($checkedData as $data) {
                 $idk = $data['idk'];
+                $idm = $data['idm'];
                 $hrg_hpp = $data['ehpp'];
                 $hrg_jual = $data['ehj'];
                 $margin = $data['emg'];
@@ -106,6 +107,11 @@ class PenEtalase extends Auth
                     'hrg_hpp' => $hrg_hpp,
                     'hrg_jual' => $hrg_jual,
                     'margin' => $margin,
+                    'hrg_cashback' => $hrg_cb
+                ]);
+                $this->PenEtalase_model->updatebm($idm, [
+                    'hrg_hpp' => $hrg_hpp,
+                    'hrg_jual' => $hrg_jual,
                     'hrg_cashback' => $hrg_cb
                 ]);
             }

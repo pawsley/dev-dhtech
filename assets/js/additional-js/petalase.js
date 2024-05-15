@@ -36,7 +36,7 @@ function table_etalase() {
                 "render": function (data, type, row, meta) {
                     var checkboxId = 'checkbox-' + data;
                     return `
-                        <input class="form-check-input checkbox-class" type="checkbox" id="${checkboxId}" data-id="${data}" data-input-id="${checkboxId}-hpp" data-input-pub="${checkboxId}-pub" data-input-mar="${checkboxId}-mar" data-input-cb="${checkboxId}-cb">
+                        <input class="checkbox-class" type="checkbox" id="${checkboxId}" data-id="${data}" data-input-id="${checkboxId}-hpp" data-input-pub="${checkboxId}-pub" data-input-mar="${checkboxId}-mar" data-input-cb="${checkboxId}-cb">
                     `;
                 }
             },
@@ -136,12 +136,13 @@ function table_etalase() {
                     }
                 },
                 {
-                    "text": 'Simpan Perubahan', // Font Awesome icon for refresh
+                    "text": 'Update', // Font Awesome icon for refresh
                     "attr": {
                         "id": "update" // Set the ID attribute
                     },
                     "action": function () {
                         var checkedData = [];
+                        
                         $('.checkbox-class:checked').each(function() {
                             var row = Tetalase.row($(this).closest('tr')).data();
                             var hppInputId = 'checkbox-' + row.id_keluar + '-hpp';
@@ -154,6 +155,7 @@ function table_etalase() {
                             var cbValue = $('#' + cbInputId).val().replace(/\D/g, '');
                             checkedData.push({
                                 idk: row.id_keluar,
+                                idm: row.id_masuk,
                                 ehpp: parseFloat(hppValue),
                                 ehj: parseFloat(pubValue),
                                 emg: marValue,
@@ -189,10 +191,6 @@ function table_etalase() {
             ]
             
     });
-    var lvhp = '';
-    var lvpb = '';
-    var lvmr = '';
-    var lvcb = '';
     $('#table-etalase').on('change', '.checkbox-class', function() {
         var inputId = $(this).data('input-id');
         var inputPub = $(this).data('input-pub');
@@ -202,19 +200,6 @@ function table_etalase() {
         var inputPubField = $('#'+ inputPub);
         var inputMarField = $('#'+ inputMar);
         var inputCbField = $('#'+ inputCb);
-        if (this.checked) {
-            // Store the value when the checkbox is checked
-            lvcb = inputCbField.val();
-            lvhp = inputField.val();
-            lvpb = inputPubField.val();
-            lvmr = inputMarField.val();
-        } else {
-            // Restore the last value when the checkbox is unchecked
-            inputCbField.val(lvcb);
-            inputField.val(lvhp);
-            inputPubField.val(lvpb);
-            inputMarField.val(lvmr);
-        }
         inputField.prop('disabled', !this.checked);
         inputPubField.prop('disabled', !this.checked);
         inputMarField.prop({
