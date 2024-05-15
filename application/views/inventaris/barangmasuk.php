@@ -192,6 +192,7 @@
                                 <th>SPESIFIKASI</th>
                                 <th>KONDISI PRODUK</th>
                                 <th>BARCODE</th>
+                                <th>STATUS</th>
                                 <th>AKSI</th>
                               </tr>
                             </thead>

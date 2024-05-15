@@ -9,6 +9,7 @@ class BarangKeluar extends Auth
   {
     parent::__construct();
     $this->load->model('BarangKeluar_model');
+    $this->load->library('zend');
   }
 
   public function datacount($id){
@@ -100,6 +101,20 @@ class BarangKeluar extends Auth
     header('Content-Type: application/json');
     echo json_encode($results);    
   }
+  public function barcode($sp){
+    $this->zend->load('Zend/Barcode');
+    $imageResource = Zend_Barcode::factory('code128','image', array('text'=>$sp), array())->draw();
+    $imageName = $sp.'.jpg';
+        // Define the image path based on the environment
+        if ($_SERVER['SERVER_NAME'] == 'localhost') {
+          // Path for localhost
+          $imagePath = './assets/dhdokumen/suratkeluarbarcode/';
+      } else {
+          // Path for server
+          $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/suratkeluarbarcode/';
+      }
+    imagejpeg($imageResource, $imagePath.$imageName);    
+  }
 
   public function addmb() {
     if ($this->input->is_ajax_request()) {
@@ -115,6 +130,7 @@ class BarangKeluar extends Auth
       ];
       $inserted = $this->BarangKeluar_model->create($data);
       if ($inserted) {
+        $this->barcode($this->input->post('nosuratb'));
         echo json_encode(['status' => 'success']);
       } else {
         echo json_encode(['status' => 'exists']);
@@ -138,7 +154,7 @@ class BarangKeluar extends Auth
       ];
       $inserted = $this->BarangKeluar_model->create($data);
       if ($inserted) {
-        // $this->barcode($this->input->post('snbekas'));
+        $this->barcode($this->input->post('nosuratk'));
         echo json_encode(['status' => 'success']);
       } else {
         echo json_encode(['status' => 'exists']);

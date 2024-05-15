@@ -56,6 +56,9 @@
                     <tr>
                         <td width="200">Nomor Surat</td>
                         <td>: <?=$gsk['no_surat_keluar']?></td>
+                        <td rowspan="6" style="vertical-align: top; text-align: right;">
+                            <img style="margin:12px;" src="<?=base_url()?>assets/dhdokumen/suratkeluarbarcode/<?=$gsk['no_surat_keluar']?>.jpg" alt="">
+                        </td>
                     </tr>
                     <tr>
                         <td>Tanggal Surat</td>
@@ -77,7 +80,6 @@
                     <th style="border: 1px solid black;">Merk</th>
                     <th style="border: 1px solid black;">Spesifikasi</th>
                     <th style="border: 1px solid black;">Kondisi</th>
-                    <th style="border: 1px solid black;">Barcode</th>
                 </tr>
             </thead>
             <tbody>
@@ -87,9 +89,10 @@
                         <td class="text-center" style="border: 1px solid black;"><?=$dtl['nama_brg']?></td>
                         <td class="text-center" style="border: 1px solid black;"><?=$dtl['jenis']?></td>
                         <td class="text-center" style="border: 1px solid black;"><?=$dtl['merk']?></td>
-                        <td class="text-center" style="border: 1px solid black;"><?=$dtl['spek']?></td>
+                        <td class="text-center" style="border: 1px solid black; text-align: left;">
+                            <?= nl2br($dtl['spek']) ?>
+                        </td>
                         <td class="text-center" style="border: 1px solid black;"><?=$dtl['kondisi']?></td>
-                        <td class="text-center" style="border: 1px solid black;"><img style="margin:12px;" src="<?=base_url()?>assets/dhdokumen/snbarcode/<?=$dtl['sn_brg']?>.jpg" alt=""></td>
                     </tr>
                 <?php } ?>
             </tbody>

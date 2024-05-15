@@ -78,6 +78,25 @@ function tablebm() {
                   return data;
               }
             },
+            { 
+                "data": "status",
+                "render": function (data, type, full, meta) {
+                    // You can customize the rendering here
+                    if (type === "display") {
+                        if (data === "1") {
+                            return `<span class="badge rounded-pill badge-secondary">BARANG GUDANG</span>`;
+                        } else if(data ==="2"){
+                            return `<span class="badge rounded-pill badge-primary">BARANG TOKO</span>`;
+                        } else if(data==="3"){
+                            return `<span class="badge rounded-pill badge-success">TERJUAL</span>`;
+                        } else if(data==="4"){
+                            return `<span class="badge rounded-pill badge-info">BOOKING</span>`;
+                        }
+                        return data; // return the original value for other cases
+                    }
+                    return data;
+                }
+            },
             {
                 "data": "id_masuk",
                 "orderable": false, // Disable sorting for this column
