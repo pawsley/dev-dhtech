@@ -148,7 +148,7 @@
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <form class="row g-3">
                                             <div class="col-4 position-relative"> 
-                                                <label class="form-label" for="carisn">Cari Serial Number</label>
+                                                <label class="form-label" for="carisn">Scan Produk</label>
                                                 <input class="form-control" id="carisn" name="carisn" type="text" placeholder="Scan serial number produk" aria-label="carisn">
                                             </div>
                                             <!-- SN Product -->
