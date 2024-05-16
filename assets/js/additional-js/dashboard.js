@@ -4,6 +4,7 @@ var tableSP;
 var tableDK;
 var tableCT;
 var tableKY;
+var tableCB;
 var formatcur = new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR',
@@ -22,7 +23,8 @@ $(document).ready(function () {
     detailasset();
     detailsales();
     detaildiskon();
-    detailcust();
+    // detailcust();
+    detailcb();
     detailkar();
 });
 
@@ -177,15 +179,15 @@ function countdis(formatcur) {
 }
 function countct(formatcur) {
     $.ajax({
-        url: base_url + 'Welcome/tcust/',
+        url: base_url + 'Welcome/tcb/',
         type: 'GET',
         dataType: 'json',
         success: function(data) {
             $('#cardtc').removeClass('d-none');
             $.each(data, function(index, item) {
-                var cust = formatcur.format(item.total_customer).replace(/\D/g, '');
-                $('#cardtc').text(cust);
-                $('.ctc').attr('data-total_cust', cust);
+                var tcba = formatcur.format(item.total_cashback);
+                $('#cardtc').text(tcba);
+                $('.ctc').attr('data-total_cba', tcba);
                 return false;
             });
             $('#spintc').addClass('d-none');
@@ -622,6 +624,59 @@ function tablediskon() {
     });
     return tableDK;
 }
+function tablecb() {
+    if ($.fn.DataTable.isDataTable('#table-cb')) {
+        tableCB.destroy();
+    }
+    tableCB = $("#table-cb").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [
+            [0, 'desc'] 
+        ],
+        "ajax": {
+            "url": base_url + 'detail-cb',
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },
+            { 
+                "data": "cb",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { "data": "nama_supplier" },
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-6'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+        "buttons": [
+            {
+                "text": 'Refresh', // Font Awesome icon for refresh
+                "className": 'custom-refresh-button', // Add a class name for identification
+                "attr": {
+                    "id": "refresh-button" // Set the ID attribute
+                },
+                "init": function (api, node, config) {
+                    $(node).removeClass('btn-default');
+                    $(node).addClass('btn-primary');
+                    $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                },
+                "action": function () {
+                    tableCB.ajax.reload();
+                }
+            },
+        ]
+            
+    });
+    return tableCB;
+}
 function tablecust() {
     if ($.fn.DataTable.isDataTable('#table-cust')) {
         tableCT.destroy();
@@ -775,6 +830,14 @@ function detaildiskon() {
         var total = button.data('diskon_sales');
         $("#td").text(total);
         tablediskon();
+    });
+}
+function detailcb() {
+    $('#DetailCashback').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        var total = button.data('total_cba');
+        $("#tca").text(total);
+        tablecb();
     });
 }
 function detailcust() {

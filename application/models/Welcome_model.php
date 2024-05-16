@@ -15,7 +15,7 @@ class Welcome_model extends CI_Model {
 
   public function countlaba() {
     $this->db->select([
-      "(SUM(harga_jual) - COALESCE(SUM(harga_diskon), 0)) as laba_kotor, tgl_transaksi"
+      "(SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp) as laba_kotor, tgl_transaksi"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
@@ -35,7 +35,7 @@ class Welcome_model extends CI_Model {
   }
   public function countpenjualan(){
     $this->db->select([
-      "SUM(harga_jual) AS total_penjualan"
+      "(SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback))AS total_penjualan"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
@@ -60,6 +60,17 @@ class Welcome_model extends CI_Model {
       "COUNT(id_plg) as total_customer"
     ]);
     $this->db->from('tb_pelanggan');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function countcb(){
+    $this->db->select([
+      "SUM(harga_cashback) as total_cashback"
+    ]);
+    $this->db->from('vpenjualan');
+    $this->db->where_in('status',[1,2]);
+    // $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
+    // $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
     $query = $this->db->get();
     return $query->result_array();
   }

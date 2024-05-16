@@ -178,6 +178,7 @@ $route['detail-laba']='Welcome/detaillabak';
 $route['detail-asset']='Welcome/detailasset';
 $route['detail-sales']='Welcome/detailsales';
 $route['detail-diskon']='Welcome/detaildiskon';
+$route['detail-cb']='Welcome/detailcashback';
 $route['detail-customer']='Welcome/detailcust';
 $route['login']='Login';
 $route['logout']='Login/logout';

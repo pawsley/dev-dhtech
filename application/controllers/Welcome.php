@@ -98,6 +98,11 @@ class Welcome extends Auth {
 		header('Content-Type: application/json');
 		echo json_encode($results);
 	}
+	public function tcb() {
+		$results = $this->Welcome_model->countcb();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
 	public function tuser() {
 		$results = $this->Welcome_model->countuser();
 		header('Content-Type: application/json');
@@ -147,6 +152,12 @@ class Welcome extends Auth {
 		$this->load->library('datatables');
 		$this->datatables->select('id_toko,nama_toko,total_diskon');
 		$this->datatables->from('vtotaldiskon');
+		return print_r($this->datatables->generate());
+	}	
+	public function detailcashback(){
+		$this->load->library('datatables');
+		$this->datatables->select('sn_brg,nama_brg,cb,nama_supplier');
+		$this->datatables->from('vtotalcashback');
 		return print_r($this->datatables->generate());
 	}	
 	public function detailcust(){

@@ -34,7 +34,7 @@
                         <a href="#" class="cardlaba" data-bs-toggle="modal" data-bs-target="#DetailLaba" data-total_laba="">
                           <div class="card o-hidden">  
                             <div class="card-body balance-widget">
-                              <span class="f-w-500 f-light">Laba Kotor Bulan Ini</span>
+                              <span class="f-w-500 f-light">Laba Bersih Bulan Ini</span>
                               <br>
                               <div class="spinner-border text-primary d-none" role="status" id="spinner">
                                 <span class="visually-hidden">Memuat...</span>
@@ -109,7 +109,7 @@
                         </a>
                       </div>
                       <!-- Total Kustomer -->
-                      <div class="col-6"> 
+                      <!-- <div class="col-6"> 
                         <a href="#" class="ctc" data-bs-toggle="modal" data-bs-target="#DetailCust" data-total_cust="">
                           <div class="card small-widget"> 
                             <div class="card-body warning"><span class="f-light">Total Kustomer</span>
@@ -121,7 +121,27 @@
                               </div>
                               <div class="bg-gradient"> 
                                 <svg class="stroke-icon svg-fill">
-                                  <use href="<?=base_url()?>assets/svg/icon-sprite.svg#customers"></use>
+                                  <use href="<?=base_url()?>assets/svg/icon-sprite.svg#sale"></use>
+                                </svg>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                      </div> -->
+                      <!-- Total Cashback -->
+                      <div class="col-6"> 
+                        <a href="#" class="ctc" data-bs-toggle="modal" data-bs-target="#DetailCashback" data-total_cba="">
+                          <div class="card small-widget"> 
+                            <div class="card-body warning"><span class="f-light">Total Cashback</span>
+                              <div class="d-flex align-items-end gap-1">
+                                <div class="spinner-border text-primary d-none" role="status" id="spintc">
+                                  <span class="visually-hidden">Memuat...</span>
+                                </div>                                
+                                <h4 id="cardtc"></h4></span>
+                              </div>
+                              <div class="bg-gradient"> 
+                                <svg class="stroke-icon svg-fill">
+                                  <use href="<?=base_url()?>assets/svg/icon-sprite.svg#sale"></use>
                                 </svg>
                               </div>
                             </div>
@@ -366,14 +386,14 @@
                       <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
                           <div class="modal-toggle-wrapper">
                               <div class="modal-header mb-4">
-                                  <h3>Detail Laba Kotor Bulan Ini</h3>
+                                  <h3>Detail Laba Bersih Bulan Ini</h3>
                                   <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <!-- Isi Konten -->
                               <ul class="list-group">
                                   <!-- Total -->
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      <strong><span>Total Laba Kotor</span></strong>
+                                      <strong><span>Total Laba Bersih</span></strong>
                                       <strong id="tlk">-</strong>
                                   </li>
                               </ul>
@@ -578,6 +598,49 @@
                   </div>
               </div>
             </div>
+            <div class="modal fade bd-example-modal-xl" id="DetailCashback" tabindex="-1" role="dialog" aria-labelledby="DetailCashback" aria-hidden="true">
+              <div class="modal-dialog modal-xl" role="document">
+                  <div class="modal-content dark-sign-up">
+                      <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
+                          <div class="modal-toggle-wrapper">
+                              <div class="modal-header mb-4">
+                                  <h3>Detail Cashback</h3>
+                                  <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <!-- Isi Konten -->
+                              <ul class="list-group">
+                                  <!-- Total -->
+                                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <strong><span>Total Cashback</span></strong>
+                                      <strong id="tca">-</strong>
+                                  </li>
+                              </ul>
+                              <!-- Data Table -->
+                              <div class="col-lg-12"> 
+                                  <div class="card"> 
+                                      <div class="card-body">
+                                      <div class="table-responsive">
+                                          <table class="display" id="table-cb">
+                                              <thead>
+                                                  <tr>
+                                                    <th><span class="f-light f-w-600">SN PRODUK</span></th>
+                                                    <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
+                                                    <th><span class="f-light f-w-600">CASHBACK</span></th>
+                                                    <th><span class="f-light f-w-600">SUPPLIER</span></th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                              </tbody>
+                                          </table>
+                                          </div>                                            
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>            
             <div class="modal fade bd-example-modal-xl" id="DetailUser" tabindex="-1" role="dialog" aria-labelledby="DetailUser" aria-hidden="true">
               <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content dark-sign-up">
