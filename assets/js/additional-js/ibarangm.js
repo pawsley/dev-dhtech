@@ -371,7 +371,7 @@ function addmb() {
         var kond = 'Baru';
         var genhpp = parseFloat(hpp.replace(/\D/g, ''));
         var genhj = parseFloat(hj.replace(/\D/g, ''));
-        if (!sup || !fk || !brg || !sn || !imei || !hpp || !hj) {
+        if (!sup || !fk || !brg || !sn || !hpp || !hj) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
         } 
@@ -432,7 +432,7 @@ function addmk() {
         var kond = 'Bekas';
         var genhpp = parseFloat(hpp.replace(/\D/g, ''));
         var genhj = parseFloat(hj.replace(/\D/g, ''));
-        if (!sup || !fk || !brg || !sn || !imei || !hpp || !hj) {
+        if (!sup || !fk || !brg || !sn || !hpp || !hj) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
         } 
