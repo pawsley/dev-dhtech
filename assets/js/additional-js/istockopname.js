@@ -14,7 +14,7 @@ $(document).ready(function () {
     getCountStock(formatter);
     card(formatter);
     reload();
-    exportexcel();
+    // exportexcel();
     detailopname();
 });
 //count produk in and out
@@ -135,7 +135,7 @@ function tablero() {
                                 <ul class="action">
                                     <div class="btn-group">
                                         <button class="btn btn-success" data-id="${data}" data-bs-toggle="modal" data-bs-target="#DetailStockopname"><i class="fa fa-eye"></i></button>
-                                        <button class="btn btn-secondary" type="button" id="export" data-kode="${data}"><i class="fa fa-cloud-download"></i></button>
+                                        <!-- <button class="btn btn-secondary" type="button" id="export" data-kode="${data}"><i class="fa fa-cloud-download"></i></button> -->
                                     </div>
                                 </ul>
                             `;

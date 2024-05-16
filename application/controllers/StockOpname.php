@@ -243,10 +243,12 @@ class StockOpname extends Auth
     }    
   }
   public function loadopnamelist() {
+    $auditor = $this->session->userdata('nama_lengkap');
     $this->load->library('datatables');
     $this->datatables->select('id_opname,kode_opname, DATE_FORMAT(tgl_opname, "%d-%M-%Y") AS tgl_opname,nama_lengkap,id_toko,nama_toko,status');
     $this->datatables->from('vopname');
     $this->datatables->where('status','1');
+    $this->datatables->where('nama_lengkap',$auditor);
     return print_r($this->datatables->generate());
   }
   public function loadproduklist($id_toko,$tgl) {
@@ -257,6 +259,14 @@ class StockOpname extends Auth
     $this->datatables->where("DATE_FORMAT(tgl_opname, '%Y-%m-%d') = '".$tgl."'");
     return print_r($this->datatables->generate());
   }  
+  public function loadproplist($id_toko,$ido) {
+    $this->load->library('datatables');
+    $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis');
+    $this->datatables->from('vopname_dtl');
+    $this->datatables->where('id_toko',$id_toko);
+    $this->datatables->where('id_opname',$ido);
+    return print_r($this->datatables->generate());
+  }
   public function getbarang($id){
     $data['get_id']= $this->StockOpname_model->getWhere($id);
     echo json_encode($data);
@@ -275,6 +285,11 @@ class StockOpname extends Auth
   public function deletepost($id){
     $result = $this->StockOpname_model->delete($id);
     echo json_encode($result);
+  }
+  public function searchSN($idt,$idop,$sn){
+    $results = $this->StockOpname_model->getProdOP($idt,$idop,$sn);
+    header('Content-Type: application/json');
+    echo json_encode($results);
   }
 }
 

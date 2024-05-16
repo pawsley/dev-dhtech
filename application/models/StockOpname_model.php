@@ -87,6 +87,15 @@ class StockOpname_model extends CI_Model {
     $success = $success_opname && $success_detail;
     $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
     return array('success' => $success, 'message' => $message);
+  }
+  public function getProdOP($idt,$idop,$sn) {
+    $this->db->select(['id_opname','id_keluar', 'sn_brg', 'merk', 'jenis', 'nama_brg','kondisi','spek','hrg_hpp','hrg_jual','id_toko'])
+    ->from('vprdop')
+    ->where('id_toko',$idt)
+    ->where('id_opname',$idop)
+    ->where('sn_brg', $sn);
+    $query = $this->db->get();
+    return $query->result_array();
   }  
 }
 

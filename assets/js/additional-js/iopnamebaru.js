@@ -1,5 +1,6 @@
 var tableOL;
 var tablePR;
+var tablePROP;
 
 $(document).ready(function () {
     generateid();
@@ -8,10 +9,10 @@ $(document).ready(function () {
     addauditor();
     reload();
     getbarang();
-    $('#addprod').click(function() {
-        var id_opname = $(this).data('id_opname');
-        addproduk(id_opname);
-    });
+    // $('#addprod').click(function() {
+    //     var id_opname = $(this).data('id_opname');
+    //     addproduk(id_opname);
+    // });
     $('#simpanopnm').click(function() {
         simpanop();
     });
@@ -84,11 +85,11 @@ function tableol() {
                 }
             }            
         ],
-        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                "<'col-sm-12 col-md-2'B>" +
-               "<'row'<'col-sm-12'tr>>" +
-               "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
-               "buttons": [
+        "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-2'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+                "buttons": [
                 {
                     "text": 'Refresh', // Font Awesome icon for refresh
                     "className": 'custom-refresh-button', // Add a class name for identification
@@ -145,11 +146,11 @@ function tablepr(id_toko,tgl) {
             { "data": "merk" },
             { "data": "jenis" },  
         ],
-        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                "<'col-sm-12 col-md-2'B>" +
-               "<'row'<'col-sm-12'tr>>" +
-               "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
-               "buttons": [
+        "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-2'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+                "buttons": [
                 {
                     "text": 'Refresh', // Font Awesome icon for refresh
                     "className": 'custom-refresh-button', // Add a class name for identification
@@ -170,6 +171,54 @@ function tablepr(id_toko,tgl) {
             
     });
     return tablePR;    
+}
+
+function tableprop(id_toko,ido) {
+    if ($.fn.DataTable.isDataTable('#table-prop')) {
+        tablePROP.destroy();
+    }
+    tablePROP = $("#table-prop").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [],
+        "ajax": {
+            "url": base_url + 'StockOpname/loadproplist/'+id_toko+'/'+ido,
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },
+            { "data": "merk" },
+            { "data": "jenis" },  
+        ],
+        "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-2'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+                "buttons": [
+                {
+                    "text": 'Refresh', // Font Awesome icon for refresh
+                    "className": 'custom-refresh-button', // Add a class name for identification
+                    "attr": {
+                        "id": "refresh-button" // Set the ID attribute
+                    },
+                    "init": function (api, node, config) {
+                        $(node).removeClass('btn-default');
+                        $(node).addClass('btn-primary');
+                        $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                    },
+                    "action": function () {
+                        tablePROP.ajax.reload();
+                        // $('#cprod').text('0');
+                    }
+                }
+            ]
+            
+    });
+    return tablePROP;
 }
 
 function getSelect() {
@@ -310,11 +359,82 @@ function formatDate(date) {
     var options = { day: 'numeric', month: 'long', year: 'numeric' };
     return date.toLocaleDateString('id-ID', options);
 }
-
+function getProdOP() {
+    $('#carisn').on('input', function() {
+        var idt = $(this).data('idt');
+        var idop = $(this).data('idop');
+        var otgl = $(this).data('otgl');
+        var searchTerm = $(this).val();
+        if (searchTerm.trim() === '') {
+            return; // Do nothing if the search term is empty
+        }
+        $.ajax({
+            url: base_url + 'StockOpname/searchSN/'+idt+'/'+idop+'/'+searchTerm,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.length === 1) {
+                    var data = response[0];
+                    var sn_brg = data.sn_brg;
+                    var merk = data.merk;
+                    var jenis = data.jenis;
+                    var spek = data.spek;
+                    var idk = data.id_keluar;
+                    $('#hsn').val(sn_brg);
+                    $('#merk').val(merk);
+                    $('#jenis').val(jenis);
+                    $('#spek').val(spek);
+                    $.ajax({
+                        url: base_url + 'StockOpname/addpr',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            idopname: idop,
+                            idkeluar: idk
+                        },
+                        success: function(response) {
+                            swal({
+                                title: "Success",
+                                text: "Produk ditambahkan",
+                                icon: "success",
+                                timer: 1000, // Time in milliseconds (2 seconds in this example)
+                                buttons: false // Hides the "OK" button
+                            }).then(() => {
+                                $('#carisn').val('');
+                                $('#carisn').focus();
+                                tablePROP.ajax.reload();
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error inserting data:', error);
+                        }
+                    });
+                } else {
+                    swal("error", "Serial Number "+searchTerm+ " tidak ada", "error").then(() => {
+                        $('#carisn').val('');
+                        $('#hsn').val('');
+                        $('#merk').val('');
+                        $('#jenis').val('');
+                        $('#spek').val('');
+                        $('#carisn').focus();
+                    });
+                    // console.log('No data found or multiple entries found for serial number:', searchTerm);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error searching serial number:', error);
+            }
+        });
+    });
+       
+}
 function getbarang(){
     $('#CariBarang').on('show.bs.modal', function (e) {
         var button = $(e.relatedTarget);
         var id = button.data('id');
+        setTimeout(function (){
+            $('#carisn').focus();
+        }, 1000);
         
         $.ajax({
             url: base_url + "stock-opname/getbarang/"+id,
@@ -332,15 +452,21 @@ function getbarang(){
                     $('#aud').text(item.nama_lengkap);
                     $('#cab').text(item.id_toko+'|'+item.nama_toko);
                     $('#dtgl').text(formattedDate);
-                    tablepr(item.id_toko,tgl);
-                    $('#addprod').attr('data-id_opname', id_opname);
+                    $('#carisn').attr({
+                        'data-idt': item.id_toko,
+                        'data-idop': item.id_opname,
+                        'data-otgl': tgl
+                    });
+                    getProdOP();
+                    tableprop(item.id_toko,id_opname);
+                    // $('#addprod').attr('data-id_opname', id_opname);
                 });
             }
         });
-        $('#table-pr').on('change', '.checkbox_prod', function() {
-            var countChecked = $('.checkbox_prod:checked').length;
-            $('#cprod').text(countChecked);
-        });
+        // $('#table-pr').on('change', '.checkbox_prod', function() {
+        //     var countChecked = $('.checkbox_prod:checked').length;
+        //     $('#cprod').text(countChecked);
+        // });
     });
 }
 function addproduk(id_opname) {

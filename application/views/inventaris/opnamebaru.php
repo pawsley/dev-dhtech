@@ -102,56 +102,89 @@
             </div>
             <!-- End Listing Stock Opname -->
             <!-- Modal  -->
-            <div class="modal fade bd-example-modal-lg" id="CariBarang" tabindex="-1" role="dialog" aria-labelledby="CariBarang" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
+            <div class="modal fade bd-example-modal-xl" id="CariBarang" tabindex="-1" role="dialog" aria-labelledby="CariBarang" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
                     <div class="modal-content dark-sign-up">
                         <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
                             <div class="modal-toggle-wrapper">
                                 <div class="modal-header mb-4">
-                                    <h3>Inventori Stock</h3>
+                                    <h3>Tambah Detail Stock Opname</h3>
                                     <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <!-- Isi Konten -->
                                 <ul class="list-group">
-                                  <!-- ID OPNAME -->
-                                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      <span>ID OPNAME</span>
-                                      <strong id="ido">-</strong>
-                                  </li>
-                                  <!-- Nama Auditor -->
-                                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      <span>NAMA AUDITOR</span>
-                                      <strong id="aud">-</strong>
-                                  </li>
-                                  <!-- NAMA CABANG -->
-                                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      <span>DETAIL CABANG</span>
-                                      <strong id="cab">-</strong>
-                                  </li>
-                                  <!-- TANGGAL & WAKTU -->
-                                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      <span>TANGGAL & WAKTU</span>
-                                      <strong id="dtgl">-</strong>
-                                  </li>
-                                  <!-- TOTAL PRODUK -->
-                                  <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      <span>TOTAL PRODUK</span>
-                                      <strong id="cprod">0</strong>
-                                  </li>
+                                    <!-- ID OPNAME -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>ID OPNAME</span>
+                                        <strong id="ido">-</strong>
+                                    </li>
+                                    <!-- Nama Auditor -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>NAMA AUDITOR</span>
+                                        <strong id="aud">-</strong>
+                                    </li>
+                                    <!-- NAMA CABANG -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>DETAIL CABANG</span>
+                                        <strong id="cab">-</strong>
+                                    </li>
+                                    <!-- TANGGAL & WAKTU -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>TANGGAL</span>
+                                        <strong id="dtgl">-</strong>
+                                    </li>
+                                    <!-- TOTAL PRODUK -->
+                                    <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>TOTAL PRODUK</span>
+                                        <strong id="cprod">0</strong>
+                                    </li> -->
+                                    <!-- PRODUK -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <form class="row g-3">
+                                            <div class="col-4 position-relative"> 
+                                                <label class="form-label" for="carisn">Cari Serial Number</label>
+                                                <input class="form-control" id="carisn" name="carisn" type="text" placeholder="Scan serial number produk" aria-label="carisn">
+                                            </div>
+                                            <!-- SN Product -->
+                                            <div class="col-4 position-relative"> 
+                                                <label class="form-label" for="brandproduk">Serial Number</label>
+                                                <input class="form-control" id="hsn" name="hsn" type="text" placeholder="TERISI OTOMATIS" aria-label="brandproduk" readonly>
+                                            </div>
+                                            <!-- Brand Product -->
+                                            <div class="col-2 position-relative"> 
+                                                <label class="form-label" for="brandproduk">Merek</label>
+                                                <input class="form-control" id="merk" name="merk" type="text" placeholder="TERISI OTOMATIS" aria-label="brandproduk" readonly>
+                                            </div>
+
+                                            <!-- Jenis Product -->
+                                            <div class="col-2 position-relative"> 
+                                                <label class="form-label" for="jenisproduk">Jenis</label>
+                                                <input class="form-control" id="jenis" name="jenis" type="text" placeholder="TERISI OTOMATIS" aria-label="jenisproduk" readonly>
+                                            </div>
+
+                                            <div class="col-md-12 position-relative"> 
+                                                <label class="form-label" for="exampleFormControlTextarea1">Spesifikasi Lengkap</label>
+                                                <textarea class="form-control" style="resize: none;" name="spek" id="spek" rows="3" placeholder="TERISI OTOMATIS" readonly></textarea>
+                                            </div>                                                               
+                                            <!-- Submit -->
+                                            <!-- <div class="col-12 mt-3">
+                                                <button class="btn btn-primary" id="tambahdata" type="button">Tambah Data</button>
+                                            </div> -->
+                                        </form>
+                                    </li>
                                 </ul>
                                 <!-- Data Table -->
                                 <div class="col-lg-12"> 
                                     <div class="card"> 
                                         <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
                                             <h5>Produk List</h5>
-                                            <a class="btn btn-primary" type="button" id="addprod"><i class="fa fa-plus"></i>Tambahkan</a>
+                                            <!-- <a class="btn btn-primary" type="button" id="addprod"><i class="fa fa-plus"></i>Tambahkan</a> -->
                                         </div>
                                         <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="display" id="table-pr">
+                                            <table class="display" id="table-prop">
                                                 <thead>
                                                     <tr>
-                                                        <th>#</th>
                                                         <th>SN PRODUK</th>
                                                         <th>NAMA PRODUK</th>
                                                         <th>MERK</th>
