@@ -244,12 +244,21 @@ class StockOpname extends Auth
   }
   public function loadopnamelist() {
     $auditor = $this->session->userdata('nama_lengkap');
-    $this->load->library('datatables');
-    $this->datatables->select('id_opname,kode_opname, DATE_FORMAT(tgl_opname, "%d-%M-%Y") AS tgl_opname,nama_lengkap,id_toko,nama_toko,status');
-    $this->datatables->from('vopname');
-    $this->datatables->where('status','1');
-    $this->datatables->where('nama_lengkap',$auditor);
-    return print_r($this->datatables->generate());
+    $role = $this->session->userdata('jabatan');
+    if ($role == 'OWNER') {
+      $this->load->library('datatables');
+      $this->datatables->select('id_opname,kode_opname, DATE_FORMAT(tgl_opname, "%d-%M-%Y") AS tgl_opname,nama_lengkap,id_toko,nama_toko,status');
+      $this->datatables->from('vopname');
+      $this->datatables->where('status','1');
+      return print_r($this->datatables->generate());
+    } else if ($role == 'KEPALA CABANG'){
+      $this->load->library('datatables');
+      $this->datatables->select('id_opname,kode_opname, DATE_FORMAT(tgl_opname, "%d-%M-%Y") AS tgl_opname,nama_lengkap,id_toko,nama_toko,status');
+      $this->datatables->from('vopname');
+      $this->datatables->where('status','1');
+      $this->datatables->where('nama_lengkap',$auditor);
+      return print_r($this->datatables->generate());
+    }
   }
   public function loadproduklist($id_toko,$tgl) {
     $this->load->library('datatables');
