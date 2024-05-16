@@ -54,7 +54,7 @@ class BarangPindah_model extends CI_Model {
       return $query->result_array();
     }
     public function detailprint($sp) {
-      $this->db->select('id_detailp,tgl_pindah,nosp,sn_brg,nama_brg,merk,jenis,spek')
+      $this->db->select('id_detailp,tgl_pindah,nosp,kpd_cab,sn_brg,nama_brg,merk,jenis,spek,kondisi')
       ->from('vpindahdtl')
       ->where('nosp',$sp);
       $this->db->order_by('id_detailp', 'asc');

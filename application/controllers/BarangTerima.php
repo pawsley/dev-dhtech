@@ -143,6 +143,13 @@ class BarangTerima extends Auth
       redirect('terima-barang');
     }
   }
+  public function getsp($nsp){
+    $this->load->library('datatables');
+    $this->datatables->select('id_detailp,tgl_pindah,nosp,kpd_cab,sn_brg,nama_brg,merk,jenis,spek,kondisi,status');
+    $this->datatables->from('vpindahdtl');
+    $this->datatables->where('nosp',$nsp);
+    return print_r($this->datatables->generate());
+  }
 
 }
 

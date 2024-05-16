@@ -137,7 +137,63 @@
                                                     <th>KONDISI</th>
                                                     <th>STATUS</th>
                                                     <th>BARCODE</th>
-                                                    <th>AKSI</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                            </table>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade bd-example-modal-xl" id="DetailSuratPindah" tabindex="-1" role="dialog" aria-labelledby="DetailSuratPindah" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content dark-sign-up">
+                        <div class="modal-body social-profile text-start" style="max-height: 90vh; overflow-y: auto;">
+                        <div class="modal-toggle-wrapper">
+                            <div class="modal-header mb-4">
+                                <h3>Detail Surat Pindah</h3>
+                                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <ul class="list-group">
+                                <!-- No Surat Keluar -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>No Surat Pindah</span>
+                                    <strong id="dsp">-</strong>
+                                </li>
+                                <!-- Tanggal -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Tanggal</span>
+                                    <strong id="dtglp">-</strong>
+                                </li>
+                                <!-- Nama Cabang -->
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Cabang</span>
+                                    <strong id="dcabp">-</strong>
+                                </li>
+                            </ul>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="display" id="table-detailp">
+                                            <thead>
+                                                <tr>
+                                                    <th>SN PRODUK</th>
+                                                    <th>NAMA PRODUK</th>
+                                                    <th>JENIS</th>
+                                                    <th>MERK</th>
+                                                    <th>SPESIFIKASI</th>
+                                                    <th>KONDISI</th>
+                                                    <th>STATUS</th>
+                                                    <th>BARCODE</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
