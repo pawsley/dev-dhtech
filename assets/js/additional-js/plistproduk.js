@@ -37,6 +37,12 @@ function tablepl() {
             { "data": "nama_brg" },
             { "data": "nama_toko" },
             { 
+                "data": "hrg_hpp",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
                 "data": "hrg_jual",
                 "render": function (data, type, row) {
                     return formatcur.format(data);

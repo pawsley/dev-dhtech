@@ -78,7 +78,8 @@
                                             <th style="min-width: 160px;"><span class="f-light f-w-600">SN PRODUK</span></th>
                                             <th style="min-width: 200px;"><span class="f-light f-w-600">NAMA PRODUK</span></th>
                                             <th style="min-width: 200px;"><span class="f-light f-w-600">CABANG</span></th>
-                                            <th style="min-width: 160px;"><span class="f-light f-w-600">HARGA PRODUK</span></th>
+                                            <th style="min-width: 200px;"><span class="f-light f-w-600">HARGA HPP</span></th>
+                                            <th style="min-width: 160px;"><span class="f-light f-w-600">HARGA JUAL</span></th>
                                             <th style="min-width: 80px;"><span class="f-light f-w-600">STATUS</span></th>
                                             <th class="text-center" style="min-width: 70px;"><span class="f-light f-w-600">INFO</span></th>
                                         </tr>
