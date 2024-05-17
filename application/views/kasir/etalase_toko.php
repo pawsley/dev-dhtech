@@ -32,14 +32,21 @@
                         <div class="card">
                             <div class="card-header pb-0 card-no-border">
                                 <div class="row">
-                                    <div class="col-md-8 position-relative">
+                                    <div class="col-md-4 position-relative">
                                         <h4>Daftar Produk Tersedia</h4>
+                                    </div>
+                                    <!-- filter -->
+                                    <div class="col-md-4 position-relative">
+                                        <select class="form-select" id="cabr" name="cabr" required="">
+                                            <option selected="" disabled="" value="0">Pilih Cabang</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-4 position-relative">
                                         <select class="form-select" id="cab" name="cab" required="">
                                             <option selected="" disabled="" value="0">Pilih Supplier</option>
                                         </select>
                                     </div>
+                                    <!-- filter -->
                                 </div>
                             </div>
                             <div class="card-body">
@@ -50,11 +57,12 @@
                                             <th>#</th>
                                             <th style="min-width: 150px;"><span class="f-light f-w-600">SN PRODUK</span></th>
                                             <th style="min-width: 200px;"><span class="f-light f-w-600">NAMA PRODUK</span></th>
-                                            <th style="min-width: 100px;"><span class="f-light f-w-600">ID SUPPLIER</span></th>
+                                            <th style="min-width: 200px;"><span class="f-light f-w-600">CABANG</span></th>
+                                            <th style="min-width: 100px;"><span class="f-light f-w-600">SUPPLIER</span></th>
                                             <th style="min-width: 180px;"><span class="f-light f-w-600">COGS</span> <i class="fa fa-money"></i></th>
                                             <th style="min-width: 180px;"><span class="f-light f-w-600">PUB COST</span> </span> <i class="fa fa-money"></i></th>
                                             <th style="min-width: 100px;"><span class="f-light f-w-600">MARGIN %</span></th>
-                                            <th style="min-width: 180px;"><span class="f-light f-w-600">CASHBACK SUPP </span> </span> <i class="fa fa-money"></i></th>
+                                            <th style="min-width: 180px;"><span class="f-light f-w-600">CASHBACK</span> </span> <i class="fa fa-money"></i></th>
                                             <th class="text-center" style="min-width: 70px;"><span class="f-light f-w-600">INFO</span></th>
                                         </tr>
                                     </thead>

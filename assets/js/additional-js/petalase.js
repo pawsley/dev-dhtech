@@ -1,20 +1,24 @@
 var Tetalase;
+var cabr;
 var formatcur = new Intl.NumberFormat('id-ID', {
     style: 'decimal',
     // currency: 'IDR',
     minimumFractionDigits: 0
 });
 $(document).ready(function () {
-    $("#cab").val('0').trigger('change.select2');
-    defaultSelectedName = $("#cab").val();
     table_etalase();
     getselect();
     detailbrg();
 });
 function table_etalase() {
+    getselect();
     var ajaxConfig = {
         type: "POST",
         url: base_url + 'etalase-toko/produk-list/',
+        data: function(d) {
+                d.cabr = $('#cabr').val();
+                d.supp = $('#cab').val();
+        }
     };
     if ($.fn.DataTable.isDataTable('#table-etalase')) {
         Tetalase.destroy();
@@ -42,7 +46,8 @@ function table_etalase() {
             },
             { "data": "sn_brg" },
             { "data": "nama_brg" },
-            { "data": "id_supplier" },
+            { "data": "nama_toko" },
+            { "data": "nama_supplier" },
             { 
                 "data": "hrg_hpp",
                 "render": function (data, type, row, meta) {
@@ -225,22 +230,12 @@ function table_etalase() {
     
             var margin = ((pubValue - hppValue) / hppValue) * 100;
             $('#' + marInputId).val(margin.toFixed(2));
-    });    
+    });   
+    $('#cabr, #cab').on('change', function() {
+        Tetalase.draw();
+    }); 
     return Tetalase;
 }
-$(document).on('select2:select', '#cab', function (e) {
-    e.preventDefault();
-    var selectedValue = e.params.data.id;
-    var defaultSelectedName = $("#cab").val('0');
-    
-    if (selectedValue !== defaultSelectedName) { 
-        var ajaxUrl = base_url + 'etalase-toko/filter-supp/' + selectedValue;
-        reloadDataTable(ajaxUrl, selectedValue); 
-    } else {
-        var ajaxUrl = base_url + 'etalase-toko/produk-list/';
-        reloadDataTable(ajaxUrl, null); 
-    }
-});
 function getselect(){
     $('#cab').select2({
         language: 'id',
@@ -254,28 +249,58 @@ function getselect(){
                 };
             },
             processResults: function (data) {
+                var results = $.map(data, function (item) {
+                    return {
+                        id: item.id_supplier,
+                        text: item.id_supplier+' | '+item.nama_supplier,
+                    };
+                });
+    
+                results.unshift({
+                    id: '0',
+                    text: 'Semua Supplier',
+                    value: '0',
+                });
+    
                 return {
-                    results: $.map(data, function (item) {
-                        return {
-                            id: item.id_supplier,
-                            text: item.id_supplier+' | '+item.nama_supplier,
-                        };
-                    }),
+                    results: results,
                 };
             },
             cache: false,
         },
     });
-}
-function reloadDataTable(url, selectedValue) {
-    if ($.fn.DataTable.isDataTable('#table-etalase')) {
-        Tetalase.ajax.url(url).load(); 
-        if (selectedValue) {
-            Tetalase.column('[data-name="id_supplier"]').search(selectedValue).draw(); // Filter based on data attribute
-        } else {
-            Tetalase.column('[data-name="id_supplier"]').search('').draw(); 
-        }
-    }
+    $('#cabr').select2({
+        language: 'id',
+        ajax: {
+            url: base_url + 'BarangTerima/loadstore',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, 
+                };
+            },
+            processResults: function (data) {
+                var results = $.map(data, function (item) {
+                    return {
+                        id: item.id_toko,
+                        text: item.id_toko+' | '+item.nama_toko,
+                    };
+                });
+    
+                results.unshift({
+                    id: '0',
+                    text: 'Semua Cabang',
+                    value: '0',
+                });
+    
+                return {
+                    results: results,
+                };
+            },
+            cache: false,
+        },
+    });
 }
 function detailbrg() {
     $('#InfoDetail').on('show.bs.modal', function (e) {

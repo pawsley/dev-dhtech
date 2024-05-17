@@ -71,19 +71,28 @@ class PenEtalase extends Auth
 
   public function loadproduk(){
     $this->load->library('datatables');
-    $this->datatables->select('id_keluar,id_masuk,sn_brg,nama_brg,jenis,id_supplier,nama_supplier,nama_toko,
+    $supp = $this->input->post('supp'); 
+    $cabr = $this->input->post('cabr'); 
+    $this->datatables->select('id_keluar,id_masuk,sn_brg,nama_brg,jenis,id_supplier,nama_supplier,id_toko,nama_toko,
     hrg_hpp,hrg_jual,margin,hrg_cashback,status');
     $this->datatables->from('vbarangkeluar');
     $this->datatables->where('status','2');
+    if (!empty($supp) && $supp !== '0') {
+      $this->datatables->where('id_supplier', $supp);
+    }
+    if (!empty($cabr) && $cabr !== '0') {
+        $this->datatables->where('id_toko', $cabr);
+    }
     return print_r($this->datatables->generate());
   }
-  public function filtersupp($cab=null){
+  public function filtersupp($cab=null,$cabr=null){
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,sn_brg,nama_brg,jenis,id_supplier,nama_supplier,nama_toko,
     hrg_hpp,hrg_jual,margin,hrg_cashback,status');
     $this->datatables->from('vbarangkeluar');
     $this->datatables->where('status','2');
-    $this->datatables->where('id_supplier',$cab);
+    $this->datatables->where('nama_supplier',$cab);
+    $this->datatables->where('nama_toko',$cabr);
     return print_r($this->datatables->generate());    
   }
   public function infoBrg($id){
