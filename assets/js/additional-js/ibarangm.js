@@ -43,8 +43,12 @@ function tablebm() {
                 "data": "spek",
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
-                        var formattedDeskripsi = data.replace(/\n/g, '<br>');
-                        return formattedDeskripsi;
+                        if (data === null) {
+                            return ''; // Return an empty string or any default value you prefer
+                        } else {
+                            var formattedDeskripsi = data.replace(/\n/g, '<br>');
+                            return formattedDeskripsi;
+                        }
                     }
                     return data;
                 }
@@ -197,12 +201,35 @@ $(document).on('click', '#delete-btn', function (e) {
     });
 });
 
+function generateid() {
+    $.ajax({
+        url: base_url+'InventoriStok/gensnacc', 
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            var def = response.defID;
+            var opnameid = response.newID;
+
+            if (opnameid != def){
+                $('#snacc').val(opnameid);
+            }else{
+                $('#snacc').val(def);
+            }
+        },
+        error: function(xhr, status, error) {
+          console.error('Error fetching id data:', error);
+        }
+    });
+}
+
 $(document).ready(function () {
     getselect();  
     setInterval(updateDateTime, 1000);
     addmb();
     addmk();
+    addacc();
     reload();
+    generateid();
 });
 
 function reload() {
@@ -342,6 +369,70 @@ function getselect(){
             },
             cache: false,
         },
+    });
+    $('#suppacc').select2({
+        language: 'id',
+        ajax: {
+            url: base_url + 'InventoriStok/loadsupp',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, // Add the search term to your AJAX request
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.id_supplier,
+                            text: item.id_supplier+' | '+item.nama_supplier,
+                        };
+                    }),
+                };
+            },
+            cache: false,
+        },
+    });        
+    $('#prodacc').select2({
+        language: 'id',
+        ajax: {
+            url: base_url + 'InventoriStok/loadacc',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, // Add the search term to your AJAX request
+                };
+            },
+            processResults: function (data) {
+                var groups = {};
+                var results = [];
+    
+                data.forEach(function (item) {
+                    var groupName = item.merk + ' - ' + item.jenis;
+                    if (!groups[groupName]) {
+                        groups[groupName] = [];
+                    }
+                    groups[groupName].push({
+                        id: item.id_brg,
+                        text: item.id_brg+' | '+item.nama_brg
+                    });
+                });
+    
+                Object.keys(groups).forEach(function (groupName) {
+                    results.push({
+                        text: groupName,
+                        children: groups[groupName]
+                    });
+                });
+    
+                return {
+                    results: results
+                };
+            },
+            cache: false,
+        },
     });    
 }
 
@@ -354,6 +445,7 @@ function updateDateTime() {
     var minutes = now.getMinutes().toString().padStart(2, '0');
     $('#tglbaru').val(year + '-' + month + '-' + day + 'T' + hours + ':' + minutes);
     $('#tglbekas').val(year + '-' + month + '-' + day + 'T' + hours + ':' + minutes);
+    $('#tglacc').val(year + '-' + month + '-' + day + 'T' + hours + ':' + minutes);
     
 }
 
@@ -417,7 +509,6 @@ function addmb() {
         });
     });
 }
-
 function addmk() {
     $("#tambahbekas").on("click", function () {
         var tgl = $("#tglbekas").val();
@@ -462,6 +553,62 @@ function addmk() {
                         $("#hppbekas").val('');
                         $("#hjbekas").val('');
                         $("#spekbekas").val('');
+                        reload();
+                    });
+                } else if(response.status === 'exists'){
+                    swal("Warning", "SN Produk sudah ada", "warning").then(() => {
+                        $("#snbekas").focus();
+                    });
+                }
+            },
+            error: function (error) {
+                swal("Gagal "+error, {
+                    icon: "error",
+                });
+            }
+        });
+    });
+}
+function addacc() {
+    $("#tambahacc").on("click", function () {
+        var tgl = $("#tglacc").val();
+        var sup = $("#suppacc").val();
+        var fk = $("#nofakacc").val();
+        var brg = $("#prodacc").val();
+        var sn = $("#snacc").val();
+        var hpp = $("#hppacc").val();
+        var hj = $("#hjacc").val();
+        var spek = $("#spekacc").val();
+        var kond = 'Baru';
+        var genhpp = parseFloat(hpp.replace(/\D/g, ''));
+        var genhj = parseFloat(hj.replace(/\D/g, ''));
+        if (!sup || !fk || !brg || !sn || !hpp || !hj) {
+            swal("Error", "Lengkapi form yang kosong", "error");
+            return;
+        } 
+        $.ajax({
+            type: "POST",
+            url: "barang-masuk/simpan-acc",
+            data: {
+                tglacc: tgl,
+                suppacc: sup,
+                nofakacc: fk,
+                prodacc: brg,
+                snacc: sn,
+                hppacc: genhpp,
+                hjacc: genhj,
+                kondacc: kond,
+            },
+            dataType: "json", 
+            success: function (response) {
+                if (response.status === 'success') {
+                    swal("success", "Data berhasil ditambahkan", "success").then(() => {
+                        $("#suppacc").val($("#suppacc").find('option').last().val()).trigger('change.select2');
+                        $("#prodacc").val($("#prodacc").find('option').last().val()).trigger('change.select2');
+                        // $("#snacc").val('');
+                        generateid()
+                        // $("#hppacc").val('');
+                        // $("#hjacc").val('');
                         reload();
                     });
                 } else if(response.status === 'exists'){

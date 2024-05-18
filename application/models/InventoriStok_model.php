@@ -39,6 +39,37 @@ class InventoriStok_model extends CI_Model {
     $query = $this->db->get();
     return $query->result_array();    
   }
+  public function getAcc($searchTerm = null) {
+    $this->db->select(['id_brg', 'merk','jenis','nama_brg']);
+    $this->db->from('tb_barang');
+    $this->db->or_where('jenis', 'Accessories');
+    $this->db->or_where('jenis', 'Aksesoris');
+    $this->db->or_where('jenis', 'Acc');
+    $this->db->where_in('status', ['1']);
+
+    // Add the search conditions if a search term is provided
+    if ($searchTerm) {
+        $this->db->group_start();
+        $this->db->like('id_brg', $searchTerm);
+        $this->db->or_like('merk', $searchTerm);
+        $this->db->or_like('jenis', $searchTerm);
+        $this->db->or_like('nama_brg', $searchTerm);
+        $this->db->group_end();
+    }
+
+    $this->db->order_by('nama_brg', 'asc');
+    $query = $this->db->get();
+    return $query->result_array();    
+  }
+  public function getLastKode() {
+    $this->db->select('sn_brg');
+    $this->db->from('tb_brg_masuk');
+    $this->db->like('sn_brg', 'ACC');
+    $this->db->order_by('sn_brg', 'desc');
+    $this->db->limit(1);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
 
   public function create($data){
     $existingRecord = $this->db->where('sn_brg', $data['sn_brg'])

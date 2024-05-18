@@ -35,6 +35,7 @@
                         <ul class="nav nav-tabs" id="icon-tab" role="tablist">
                           <li class="nav-item"><a class="nav-link active txt-primary" id="barang-baru-tab" data-bs-toggle="tab" href="#barang-baru" role="tab" aria-controls="barang-baru" aria-selected="true"><i class="icofont icofont-archive"></i>Barang Baru</a></li>
                           <li class="nav-item"><a class="nav-link txt-primary" id="barang-bekas-tab" data-bs-toggle="tab" href="#barang-bekas" role="tab" aria-controls="barang-bekas" aria-selected="false"><i class="icofont icofont-archive"></i>Barang Bekas</a></li>
+                          <li class="nav-item"><a class="nav-link txt-primary" id="barang-acc-tab" data-bs-toggle="tab" href="#barang-acc" role="tab" aria-controls="barang-acc" aria-selected="false"><i class="icofont icofont-archive"></i>Barang Aksesoris</a></li>
                         </ul>
                         <!-- Isi Form Konten-->
                         <div class="tab-content" id="icon-tabContent">
@@ -160,6 +161,59 @@
                                   <!-- Submit Barang -->
                                   <div class="col-12 mt-3">
                                     <button class="btn btn-primary" type="button" id="tambahbekas">Tambah Produk</button>
+                                  </div>
+                                </form>
+                            </div>
+                          </div>
+                          <!-- Tambah Data Aksesoris -->
+                          <div class="tab-pane fade" id="barang-acc" role="tabpanel" aria-labelledby="barang-acc-tab">
+                            <div class="pt-3 mb-0">
+                                <form class="row g-3">
+                                  <!-- Tanggal Catatan -->
+                                  <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="tanggalwaktubarang">Tanggal Waktu</label>
+                                    <input class="form-control digits" id="tglacc" name="tglacc" type="datetime-local" readonly>
+                                  </div>
+                                  
+                                  <!-- Supplier -->
+                                  <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="FormIDSupplier">Supplier</label>
+                                    <select class="form-select" id="suppacc" name="suppacc" required="">
+                                        <option selected="" disabled="" value="">Pilih Supplier</option>
+                                    </select>
+                                  </div>
+
+                                  <!-- Faktur Barang -->
+                                  <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="fakturbarang">No Faktur Barang</label>
+                                    <input class="form-control" id="nofakacc" name="nofakacc" type="text" placeholder="Masukkan Nomor Faktur Barang" aria-label="fakturbarang" required="">
+                                  </div>
+
+                                  <!-- Nama Produk -->
+                                  <div class="col-8 position-relative">
+                                      <label class="form-label" for="NamaProduk">Nama Produk</label>
+                                      <select class="form-select" id="prodacc" name="prodacc" required="">
+                                        <option selected="" disabled="" value="0">Pilih Produk</option>
+                                    </select>
+                                  </div>
+
+                                  <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="SNProduk">SN Produk</label>
+                                    <input class="form-control" id="snacc" name="snacc" type="text" placeholder="Masukkan Nomor SN Produk" aria-label="SNProduk" required="">
+                                  </div>
+
+                                  <div class="col-6 position-relative"> 
+                                    <label class="form-label" for="hppProduk">Harga HPP</label>
+                                    <input class="form-control" id="hppacc" type="text" name="hppacc" placeholder="Masukkan Harga HPP" aria-label="hppProduk" onkeyup="formatRupiah(this)" required="">
+                                  </div>                                  
+
+                                  <div class="col-6 position-relative"> 
+                                    <label class="form-label" for="hjProduk">Harga Jual</label>
+                                    <input class="form-control" id="hjacc" type="text" name="hjacc" placeholder="Masukkan Harga Jual" aria-label="hjProduk" onkeyup="formatRupiah(this)" required="">
+                                  </div>
+                                  <!-- Submit Barang -->
+                                  <div class="col-12 mt-3">
+                                    <button class="btn btn-primary" type="button" id="tambahacc">Tambah Produk</button>
                                   </div>
                                 </form>
                             </div>

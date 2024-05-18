@@ -108,6 +108,7 @@ $route['barang-masuk']='InventoriStok/bm';
 $route['barang-masuk/loadbm']='InventoriStok/loadbm';
 $route['barang-masuk/simpan-barang-baru']='InventoriStok/addmb';
 $route['barang-masuk/simpan-barang-bekas']='InventoriStok/addmk';
+$route['barang-masuk/simpan-acc']='InventoriStok/addacc';
 $route['barang-masuk/hapus/(:num)'] = 'InventoriStok/deletepost/$1';
 $route['barang-keluar']='BarangKeluar';
 $route['barang-keluar/stock/(:any)']='BarangKeluar/datacount/$1';

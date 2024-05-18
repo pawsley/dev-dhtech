@@ -29,12 +29,27 @@ class InventoriStok extends Auth
     header('Content-Type: application/json');
     echo json_encode($results);    
   }
+  public function loadacc() {
+    $searchTerm = $this->input->get('q');
+    $results = $this->InventoriStok_model->getAcc($searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);    
+  }
+
 
   public function loadbm(){
     $this->load->library('datatables');
     $this->datatables->select('id_masuk,tgl_masuk,nama_supplier,sn_brg,no_imei,hrg_hpp,hrg_jual,hrg_cashback,no_fm,nama_brg,spek,kondisi,status');
     $this->datatables->from('vbarangmasuk');
     return print_r($this->datatables->generate());    
+  }
+  public function gensnacc(){
+    $data['lastID'] = $this->InventoriStok_model->getLastKode();
+    $numericPart = isset($data['lastID'][0]['sn_brg']) ? preg_replace('/[^0-9]/', '', $data['lastID'][0]['sn_brg']) : '';
+    $incrementedNumericPart = sprintf('%04d', intval($numericPart) + 1);
+    $data['newID'] = 'ACC-' . $incrementedNumericPart;
+    $data['defID'] = 'ACC-0001';
+    $this->output->set_content_type('application/json')->set_output(json_encode($data));
   }
 
   public function bm() {
@@ -152,6 +167,30 @@ class InventoriStok extends Auth
       $inserted = $this->InventoriStok_model->create($data);
       if ($inserted) {
         $this->barcode($this->input->post('snbekas'));
+        echo json_encode(['status' => 'success']);
+      } else {
+        echo json_encode(['status' => 'exists']);
+      }
+    } else {
+      redirect('master-barang');
+    }
+  }
+  public function addacc() {
+    if ($this->input->is_ajax_request()) {
+      $data = [
+        'id_supplier'      => $this->input->post('suppacc'),
+        'id_brg'      => $this->input->post('prodacc'),
+        'tgl_masuk'      => $this->input->post('tglacc'),
+        'no_fm'      => $this->input->post('nofakacc'),
+        'sn_brg'      => $this->input->post('snacc'),
+        'hrg_hpp'      => $this->input->post('hppacc'),
+        'hrg_jual'      => $this->input->post('hjacc'),
+        'kondisi'      => $this->input->post('kondacc'),
+        'status'      => '1',
+      ];
+      $inserted = $this->InventoriStok_model->create($data);
+      if ($inserted) {
+        $this->barcode($this->input->post('snacc'));
         echo json_encode(['status' => 'success']);
       } else {
         echo json_encode(['status' => 'exists']);
