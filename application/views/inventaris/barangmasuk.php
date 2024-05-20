@@ -108,13 +108,13 @@
                                 <form class="row g-3">
                                   <!-- Tanggal Catatan -->
                                   <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="tanggalwaktubarang">Tanggal Waktu</label>
+                                    <label class="form-label" for="tglbekas">Tanggal Waktu</label>
                                     <input class="form-control digits" id="tglbekas" name="tglbekas" type="datetime-local" readonly>
                                   </div>
                                   
                                   <!-- Supplier -->
                                   <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="FormIDSupplier">Supplier</label>
+                                    <label class="form-label" for="suppbekas">Supplier</label>
                                     <select class="form-select" id="suppbekas" name="suppbekas" required="">
                                         <option selected="" disabled="" value="">Pilih Supplier</option>
                                     </select>
@@ -122,40 +122,40 @@
 
                                   <!-- Faktur Barang -->
                                   <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="fakturbarang">No Faktur Barang</label>
-                                    <input class="form-control" id="nofakbekas" name="nofakbekas" type="text" placeholder="Masukkan Nomor Faktur Barang" aria-label="fakturbarang" required="">
+                                    <label class="form-label" for="nofakbekas">No Faktur Barang</label>
+                                    <input class="form-control" id="nofakbekas" name="nofakbekas" type="text" placeholder="Masukkan Nomor Faktur Barang" aria-label="nofakbekas" required="">
                                   </div>
 
                                   <!-- Nama Produk -->
                                   <div class="col-8 position-relative">
-                                      <label class="form-label" for="NamaProduk">Nama Produk</label>
+                                      <label class="form-label" for="prodbekas">Nama Produk</label>
                                       <select class="form-select" id="prodbekas" name="prodbekas" required="">
                                         <option selected="" disabled="" value="0">Pilih Produk</option>
                                     </select>
                                   </div>
 
                                   <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="SNProduk">SN Produk</label>
-                                    <input class="form-control" id="snbekas" name="snbekas" type="text" placeholder="Masukkan Nomor SN Produk" aria-label="SNProduk" required="">
+                                    <label class="form-label" for="snbekas">SN Produk</label>
+                                    <input class="form-control" id="snbekas" name="snbekas" type="text" placeholder="Masukkan Nomor SN Produk" aria-label="snbekas" required="">
                                   </div>
 
                                   <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="IMEIProduk">IMEI Produk</label>
-                                    <input class="form-control" id="imeibekas" type="number" name="imeibekas" placeholder="Masukkan Nomor IMEI" aria-label="IMEIProduk" required="">
+                                    <label class="form-label" for="imeibekas">IMEI Produk</label>
+                                    <input class="form-control" id="imeibekas" type="number" name="imeibekas" placeholder="Masukkan Nomor IMEI" aria-label="imeibekas" required="">
                                   </div>   
 
                                   <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="hppProduk">Harga HPP</label>
-                                    <input class="form-control" id="hppbekas" type="text" name="hppbekas" placeholder="Masukkan Harga HPP" aria-label="hppProduk" onkeyup="formatRupiah(this)" required="">
+                                    <label class="form-label" for="hppbekas">Harga HPP</label>
+                                    <input class="form-control" id="hppbekas" type="text" name="hppbekas" placeholder="Masukkan Harga HPP" aria-label="hppbekas" onkeyup="formatRupiah(this)" required="">
                                   </div>                                  
 
                                   <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="hjProduk">Harga Jual</label>
-                                    <input class="form-control" id="hjbekas" type="text" name="hjbekas" placeholder="Masukkan Harga Jual" aria-label="hjProduk" onkeyup="formatRupiah(this)" required="">
+                                    <label class="form-label" for="hjbekas">Harga Jual</label>
+                                    <input class="form-control" id="hjbekas" type="text" name="hjbekas" placeholder="Masukkan Harga Jual" aria-label="hjbekas" onkeyup="formatRupiah(this)" required="">
                                   </div>
 
                                   <div class="col-md-12 position-relative"> 
-                                      <label class="form-label" for="exampleFormControlTextarea1">Spesifikasi Lengkap</label>
+                                      <label class="form-label" for="spekbekas">Spesifikasi Lengkap</label>
                                       <textarea class="form-control" style="resize: none;" name="spekbekas" id="spekbekas" rows="3"></textarea>
                                   </div>
                                   <!-- Submit Barang -->
@@ -171,13 +171,13 @@
                                 <form class="row g-3">
                                   <!-- Tanggal Catatan -->
                                   <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="tanggalwaktubarang">Tanggal Waktu</label>
+                                    <label class="form-label" for="tglacc">Tanggal Waktu</label>
                                     <input class="form-control digits" id="tglacc" name="tglacc" type="datetime-local" readonly>
                                   </div>
                                   
                                   <!-- Supplier -->
                                   <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="FormIDSupplier">Supplier</label>
+                                    <label class="form-label" for="suppacc">Supplier</label>
                                     <select class="form-select" id="suppacc" name="suppacc" required="">
                                         <option selected="" disabled="" value="">Pilih Supplier</option>
                                     </select>
@@ -185,35 +185,43 @@
 
                                   <!-- Faktur Barang -->
                                   <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="fakturbarang">No Faktur Barang</label>
-                                    <input class="form-control" id="nofakacc" name="nofakacc" type="text" placeholder="Masukkan Nomor Faktur Barang" aria-label="fakturbarang" required="">
+                                    <label class="form-label" for="nofakacc">No Faktur Barang</label>
+                                    <input class="form-control" id="nofakacc" name="nofakacc" type="text" placeholder="Masukkan Nomor Faktur Barang" aria-label="nofakacc" required="">
                                   </div>
 
                                   <!-- Nama Produk -->
                                   <div class="col-8 position-relative">
-                                      <label class="form-label" for="NamaProduk">Nama Produk</label>
+                                      <label class="form-label" for="prodacc">Nama Produk</label>
                                       <select class="form-select" id="prodacc" name="prodacc" required="">
                                         <option selected="" disabled="" value="0">Pilih Produk</option>
                                     </select>
                                   </div>
 
                                   <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="SNProduk">SN Produk</label>
-                                    <input class="form-control" id="snacc" name="snacc" type="text" placeholder="Masukkan Nomor SN Produk" aria-label="SNProduk" required="">
+                                    <label class="form-label" for="snacc">SN Produk</label>
+                                    <input class="form-control" id="snacc" name="snacc" type="text" placeholder="Masukkan Nomor SN Produk" aria-label="snacc" required="" readonly>
                                   </div>
 
-                                  <div class="col-6 position-relative"> 
-                                    <label class="form-label" for="hppProduk">Harga HPP</label>
-                                    <input class="form-control" id="hppacc" type="text" name="hppacc" placeholder="Masukkan Harga HPP" aria-label="hppProduk" onkeyup="formatRupiah(this)" required="">
+                                  <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="hppacc">Harga HPP</label>
+                                    <input class="form-control" id="hppacc" type="text" name="hppacc" placeholder="Masukkan Harga HPP" aria-label="hppacc" onkeyup="formatRupiah(this)" required="">
                                   </div>                                  
 
-                                  <div class="col-6 position-relative"> 
-                                    <label class="form-label" for="hjProduk">Harga Jual</label>
-                                    <input class="form-control" id="hjacc" type="text" name="hjacc" placeholder="Masukkan Harga Jual" aria-label="hjProduk" onkeyup="formatRupiah(this)" required="">
+                                  <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="hjacc">Harga Jual</label>
+                                    <input class="form-control" id="hjacc" type="text" name="hjacc" placeholder="Masukkan Harga Jual" aria-label="hjacc" onkeyup="formatRupiah(this)" required="">
+                                  </div>
+                                  <div class="col-4 position-relative"> 
+                                    <label class="form-label" for="totalstok">Total Stok</label>
+                                    <input class="form-control" id="totalstok" type="number" name="totalstok" placeholder="Masukkan Total Stok" aria-label="totalstok" required="">
                                   </div>
                                   <!-- Submit Barang -->
                                   <div class="col-12 mt-3">
-                                    <button class="btn btn-primary" type="button" id="tambahacc">Tambah Produk</button>
+                                    <!-- <button class="btn btn-primary" type="button" id="tambahacc">Tambah Produk</button> -->
+                                    <button class="btn btn-primary" type="button" id="tambahacc">
+                                        <span id="spinner" class="spinner-border spinner-border-sm text-light d-none" role="status" aria-hidden="true"></span>
+                                        <span id="tacc">Tambah Produk</span>
+                                    </button>
                                   </div>
                                 </form>
                             </div>

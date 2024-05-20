@@ -316,8 +316,12 @@ function detailsk(sk) {
                 "data": "spek",
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
-                        var formattedDeskripsi = data.replace(/\n/g, '<br>');
-                        return formattedDeskripsi;
+                        if (data === null) {
+                            return ''; // Return an empty string or any default value you prefer
+                        } else {
+                            var formattedDeskripsi = data.replace(/\n/g, '<br>');
+                            return formattedDeskripsi;
+                        }
                     }
                     return data;
                 }
@@ -450,8 +454,12 @@ function detailsp(sp) {
                 "data": "spek",
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
-                        var formattedDeskripsi = data.replace(/\n/g, '<br>');
-                        return formattedDeskripsi;
+                        if (data === null) {
+                            return ''; // Return an empty string or any default value you prefer
+                        } else {
+                            var formattedDeskripsi = data.replace(/\n/g, '<br>');
+                            return formattedDeskripsi;
+                        }
                     }
                     return data;
                 }

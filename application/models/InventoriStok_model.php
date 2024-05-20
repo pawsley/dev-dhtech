@@ -24,6 +24,7 @@ class InventoriStok_model extends CI_Model {
     $this->db->select(['id_brg', 'merk','jenis','nama_brg']);
     $this->db->from('tb_barang');
     $this->db->where_in('status', ['1']);
+    $this->db->where_not_in('jenis', ['Accessories','Aksesoris','Acc']);
 
     // Add the search conditions if a search term is provided
     if ($searchTerm) {

@@ -201,27 +201,80 @@ $(document).on('click', '#delete-btn', function (e) {
     });
 });
 
-function generateid() {
-    $.ajax({
-        url: base_url+'InventoriStok/gensnacc', 
-        type: 'GET',
-        dataType: 'json',
-        success: function(response) {
-            var def = response.defID;
-            var opnameid = response.newID;
+// function generateid() {
+//     $.ajax({
+//         url: base_url+'InventoriStok/gensnacc', 
+//         type: 'GET',
+//         dataType: 'json',
+//         success: function(response) {
+//             var def = response.defID;
+//             var opnameid = response.newID;
 
-            if (opnameid != def){
-                $('#snacc').val(opnameid);
-            }else{
-                $('#snacc').val(def);
+//             if (opnameid != def){
+//                 $('#snacc').val(opnameid);
+//             }else{
+//                 $('#snacc').val(def);
+//             }
+//         },
+//         error: function(xhr, status, error) {
+//           console.error('Error fetching id data:', error);
+//         }
+//     });
+// }
+
+function generateid() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: base_url + 'InventoriStok/gensnacc',
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                var def = response.defID;
+                var opnameid = response.newID;
+                if (opnameid != def) {
+                    $('#snacc').val(opnameid);
+                    resolve(opnameid);
+                } else {
+                    $('#snacc').val(def);
+                    resolve(def);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching id data:', error);
+                reject(error);
             }
-        },
-        error: function(xhr, status, error) {
-          console.error('Error fetching id data:', error);
-        }
+        });
     });
 }
+async function processIds() {
+    var ts = parseInt($("#totalstok").val(), 10); 
+    var generatedid = [];
 
+    for (var index = 0; index < ts; index++) {
+        try {
+            var id = await generateid();
+            generatedid.push(id);
+            $('#snacc').val(id); 
+
+            await insacc(id);
+        } catch (error) {
+            console.error('Failed to generate ID:', error);
+        }
+    }
+    
+    swal("success", "Data aksesori berhasil ditambahkan sebanyak " +ts+ " stok", "success").then(() => {
+        $('#spinner').addClass('d-none');
+        $('#tacc').removeClass('d-none');
+        $('#tambahacc').prop('disabled', false);
+        $("#suppacc").val($("#suppacc").find('option').last().val()).trigger('change.select2');
+        $("#prodacc").val('0').trigger('change.select2');
+        $("#hppacc").val('');
+        $("#hjacc").val('');
+        $("#totalstok").val('')
+        reload();
+        generateid();
+    });
+}
 $(document).ready(function () {
     getselect();  
     setInterval(updateDateTime, 1000);
@@ -435,7 +488,6 @@ function getselect(){
         },
     });    
 }
-
 function updateDateTime() {
     var now = new Date();
     var year = now.getFullYear();
@@ -571,21 +623,33 @@ function addmk() {
 }
 function addacc() {
     $("#tambahacc").on("click", function () {
-        var tgl = $("#tglacc").val();
         var sup = $("#suppacc").val();
         var fk = $("#nofakacc").val();
         var brg = $("#prodacc").val();
         var sn = $("#snacc").val();
         var hpp = $("#hppacc").val();
         var hj = $("#hjacc").val();
-        var spek = $("#spekacc").val();
-        var kond = 'Baru';
-        var genhpp = parseFloat(hpp.replace(/\D/g, ''));
-        var genhj = parseFloat(hj.replace(/\D/g, ''));
         if (!sup || !fk || !brg || !sn || !hpp || !hj) {
             swal("Error", "Lengkapi form yang kosong", "error");
             return;
         } 
+        $('#spinner').removeClass('d-none');
+        $('#tacc').addClass('d-none');
+        $('#tambahacc').prop('disabled', true);
+        processIds();
+    });
+}
+function insacc(id) {
+    return new Promise((resolve, reject) => {
+        var tgl = $("#tglacc").val();
+        var sup = $("#suppacc").val();
+        var fk = $("#nofakacc").val();
+        var brg = $("#prodacc").val();
+        var hpp = $("#hppacc").val();
+        var hj = $("#hjacc").val();
+        var kond = 'Baru';
+        var genhpp = parseFloat(hpp.replace(/\D/g, ''));
+        var genhj = parseFloat(hj.replace(/\D/g, '')); 
         $.ajax({
             type: "POST",
             url: "barang-masuk/simpan-acc",
@@ -594,7 +658,7 @@ function addacc() {
                 suppacc: sup,
                 nofakacc: fk,
                 prodacc: brg,
-                snacc: sn,
+                snacc: id,
                 hppacc: genhpp,
                 hjacc: genhj,
                 kondacc: kond,
@@ -602,26 +666,23 @@ function addacc() {
             dataType: "json", 
             success: function (response) {
                 if (response.status === 'success') {
-                    swal("success", "Data berhasil ditambahkan", "success").then(() => {
-                        $("#suppacc").val($("#suppacc").find('option').last().val()).trigger('change.select2');
-                        $("#prodacc").val($("#prodacc").find('option').last().val()).trigger('change.select2');
-                        // $("#snacc").val('');
-                        generateid()
-                        // $("#hppacc").val('');
-                        // $("#hjacc").val('');
-                        reload();
-                    });
+                    $("#suppacc").val($("#suppacc").find('option').last().val()).trigger('change.select2');
+                    $("#prodacc").val($("#prodacc").find('option').last().val()).trigger('change.select2');
+                    resolve(response);
                 } else if(response.status === 'exists'){
                     swal("Warning", "SN Produk sudah ada", "warning").then(() => {
                         $("#snbekas").focus();
                     });
+                    reject("SN Produk sudah ada");
+                } else {
+                    reject("Unknown status");
                 }
             },
             error: function (error) {
                 swal("Gagal "+error, {
                     icon: "error",
                 });
-            }
+            },
         });
     });
 }
