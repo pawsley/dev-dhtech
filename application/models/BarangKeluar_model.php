@@ -21,7 +21,8 @@ class BarangKeluar_model extends CI_Model {
              ->from('vbarangmasuk AS vm')
              ->join('vbarangkeluar AS vk', 'vm.id_masuk = vk.id_masuk', 'left')
              ->where('vk.id_masuk IS NULL')
-             ->where('vm.kondisi','Baru');
+             ->where('vm.kondisi','Baru')
+             ->where_not_in('vm.jenis', ['Accessories','Aksesoris','Acc']);
     if ($searchTerm) {
         $this->db->group_start();
         $this->db->like('vm.sn_brg', $searchTerm);
@@ -31,17 +32,17 @@ class BarangKeluar_model extends CI_Model {
         $this->db->group_end();
     }
 
-    $this->db->order_by('vm.sn_brg', 'asc');
+    $this->db->order_by('vm.sn_brg', 'desc');
     $query = $this->db->get();
     return $query->result_array();
   }
-
   public function getBrgk($searchTerm = null) {
     $this->db->select(['vm.id_masuk', 'vm.sn_brg', 'vm.merk', 'vm.jenis', 'vm.nama_brg','vm.kondisi','vm.spek','vm.hrg_hpp','vm.hrg_jual'])
              ->from('vbarangmasuk AS vm')
              ->join('vbarangkeluar AS vk', 'vm.id_masuk = vk.id_masuk', 'left')
              ->where('vk.id_masuk IS NULL')
-             ->where('vm.kondisi','Bekas');
+             ->where('vm.kondisi','Bekas')
+             ->where_not_in('vm.jenis', ['Accessories','Aksesoris','Acc']);
     if ($searchTerm) {
         $this->db->group_start();
         $this->db->like('vm.sn_brg', $searchTerm);
@@ -51,7 +52,39 @@ class BarangKeluar_model extends CI_Model {
         $this->db->group_end();
     }
 
-    $this->db->order_by('vm.sn_brg', 'asc');
+    $this->db->order_by('vm.sn_brg', 'desc');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function getBrgacc($searchTerm = null) {
+    $this->db->select(['vm.id_masuk', 'vm.sn_brg', 'vm.merk', 'vm.jenis', 'vm.nama_brg','vm.kondisi','vm.spek','vm.hrg_hpp','vm.hrg_jual','count(vm.merk) as total_acc'])
+             ->from('vbarangmasuk AS vm')
+             ->join('vbarangkeluar AS vk', 'vm.id_masuk = vk.id_masuk', 'left')
+             ->where('vk.id_masuk IS NULL')
+             ->where_in('vm.jenis', ['Accessories','Aksesoris','Acc']);
+    if ($searchTerm) {
+        $this->db->group_start();
+        $this->db->like('vm.nama_brg', $searchTerm);
+        $this->db->group_end();
+    }
+    $this->db->group_by('vm.nama_brg');
+    $this->db->order_by('vm.sn_brg', 'desc');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function getMerkacc($nmbrg,$searchTerm = null) {
+    $nmbrg = urldecode($nmbrg);
+    $this->db->select(['vm.id_masuk', 'vm.merk', 'vm.nama_brg'])
+        ->from('vbarangmasuk AS vm')
+        ->join('vbarangkeluar AS vk', 'vm.id_masuk = vk.id_masuk', 'left')
+        ->where('vk.id_masuk IS NULL')
+        ->like('vm.nama_brg',$nmbrg);
+    if ($searchTerm) {
+      $this->db->group_start();
+      $this->db->or_like('vm.merk', $searchTerm);
+      $this->db->group_end();
+    }
+    $this->db->group_by('vm.merk');
     $query = $this->db->get();
     return $query->result_array();
   }

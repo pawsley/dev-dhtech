@@ -68,6 +68,7 @@
                         <ul class="nav nav-tabs" id="icon-tab" role="tablist">
                           <li class="nav-item"><a class="nav-link active txt-primary" id="barang-baru-tab" data-bs-toggle="tab" href="#barang-baru" role="tab" aria-controls="barang-baru" aria-selected="true"><i class="icofont icofont-archive"></i>Barang Baru</a></li>
                           <li class="nav-item"><a class="nav-link txt-primary" id="barang-bekas-tab" data-bs-toggle="tab" href="#barang-bekas" role="tab" aria-controls="barang-bekas" aria-selected="false"><i class="icofont icofont-archive"></i>Barang Bekas</a></li>
+                          <li class="nav-item"><a class="nav-link txt-primary" id="barang-acc-tab" data-bs-toggle="tab" href="#barang-acc" role="tab" aria-controls="barang-acc" aria-selected="false"><i class="icofont icofont-archive"></i>Barang Aksesoris</a></li>
                         </ul>
                         <!-- Isi Form Konten-->
                         <div class="tab-content" id="icon-tabContent">
@@ -77,13 +78,13 @@
                                 <form class="row g-3">
                                     <!-- Tanggal Catatan -->
                                     <div class="col-4 position-relative"> 
-                                        <label class="form-label" for="tanggalwaktubarang">Tanggal Waktu</label>
+                                        <label class="form-label" for="tglbaru">Tanggal Waktu</label>
                                         <input class="form-control digits" id="tglbaru" name="tglbaru" type="datetime-local" readonly>
                                     </div>
 
                                     <!-- Cabang -->
                                     <div class="col-4 position-relative"> 
-                                        <label class="form-label" for="formcabang">Cabang</label>
+                                        <label class="form-label" for="cabangbaru">Cabang</label>
                                         <select class="form-select" id="cabangbaru" name="cabangbaru" required="">
                                             <option selected="" disabled="" value="0">Pilih Cabang</option>
                                         </select>
@@ -97,7 +98,7 @@
 
                                     <!-- Nama Produk -->
                                     <div class="col-6 position-relative">
-                                        <label class="form-label" for="NamaProduk">Nama Produk</label>
+                                        <label class="form-label" for="prodbaru">Nama Produk</label>
                                         <select class="form-select" id="prodbaru" name="prodbaru" required="">
                                             <option selected="" disabled="" value="0">Pilih Produk</option>
                                         </select>
@@ -105,19 +106,19 @@
 
                                     <!-- Brand Product -->
                                     <div class="col-3"> 
-                                        <label class="form-label" for="brandproduk">Merek</label>
-                                        <input class="form-control" id="merkbaru" name="merkbaru" type="text" placeholder="TERISI OTOMATIS" aria-label="brandproduk" readonly>
+                                        <label class="form-label" for="merkbaru">Merek</label>
+                                        <input class="form-control" id="merkbaru" name="merkbaru" type="text" placeholder="TERISI OTOMATIS" aria-label="merkbaru" readonly>
                                     </div>
 
                                     <!-- Jenis Product -->
                                     <div class="col-3"> 
-                                        <label class="form-label" for="jenisproduk">Jenis</label>
-                                        <input class="form-control" id="jenisbaru" name="jenisbaru" type="text" placeholder="TERISI OTOMATIS" aria-label="jenisproduk" readonly>
+                                        <label class="form-label" for="jenisbaru">Jenis</label>
+                                        <input class="form-control" id="jenisbaru" name="jenisbaru" type="text" placeholder="TERISI OTOMATIS" aria-label="jenisbaru" readonly>
                                     </div>
 
                                     <div class="col-md-12 position-relative"> 
-                                        <label class="form-label" for="exampleFormControlTextarea1">Spesifikasi Lengkap</label>
-                                        <textarea class="form-control" style="resize: none;" name="spekbaru" id="spekbaru" rows="3" readonly></textarea>
+                                        <label class="form-label" for="spekbaru">Spesifikasi Lengkap</label>
+                                        <textarea class="form-control" style="resize: none;" name="spekbaru" id="spekbaru" placeholder="TERISI OTOMATIS" rows="3" readonly></textarea>
                                     </div>
                                     <!-- Submit Barang -->
                                     <div class="col-12 mt-3">
@@ -132,13 +133,13 @@
                                 <form class="row g-3">
                                   <!-- Tanggal Catatan -->
                                   <div class="col-4 position-relative"> 
-                                    <label class="form-label" for="tanggalwaktubarang">Tanggal Waktu</label>
+                                    <label class="form-label" for="tglbekas">Tanggal Waktu</label>
                                     <input class="form-control digits" id="tglbekas" name="tglbekas" type="datetime-local" readonly>
                                   </div>
                                   
                                   <!-- Cabang -->
                                   <div class="col-4 position-relative"> 
-                                        <label class="form-label" for="formcabang">Cabang</label>
+                                        <label class="form-label" for="cabangbekas">Cabang</label>
                                         <select class="form-select" id="cabangbekas" name="cabangbekas" required="">
                                             <option selected="" disabled="" value="0">Pilih Cabang</option>
                                         </select>
@@ -147,12 +148,12 @@
                                   <!-- No Surat Keluar -->
                                   <div class="col-4 position-relative"> 
                                         <label class="form-label" for="nosuratk">No Surat Keluar</label>
-                                        <input class="form-control" id="nosuratk" name="nosuratk" type="text" placeholder="Masukkan Nomor Surat Keluar" aria-label="nosuratb" required="">
+                                        <input class="form-control" id="nosuratk" name="nosuratk" type="text" placeholder="Masukkan Nomor Surat Keluar" aria-label="nosuratk" required="">
                                   </div>
 
                                   <!-- Nama Produk -->
                                   <div class="col-6 position-relative">
-                                      <label class="form-label" for="NamaProduk">Nama Produk</label>
+                                      <label class="form-label" for="prodbekas">Nama Produk</label>
                                       <select class="form-select" id="prodbekas" name="prodbekas" required="">
                                         <option selected="" disabled="" value="0">Pilih Produk</option>
                                     </select>
@@ -160,23 +161,82 @@
 
                                     <!-- Brand Product -->
                                     <div class="col-3 position-relative"> 
-                                        <label class="form-label" for="brandproduk">Merek</label>
-                                        <input class="form-control" id="merkbekas" name="merkbekas" type="text" placeholder="TERISI OTOMATIS" aria-label="brandproduk" readonly>
+                                        <label class="form-label" for="merkbekas">Merek</label>
+                                        <input class="form-control" id="merkbekas" name="merkbekas" type="text" placeholder="TERISI OTOMATIS" aria-label="merkbekas" readonly>
                                     </div>
 
                                     <!-- Jenis Product -->
                                     <div class="col-3 position-relative"> 
-                                        <label class="form-label" for="jenisproduk">Jenis</label>
-                                        <input class="form-control" id="jenisbekas" name="jenisbekas" type="text" placeholder="TERISI OTOMATIS" aria-label="jenisproduk" readonly>
+                                        <label class="form-label" for="jenisbekas">Jenis</label>
+                                        <input class="form-control" id="jenisbekas" name="jenisbekas" type="text" placeholder="TERISI OTOMATIS" aria-label="jenisbekas" readonly>
                                     </div>
 
                                     <div class="col-md-12 position-relative"> 
-                                        <label class="form-label" for="exampleFormControlTextarea1">Spesifikasi Lengkap</label>
-                                        <textarea class="form-control" style="resize: none;" name="spekbekas" id="spekbekas" rows="3"></textarea>
+                                        <label class="form-label" for="spekbekas">Spesifikasi Lengkap</label>
+                                        <textarea class="form-control" style="resize: none;" name="spekbekas" placeholder="TERISI OTOMATIS" id="spekbekas" rows="3"readonly></textarea>
                                     </div>
                                     <!-- Submit Barang -->
                                     <div class="col-12 mt-3">
                                         <button class="btn btn-primary" type="button" id="tambahbekas">Tambah Produk Cabang</button>
+                                    </div>
+                                </form>
+                            </div>
+                          </div>
+                          <!-- Tambah Data Barang Aksesoris -->
+                          <div class="tab-pane fade" id="barang-acc" role="tabpanel" aria-labelledby="barang-acc-tab">
+                            <div class="pt-3 mb-0">
+                                <form class="row g-3">
+                                    <!-- Tanggal Catatan -->
+                                    <div class="col-4 position-relative"> 
+                                        <label class="form-label" for="tglacc">Tanggal Waktu</label>
+                                        <input class="form-control digits" id="tglacc" name="tglacc" type="datetime-local" readonly>
+                                    </div>
+                                    
+                                    <!-- Cabang -->
+                                    <div class="col-4 position-relative"> 
+                                        <label class="form-label" for="cabangacc">Cabang</label>
+                                        <select class="form-select" id="cabangacc" name="cabangacc" required="">
+                                            <option selected="" disabled="" value="0">Pilih Cabang</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- No Surat Keluar -->
+                                    <div class="col-4 position-relative"> 
+                                        <label class="form-label" for="nosuratacc">No Surat Keluar</label>
+                                        <input class="form-control" id="nosuratacc" name="nosuratacc" type="text" placeholder="Masukkan Nomor Surat Keluar" aria-label="nosuratacc" required="">
+                                    </div>
+                                    <div class="col-6 position-relative"> 
+                                        <label class="form-label" for="prodacc">Nama Produk</label>
+                                        <select class="form-select" id="prodacc" name="prodacc" required="">
+                                            <option selected="" disabled="" value="0">Pilih Produk</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6 position-relative"> 
+                                        <label class="form-label" for="merkacc">Merk</label>
+                                        <select class="form-select" id="merkacc" name="merkacc" required="">
+                                            <option selected="" disabled="" value="0">Pilih Merk</option>
+                                        </select>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="display" id="table-prdacc">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>SN PRODUK</th>
+                                                    <th>PRODUK</th>
+                                                    <th>MERK</th>
+                                                    <th>JENIS</th>
+                                                    <th>HARGA HPP</th>
+                                                    <th>HARGA JUAL</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- Submit Barang -->
+                                    <div class="col-12 mt-3">
+                                        <button class="btn btn-primary" type="button" id="tambahacc">Tambah Produk Cabang</button>
                                     </div>
                                 </form>
                             </div>

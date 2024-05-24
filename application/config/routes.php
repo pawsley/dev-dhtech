@@ -118,6 +118,7 @@ $route['barang-keluar/getdetailsk/(:any)']='BarangKeluar/getdetailsk/$1';
 $route['barang-keluar/groupsk']='BarangKeluar/groupsk';
 $route['barang-keluar/simpan-barang-baru']='BarangKeluar/addmb';
 $route['barang-keluar/simpan-barang-bekas']='BarangKeluar/addmk';
+$route['barang-keluar/simpan-acc']='BarangKeluar/addacc';
 $route['barang-keluar/hapus/(:num)'] = 'BarangKeluar/deletepost/$1';
 $route['barang-keluar/printsk/(:any)'] = 'BarangKeluar/formatsk/$1';
 $route['terima-barang']='BarangTerima';

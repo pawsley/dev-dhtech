@@ -90,7 +90,7 @@
                         <td class="text-center" style="border: 1px solid black;"><?=$dtl['jenis']?></td>
                         <td class="text-center" style="border: 1px solid black;"><?=$dtl['merk']?></td>
                         <td class="text-center" style="border: 1px solid black; text-align: left;">
-                            <?= nl2br($dtl['spek']) ?>
+                            <?php echo isset($dtl['spek']) ? nl2br($dtl['spek']) : ''; ?>
                         </td>
                         <td class="text-center" style="border: 1px solid black;"><?=$dtl['kondisi']?></td>
                     </tr>

@@ -87,20 +87,31 @@ class BarangKeluar extends Auth
     header('Content-Type: application/json');
     echo json_encode($results);
   }
-
   public function loadbrgb() {
     $searchTerm = $this->input->get('q');
     $results = $this->BarangKeluar_model->getBrgb($searchTerm);
     header('Content-Type: application/json');
     echo json_encode($results);    
   }
-
   public function loadbrgk() {
     $searchTerm = $this->input->get('q');
     $results = $this->BarangKeluar_model->getBrgk($searchTerm);
     header('Content-Type: application/json');
     echo json_encode($results);    
   }
+  public function loadbrgacc() {
+    $searchTerm = $this->input->get('q');
+    $results = $this->BarangKeluar_model->getBrgacc($searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);    
+  }
+  public function loadmerkacc($nm) {
+    $searchTerm = $this->input->get('q');
+    $results = $this->BarangKeluar_model->getMerkacc($nm,$searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);    
+  }
+
   public function barcode($sp){
     $this->zend->load('Zend/Barcode');
     $imageResource = Zend_Barcode::factory('code128','image', array('text'=>$sp), array())->draw();
@@ -163,7 +174,33 @@ class BarangKeluar extends Auth
       redirect('barang-keluar');
     }
   }
-
+  public function addacc() {
+    if ($this->input->is_ajax_request()) {
+        $checkedCheckboxes = $this->input->post('checkedCheckboxes');
+        foreach ($checkedCheckboxes as $checkbox) {
+            $data = [
+                'id_masuk' => $checkbox['id_masuk'],
+                'id_toko' => $checkbox['id_toko'],
+                'tgl_keluar' => $checkbox['tgl_keluar'],
+                'no_surat_keluar' => $checkbox['no_surat_keluar'],
+                'hrg_hpp' => $checkbox['hrg_hpp'],
+                'hrg_jual' => $checkbox['hrg_jual'],
+                'margin' => $checkbox['margin'],
+                'status' => $checkbox['status'],
+            ];
+            $inserted = $this->BarangKeluar_model->create($data);
+            if (!$inserted) {
+                echo json_encode(['status' => 'error']);
+                return;
+            }
+        }
+        $lastCheckbox = end($checkedCheckboxes);
+        $this->barcode($lastCheckbox['no_surat_keluar']);
+        echo json_encode(['status' => 'success']);
+    } else {
+        redirect('barang-keluar');
+    }
+  }
   public function deletepost($id) {
     $result = $this->BarangKeluar_model->delete($id);
     echo json_encode($result);
@@ -177,11 +214,26 @@ class BarangKeluar extends Auth
     $this->datatables->group_by('no_surat_keluar');
     return print_r($this->datatables->generate());    
   }
-
   public function loadbk(){
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,tgl_keluar,no_surat_keluar,nama_toko,sn_brg,nama_brg,spek,kondisi,status');
     $this->datatables->from('vbarangkeluar');
+    return print_r($this->datatables->generate());    
+  }
+  public function loadprdacc(){
+    $this->load->library('datatables');
+    $nm = $this->input->post('nm'); 
+    $mk = $this->input->post('mk'); 
+    $this->datatables->select('id_masuk,sn_brg,nama_brg,merk,jenis,hrg_hpp,hrg_jual,status');
+    $this->datatables->from('vprdbm');
+    if (!empty($nm) && $nm !== '0') {
+      $this->datatables->where('nama_brg', $nm);
+    }
+    if (!empty($mk) && $mk !== '0') {
+        $this->datatables->where('merk', $mk);
+    }
+    $this->datatables->where_in('jenis',['Accessories','Aksesoris','Acc']);
+    $this->datatables->where_in('status',['1']);
     return print_r($this->datatables->generate());    
   }
   public function getsk($ns){

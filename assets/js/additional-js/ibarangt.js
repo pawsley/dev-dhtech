@@ -58,7 +58,7 @@ function tablesk() {
                             return `
                                 <ul class="action">
                                     <li class="edit">
-                                        <button class="btn download-button" type="button" id="approvesk" data-id="${data}"><i class="icofont icofont-ui-check"></i></button>
+                                        <button class="btn" type="button" id="approvesk" data-id="${data}"><i class="icofont icofont-ui-check"></i></button>
                                     </li>
                                     <li class="delete">
                                         <button class="btn" type="button" data-id="${data}" data-bs-toggle="modal" data-bs-target="#DetailSuratKeluar"><i class="fa fa-info-circle"></i></button>
