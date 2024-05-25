@@ -144,7 +144,7 @@
                                         <span>TOTAL PRODUK</span>
                                         <strong id="cprod">0</strong>
                                     </li> -->
-                                    <!-- PRODUK -->
+                                    <!-- add produk opname -->
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <form class="row g-3">
                                             <div class="col-4 position-relative"> 
@@ -179,31 +179,64 @@
                                         </form>
                                     </li>
                                 </ul>
-                                <!-- Data Table -->
+                                <br>
+                                <!-- Produk List -->
                                 <div class="col-lg-12"> 
                                     <div class="card"> 
-                                        <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
-                                            <h5>Produk List</h5>
-                                            <!-- <a class="btn btn-primary" type="button" id="addprod"><i class="fa fa-plus"></i>Tambahkan</a> -->
+                                        <div class="card-header pb-0 card-no-border">
+                                            <div class="row">
+                                                <div class="col-md-8 position-relative">
+                                                    <h5>Data Produk Tersedia</h5>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="display" id="table-prop">
-                                                <thead>
-                                                    <tr>
-                                                        <th>SN PRODUK</th>
-                                                        <th>NAMA PRODUK</th>
-                                                        <th>MERK</th>
-                                                        <th>JENIS</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table>
+                                            <div class="table-responsive">
+                                                <table class="display" id="table-pr">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SN PRODUK</th>
+                                                            <th>NAMA PRODUK</th>
+                                                            <th>MERK</th>
+                                                            <th>JENIS</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
                                             </div>                                            
                                         </div>
                                     </div>
                                 </div>
+                                <!-- data opname -->
+                                <div class="col-lg-12"> 
+                                    <div class="card"> 
+                                        <div class="card-header pb-0 card-no-border">
+                                            <div class="row">
+                                                <div class="col-md-8 position-relative">
+                                                    <h5>Data Produk Opname</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="display" id="table-prop">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SN PRODUK</th>
+                                                            <th>NAMA PRODUK</th>
+                                                            <th>MERK</th>
+                                                            <th>JENIS</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- data opname -->
                             </div>
                         </div>
                     </div>

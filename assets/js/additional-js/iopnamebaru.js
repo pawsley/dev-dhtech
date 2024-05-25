@@ -120,7 +120,7 @@ function tableol() {
     return tableOL;
 }
 
-function tablepr(id_toko,tgl) {
+function tablepr(id_toko) {
     if ($.fn.DataTable.isDataTable('#table-pr')) {
         tablePR.destroy();
     }
@@ -132,15 +132,10 @@ function tablepr(id_toko,tgl) {
         "serverSide": true,
         "order": [],
         "ajax": {
-            "url": base_url + 'stock-opname/produk-list/'+id_toko+'/'+tgl,
+            "url": base_url + 'StockOpname/loadproduklist/'+id_toko+'/',
             "type": "POST"
         },
         "columns": [
-            { "data": "id_keluar",
-                "render": function(data, type, row, meta) {
-                  return '<input type="checkbox" class="checkbox_prod" id="checkbox_' + data + '" value="' + data + '">';
-                }
-            },
             { "data": "sn_brg" },
             { "data": "nama_brg" },
             { "data": "merk" },
@@ -164,7 +159,6 @@ function tablepr(id_toko,tgl) {
                     },
                     "action": function () {
                         tablePR.ajax.reload();
-                        $('#cprod').text('0');
                     }
                 }
             ]
@@ -403,6 +397,7 @@ function getProdOP() {
                                 $('#carisn').val('');
                                 $('#carisn').focus();
                                 tablePROP.ajax.reload();
+                                tablePR.ajax.reload();
                             });
                         },
                         error: function(xhr, status, error) {
@@ -459,14 +454,10 @@ function getbarang(){
                     });
                     getProdOP();
                     tableprop(item.id_toko,id_opname);
-                    // $('#addprod').attr('data-id_opname', id_opname);
+                    tablepr(item.id_toko);
                 });
             }
         });
-        // $('#table-pr').on('change', '.checkbox_prod', function() {
-        //     var countChecked = $('.checkbox_prod:checked').length;
-        //     $('#cprod').text(countChecked);
-        // });
     });
 }
 function addproduk(id_opname) {

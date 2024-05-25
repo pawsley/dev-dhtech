@@ -213,6 +213,12 @@ class StockOpname extends Auth
     header('Content-Type: application/json');
     echo json_encode($results);
   }
+  public function loadfilterjenis() {
+    $searchTerm = $this->input->get('q');
+    $results = $this->StockOpname_model->getFilterJenis($searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }
   public function createpost(){
     if ($this->input->is_ajax_request()) {
       $data = [
@@ -260,12 +266,11 @@ class StockOpname extends Auth
       return print_r($this->datatables->generate());
     }
   }
-  public function loadproduklist($id_toko,$tgl) {
+  public function loadproduklist($id_toko) {
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis');
     $this->datatables->from('vprdop');
     $this->datatables->where('id_toko',$id_toko);
-    $this->datatables->where("DATE_FORMAT(tgl_opname, '%Y-%m-%d') = '".$tgl."'");
     return print_r($this->datatables->generate());
   }  
   public function loadproplist($id_toko,$ido) {

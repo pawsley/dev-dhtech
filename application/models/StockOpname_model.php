@@ -96,7 +96,19 @@ class StockOpname_model extends CI_Model {
     ->where('sn_brg', $sn);
     $query = $this->db->get();
     return $query->result_array();
-  }  
+  } 
+  public function getFilterJenis($searchTerm) {
+    $this->db->select(['jenis']);
+    $this->db->from('vprdop');
+    if ($searchTerm) {
+        $this->db->group_start();
+        $this->db->like('jenis', $searchTerm);
+        $this->db->group_end();
+    }
+    $this->db->group_by('jenis');
+    $query = $this->db->get();
+    return $query->result_array();
+  }
 }
 
 /* End of file StockOpname_model.php */
