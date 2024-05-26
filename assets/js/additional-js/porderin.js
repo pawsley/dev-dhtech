@@ -48,7 +48,7 @@ function tableom() {
             { "data": "cara_bayar" },
             { "data": "tipe_penjualan" },
             { 
-                "data": "bayar",
+                "data": "total_keranjang",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
