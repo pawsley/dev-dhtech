@@ -79,8 +79,7 @@
                                         <th><span class="f-light f-w-600">INVOICE</span></th>
                                         <th><span class="f-light f-w-600">TGL & JAM</span></th>
                                         <th><span class="f-light f-w-600">CABANG</span></th>
-                                        <th><span class="f-light f-w-600">TIPE</span></th>
-                                        <th><span class="f-light f-w-600">BANK PENERIMA</span></th>
+                                        <th><span class="f-light f-w-600">TIPE PEMBAYARAN</span></th>
                                         <th><span class="f-light f-w-600">PENJUALAN</span></th>
                                         <th><span class="f-light f-w-600">TOTAL</span></th>
                                         <th><span class="f-light f-w-600">AKSI</span></th>
@@ -151,35 +150,67 @@
                                 <h3>Detail Invoice <span id="noinv"></span></h3>
                                 <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong><span>Tipe Pembayaran</span></strong>
+                                    <strong id="tp">-</strong>
+                                </li>
+                                <li id="banktf" class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong><span>Bank Penerima Transfer</span></strong>
+                                    <strong id="bp">-</strong>
+                                </li>
+                                <li id="norektf" class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong><span>Nomor Rekening</span></strong>
+                                    <strong id="nr">-</strong>
+                                </li>
+                                <li id="tftn" class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong><span>Nominal Tunai</span></strong>
+                                    <strong id="tn">-</strong>
+                                </li>
+                                <li id="tftb" class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong><span>Nominal Transfer</span></strong>
+                                    <strong id="tb">-</strong>
+                                </li>
+                                <li id="tfkr" class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong><span>Nominal Kedit</span></strong>
+                                    <strong id="kr">-</strong>
+                                </li>
+                            </ul> 
                             <!-- Data Table -->
                             <div class="col-lg-12"> 
                                 <div class="card"> 
                                     <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="display" id="table-dtiv">
-                                            <thead>
-                                                <tr>
-                                                    <th><span class="f-light f-w-600">SN PRODUK</span></th>
-                                                    <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
-                                                    <th><span class="f-light f-w-600">KONDISI</span></th>
-                                                    <th><span class="f-light f-w-600">NOMINAL</span></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
+                                        <div class="table-responsive">
+                                            <table class="display" id="table-dtiv">
+                                                <thead>
+                                                    <tr>
+                                                        <th><span class="f-light f-w-600">SN PRODUK</span></th>
+                                                        <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
+                                                        <th><span class="f-light f-w-600">KATEGORI</span></th>
+                                                        <th><span class="f-light f-w-600">HARGA JUAL</span></th>
+                                                        <th><span class="f-light f-w-600">DISKON</span></th>
+                                                        <th><span class="f-light f-w-600">CASHBACK</span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
                                         </div>                                            
                                     </div>
                                 </div>
                             </div>
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong><span>Total</span></strong>
+                                    <strong><span>Total Harga Jual</span></strong>
                                     <strong id="tt">-</strong>                                                           
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong><span>Diskon</span></strong>
+                                    <strong><span>Total Diskon</span></strong>
                                     <strong id="di">-</strong>                                                              
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong><span>Total Cashback</span></strong>
+                                    <strong id="cb">-</strong>                                                              
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong><span>Grand Total</span></strong>

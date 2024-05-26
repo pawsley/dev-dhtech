@@ -46,7 +46,6 @@ function tableom() {
             },
             { "data": "nama_toko" },             
             { "data": "cara_bayar" },
-            { "data": "nama_rek" },
             { "data": "tipe_penjualan" },
             { 
                 "data": "bayar",
@@ -62,7 +61,11 @@ function tableom() {
                         return `
                                 <ul class="action">
                                     <div class="btn-group">
-                                        <button class="btn btn-primary" data-id="${data}" data-total="${full.total_keranjang}" data-diskon="${full.diskon}" data-grand="${full.bayar}" data-bs-toggle="modal" data-bs-target="#DetailInvoice" title="detail invoice"><i class="fa fa-exclamation-circle"></i></button>
+                                        <button class="btn btn-primary" data-id="${data}" data-total="${full.total_harga_jual}" data-diskon="${full.total_diskon}" data-cashback="${full.total_cashback}" data-grand="${full.bayar}"
+                                        data-tipe="${full.cara_bayar}" data-banktf="${full.bank_tf}" data-norek="${full.no_rek}"
+                                        data-tunai="${full.total_keranjang}" data-tf="${full.total_keranjang}"
+                                        data-stn="${full.tunai}" data-stf="${full.bank}" data-skr="${full.kredit}"
+                                        data-bs-toggle="modal" data-bs-target="#DetailInvoice" title="detail invoice"><i class="fa fa-exclamation-circle"></i></button>
                                         <button class="btn btn-success" id="approve" data-id="${data}" data-id_toko="${full.id_toko}" title="approve"><i class="icofont icofont-ui-check"></i></button>
                                         <button class="btn btn-danger" id="cancel" data-id="${data}" data-keluar="${full.id_keluar}" title="cancel"><i class="icofont icofont-ui-close"></i></button>
                                     </div>
@@ -73,10 +76,10 @@ function tableom() {
                 }
             }
         ],
-        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+        "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-2'B>>" +
                 "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
         "buttons": [
             {
                 "text": 'Refresh', // Font Awesome icon for refresh
@@ -172,9 +175,21 @@ function tableiv(inv) {
         "columns": [
             { "data": "sn_brg" },
             { "data": "nama_brg" },   
-            { "data": "kondisi" },   
+            { "data": "jenis" },   
             { 
                 "data": "harga_jual",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "harga_diskon",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "harga_cashback",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
@@ -182,7 +197,7 @@ function tableiv(inv) {
         ],
         "lengthChange": false,
         "paging": false,
-        "dom": "<'row'<'col-sm-12 col-md-2'B><'col-sm-12 col-md-8'f>>" +
+        "dom":  "<'row'<'col-sm-12 col-md-2'B><'col-sm-12 col-md-10'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
         "buttons": [
@@ -221,12 +236,51 @@ function detailinv(){
     $('#DetailInvoice').on('show.bs.modal', function (e) {
         var button = $(e.relatedTarget);
         var inv = button.data('id');
+        var tp = button.data('tipe');
+        var bp = button.data('banktf');
+        var nr = button.data('norek');
         var tt = button.data('total');
         var ds = button.data('diskon');
+        var cb = button.data('cashback');
         var gd = button.data('grand');
+        var tn = button.data('tunai');
+        var tf = button.data('tf');
+        var stn = button.data('stn');
+        var stf = button.data('stf');
+        var skr = button.data('skr');
         $("#noinv").text(inv);
+        $("#tp").text(tp);
+        if (tp == 'Tunai') {
+            $('#banktf').addClass('d-none');
+            $('#norektf').addClass('d-none');
+            $('#tftn').removeClass('d-none');
+            $('#tftb').addClass('d-none');
+            $('#tfkr').addClass('d-none');
+            $('#tn').text(formatcur.format(tn));
+        } else if (tp == 'Transfer'){
+            $('#banktf').removeClass('d-none');
+            $('#norektf').removeClass('d-none');
+            $('#tftn').addClass('d-none');
+            $('#tftb').removeClass('d-none');
+            $('#tfkr').addClass('d-none');
+            $("#bp").text(bp);
+            $("#nr").text(nr);
+            $('#tb').text(formatcur.format(tf));
+        } else {
+            $('#banktf').removeClass('d-none');
+            $('#norektf').removeClass('d-none');
+            $('#tftn').removeClass('d-none');
+            $('#tftb').removeClass('d-none');
+            $('#tfkr').removeClass('d-none');
+            $("#bp").text(bp);
+            $("#nr").text(nr);
+            $('#tn').text(formatcur.format(stn));
+            $('#tb').text(formatcur.format(stf));
+            $('#kr').text(formatcur.format(skr));
+        }
         $("#tt").text(formatcur.format(tt));
         $("#di").text(formatcur.format(ds));
+        $("#cb").text(formatcur.format(cb));
         $("#gt").text(formatcur.format(gd));
         tableiv(inv);
     });
