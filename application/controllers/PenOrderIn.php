@@ -98,7 +98,10 @@ class PenOrderIn extends Auth
   public function filtercab($cab=null){
     $decoded_cab = urldecode($cab);
     $this->load->library('datatables');
-    $this->datatables->select('id_keluar,id_toko,kode_penjualan,sn_brg,DATE_FORMAT(tgl_transaksi, "%d %M %Y %H:%i")AS format_tgl,nama_toko,cara_bayar,bayar,status,tipe_penjualan,nama_rek,total_keranjang,diskon');
+    $this->datatables->select('id_keluar,id_toko,kode_penjualan,sn_brg,
+    DATE_FORMAT(tgl_transaksi, "%d %M %Y %H:%i")AS format_tgl,nama_toko,cara_bayar,bayar,
+    status,tipe_penjualan,bank_tf,no_rek,total_keranjang,diskon, tunai,bank,kredit,
+    sum(harga_jual) as total_harga_jual, sum(harga_diskon) as total_diskon, sum(harga_cashback) as total_cashback');
     $this->datatables->from('vpenjualan');
     $this->datatables->where_in('status',0);
     $this->datatables->like('nama_toko', $decoded_cab);
