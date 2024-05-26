@@ -25,7 +25,7 @@ class PenOrderIn_model extends CI_Model {
   }
   public function approve($inv, $data) {
     $this->db->where('kode_penjualan', $inv);
-    $this->db->update('tb_penjualan', $data);
+    $this->db->update('tb_detail_penjualan', $data);
   }
   public function cancel($inv, $data) {
     $this->db->where('kode_penjualan', $inv);
