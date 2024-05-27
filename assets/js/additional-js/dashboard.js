@@ -1,4 +1,6 @@
 var tableAP;
+var tableAPC;
+var tablePC;
 var tableLB;
 var tableSP;
 var tableDK;
@@ -21,6 +23,8 @@ $(document).ready(function () {
     topsales();
     detaillaba();
     detailasset();
+    detailassetcab();
+    detailprodcab();
     detailsales();
     detaildiskon();
     // detailcust();
@@ -119,8 +123,16 @@ function countlaba(formatcur) {
             $('#laba').removeClass('d-none');
             $.each(data, function(index, item) {
                 var formattedValue = formatcur.format(item.laba_kotor);
+                var fpen = formatcur.format(item.total_pen);
+                var fhpp = formatcur.format(item.total_hpp);
+                var fdisk = formatcur.format(item.total_disk);
+                var fcashb = formatcur.format(item.total_cb);
                 $('#laba').text(formattedValue);
                 $('.cardlaba').attr('data-total_laba', formattedValue);
+                $('.cardlaba').attr('data-total_hpp', fhpp);
+                $('.cardlaba').attr('data-total_pen', fpen);
+                $('.cardlaba').attr('data-total_disk', fdisk);
+                $('.cardlaba').attr('data-total_cashb', fcashb);
                 return false;
             });
             $('#spinner').addClass('d-none');
@@ -422,6 +434,12 @@ function tablelaba() {
             { "data": "sn_brg" },
             { "data": "nama_brg" },   
             { 
+                "data": "hrg_hpp",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
                 "data": "harga_jual",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
@@ -434,7 +452,13 @@ function tablelaba() {
                 }
             },
             { 
-                "data": "bayar",
+                "data": "harga_cashback",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },   
+            { 
+                "data": "laba_unit",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
@@ -518,6 +542,125 @@ function tableasset() {
     });
     return tableAP;
 }
+function tableassetcab(idtoko) {
+    if ($.fn.DataTable.isDataTable('#table-assetc')) {
+        tableAPC.destroy();
+    }
+    tableAPC = $("#table-assetc").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [
+            [0, 'desc'] 
+        ],
+        "ajax": {
+            "url": base_url + 'detail-asset-cabang/'+idtoko,
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },   
+            { 
+                "data": "hrg_hpp",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { "data": "nama_toko" },   
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-6'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+        "buttons": [
+            {
+                "text": 'Refresh', // Font Awesome icon for refresh
+                "className": 'custom-refresh-button', // Add a class name for identification
+                "attr": {
+                    "id": "refresh-button" // Set the ID attribute
+                },
+                "init": function (api, node, config) {
+                    $(node).removeClass('btn-default');
+                    $(node).addClass('btn-primary');
+                    $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                },
+                "action": function () {
+                    tableAPC.ajax.reload();
+                }
+            },
+        ]
+            
+    });
+    return tableAPC;
+}
+function tableprodcab(idtoko) {
+    if ($.fn.DataTable.isDataTable('#table-prodc')) {
+        tablePC.destroy();
+    }
+    tablePC = $("#table-prodc").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [
+            [0, 'desc'] 
+        ],
+        "ajax": {
+            "url": base_url + 'detail-produk-cabang/'+idtoko,
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },
+            { "data": "merk" },
+            { "data": "jenis" },
+            { 
+                "data": "kondisi",
+                "render": function (data, type, full, meta) {
+                    // You can customize the rendering here
+                    if (type === "display") {
+                        if (data === "Baru") {
+                            return `<span class="badge rounded-pill badge-light-primary">BARU</span>`;
+                          } else {
+                            return `<span class="badge rounded-pill badge-light-warning">BEKAS</span>`;
+                        }
+                        return data; // return the original value for other cases
+                    }
+                    return data;
+                },
+                "createdCell": function (td, cellData, rowData, row, col) {
+                    $(td).css('text-align', 'center');
+                }
+            },   
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-6'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+        "buttons": [
+            {
+                "text": 'Refresh', // Font Awesome icon for refresh
+                "className": 'custom-refresh-button', // Add a class name for identification
+                "attr": {
+                    "id": "refresh-button" // Set the ID attribute
+                },
+                "init": function (api, node, config) {
+                    $(node).removeClass('btn-default');
+                    $(node).addClass('btn-primary');
+                    $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                },
+                "action": function () {
+                    tablePC.ajax.reload();
+                }
+            },
+        ]
+            
+    });
+    return tablePC;
+}
 function tablesales() {
     if ($.fn.DataTable.isDataTable('#table-sales')) {
         tableSP.destroy();
@@ -541,6 +684,24 @@ function tablesales() {
             { "data": "nama_brg" },   
             { 
                 "data": "harga_jual",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "harga_diskon",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "harga_cashback",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "harga_bayar",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
@@ -590,14 +751,15 @@ function tablediskon() {
             "type": "POST"
         },
         "columns": [
-            { "data": "id_toko" },
-            { "data": "nama_toko" },
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },
             { 
                 "data": "total_diskon",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
             },
+            { "data": "nama_toko" },
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-6'B>>" +
@@ -645,7 +807,7 @@ function tablecb() {
             { "data": "sn_brg" },
             { "data": "nama_brg" },
             { 
-                "data": "cb",
+                "data": "cbd",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
@@ -804,7 +966,15 @@ function detaillaba() {
     $('#DetailLaba').on('show.bs.modal', function (e) {
         var button = $(e.relatedTarget);
         var total = button.data('total_laba');
+        var totalhpp = button.data('total_hpp');
+        var totalpen = button.data('total_pen');
+        var totaldisk = button.data('total_disk');
+        var totalcba = button.data('total_cashb');
         $("#tlk").text(total);
+        $("#tlh").text(totalhpp);
+        $("#tlp").text(totalpen);
+        $("#tld").text(totaldisk);
+        $("#tlc").text(totalcba);
         tablelaba();
     });
 }
@@ -814,6 +984,40 @@ function detailasset() {
         var total = button.data('total_asset');
         $("#tap").text(total);
         tableasset();
+    });
+}
+function detailassetcab() {
+    $('#DetailAssetProdukCab').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        var id = button.data('id');
+        var total = button.data('total');
+        var cabang = button.data('cabang');
+        $("#tapc").text(total);
+        $("#dapc").text(cabang);
+        tableassetcab(id);
+    });
+}
+function detailprodcab() {
+    $('#DetailProdukCab').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        var id = button.data('id');
+        var cabang = button.data('cabang');
+        $("#dpcab").text(cabang);
+        $.ajax({
+            url: base_url + 'barang-keluar/stock/'+id,
+            type: 'GET',
+            dataType: 'json',
+            data: { id: id },
+            success: function(data) {
+                $.each(data, function(index, item) {
+                    if (item.id_toko === id) {
+                        var formattedNumber = formatcur.format(item.brg_rdy).replace(/\D/g, '');
+                        $('#tpc').text(formattedNumber);
+                    }
+                });
+            }
+        });
+        tableprodcab(id);
     });
 }
 function detailsales() {
@@ -932,7 +1136,6 @@ function tablekar() {
                     var newValue = $(this).val();
                     var toko = $(this).find('option:selected').text();
                     var id_admin = $select.data('id_admin');
-                    console.log(id_admin);
                     
                     $.ajax({
                         url: 'Welcome/updatekar',

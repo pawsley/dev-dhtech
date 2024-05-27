@@ -15,7 +15,8 @@ class Welcome_model extends CI_Model {
 
   public function countlaba() {
     $this->db->select([
-      "(SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp) as laba_kotor, tgl_transaksi"
+      "(SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp) as laba_kotor, tgl_transaksi,
+      SUM(harga_jual) as total_pen, SUM(harga_diskon) as total_disk, SUM(harga_cashback) total_cb, SUM(hrg_hpp) as total_hpp"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
@@ -76,7 +77,7 @@ class Welcome_model extends CI_Model {
   }
   public function countTopSales(){
     $this->db->select([
-      "SUM(DISTINCT (bayar)) as total_jual, id_ksr, nama_ksr"
+      "SUM(DISTINCT (harga_bayar)) as total_jual, id_ksr, nama_ksr"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);

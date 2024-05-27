@@ -31,7 +31,7 @@
                   <div class=" col-md-7 box-col-7">
                     <div class="row"> 
                       <div class="col-sm-12">
-                        <a href="#" class="cardlaba" data-bs-toggle="modal" data-bs-target="#DetailLaba" data-total_laba="">
+                        <a href="#" class="cardlaba" data-bs-toggle="modal" data-bs-target="#DetailLaba" data-total_laba="" data-total_hpp="" data-total_pen="" data-total_disk="" data-total_cashb="">
                           <div class="card o-hidden">  
                             <div class="card-body balance-widget">
                               <span class="f-w-500 f-light">Laba Bersih Bulan Ini</span>
@@ -48,7 +48,7 @@
                           </div>
                         </a>
                       </div>
-                      
+                      <!-- Asset Produk Semua Cabang -->
                       <div class="col-6">
                         <a href="#" class="cap" data-bs-toggle="modal" data-bs-target="#DetailAssetProduk" data-total_asset="">
                           <div class="card small-widget"> 
@@ -108,26 +108,6 @@
                           </div>
                         </a>
                       </div>
-                      <!-- Total Kustomer -->
-                      <!-- <div class="col-6"> 
-                        <a href="#" class="ctc" data-bs-toggle="modal" data-bs-target="#DetailCust" data-total_cust="">
-                          <div class="card small-widget"> 
-                            <div class="card-body warning"><span class="f-light">Total Kustomer</span>
-                              <div class="d-flex align-items-end gap-1">
-                                <div class="spinner-border text-primary d-none" role="status" id="spintc">
-                                  <span class="visually-hidden">Memuat...</span>
-                                </div>                                
-                                <h4 id="cardtc"></h4></span>
-                              </div>
-                              <div class="bg-gradient"> 
-                                <svg class="stroke-icon svg-fill">
-                                  <use href="<?=base_url()?>assets/svg/icon-sprite.svg#sale"></use>
-                                </svg>
-                              </div>
-                            </div>
-                          </div>
-                        </a>
-                      </div> -->
                       <!-- Total Cashback -->
                       <div class="col-6"> 
                         <a href="#" class="ctc" data-bs-toggle="modal" data-bs-target="#DetailCashback" data-total_cba="">
@@ -176,7 +156,7 @@
                     <!-- asset hpp -->
                     <?php foreach ($hpp as $sc) { ?>
                         <div class="col-md-4 col-sm-6">
-                            <a href="#" class="cardhpp" data-id="<?=$sc['id_toko']?>" data-total="<?=$sc['total_asset']?>" data-cabang="<?=$sc['nama_toko']?>">
+                            <a href="#" class="cardhpp" data-bs-toggle="modal" data-bs-target="#DetailAssetProdukCab" data-id="<?=$sc['id_toko']?>" data-total="<?=$sc['total_asset']?>" data-cabang="<?=$sc['nama_toko']?>">
                               <div class="card widget-hover overflow-hidden">
                                   <div class="card-header card-no-border pb-2">
                                       <h5 id="id_toko" data-id="<?=$sc['id_toko']?>">Asset <?=$sc['nama_toko']?></h5>
@@ -334,10 +314,10 @@
                   </div>
                   <?php foreach ($setcabang as $sc) { ?>
                     <div class="col-md-4 col-sm-6">
-                      <a href="#" class="cardLink" data-id="<?=$sc['id_toko']?>">
+                      <a href="#" class="cardLink" data-bs-toggle="modal" data-bs-target="#DetailProdukCab" data-id="<?=$sc['id_toko']?>" data-cabang="<?=$sc['nama_toko']?>">
                         <div class="card widget-hover overflow-hidden">
                           <div class="card-header card-no-border pb-2">
-                            <h5 id="id_toko" data-id="<?=$sc['id_toko']?>">Produk <?=$sc['id_toko']?></h5>
+                            <h5 id="id_toko" data-id="<?=$sc['id_toko']?>">Produk <?=$sc['nama_toko']?></h5>
                           </div>
                           <div class="card-body pt-0 count-student">
                             <div class="school-wrapper"> 
@@ -362,24 +342,6 @@
                 </div>
               </div>
             </div>
-            <!-- Modal Gambar Absen -->
-            <!-- <div class="modal fade" id="FotoKaryawanAbsen" tabindex="-1" role="dialog" aria-labelledby="FotoKaryawanAbsen" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content dark-sign-up">
-                      <div class="modal-body social-profile text-start" style="border-radius:5%; max-height: 90vh; overflow-y: auto;">
-                      <div class="modal-toggle-wrapper">
-                        <div class="modal-header mb-4">
-                            <h3>Detil Foto Absen</h3>
-                            <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="card-body align-content-center">
-                          <img class="img-thumbnail" src="../assets/images/fotoabsen/test.jpeg">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-            </div> -->
             <div class="modal fade bd-example-modal-xl" id="DetailLaba" tabindex="-1" role="dialog" aria-labelledby="DetailLaba" aria-hidden="true">
               <div class="modal-dialog modal-xl" role="document">
                   <div class="modal-content dark-sign-up">
@@ -396,6 +358,22 @@
                                       <strong><span>Total Laba Bersih</span></strong>
                                       <strong id="tlk">-</strong>
                                   </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <strong><span>Total Harga HPP</span></strong>
+                                      <strong id="tlh">-</strong>
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <strong><span>Total Penjualan</span></strong>
+                                      <strong id="tlp">-</strong>
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <strong><span>Total Diskon</span></strong>
+                                      <strong id="tld">-</strong>
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <strong><span>Total Cashback</span></strong>
+                                      <strong id="tlc">-</strong>
+                                  </li>
                               </ul>
                               <!-- Data Table -->
                               <div class="col-lg-12"> 
@@ -408,9 +386,11 @@
                                                       <th><span class="f-light f-w-600">INVOICE</span></th>
                                                       <th><span class="f-light f-w-600">SN PRODUK</span></th>
                                                       <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
-                                                      <th><span class="f-light f-w-600">HARGA PRODUK</span></th>
-                                                      <th><span class="f-light f-w-600">DISKON</span></th>
+                                                      <th><span class="f-light f-w-600">HARGA HPP</span></th>
                                                       <th><span class="f-light f-w-600">HARGA JUAL</span></th>
+                                                      <th><span class="f-light f-w-600">DISKON</span></th>
+                                                      <th><span class="f-light f-w-600">CASHBACK</span></th>
+                                                      <th><span class="f-light f-w-600">LABA UNIT</span></th>
                                                   </tr>
                                               </thead>
                                               <tbody>
@@ -425,6 +405,50 @@
                   </div>
               </div>
             </div>
+            <div class="modal fade bd-example-modal-xl" id="DetailProdukCab" tabindex="-1" role="dialog" aria-labelledby="DetailProdukCab" aria-hidden="true">
+              <div class="modal-dialog modal-xl" role="document">
+                  <div class="modal-content dark-sign-up">
+                      <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
+                          <div class="modal-toggle-wrapper">
+                              <div class="modal-header mb-4">
+                                  <h3>Detail Produk <span id="dpcab"></span></h3>
+                                  <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <!-- Isi Konten -->
+                              <ul class="list-group">
+                                  <!-- Total -->
+                                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <strong><span>Total Produk</span></strong>
+                                      <strong id="tpc">-</strong>
+                                  </li>
+                              </ul>
+                              <!-- Data Table -->
+                              <div class="col-lg-12"> 
+                                  <div class="card"> 
+                                      <div class="card-body">
+                                      <div class="table-responsive">
+                                          <table class="display" id="table-prodc">
+                                              <thead>
+                                                  <tr>
+                                                      <th><span class="f-light f-w-600">SN PRODUK</span></th>
+                                                      <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
+                                                      <th><span class="f-light f-w-600">MERK</span></th>
+                                                      <th><span class="f-light f-w-600">JENIS</span></th>
+                                                      <th style="text-align:center;"><span class="f-light f-w-600">KONDISI</span></th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                              </tbody>
+                                          </table>
+                                          </div>                                            
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>            
             <div class="modal fade bd-example-modal-xl" id="DetailAssetProduk" tabindex="-1" role="dialog" aria-labelledby="DetailAssetProduk" aria-hidden="true">
               <div class="modal-dialog modal-xl" role="document">
                   <div class="modal-content dark-sign-up">
@@ -468,6 +492,49 @@
                   </div>
               </div>
             </div>
+            <div class="modal fade bd-example-modal-xl" id="DetailAssetProdukCab" tabindex="-1" role="dialog" aria-labelledby="DetailAssetProdukCab" aria-hidden="true">
+              <div class="modal-dialog modal-xl" role="document">
+                  <div class="modal-content dark-sign-up">
+                      <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
+                          <div class="modal-toggle-wrapper">
+                              <div class="modal-header mb-4">
+                                  <h3>Detail Asset Produk <span id="dapc"></span></h3>
+                                  <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <!-- Isi Konten -->
+                              <ul class="list-group">
+                                  <!-- Total -->
+                                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <strong><span>Total Asset Produk</span></strong>
+                                      <strong id="tapc">-</strong>
+                                  </li>
+                              </ul>
+                              <!-- Data Table -->
+                              <div class="col-lg-12"> 
+                                  <div class="card"> 
+                                      <div class="card-body">
+                                      <div class="table-responsive">
+                                          <table class="display" id="table-assetc">
+                                              <thead>
+                                                  <tr>
+                                                      <th><span class="f-light f-w-600">SN PRODUK</span></th>
+                                                      <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
+                                                      <th><span class="f-light f-w-600">HPP PRODUK</span></th>
+                                                      <th><span class="f-light f-w-600">CABANG</span></th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                              </tbody>
+                                          </table>
+                                          </div>                                            
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>            
             <div class="modal fade bd-example-modal-xl" id="DetailSales" tabindex="-1" role="dialog" aria-labelledby="DetailSales" aria-hidden="true">
               <div class="modal-dialog modal-xl" role="document">
                   <div class="modal-content dark-sign-up">
@@ -496,7 +563,10 @@
                                                       <th><span class="f-light f-w-600">INVOICE</span></th>
                                                       <th><span class="f-light f-w-600">SN PRODUK</span></th>
                                                       <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
-                                                      <th><span class="f-light f-w-600">HARGA PRODUK</span></th>
+                                                      <th><span class="f-light f-w-600">HARGA JUAL</span></th>
+                                                      <th><span class="f-light f-w-600">DISKON</span></th>
+                                                      <th><span class="f-light f-w-600">CASHBACK</span></th>
+                                                      <th><span class="f-light f-w-600">HARGA RILL</span></th>
                                                       <th><span class="f-light f-w-600">CABANG</span></th>
                                                   </tr>
                                               </thead>
@@ -537,9 +607,10 @@
                                           <table class="display" id="table-diskon">
                                               <thead>
                                                   <tr>
-                                                    <th><span class="f-light f-w-600">ID CABANG</span></th>
-                                                    <th><span class="f-light f-w-600">CABANG</span></th>
+                                                  <th><span class="f-light f-w-600">SN PRODUK</span></th>
+                                                    <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
                                                     <th><span class="f-light f-w-600">DISKON</span></th>
+                                                    <th><span class="f-light f-w-600">CABANG</span></th>
                                                   </tr>
                                               </thead>
                                               <tbody>

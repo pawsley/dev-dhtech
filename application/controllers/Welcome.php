@@ -125,7 +125,10 @@ class Welcome extends Auth {
 	}
 	public function detaillabak(){
 		$this->load->library('datatables');
-		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,COALESCE(harga_diskon, 0) AS nilai,harga_bayar as bayar,status,tipe_penjualan,nama_toko');
+		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,hrg_hpp,harga_jual,
+		diskon,harga_cashback,(harga_bayar - hrg_hpp) as laba_unit,
+		COALESCE(harga_diskon, 0) AS nilai,harga_bayar as bayar,
+		status,tipe_penjualan,nama_toko');
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
 		$this->datatables->where('MONTH(tgl_transaksi)', date('m'));
@@ -138,10 +141,26 @@ class Welcome extends Auth {
 		$this->datatables->from('vbarangkeluar');
 		$this->datatables->where_in('status',[2]);
 		return print_r($this->datatables->generate());
+	}
+	public function detailassetcabang($id){
+		$this->load->library('datatables');
+		$this->datatables->select('sn_brg,nama_brg,hrg_hpp,nama_toko');
+		$this->datatables->from('vbarangkeluar');
+		$this->datatables->where('id_toko',$id);
+		$this->datatables->where_in('status',[2]);
+		return print_r($this->datatables->generate());
+	}	
+	public function detailprodcabang($id){
+		$this->load->library('datatables');
+		$this->datatables->select('sn_brg,nama_brg,merk,jenis,kondisi');
+		$this->datatables->from('vbarangkeluar');
+		$this->datatables->where('id_toko',$id);
+		$this->datatables->where_in('status',[2]);
+		return print_r($this->datatables->generate());
 	}	
 	public function detailsales(){
 		$this->load->library('datatables');
-		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,nama_toko');
+		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,harga_diskon,harga_cashback,harga_bayar,nama_toko');
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
 		$this->datatables->where('MONTH(tgl_transaksi)', date('m'));
@@ -150,13 +169,13 @@ class Welcome extends Auth {
 	}	
 	public function detaildiskon(){
 		$this->load->library('datatables');
-		$this->datatables->select('id_toko,nama_toko,total_diskon');
+		$this->datatables->select('sn_brg,nama_brg,nama_toko,total_diskon');
 		$this->datatables->from('vtotaldiskon');
 		return print_r($this->datatables->generate());
 	}	
 	public function detailcashback(){
 		$this->load->library('datatables');
-		$this->datatables->select('sn_brg,nama_brg,cb,nama_supplier');
+		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
 		$this->datatables->from('vtotalcashback');
 		return print_r($this->datatables->generate());
 	}	

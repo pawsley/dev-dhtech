@@ -61,7 +61,7 @@ function tableom() {
                         return `
                                 <ul class="action">
                                     <div class="btn-group">
-                                        <button class="btn btn-primary" data-id="${data}" data-total="${full.total_harga_jual}" data-diskon="${full.total_diskon}" data-cashback="${full.total_cashback}" data-grand="${full.bayar}"
+                                        <button class="btn btn-primary" data-id="${data}" data-total="${full.total_harga_jual}" data-diskon="${full.total_diskon}" data-cashback="${full.total_cashback}" data-grand="${full.total_keranjang}"
                                         data-tipe="${full.cara_bayar}" data-banktf="${full.bank_tf}" data-norek="${full.no_rek}"
                                         data-tunai="${full.total_keranjang}" data-tf="${full.total_keranjang}"
                                         data-stn="${full.tunai}" data-stf="${full.bank}" data-skr="${full.kredit}"
