@@ -820,7 +820,7 @@ function detailsales() {
     $('#DetailSales').on('show.bs.modal', function (e) {
         var button = $(e.relatedTarget);
         var total = button.data('total_sales');
-        $("#tp").text(total);
+        $("#totp").text(total);
         tablesales();
     });
 }

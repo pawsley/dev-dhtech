@@ -482,7 +482,7 @@
                                   <!-- Total -->
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <strong><span>Total Penjualan</span></strong>
-                                      <strong id="tp">-</strong>
+                                      <strong id="totp">-</strong>
                                   </li>
                               </ul>
                               <!-- Data Table -->
