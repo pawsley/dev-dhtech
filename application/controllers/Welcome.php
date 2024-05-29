@@ -155,8 +155,10 @@ class Welcome extends Auth {
 		status,tipe_penjualan,nama_toko');
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
-		$this->datatables->where('MONTH(tgl_transaksi)', $m);
-		$this->datatables->where('YEAR(tgl_transaksi)', $y);
+		if ($m !== 0 && $y !== 0) {
+			$this->datatables->where('MONTH(tgl_transaksi)', $m);
+			$this->datatables->where('YEAR(tgl_transaksi)', $y);
+		}
 		return print_r($this->datatables->generate());
 	}
 	public function detailasset(){
@@ -211,8 +213,10 @@ class Welcome extends Auth {
 		$this->load->library('datatables');
 		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
 		$this->datatables->from('vtotalcashback');
-		$this->datatables->where('MONTH(tgl_transaksi)', $m);
-		$this->datatables->where('YEAR(tgl_transaksi)', $y);
+		if ($m !== 0 && $y !== 0) {
+			$this->datatables->where('MONTH(tgl_transaksi)', $m);
+			$this->datatables->where('YEAR(tgl_transaksi)', $y);
+		}
 		return print_r($this->datatables->generate());
 	}
 	public function detailcust(){
