@@ -146,7 +146,7 @@ class Welcome extends Auth {
 		header('Content-Type: application/json');
 		echo json_encode($results);
 	}
-	public function detaillabak($m =null,$y=null){
+	public function detaillabak($m =0,$y=0){
 		$this->load->library('datatables');
 		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,hrg_hpp,harga_jual,
 		diskon,harga_cashback,
@@ -207,7 +207,7 @@ class Welcome extends Auth {
 		$this->datatables->from('vtotaldiskon');
 		return print_r($this->datatables->generate());
 	}	
-	public function detailcashback($m=null,$y=null){
+	public function detailcashback($m=0,$y=0){
 		$this->load->library('datatables');
 		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
 		$this->datatables->from('vtotalcashback');
