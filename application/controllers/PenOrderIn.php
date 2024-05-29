@@ -12,6 +12,7 @@ class PenOrderIn extends Auth
   }
 
   public function index(){
+    $data['setcabang'] = $this->first->getCabang();
     $data['setcabang'] = $this->PenOrderIn_model->countHJ();
     $data['content'] = $this->load->view('kasir/ordermasuk', $data, true);
     $data['modal'] = '';

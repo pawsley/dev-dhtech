@@ -12,16 +12,52 @@ class Welcome_model extends CI_Model {
     $this->currentYear = date('Y', strtotime($this->currentDate));
     $this->currentMonth = date('m', strtotime($this->currentDate));
   }
-
+  public function countTerjual($id = null) {
+    $this->db->select([
+      "REPLACE(REPLACE(FORMAT(SUM(vj.harga_bayar), 0), ',', '.'), '.', '.') as total_jual",
+        "stores.id_toko", "stores.nama_toko"
+    ]);
+    $this->db->from('vtoko AS stores');
+    $this->db->join('vbarangkeluar AS v', 'stores.id_toko = v.id_toko', 'LEFT');
+    $this->db->join('vpenjualan AS vj', 'v.id_keluar = vj.id_keluar', 'LEFT');
+    $this->db->where('MONTH(vj.tgl_transaksi)', $this->currentMonth);
+    $this->db->where('YEAR(vj.tgl_transaksi)', $this->currentYear);
+    $this->db->where_in('vj.status',[1,2]);
+    $this->db->group_by('stores.id_toko');
+    if ($id) {
+        $this->db->group_start();
+        $this->db->like('stores.id_toko', $id);
+        $this->db->group_end();
+    }
+    $query = $this->db->get();
+    return $query->result_array();
+  }
   public function countlaba() {
     $this->db->select([
       "(SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp) as laba_kotor, tgl_transaksi,
-      SUM(harga_jual) as total_pen, SUM(harga_diskon) as total_disk, SUM(harga_cashback) total_cb, SUM(hrg_hpp) as total_hpp"
+      SUM(harga_jual) as total_pen, SUM(harga_diskon) as total_disk, SUM(harga_cashback) total_cb, SUM(hrg_hpp) as total_hpp",
+      "MONTH(tgl_transaksi) AS bulan","YEAR(tgl_transaksi) AS tahun"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
     $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
     $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function filtercountlaba($m,$y){
+    $this->db->select([
+      "COALESCE((SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp),0) as laba_kotor, 
+      tgl_transaksi,
+      COALESCE(SUM(harga_jual),0) as total_pen, 
+      COALESCE(SUM(harga_diskon),0) as total_disk, 
+      COALESCE(SUM(harga_cashback),0) total_cb, 
+      COALESCE(SUM(hrg_hpp),0) as total_hpp",
+    ]);
+    $this->db->from('vpenjualan');
+    $this->db->where_in('status',[1,2]);
+    $this->db->where('MONTH(tgl_transaksi)', $m);
+    $this->db->where('YEAR(tgl_transaksi)', $y);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -66,12 +102,23 @@ class Welcome_model extends CI_Model {
   }
   public function countcb(){
     $this->db->select([
-      "SUM(harga_cashback) as total_cashback"
+      "SUM(harga_cashback) as total_cashback","MONTH(tgl_transaksi) AS bulan","YEAR(tgl_transaksi) AS tahun"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-    // $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
-    // $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
+    $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
+    $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function filtercountcb($m,$y){
+    $this->db->select([
+      "COALESCE(SUM(harga_cashback), 0) as total_cashback"
+    ]);
+    $this->db->from('vpenjualan');
+    $this->db->where_in('status',[1,2]);
+    $this->db->where('MONTH(tgl_transaksi)', $m);
+    $this->db->where('YEAR(tgl_transaksi)', $y);
     $query = $this->db->get();
     return $query->result_array();
   }

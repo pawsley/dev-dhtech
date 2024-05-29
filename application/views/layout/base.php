@@ -89,31 +89,6 @@
                 </div>
               </li>
               <!-- Notifikasi -->
-              <!-- <li class="onhover-dropdown">
-                <div class="notification-box">
-                  <svg>
-                    <use href="<?=base_url()?>assets/svg/icon-sprite.svg#notification"></use>
-                  </svg>
-                </div>
-                <div class="onhover-show-div notification-dropdown">
-                  <h6 class="f-18 mb-0 dropdown-title">Notifikasi</h6>
-                  <ul>
-                    <li class="b-l-primary border-4">
-                      <p>Delivery processing <span class="font-danger">10 min.</span></p>
-                    </li>
-                    <li class="b-l-success border-4">
-                      <p>Order Complete<span class="font-success">1 hr</span></p>
-                    </li>
-                    <li class="b-l-secondary border-4">
-                      <p>Tickets Generated<span class="font-secondary">3 hr</span></p>
-                    </li>
-                    <li class="b-l-warning border-4">
-                      <p>Delivery Complete<span class="font-warning">6 hr</span></p>
-                    </li>
-                    <li><a class="f-w-700" href="#">Check all</a></li>
-                  </ul>
-                </div>
-              </li> -->
               <li class="profile-nav onhover-dropdown pe-0 py-0">
                 <div class="media profile-media">
                     <img class="b-r-10" src="<?=base_url()?>assets/images/dashboard/profile.png" alt="gambar-principle" loading="lazy">
@@ -167,14 +142,20 @@
                     </div>
                   </li>
                   <!-- Menu Dashboard General -->
-                  <li class="sidebar-list dash">
-                    <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav dash" href="<?=base_url()?>">
+                  <li class="sidebar-list dash"><i class="fa fa-thumb-tack"></i>
+                    <a class="sidebar-link sidebar-title dash" href="#">
                     <svg class="stroke-icon">
                       <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-home"></use>
                     </svg>
                     <svg class="fill-icon">
                       <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-home"></use>
                     </svg><span>Home</span></a>
+                    <ul class="sidebar-submenu">
+                      <li class="scab"><a class="scab" href="<?=base_url()?>">Semua Cabang</a></li>
+                      <?php foreach ($setcabang as $sc) { ?>
+                        <li class="<?=$sc['id_toko']?>"><a class="<?=$sc['id_toko']?>" href="<?=base_url()?><?=$sc['id_toko']?>"><?=$sc['nama_toko']?></a></li>
+                      <?php } ?>
+                    </ul>
                   </li>
                   <!-- Menu Master Menu -->
                   <li class="sidebar-list master"><i class="fa fa-thumb-tack"></i>
@@ -185,16 +166,16 @@
                       <svg class="fill-icon">
                         <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-animation"></use>
                       </svg><span>Data Master</span></a>
-                    <ul class="sidebar-submenu">
-                      <li class="mcab"><a class="mcab" href="<?=base_url()?>master-cabang">Master Cabang</a></li>
-                      <li class="mdis"><a class="mdis" href="<?=base_url()?>master-diskon">Master Diskon</a></li>
-                      <li class="msup"><a class="msup" href="<?=base_url()?>master-supplier">Master Supplier</a></li>
-                      <li class="mkar"><a class="mkar" href="<?=base_url()?>master-karyawan">Master Karyawan</a></li>
-                      <li class="mkus"><a class="mkus" href="<?=base_url()?>master-kustomer">Master Kustomer</a></li>
-                      <li class="mkat"><a class="mkat" href="<?=base_url()?>master-kategori">Master Kategori</a></li>
-                      <li class="mbrg"><a class="mbrg" href="<?=base_url()?>master-barang">Master Barang</a></li>
-                      <li class="mbnk"><a class="mbnk" href="<?=base_url()?>master-bank">Master Bank</a></li>
-                    </ul>
+                      <ul class="sidebar-submenu">
+                        <li class="mcab"><a class="mcab" href="<?=base_url()?>master-cabang">Master Cabang</a></li>
+                        <li class="mdis"><a class="mdis" href="<?=base_url()?>master-diskon">Master Diskon</a></li>
+                        <li class="msup"><a class="msup" href="<?=base_url()?>master-supplier">Master Supplier</a></li>
+                        <li class="mkar"><a class="mkar" href="<?=base_url()?>master-karyawan">Master Karyawan</a></li>
+                        <li class="mkus"><a class="mkus" href="<?=base_url()?>master-kustomer">Master Kustomer</a></li>
+                        <li class="mkat"><a class="mkat" href="<?=base_url()?>master-kategori">Master Kategori</a></li>
+                        <li class="mbrg"><a class="mbrg" href="<?=base_url()?>master-barang">Master Barang</a></li>
+                        <li class="mbnk"><a class="mbnk" href="<?=base_url()?>master-bank">Master Bank</a></li>
+                      </ul>
                   </li>            
                   <!-- Menu Aplikasi-->
                   <li class="sidebar-main-title">
@@ -292,11 +273,11 @@
                     </a>
                     <ul class="sidebar-submenu">
                         <!-- <li class="idaf"><a class="idaf" href="<?=base_url()?>daftar-inventori">Daftar Inventori</a></li> -->
-                        <li class="ibm"><a class="ibm" href="<?=base_url()?>barang-masuk">Barang Masuk</a></li>
-                        <li class="ibk"><a class="ibk" href="<?=base_url()?>barang-keluar">Barang Keluar</a></li>
-                        <li class="iskb"><a class="iskb" href="<?=base_url()?>terima-barang">Penerimaan Barang</a></li>
-                        <li class="ipb"><a class="ipb" href="<?=base_url()?>pindah-barang">Pemindahan Barang</a></li>
-                        <li class="iso"><a class="iso" href="<?=base_url()?>stock-opname">Stok Opname</a></li>
+                        <li class="ibm"><a class="ibm" href="<?=base_url()?>barang-masuk">Barang Gudang</a></li>
+                        <li class="ibk"><a class="ibk" href="<?=base_url()?>barang-keluar">Barang Cabang</a></li>
+                        <li class="iskb"><a class="iskb" href="<?=base_url()?>terima-barang">Terima Barang Cabang</a></li>
+                        <li class="ipb"><a class="ipb" href="<?=base_url()?>pindah-barang">Pindah Barang Cabang</a></li>
+                        <li class="iso"><a class="iso" href="<?=base_url()?>stock-opname">Stok Opname Cabang</a></li>
                     </ul>
                   </li>
                   <!-- Penjualan -->
@@ -370,10 +351,27 @@
             var segment2 = "<?php echo $this->uri->segment(2); ?>";
             $(".copyright-year").text(currentYear);
 
-            $(".dash, .gen, .fin, .prd").removeClass("active");
+            $(".dash").removeClass("active");
+            // $(".sidebar-list, .sidebar-link, .sidebar-title").removeClass("active");
                 
             if (segment1 == "") {
-              $(".dash").addClass("active");
+                $(".dash").addClass("active");
+                $(".scab").addClass("active");
+                $(".sidebar-list.dash").addClass('active');
+                $(".sidebar-list.dash .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.dash ul.sidebar-submenu").slideDown('normal');
+            }else if (segment1=="DHC-0001"){
+                $(".dash").addClass("active");
+                $(".DHC-0001").addClass("active");
+                $(".sidebar-list.dash").addClass('active');
+                $(".sidebar-list.dash .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.dash ul.sidebar-submenu").slideDown('normal');
+            }else if (segment1=="DHC-0002"){
+                $(".dash").addClass("active");
+                $(".DHC-0002").addClass("active");
+                $(".sidebar-list.dash").addClass('active');
+                $(".sidebar-list.dash .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
+                $(".sidebar-list.dash ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "master-cabang"){
                 $(".master").addClass("active");
                 $(".mcab").addClass("active");

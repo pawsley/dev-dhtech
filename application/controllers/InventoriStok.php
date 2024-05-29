@@ -53,6 +53,7 @@ class InventoriStok extends Auth
   }
 
   public function bm() {
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('inventaris/barangmasuk', '', true);
     $data['modal'] = '';
     $data['css'] = '

@@ -11,6 +11,7 @@ class Welcome extends Auth {
 	}
 	public function index(){
 		$data['hpp'] = $this->PenList_model->countHJ();
+		$data['hj'] = $this->Welcome_model->countTerjual();
 		$data['setcabang'] = $this->BarangKeluar_model->getCabang();
 		$data['content'] = $this->load->view('dashboard/index', $data, true);
 		$data['modal'] = '';
@@ -65,26 +66,33 @@ class Welcome extends Auth {
 			<script>new WOW().init();</script>';
 		$this->load->view('layout/base', $data);		
 	}
-	public function finansial(){
-		$data['content'] = $this->load->view('dashboard/index', '', true);
-		$data['modal'] = '';
-    	$data['css'] = '';
-		$data['js'] = '';
-		$this->load->view('layout/base', $data);
-	}
-	public function produk(){
-		$data['content'] = $this->load->view('dashboard/index', '', true);
-    	$data['css'] = '';
-		$data['js'] = '';
-		$this->load->view('layout/base', $data);
-	}
 	public function labakotor() {
-		$results = $this->Welcome_model->countlaba();
-		header('Content-Type: application/json');
-		echo json_encode($results);
+		if (isset($_POST['lbval'])) {
+			if ($this->input->is_ajax_request()) {
+				$m = $this->input->post('month');
+				$y = $this->input->post('year');
+				$results = $this->Welcome_model->filtercountlaba($m,$y);
+				header('Content-Type: application/json');
+				echo json_encode($results);
+                return;
+			}else {
+                header('Content-Type: application/json');
+                echo json_encode(array('error' => 'Invalid request'));
+                return;
+            }
+		}else{
+			$results = $this->Welcome_model->countlaba();
+			header('Content-Type: application/json');
+			echo json_encode($results);
+		}
 	}
 	public function tpenjualan() {
 		$results = $this->Welcome_model->countpenjualan();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
+	public function tsalescab($id){
+		$results = $this->Welcome_model->countTerjual($id);
 		header('Content-Type: application/json');
 		echo json_encode($results);
 	}
@@ -99,9 +107,24 @@ class Welcome extends Auth {
 		echo json_encode($results);
 	}
 	public function tcb() {
-		$results = $this->Welcome_model->countcb();
-		header('Content-Type: application/json');
-		echo json_encode($results);
+		if (isset($_POST['cbval'])) {
+			if ($this->input->is_ajax_request()) {
+				$m = $this->input->post('month');
+				$y = $this->input->post('year');
+				$results = $this->Welcome_model->filtercountcb($m,$y);
+				header('Content-Type: application/json');
+				echo json_encode($results);
+                return;
+			}else {
+                header('Content-Type: application/json');
+                echo json_encode(array('error' => 'Invalid request'));
+                return;
+            }
+		}else{
+			$results = $this->Welcome_model->countcb();
+			header('Content-Type: application/json');
+			echo json_encode($results);
+		}
 	}
 	public function tuser() {
 		$results = $this->Welcome_model->countuser();
@@ -123,16 +146,17 @@ class Welcome extends Auth {
 		header('Content-Type: application/json');
 		echo json_encode($results);
 	}
-	public function detaillabak(){
+	public function detaillabak($m,$y){
 		$this->load->library('datatables');
 		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,hrg_hpp,harga_jual,
-		diskon,harga_cashback,(harga_bayar - hrg_hpp) as laba_unit,
+		diskon,harga_cashback,
+		COALESCE((harga_bayar - hrg_hpp),0) as laba_unit,
 		COALESCE(harga_diskon, 0) AS nilai,harga_bayar as bayar,
 		status,tipe_penjualan,nama_toko');
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
-		$this->datatables->where('MONTH(tgl_transaksi)', date('m'));
-		$this->datatables->where('YEAR(tgl_transaksi)', date('Y'));
+		$this->datatables->where('MONTH(tgl_transaksi)', $m);
+		$this->datatables->where('YEAR(tgl_transaksi)', $y);
 		return print_r($this->datatables->generate());
 	}
 	public function detailasset(){
@@ -167,18 +191,30 @@ class Welcome extends Auth {
 		$this->datatables->where('YEAR(tgl_transaksi)', date('Y'));
 		return print_r($this->datatables->generate());
 	}	
+	public function detailsalescabang($id){
+		$this->load->library('datatables');
+		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,harga_diskon,harga_cashback,harga_bayar,nama_toko');
+		$this->datatables->from('vpenjualan');
+		$this->datatables->where('id_toko',$id);
+		$this->datatables->where_in('status',[1,2]);
+		$this->datatables->where('MONTH(tgl_transaksi)', date('m'));
+		$this->datatables->where('YEAR(tgl_transaksi)', date('Y'));
+		return print_r($this->datatables->generate());
+	}
 	public function detaildiskon(){
 		$this->load->library('datatables');
 		$this->datatables->select('sn_brg,nama_brg,nama_toko,total_diskon');
 		$this->datatables->from('vtotaldiskon');
 		return print_r($this->datatables->generate());
 	}	
-	public function detailcashback(){
+	public function detailcashback($m,$y){
 		$this->load->library('datatables');
 		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
 		$this->datatables->from('vtotalcashback');
+		$this->datatables->where('MONTH(tgl_transaksi)', $m);
+		$this->datatables->where('YEAR(tgl_transaksi)', $y);
 		return print_r($this->datatables->generate());
-	}	
+	}
 	public function detailcust(){
 		$this->load->library('datatables');
 		$this->datatables->select('id_plg,nama_plg,no_ponsel,email,alamat');
@@ -197,8 +233,8 @@ class Welcome extends Auth {
 	}
 	public function detailkar(){
 		$this->load->library('datatables');
-		$this->datatables->select('id_admin,nama_admin,email_admin,password,level,id_toko');
-		$this->datatables->from('tb_admin');
+		$this->datatables->select('id_admin,nama_admin,id_toko,nama_toko');
+		$this->datatables->from('vtoko');
 		return print_r($this->datatables->generate());
 	}
 	public function updatekar(){

@@ -12,11 +12,13 @@ class MasterKategori extends Auth
 
   public function index()
   {
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('master/masterkategori', '', true);
     $data['modal'] = $this->load->view('master/modal/m_kategori','',true);
     $data['css'] = '
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    
     ';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>

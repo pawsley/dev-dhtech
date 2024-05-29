@@ -3,6 +3,7 @@ var tableAPC;
 var tablePC;
 var tableLB;
 var tableSP;
+var tableSPC;
 var tableDK;
 var tableCT;
 var tableKY;
@@ -26,10 +27,12 @@ $(document).ready(function () {
     detailassetcab();
     detailprodcab();
     detailsales();
+    detailsalescab();
     detaildiskon();
     // detailcust();
     detailcb();
     detailkar();
+    updateDateTime();
 });
 
 function card() {
@@ -89,6 +92,13 @@ function card() {
         $('#counthpp-' + id).addClass('d-none');
         countbystore(id, formatcur);
     });
+    $('.cardhj').click(function(event) {
+        event.preventDefault();
+        var id = $(this).data('id');
+        $('#spinhj-' + id).removeClass('d-none');
+        $('#counthj-' + id).addClass('d-none');
+        countbysalesstore(id);
+    });
 }
 function allcount(formatcur) {
     $('#spinner').removeClass('d-none');
@@ -127,12 +137,16 @@ function countlaba(formatcur) {
                 var fhpp = formatcur.format(item.total_hpp);
                 var fdisk = formatcur.format(item.total_disk);
                 var fcashb = formatcur.format(item.total_cb);
+                var bulan = item.bulan;
+                var tahun = item.tahun;
                 $('#laba').text(formattedValue);
                 $('.cardlaba').attr('data-total_laba', formattedValue);
                 $('.cardlaba').attr('data-total_hpp', fhpp);
                 $('.cardlaba').attr('data-total_pen', fpen);
                 $('.cardlaba').attr('data-total_disk', fdisk);
                 $('.cardlaba').attr('data-total_cashb', fcashb);
+                $('.cardlaba').attr('data-bulanlb', bulan);
+                $('.cardlaba').attr('data-tahunlb', tahun);
                 return false;
             });
             $('#spinner').addClass('d-none');
@@ -198,8 +212,12 @@ function countct(formatcur) {
             $('#cardtc').removeClass('d-none');
             $.each(data, function(index, item) {
                 var tcba = formatcur.format(item.total_cashback);
+                var bulan = item.bulan;
+                var tahun = item.tahun;
                 $('#cardtc').text(tcba);
                 $('.ctc').attr('data-total_cba', tcba);
+                $('.ctc').attr('data-bulancb', bulan);
+                $('.ctc').attr('data-tahuncb', tahun);
                 return false;
             });
             $('#spintc').addClass('d-none');
@@ -382,6 +400,29 @@ function countbystore(id, formatcur){
         }
     });
 }
+function countbysalesstore(id){
+    $.ajax({
+        url: base_url + 'total-sales-cabang/'+id,
+        type: 'GET',
+        dataType: 'json',
+        data: { id: id },
+        success: function(data) {
+            var matched = false;
+            $('#counthj-' + id).removeClass('d-none');
+            $.each(data, function(index, item) {
+                if (item.id_toko === id) {
+                    $('#counthj-' + id).text('Rp '+item.total_jual);
+                    matched = true;
+                    return false;
+                }
+            });
+            if (!matched) {
+                $('#counthj-' + id).text('0');
+            }
+            $('#spinhj-' + id).addClass('d-none');
+        }
+    });
+}
 function getCountStock(formatcur) {
     $('h5#id_toko').each(function() {
         var id = $(this).data('id');
@@ -412,7 +453,11 @@ function getCountStock(formatcur) {
         });
     });
 }
-function tablelaba() {
+function tablelaba(m,y) {
+    let ajaxConfig = {
+        type: "POST",
+        url: base_url + 'detail-laba/'+m+'/'+y,
+    };
     if ($.fn.DataTable.isDataTable('#table-laba')) {
         tableLB.destroy();
     }
@@ -425,10 +470,7 @@ function tablelaba() {
         "order": [
             [0, 'desc'] 
         ],
-        "ajax": {
-            "url": base_url + 'detail-laba',
-            "type": "POST"
-        },
+        "ajax": ajaxConfig,
         "columns": [
             { "data": "kode_penjualan" },
             { "data": "sn_brg" },
@@ -733,6 +775,77 @@ function tablesales() {
     });
     return tableSP;
 }
+function tablesalescab(id) {
+    if ($.fn.DataTable.isDataTable('#table-salesc')) {
+        tableSPC.destroy();
+    }
+    tableSPC = $("#table-salesc").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [
+            [0, 'desc'] 
+        ],
+        "ajax": {
+            "url": base_url + 'detail-sales-cabang/'+id,
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },   
+            { 
+                "data": "harga_jual",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "harga_diskon",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "harga_cashback",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "harga_bayar",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { "data": "nama_toko" },   
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-6'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+        "buttons": [
+            {
+                "text": 'Refresh', // Font Awesome icon for refresh
+                "className": 'custom-refresh-button', // Add a class name for identification
+                "attr": {
+                    "id": "refresh-button" // Set the ID attribute
+                },
+                "init": function (api, node, config) {
+                    $(node).removeClass('btn-default');
+                    $(node).addClass('btn-primary');
+                    $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                },
+                "action": function () {
+                    tableSPC.ajax.reload();
+                }
+            },
+        ]
+            
+    });
+    return tableSPC;
+}
 function tablediskon() {
     if ($.fn.DataTable.isDataTable('#table-diskon')) {
         tableDK.destroy();
@@ -786,7 +899,11 @@ function tablediskon() {
     });
     return tableDK;
 }
-function tablecb() {
+function tablecb(m, y) {
+    let ajaxConfig = {
+        type: "POST",
+        url: base_url + 'detail-cb/'+m+'/'+y,
+    };
     if ($.fn.DataTable.isDataTable('#table-cb')) {
         tableCB.destroy();
     }
@@ -797,12 +914,9 @@ function tablecb() {
         },
         "serverSide": true,
         "order": [
-            [0, 'desc'] 
+            [1, 'asc'] 
         ],
-        "ajax": {
-            "url": base_url + 'detail-cb',
-            "type": "POST"
-        },
+        "ajax": ajaxConfig,
         "columns": [
             { "data": "sn_brg" },
             { "data": "nama_brg" },
@@ -970,12 +1084,44 @@ function detaillaba() {
         var totalpen = button.data('total_pen');
         var totaldisk = button.data('total_disk');
         var totalcba = button.data('total_cashb');
+        var m = button.data('bulanlb');
+        var y = button.data('tahunlb');
         $("#tlk").text(total);
         $("#tlh").text(totalhpp);
         $("#tlp").text(totalpen);
         $("#tld").text(totaldisk);
         $("#tlc").text(totalcba);
-        tablelaba();
+        filterlb();
+        tablelaba(m,y);
+    });
+}
+function filterlb(){
+    $('#fdlb').on('change', function() {
+        let lbval = $(this).val();
+        let [y, m] = lbval.split('-');
+        $.ajax({
+            url: base_url + 'Welcome/labakotor',  
+            type: 'POST',
+            data: {
+                lbval: lbval,
+                month: m,  
+                year: y    
+            },
+            dataType: 'json',
+            success: function(response) {
+                $.each(response, function(index, item) {
+                    $("#tlk").text(formatcur.format(item.laba_kotor));
+                    $("#tlh").text(formatcur.format(item.total_hpp));
+                    $("#tlp").text(formatcur.format(item.total_pen));
+                    $("#tld").text(formatcur.format(item.total_disk));
+                    $("#tlc").text(formatcur.format(item.total_cb));
+                    tablelaba(m,y);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error: ' + error);
+            }
+        });
     });
 }
 function detailasset() {
@@ -1023,9 +1169,20 @@ function detailprodcab() {
 function detailsales() {
     $('#DetailSales').on('show.bs.modal', function (e) {
         var button = $(e.relatedTarget);
-        var total = button.data('total_sales');
+        var total = button.data('total');
         $("#totp").text(total);
         tablesales();
+    });
+}
+function detailsalescab() {
+    $('#DetailSalesProdukCab').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        var id = button.data('id');
+        var total = button.data('total');
+        var cabang = button.data('cabang');
+        $("#tapt").text(total);
+        $("#datc").text(cabang);
+        tablesalescab(id);
     });
 }
 function detaildiskon() {
@@ -1040,8 +1197,36 @@ function detailcb() {
     $('#DetailCashback').on('show.bs.modal', function (e) {
         var button = $(e.relatedTarget);
         var total = button.data('total_cba');
+        var m = button.data('bulancb');
+        var y = button.data('tahuncb');
         $("#tca").text(total);
-        tablecb();
+        filtercb();
+        tablecb(m,y);
+    });
+}
+function filtercb(){
+    $('#fdcb').on('change', function() {
+        let cbval = $(this).val();
+        let [y, m] = cbval.split('-');
+        $.ajax({
+            url: base_url + 'Welcome/tcb',  
+            type: 'POST',
+            data: {
+                cbval: cbval,
+                month: m,  
+                year: y    
+            },
+            dataType: 'json',
+            success: function(response) {
+                $.each(response, function(index, item) {
+                    $("#tca").text(formatcur.format(item.total_cashback));
+                    tablecb(m,y);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error: ' + error);
+            }
+        });
     });
 }
 function detailcust() {
@@ -1065,8 +1250,8 @@ function detailksr(){
 function detailkar() {
     $('#DetailUser').on('show.bs.modal', function (e) {
         var button = $(e.relatedTarget);
-        var total = button.data('total_cust');
-        $("#tk").text(total);
+        var total = button.data('total_usr');
+        $("#ttk").text(total);
         tablekar();
     });
 }
@@ -1090,7 +1275,7 @@ function tablekar() {
             { "data": "nama_admin" },
             // { "data": "email_admin" },
             {
-                "data": "id_toko",
+                "data": "nama_toko",
                 "render": function (data, type, row, meta) {
                     return '<select class="select2" id="cab" value="'+row.id_toko+'" data-id_toko="'+row.id_toko+'" data-id_admin="' + row.id_admin + '" data-current-value="' + data + '" data-cab="' + row.id_toko + '"></select>';
                 },
@@ -1104,6 +1289,7 @@ function tablekar() {
                 var id_admin = $select.data('id_admin');
         
                 $select.select2({
+                    dropdownParent: $("#DetailUser"),
                     language: 'id',
                     ajax: {
                         url: base_url + 'BarangTerima/loadstore',
@@ -1120,7 +1306,7 @@ function tablekar() {
                                 results: $.map(data, function(item) {
                                     return {
                                         id: item.id_toko,
-                                        text: item.id_toko
+                                        text: item.nama_toko
                                     };
                                 })
                             };
@@ -1192,4 +1378,12 @@ function reload() {
         bkReloaded.clear().draw();
         bkReloaded.ajax.reload();
     }
+}
+function updateDateTime() {
+    const now = new Date();
+    const month = ('0' + (now.getMonth() + 1)).slice(-2);
+    const year = now.getFullYear();
+    const currentMonth = `${year}-${month}`;
+    $('#fdcb').val(currentMonth);
+    $('#fdlb').val(currentMonth);
 }

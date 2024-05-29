@@ -11,6 +11,7 @@ class PenRiwayat extends Auth
   }
 
   public function index(){
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('kasir/riwayatsales', '', true);
     $data['modal'] = '';
     $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">';

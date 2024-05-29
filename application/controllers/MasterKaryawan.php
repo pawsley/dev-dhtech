@@ -25,6 +25,7 @@ class MasterKaryawan extends Auth
 
   public function index()
   {
+    $data['setcabang'] = $this->first->getCabang();
     $data['newID'] = $this->generateid();
     $data['content'] = $this->load->view('master/masterkaryawan', $data, true);
     $data['modal'] = $this->load->view('master/modal/m_editkar','',true);

@@ -11,6 +11,7 @@ class MasterBank extends Auth
   }
 
   public function index(){
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('master/masterbank', '', true);
     $data['modal'] = $this->load->view('master/modal/m_bank','',true);
     $data['css'] = '

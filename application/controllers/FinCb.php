@@ -11,6 +11,7 @@ class FinCb extends Auth
   }
 
   public function index(){
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('finance/supplier/cbsupp', '', true);
     $data['modal'] = '';
     $data['css'] = '

@@ -31,7 +31,7 @@
                   <div class=" col-md-7 box-col-7">
                     <div class="row"> 
                       <div class="col-sm-12">
-                        <a href="#" class="cardlaba" data-bs-toggle="modal" data-bs-target="#DetailLaba" data-total_laba="" data-total_hpp="" data-total_pen="" data-total_disk="" data-total_cashb="">
+                        <a href="#" class="cardlaba" data-bs-toggle="modal" data-bs-target="#DetailLaba" data-total_laba="" data-total_hpp="" data-total_pen="" data-total_disk="" data-total_cashb="" data-bulanlb="" data-tahunlb="">
                           <div class="card o-hidden">  
                             <div class="card-body balance-widget">
                               <span class="f-w-500 f-light">Laba Bersih Bulan Ini</span>
@@ -52,7 +52,7 @@
                       <div class="col-6">
                         <a href="#" class="cap" data-bs-toggle="modal" data-bs-target="#DetailAssetProduk" data-total_asset="">
                           <div class="card small-widget"> 
-                            <div class="card-body primary"> <span class="f-light">Asset Produk</span>
+                            <div class="card-body primary"> <span class="f-light">Total Asset Tersedia DH</span>
                               <div class="d-flex align-items-end gap-1">
                                 <div class="spinner-border text-primary d-none" role="status" id="spintp">
                                   <span class="visually-hidden">Memuat...</span>
@@ -110,9 +110,9 @@
                       </div>
                       <!-- Total Cashback -->
                       <div class="col-6"> 
-                        <a href="#" class="ctc" data-bs-toggle="modal" data-bs-target="#DetailCashback" data-total_cba="">
+                        <a href="#" class="ctc" data-bs-toggle="modal" data-bs-target="#DetailCashback" data-total_cba="" data-bulancb="" data-tahuncb="">
                           <div class="card small-widget"> 
-                            <div class="card-body warning"><span class="f-light">Total Cashback</span>
+                            <div class="card-body warning"><span class="f-light">Total Cashback Bulan Ini</span>
                               <div class="d-flex align-items-end gap-1">
                                 <div class="spinner-border text-primary d-none" role="status" id="spintc">
                                   <span class="visually-hidden">Memuat...</span>
@@ -159,7 +159,7 @@
                             <a href="#" class="cardhpp" data-bs-toggle="modal" data-bs-target="#DetailAssetProdukCab" data-id="<?=$sc['id_toko']?>" data-total="<?=$sc['total_asset']?>" data-cabang="<?=$sc['nama_toko']?>">
                               <div class="card widget-hover overflow-hidden">
                                   <div class="card-header card-no-border pb-2">
-                                      <h5 id="id_toko" data-id="<?=$sc['id_toko']?>">Asset <?=$sc['nama_toko']?></h5>
+                                      <h5 id="id_toko" data-id="<?=$sc['id_toko']?>">Asset Tersedia <?=$sc['nama_toko']?></h5>
                                   </div>
                                   <div class="card-body pt-0 count-student">
                                       <div class="school-wrapper"> 
@@ -168,6 +168,33 @@
                                                   <span class="visually-hidden">Memuat...</span>
                                               </div>
                                               <h4 class="txt-success counting" id="counthpp-<?=$sc['id_toko']?>">Rp <?=$sc['total_asset']?></h4>
+                                              <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
+                                                  <p class="text-muted">Update Hari ini</p>
+                                              </div>                          
+                                          </div>
+                                          <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/assetstore.png" alt="store-produk-dh">
+                                              <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </a>
+                        </div>
+                    <?php } ?>
+                    <?php foreach ($hj as $sc) { ?>
+                        <div class="col-md-4 col-sm-6">
+                            <a href="#" class="cardhj" data-bs-toggle="modal" data-bs-target="#DetailSalesProdukCab" data-id="<?=$sc['id_toko']?>" data-total="<?=$sc['total_jual']?>" data-cabang="<?=$sc['nama_toko']?>">
+                              <div class="card widget-hover overflow-hidden">
+                                  <div class="card-header card-no-border pb-2">
+                                      <h5 id="id_toko" data-id="<?=$sc['id_toko']?>">Asset Terjual <?=$sc['nama_toko']?></h5>
+                                  </div>
+                                  <div class="card-body pt-0 count-student">
+                                      <div class="school-wrapper"> 
+                                          <div class="school-header" data-id="<?=$sc['id_toko']?>">
+                                              <div class="spinner-border text-primary d-none" role="status" id="spinhj-<?=$sc['id_toko']?>">
+                                                  <span class="visually-hidden">Memuat...</span>
+                                              </div>
+                                              <h4 class="txt-success counting" id="counthj-<?=$sc['id_toko']?>">Rp <?=$sc['total_jual']?></h4>
                                               <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
                                                   <p class="text-muted">Update Hari ini</p>
                                               </div>                          
@@ -239,7 +266,7 @@
                     <a href="#" id="cardpmg">
                       <div class="card widget-hover overflow-hidden">
                         <div class="card-header card-no-border pb-2">
-                            <h5>Produk Masuk Gudang</h5>
+                            <h5>Barang Gudang</h5>
                         </div>
                         <div class="card-body pt-0 count-student">
                             <div class="school-wrapper"> 
@@ -265,7 +292,7 @@
                     <a href="#" id="cardpk">
                       <div class="card widget-hover overflow-hidden">
                         <div class="card-header card-no-border pb-2">
-                          <h5>Produk Keluar Gudang</h5>
+                          <h5>Barang Cabang</h5>
                         </div>
                         <div class="card-body pt-0 count-student">
                           <div class="school-wrapper"> 
@@ -291,7 +318,7 @@
                     <a href="#" id="cardtpp">
                       <div class="card widget-hover overflow-hidden">
                         <div class="card-header card-no-border pb-2">
-                          <h5>Total Produk</h5>
+                          <h5>Total Barang DH</h5>
                         </div>
                         <div class="card-body pt-0 count-student">
                           <div class="school-wrapper"> 
@@ -317,7 +344,7 @@
                       <a href="#" class="cardLink" data-bs-toggle="modal" data-bs-target="#DetailProdukCab" data-id="<?=$sc['id_toko']?>" data-cabang="<?=$sc['nama_toko']?>">
                         <div class="card widget-hover overflow-hidden">
                           <div class="card-header card-no-border pb-2">
-                            <h5 id="id_toko" data-id="<?=$sc['id_toko']?>">Produk <?=$sc['nama_toko']?></h5>
+                            <h5 id="id_toko" data-id="<?=$sc['id_toko']?>">Barang Cabang <?=$sc['nama_toko']?></h5>
                           </div>
                           <div class="card-body pt-0 count-student">
                             <div class="school-wrapper"> 
@@ -327,7 +354,7 @@
                                   </div>
                                   <h4 class="txt-primary counting counst" id="counst-<?=$sc['id_toko']?>"></h4>
                                   <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
-                                      <p class="text-muted"><?=$sc['nama_toko']?></p>
+                                      <p class="text-muted"><?=$sc['id_toko']?></p>
                                   </div>
                               </div>
                               <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/store-dh.png" alt="store-produk-dh">
@@ -354,6 +381,10 @@
                               <!-- Isi Konten -->
                               <ul class="list-group">
                                   <!-- Total -->
+                                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <strong><span>Filter Data</span></strong>
+                                      <strong><input type="month" class="form-control digits" id="fdlb" name="fdlb" min="2024-01" /></strong>
+                                  </li>
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <strong><span>Total Laba Bersih</span></strong>
                                       <strong id="tlk">-</strong>
@@ -498,14 +529,14 @@
                       <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
                           <div class="modal-toggle-wrapper">
                               <div class="modal-header mb-4">
-                                  <h3>Detail Asset Produk <span id="dapc"></span></h3>
+                                  <h3>Detail Asset Produk Tersedia <span id="dapc"></span></h3>
                                   <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
                               <!-- Isi Konten -->
                               <ul class="list-group">
                                   <!-- Total -->
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
-                                      <strong><span>Total Asset Produk</span></strong>
+                                      <strong><span>Total Asset Produk Tersedia</span></strong>
                                       <strong id="tapc">-</strong>
                                   </li>
                               </ul>
@@ -561,6 +592,52 @@
                                               <thead>
                                                   <tr>
                                                       <th><span class="f-light f-w-600">INVOICE</span></th>
+                                                      <th><span class="f-light f-w-600">SN PRODUK</span></th>
+                                                      <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
+                                                      <th><span class="f-light f-w-600">HARGA JUAL</span></th>
+                                                      <th><span class="f-light f-w-600">DISKON</span></th>
+                                                      <th><span class="f-light f-w-600">CASHBACK</span></th>
+                                                      <th><span class="f-light f-w-600">HARGA RILL</span></th>
+                                                      <th><span class="f-light f-w-600">CABANG</span></th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                              </tbody>
+                                          </table>
+                                          </div>                                            
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            <div class="modal fade bd-example-modal-xl" id="DetailSalesProdukCab" tabindex="-1" role="dialog" aria-labelledby="DetailSalesProdukCab" aria-hidden="true">
+              <div class="modal-dialog modal-xl" role="document">
+                  <div class="modal-content dark-sign-up">
+                      <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
+                          <div class="modal-toggle-wrapper">
+                              <div class="modal-header mb-4">
+                                  <h3>Detail Asset Produk Terjual <span id="datc"></h3>
+                                  <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <!-- Isi Konten -->
+                              <ul class="list-group">
+                                  <!-- Total -->
+                                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <strong><span>Total Asset Produk Terjual</span></strong>
+                                      <strong id="tapt">-</strong>
+                                  </li>
+                              </ul>
+                              <!-- Data Table -->
+                              <div class="col-lg-12"> 
+                                  <div class="card"> 
+                                      <div class="card-body">
+                                      <div class="table-responsive">
+                                          <table class="display" id="table-salesc">
+                                              <thead>
+                                                  <tr>
                                                       <th><span class="f-light f-w-600">SN PRODUK</span></th>
                                                       <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
                                                       <th><span class="f-light f-w-600">HARGA JUAL</span></th>
@@ -681,6 +758,10 @@
                               <!-- Isi Konten -->
                               <ul class="list-group">
                                   <!-- Total -->
+                                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <strong><span>Filter Data</span></strong>
+                                      <strong><input type="month" class="form-control digits" id="fdcb" name="fdcb" min="2024-01" /></strong>
+                                  </li>
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <strong><span>Total Cashback</span></strong>
                                       <strong id="tca">-</strong>

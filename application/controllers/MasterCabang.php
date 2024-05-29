@@ -34,6 +34,7 @@ class MasterCabang extends Auth
   public function index()
   {
     $data = $this->generateid();
+    $data['setcabang'] = $this->first->getCabang();
     $data['kacab'] = $this->Mcabang_model->getAllKar();
     $data['content'] = $this->load->view('master/mastercabang', $data, true);
     $data['modal'] = '';

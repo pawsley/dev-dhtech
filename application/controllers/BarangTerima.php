@@ -12,6 +12,7 @@ class BarangTerima extends Auth
 
   public function index()
   {
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('inventaris/terimabarang', '', true);
     $data['modal'] = '';
     $data['css'] = '

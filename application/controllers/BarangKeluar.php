@@ -26,6 +26,7 @@ class BarangKeluar extends Auth
 
   public function index()
   {
+    $data['setcabang'] = $this->first->getCabang();
     $data['setcabang'] = $this->BarangKeluar_model->getCabang();
     $data['content'] = $this->load->view('inventaris/barangkeluar', $data, true);
     $data['modal'] = '';

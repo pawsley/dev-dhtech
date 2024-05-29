@@ -12,6 +12,7 @@ class MasterDiskon extends Auth
 
   public function index()
   {
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('master/masterdiskon', '', true);
     $data['modal'] = '';
     $data['css'] = '

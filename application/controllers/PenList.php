@@ -11,6 +11,7 @@ class PenList extends Auth
   }
 
   public function index(){
+    $data['setcabang'] = $this->first->getCabang();
     $data['setcabang'] = $this->PenList_model->countHJ();
     $data['content'] = $this->load->view('kasir/produklist', '', true);
     $data['modal'] = '';

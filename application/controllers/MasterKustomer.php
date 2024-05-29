@@ -25,6 +25,7 @@ class MasterKustomer extends Auth
 
   public function index()
   {
+    $data['setcabang'] = $this->first->getCabang();
     $data = $this->generateid();
     $data['content'] = $this->load->view('master/masterkustomer', $data, true);
     $data['modal'] = '';

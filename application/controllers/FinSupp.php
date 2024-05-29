@@ -30,6 +30,7 @@ class FinSupp extends Auth
   }
 
   public function index(){
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('finance/supplier/dpsupp', '', true);
     $data['modal'] = '';
     $data['css'] = '

@@ -62,6 +62,7 @@ class MasterBarang extends Auth
   public function index()
   {
     $data = $this->gen();
+    $data['setcabang'] = $this->first->getCabang();
     $data['supplier'] = $this->Mbarang_model->getSupp();
     $data['content'] = $this->load->view('master/masterbarang', $data, true);
     $data['modal'] = $this->load->view('master/modal/m_barang','',true);

@@ -13,6 +13,7 @@ class BarangPindah extends Auth
 
   public function index()
   {
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('inventaris/pindahbarang', '', true);
     $data['modal'] = '';
     $data['css'] = '

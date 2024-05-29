@@ -11,6 +11,7 @@ class PenEtalase extends Auth
   }
 
   public function index(){
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('kasir/etalase_toko', '', true);
     $data['modal'] = '';
     $data['css'] = '
