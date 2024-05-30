@@ -454,6 +454,8 @@ function getCountStock(formatcur) {
     });
 }
 function tablelaba(m,y) {
+    m = m || 0;
+    y = y || 0;
     let ajaxConfig = {
         type: "POST",
         url: base_url + 'detail-laba/'+m+'/'+y,
@@ -900,6 +902,8 @@ function tablediskon() {
     return tableDK;
 }
 function tablecb(m, y) {
+    m = m || 0;
+    y = y || 0;
     let ajaxConfig = {
         type: "POST",
         url: base_url + 'detail-cb/'+m+'/'+y,
