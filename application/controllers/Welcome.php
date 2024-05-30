@@ -210,6 +210,7 @@ class Welcome extends Auth {
 		return print_r($this->datatables->generate());
 	}	
 	public function detailcashback($m=0,$y=0){
+		var_dump($m, $y);
 		$this->load->library('datatables');
 		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
 		$this->datatables->from('vtotalcashback');
