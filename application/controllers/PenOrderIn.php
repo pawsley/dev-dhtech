@@ -106,6 +106,7 @@ class PenOrderIn extends Auth
     $this->datatables->from('vpenjualan');
     $this->datatables->where_in('status',0);
     $this->datatables->like('nama_toko', $decoded_cab);
+    $this->datatables->group_by('kode_penjualan');
     return print_r($this->datatables->generate());    
   }
   public function datacountHJ($id = null){

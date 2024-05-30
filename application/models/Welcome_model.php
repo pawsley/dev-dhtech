@@ -17,7 +17,7 @@ class Welcome_model extends CI_Model {
       "REPLACE(REPLACE(FORMAT(SUM(vj.harga_bayar), 0), ',', '.'), '.', '.') as total_jual",
         "stores.id_toko", "stores.nama_toko"
     ]);
-    $this->db->from('vtoko AS stores');
+    $this->db->from('tb_toko AS stores');
     $this->db->join('vbarangkeluar AS v', 'stores.id_toko = v.id_toko', 'LEFT');
     $this->db->join('vpenjualan AS vj', 'v.id_keluar = vj.id_keluar', 'LEFT');
     $this->db->where('MONTH(vj.tgl_transaksi)', $this->currentMonth);

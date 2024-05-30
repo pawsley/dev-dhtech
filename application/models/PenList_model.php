@@ -7,10 +7,10 @@ class PenList_model extends CI_Model {
       "REPLACE(REPLACE(FORMAT(SUM(v.hrg_hpp), 0), ',', '.'), '.', '.') as total_asset",
         "stores.id_toko", "stores.nama_toko"
     ]);
-    $this->db->from('vtoko AS stores');
+    $this->db->from('tb_toko AS stores');
     $this->db->join('vbarangkeluar AS v', 'stores.id_toko = v.id_toko', 'LEFT');
-    $this->db->group_by('stores.id_toko');
     $this->db->where_in('v.status',[2]);
+    $this->db->group_by('stores.id_toko');
     if ($id) {
         $this->db->group_start();
         $this->db->like('stores.id_toko', $id);
