@@ -233,8 +233,8 @@ class Welcome extends Auth {
 	}
 	public function detailkar(){
 		$this->load->library('datatables');
-		$this->datatables->select('id_admin,nama_admin,id_toko,nama_toko');
-		$this->datatables->from('vtoko');
+		$this->datatables->select('id_user as id_admin,nama_lengkap as nama_admin,id_toko,nama_toko');
+		$this->datatables->from('vkartoko');
 		return print_r($this->datatables->generate());
 	}
 	public function updatekar(){
