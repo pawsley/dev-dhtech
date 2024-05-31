@@ -5,7 +5,7 @@
             <div class="page-title">
               <div class="row">
                 <div class="col-6">
-                  <h4>Daftar Barang Keluar</h4>
+                  <h4>Daftar Barang Cabang</h4>
                 </div>
                 <div class="col-6">
                   <ol class="breadcrumb">
@@ -17,7 +17,7 @@
                     <li class="breadcrumb-item"> Home</li>
                     <li class="breadcrumb-item"> Applications</li>
                     <li class="breadcrumb-item"> Data Barang</li>
-                    <li class="breadcrumb-item active"> Keluar</li>
+                    <li class="breadcrumb-item active"> Cabang</li>
                   </ol>
                 </div>
               </div>
@@ -61,7 +61,7 @@
               <div class="col-sm-12">
                   <div class="card height-equal">
                       <div class="card-header">
-                          <h4>Formulir Barang Keluar</h4>
+                          <h4>Formulir Barang Cabang</h4>
                       </div>
                       <div class="card-body custom-input col-xl-12">
                         <!-- Menu Tab Barang Baru & Bekas -->
@@ -221,7 +221,7 @@
                                         <table class="display" id="table-prdacc">
                                             <thead>
                                                 <tr>
-                                                    <th>#</th>
+                                                    <th><input type="checkbox" id="select-all"></th>
                                                     <th>SN PRODUK</th>
                                                     <th>PRODUK</th>
                                                     <th>MERK</th>
@@ -275,7 +275,7 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header pb-0 card-no-border">
-                            <h4>History Barang Keluar</h4>
+                            <h4>History Barang Cabang</h4>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

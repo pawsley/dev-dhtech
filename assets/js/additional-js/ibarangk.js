@@ -454,6 +454,22 @@ function tablebm() {
                 },
             ],
     });
+    // Event listener for "select all" control
+    $('#select-all').on('click', function() {
+        var rows = tableBM.rows({ 'search': 'applied' }).nodes();
+        $('input[type="checkbox"]', rows).prop('checked', this.checked);
+    });
+
+    // Event listener to handle row checkbox changes
+    $('#table-prdacc tbody').on('change', 'input.checkbox_prod', function() {
+        if (!this.checked) {
+            var el = $('#select-all').get(0);
+            if (el && el.checked && ('indeterminate' in el)) {
+                el.indeterminate = true;
+            }
+        }
+    });
+    
     $('#prodacc, #merkacc').on('change', function() {
         tableBM.draw();
     }); 
