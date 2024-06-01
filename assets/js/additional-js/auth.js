@@ -33,11 +33,15 @@ function login() {
             data: formData,
             dataType: 'json',
             success: function(response) {
+                console.log(response);
                 if (response.success) {
                     // Redirect to home page or do any other actions upon successful login
-                    // swal("success", response.message, "success").then(() => {
+                    if (response.message === 'Login berhasil kepala cabang') {
+                        window.location.href = base_url + 'cabang/' + response.id_toko;
+                        localStorage.setItem('cabangNama', response.nama_toko);
+                    } else {
                         window.location.href = base_url;
-                    // });
+                    }
                 } else {
                     // Show error message
                     // $('#loginMessage').text(response.message);

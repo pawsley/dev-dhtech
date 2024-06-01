@@ -45,7 +45,7 @@ function nmcabcard() {
         $('#tccab').text(cabangNama);
         $('#tscab').text(cabangNama);
         $('#tacab').text(cabangNama);
-        // localStorage.removeItem('cabangNama'); 
+        // localStorage.removeItem('cabangNama');
     }
 }
 function card() {

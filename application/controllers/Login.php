@@ -48,10 +48,18 @@ class Login extends CI_Controller
                 'id_user' => $data['id_user'],
                 'jabatan' => $data['jabatan'],
                 'nama_lengkap' => $data['nama_lengkap'],
+                'id_toko' => $data['id_toko'],
+                'nama_toko' => $data['nama_toko'],
                 'logged' => TRUE
             );
             $this->session->set_userdata($data_session);
-            echo json_encode(array('success' => true, 'message' => 'Login berhasil.'));
+            $response = array('success' => true, 'message' => 'Login berhasil.');
+            if ($data['jabatan'] == 'KEPALA CABANG') {
+                $response['message'] = 'Login berhasil kepala cabang';
+                $response['id_toko'] = $data['id_toko'];
+                $response['nama_toko'] = $data['nama_toko'];
+            }
+            echo json_encode($response);
             return;
         } else {
             echo json_encode(array('success' => false, 'message' => 'Password atau Email yang anda masukkan salah, Silahkan Coba Lagi'));

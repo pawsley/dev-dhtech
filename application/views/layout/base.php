@@ -36,6 +36,11 @@
     <!-- Responsive css-->
     <link rel="stylesheet" type="text/css" href="<?=base_url()?>assets/css/responsive.css">
     <?php echo $css; ?>
+    <?php 
+      $jab= $this->session->userdata('jabatan'); 
+      $idtoko = $this->session->userdata('id_toko'); 
+      $nmtoko = $this->session->userdata('nama_toko'); 
+    ?>
   </head>
   <body> 
     <!-- loader starts-->
@@ -93,7 +98,7 @@
                 <div class="media profile-media">
                     <img class="b-r-10" src="<?=base_url()?>assets/images/dashboard/profile.png" alt="gambar-principle" loading="lazy">
                   <div class="media-body"><span><?php echo $this->session->userdata('nama_lengkap'); ?></span>
-                    <p class="mb-0"><?php echo $this->session->userdata('jabatan'); ?> <i class="middle fa fa-angle-down"></i></p>
+                    <p class="mb-0"><?php echo $this->session->userdata('jabatan'); ?><i class="middle fa fa-angle-down"></i><br></p>
                   </div>
                 </div>
                 <ul class="profile-dropdown onhover-show-div">
@@ -151,9 +156,15 @@
                       <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-home"></use>
                     </svg><span>Home</span></a>
                     <ul class="sidebar-submenu">
-                      <li class="scab"><a class="scab" href="<?=base_url()?>">Semua Cabang</a></li>
-                      <?php foreach ($setcabang as $sc) { ?>
-                        <li class="<?=$sc['id_toko']?>" data-cabangnama="<?=$sc['nama_toko']?>"><a class="<?=$sc['id_toko']?>" href="<?=base_url()?>cabang/<?=$sc['id_toko']?>"><?=$sc['nama_toko']?></a></li>
+                      <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='Manager Oprasional') { ?>
+                        <li class="scab"><a class="scab" href="<?=base_url()?>">Semua Cabang</a></li>
+                        <?php foreach ($setcabang as $sc) { ?>
+                          <li class="<?=$sc['id_toko']?>" data-cabangnama="<?=$sc['nama_toko']?>"><a class="<?=$sc['id_toko']?>" href="<?=base_url()?>cabang/<?=$sc['id_toko']?>"><?=$sc['nama_toko']?></a></li>
+                        <?php } ?>
+                      <?php } else if($jab=='KEPALA CABANG') { ?>
+                        <?php foreach ($barangcabang as $bc) { ?>
+                          <li class="<?=$bc['id_toko']?>" data-cabangnama="<?=$bc['nama_toko']?>"><a class="<?=$bc['id_toko']?>" href="<?=base_url()?>cabang/<?=$bc['id_toko']?>"><?=$bc['nama_toko']?></a></li>
+                        <?php } ?>
                       <?php } ?>
                     </ul>
                   </li>
@@ -184,6 +195,7 @@
                     </div>
                   </li>
                   <!-- Menu Order Masuk -->
+                  <?php if ($jab=='OWNER' || $jab=='Finance') { ?>
                   <li class="sidebar-list order">
                       <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav order" href="<?=base_url()?>order-masuk/">
                       <svg class="stroke-icon">
@@ -192,7 +204,8 @@
                       <svg class="fill-icon">
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-social"></use>
                       </svg><span>Order Masuk</span></a>
-                  </li>                  
+                  </li>
+                  <?php } ?>       
                   <!-- Finnance -->
                   <!-- <li class="sidebar-list finance"><i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title" href="#">
@@ -281,6 +294,7 @@
                     </ul>
                   </li>
                   <!-- Penjualan -->
+                  <?php if ($jab=='OWNER' || $jab=='Finance') { ?>
                   <li class="sidebar-list sales"><i class="fa fa-thumb-tack"></i>
                       <a class="sidebar-link sidebar-title sales" href="#">
                           <svg class="stroke-icon">
@@ -293,10 +307,13 @@
                       <ul class="sidebar-submenu">
                           <li class="scst"><a class="scst" href="<?=base_url()?>data-kustomer/">Data Kustomer</a></li>
                           <li class="sprd"><a class="sprd" href="<?=base_url()?>produk-list/">Produk List</a></li>
+                          <?php if ($jab=='OWNER') { ?>
                           <li class="seta"><a class="seta" href="<?=base_url()?>etalase-toko/">Etalase Toko</a></li>
+                          <?php } ?>
                           <li class="shst"><a class="shst" href="<?=base_url()?>riwayat-penjualan/">Riwayat Penjualan</a></li>
                       </ul>
-                  </li>                  
+                  </li>
+                  <?php } ?>     
                   <!-- End Menu Toko -->
                 </ul>
               </div>

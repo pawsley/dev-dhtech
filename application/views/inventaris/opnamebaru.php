@@ -25,7 +25,7 @@
           <!-- Container-fluid starts-->
           <div class="container-fluid">
             <!-- Card Status Data Barang -->
-            <?php if ($this->session->userdata('jabatan')=='OWNER') { ?>
+            <?php if ($this->session->userdata('jabatan')=='OWNER' || $this->session->userdata('jabatan')=='Manager Oprasional' || $this->session->userdata('jabatan')=='Finance') { ?>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -78,7 +78,7 @@
                   <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
                     <h4>Opname List</h4>
                     <div class="d-flex align-items-center">
-                        <?php if ($this->session->userdata('jabatan')=='OWNER') { ?>
+                        <?php if ($this->session->userdata('jabatan')=='OWNER' || $this->session->userdata('jabatan')=='Manager Oprasional' || $this->session->userdata('jabatan')=='Finance') { ?>
                             <button class="btn btn-primary simpanopnm" id="simpanopnm" style="border-left-style: solid;border-left-width: 1px;border-right-style: solid;margin-right: 16px;">
                                 <i class="fa fa-save"></i> Simpan
                             </button>
