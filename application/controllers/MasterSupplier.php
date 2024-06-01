@@ -24,8 +24,8 @@ class MasterSupplier extends Auth
 
   public function index()
   {
-    $data['setcabang'] = $this->first->getCabang();
     $data = $this->generateid();
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('master/mastersupplier', $data, true);
     $data['modal'] = '';
     $data['css'] = '

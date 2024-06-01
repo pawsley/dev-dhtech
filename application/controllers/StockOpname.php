@@ -147,7 +147,7 @@ class StockOpname extends Auth
   // function for opnm_new
   public function addstockopname()
   {
-    // $data = $this->generateid();
+    $data['setcabang'] = $this->BarangKeluar_model->getCabang();
     $data['content'] = $this->load->view('inventaris/opnamebaru', '', true);
     $data['modal'] = '';
     $data['css'] = '

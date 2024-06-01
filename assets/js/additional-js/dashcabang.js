@@ -17,7 +17,9 @@ var formatdec = new Intl.NumberFormat('id-ID', {
     style: 'decimal',
     minimumFractionDigits: 0
 });
+var cabangNama = localStorage.getItem('cabangNama');
 $(document).ready(function () {
+    nmcabcard()
     card();
     cardgd();
     allcount(formatcur);
@@ -29,12 +31,23 @@ $(document).ready(function () {
     detailsales();
     detailsalescab();
     detaildiskon();
-    // detailcust();
     detailcb();
-    detailkar();
+    // detailkar();
     updateDateTime();
 });
-
+function nmcabcard() {
+    if (cabangNama) {
+        $('#dashcab').text(cabangNama);
+        $('#lbcab').text(cabangNama);
+        $('#tpcab').text(cabangNama);
+        $('#tdcab').text(cabangNama);
+        $('#tacab').text(cabangNama);
+        $('#tccab').text(cabangNama);
+        $('#tscab').text(cabangNama);
+        $('#tacab').text(cabangNama);
+        // localStorage.removeItem('cabangNama'); 
+    }
+}
 function card() {
     $('.cardlaba').click(function(event) {
         event.preventDefault();
@@ -126,7 +139,7 @@ function allcount(formatcur) {
 }
 function countlaba(formatcur) {
     $.ajax({
-        url: base_url + 'Welcome/labakotor/',
+        url: base_url + 'DashboardCab/labakotor/'+cabset,
         type: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -139,6 +152,7 @@ function countlaba(formatcur) {
                 var fcashb = formatcur.format(item.total_cb);
                 var bulan = item.bulan;
                 var tahun = item.tahun;
+                var cabang = item.nama_toko;
                 $('#laba').text(formattedValue);
                 $('.cardlaba').attr('data-total_laba', formattedValue);
                 $('.cardlaba').attr('data-total_hpp', fhpp);
@@ -147,15 +161,147 @@ function countlaba(formatcur) {
                 $('.cardlaba').attr('data-total_cashb', fcashb);
                 $('.cardlaba').attr('data-bulanlb', bulan);
                 $('.cardlaba').attr('data-tahunlb', tahun);
+                $('.cardlaba').attr('data-nmcab', cabang);
                 return false;
             });
             $('#spinner').addClass('d-none');
         }
     });
 }
+function tablelaba(m,y) {
+    m = m || 0;
+    y = y || 0;
+    let ajaxConfig = {
+        type: "POST",
+        url: base_url + 'detail-laba-cab/'+cabset+'/'+m+'/'+y,
+    };
+    if ($.fn.DataTable.isDataTable('#table-laba')) {
+        tableLB.destroy();
+    }
+    tableLB = $("#table-laba").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [
+            [0, 'desc'] 
+        ],
+        "ajax": ajaxConfig,
+        "columns": [
+            { "data": "kode_penjualan" },
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },   
+            { 
+                "data": "hrg_hpp",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "harga_jual",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "nilai",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "harga_cashback",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },   
+            { 
+                "data": "laba_unit",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },   
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-6'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+        "buttons": [
+            {
+                "text": 'Refresh', // Font Awesome icon for refresh
+                "className": 'custom-refresh-button', // Add a class name for identification
+                "attr": {
+                    "id": "refresh-button" // Set the ID attribute
+                },
+                "init": function (api, node, config) {
+                    $(node).removeClass('btn-default');
+                    $(node).addClass('btn-primary');
+                    $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                },
+                "action": function () {
+                    tableLB.ajax.reload();
+                }
+            },
+        ]
+            
+    });
+    return tableLB;
+}
+function detaillaba() {
+    $('#DetailLaba').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        var total = button.data('total_laba');
+        var totalhpp = button.data('total_hpp');
+        var totalpen = button.data('total_pen');
+        var totaldisk = button.data('total_disk');
+        var totalcba = button.data('total_cashb');
+        var m = button.data('bulanlb');
+        var y = button.data('tahunlb');
+        var cab = button.data('nmcab');
+        $("#tlk").text(total);
+        $("#tlh").text(totalhpp);
+        $("#tlp").text(totalpen);
+        $("#tld").text(totaldisk);
+        $("#tlc").text(totalcba);
+        $("#dlbcab").text(cabangNama);
+        filterlb();
+        tablelaba(m,y);
+    });
+}
+function filterlb(){
+    $('#fdlb').on('change', function() {
+        let lbval = $(this).val();
+        let [y, m] = lbval.split('-');
+        $.ajax({
+            url: base_url + 'DashboardCab/labakotor/'+cabset,  
+            type: 'POST',
+            data: {
+                lbval: lbval,
+                month: m,  
+                year: y, 
+                id_toko: cabset
+            },
+            dataType: 'json',
+            success: function(response) {
+                $.each(response, function(index, item) {
+                    $("#tlk").text(formatcur.format(item.laba_kotor));
+                    $("#tlh").text(formatcur.format(item.total_hpp));
+                    $("#tlp").text(formatcur.format(item.total_pen));
+                    $("#tld").text(formatcur.format(item.total_disk));
+                    $("#tlc").text(formatcur.format(item.total_cb));
+                    tablelaba(m,y);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error: ' + error);
+            }
+        });
+    });
+}
 function countassetp(formatcur) {
     $.ajax({
-        url: base_url + 'Welcome/tproduk/',
+        url: base_url + 'DashboardCab/tproduk/'+cabset,
         type: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -171,7 +317,7 @@ function countassetp(formatcur) {
 }
 function countpen(formatcur) {
     $.ajax({
-        url: base_url + 'Welcome/tpenjualan/',
+        url: base_url + 'DashboardCab/tpenjualan/'+cabset,
         type: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -188,7 +334,7 @@ function countpen(formatcur) {
 }
 function countdis(formatcur) {
     $.ajax({
-        url: base_url + 'Welcome/tdiskon/',
+        url: base_url + 'DashboardCab/tdiskon/'+cabset,
         type: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -205,7 +351,7 @@ function countdis(formatcur) {
 }
 function countct(formatcur) {
     $.ajax({
-        url: base_url + 'Welcome/tcb/',
+        url: base_url + 'DashboardCab/tcb/'+cabset,
         type: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -214,10 +360,12 @@ function countct(formatcur) {
                 var tcba = formatcur.format(item.total_cashback);
                 var bulan = item.bulan;
                 var tahun = item.tahun;
+                var cabang = item.nama_toko;
                 $('#cardtc').text(tcba);
                 $('.ctc').attr('data-total_cba', tcba);
                 $('.ctc').attr('data-bulancb', bulan);
                 $('.ctc').attr('data-tahuncb', tahun);
+                $('.ctc').attr('data-nmcab', cabang);
                 return false;
             });
             $('#spintc').addClass('d-none');
@@ -260,7 +408,7 @@ function countos(formatcur) {
 }
 function topsales() {
     $.ajax({
-        url: base_url + 'Welcome/topsales/',
+        url: base_url + 'DashboardCab/topsales/'+cabset,
         type: 'GET',
         dataType: 'json',
         success: function(data) {
@@ -453,86 +601,6 @@ function getCountStock(formatcur) {
         });
     });
 }
-function tablelaba(m,y) {
-    m = m || 0;
-    y = y || 0;
-    let ajaxConfig = {
-        type: "POST",
-        url: base_url + 'detail-laba/'+m+'/'+y,
-    };
-    if ($.fn.DataTable.isDataTable('#table-laba')) {
-        tableLB.destroy();
-    }
-    tableLB = $("#table-laba").DataTable({
-        "processing": true,
-        "language": {
-            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
-        },
-        "serverSide": true,
-        "order": [
-            [0, 'desc'] 
-        ],
-        "ajax": ajaxConfig,
-        "columns": [
-            { "data": "kode_penjualan" },
-            { "data": "sn_brg" },
-            { "data": "nama_brg" },   
-            { 
-                "data": "hrg_hpp",
-                "render": function (data, type, row) {
-                    return formatcur.format(data);
-                }
-            },
-            { 
-                "data": "harga_jual",
-                "render": function (data, type, row) {
-                    return formatcur.format(data);
-                }
-            },
-            { 
-                "data": "nilai",
-                "render": function (data, type, row) {
-                    return formatcur.format(data);
-                }
-            },
-            { 
-                "data": "harga_cashback",
-                "render": function (data, type, row) {
-                    return formatcur.format(data);
-                }
-            },   
-            { 
-                "data": "laba_unit",
-                "render": function (data, type, row) {
-                    return formatcur.format(data);
-                }
-            },   
-        ],
-        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                "<'row'<'col-sm-12 col-md-6'B>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
-        "buttons": [
-            {
-                "text": 'Refresh', // Font Awesome icon for refresh
-                "className": 'custom-refresh-button', // Add a class name for identification
-                "attr": {
-                    "id": "refresh-button" // Set the ID attribute
-                },
-                "init": function (api, node, config) {
-                    $(node).removeClass('btn-default');
-                    $(node).addClass('btn-primary');
-                    $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
-                },
-                "action": function () {
-                    tableLB.ajax.reload();
-                }
-            },
-        ]
-            
-    });
-    return tableLB;
-}
 function tableasset() {
     if ($.fn.DataTable.isDataTable('#table-asset')) {
         tableAP.destroy();
@@ -547,7 +615,7 @@ function tableasset() {
             [0, 'desc'] 
         ],
         "ajax": {
-            "url": base_url + 'detail-asset',
+            "url": base_url + 'detail-asset-cabang/'+cabset,
             "type": "POST"
         },
         "columns": [
@@ -719,7 +787,7 @@ function tablesales() {
             [0, 'desc'] 
         ],
         "ajax": {
-            "url": base_url + 'detail-sales',
+            "url": base_url + 'detail-sales-cabang/'+cabset,
             "type": "POST"
         },
         "columns": [
@@ -862,7 +930,7 @@ function tablediskon() {
             [0, 'desc'] 
         ],
         "ajax": {
-            "url": base_url + 'detail-diskon',
+            "url": base_url + 'detail-diskon-cab/'+cabset,
             "type": "POST"
         },
         "columns": [
@@ -906,7 +974,7 @@ function tablecb(m, y) {
     y = y || 0;
     let ajaxConfig = {
         type: "POST",
-        url: base_url + 'detail-cb/'+m+'/'+y,
+        url: base_url + 'detail-cashback-cab/'+cabset+'/'+m+'/'+y,
     };
     if ($.fn.DataTable.isDataTable('#table-cb')) {
         tableCB.destroy();
@@ -1080,59 +1148,12 @@ function tabledts(ids) {
     });
     return tableDRS;
 }
-function detaillaba() {
-    $('#DetailLaba').on('show.bs.modal', function (e) {
-        var button = $(e.relatedTarget);
-        var total = button.data('total_laba');
-        var totalhpp = button.data('total_hpp');
-        var totalpen = button.data('total_pen');
-        var totaldisk = button.data('total_disk');
-        var totalcba = button.data('total_cashb');
-        var m = button.data('bulanlb');
-        var y = button.data('tahunlb');
-        $("#tlk").text(total);
-        $("#tlh").text(totalhpp);
-        $("#tlp").text(totalpen);
-        $("#tld").text(totaldisk);
-        $("#tlc").text(totalcba);
-        filterlb();
-        tablelaba(m,y);
-    });
-}
-function filterlb(){
-    $('#fdlb').on('change', function() {
-        let lbval = $(this).val();
-        let [y, m] = lbval.split('-');
-        $.ajax({
-            url: base_url + 'Welcome/labakotor',  
-            type: 'POST',
-            data: {
-                lbval: lbval,
-                month: m,  
-                year: y    
-            },
-            dataType: 'json',
-            success: function(response) {
-                $.each(response, function(index, item) {
-                    $("#tlk").text(formatcur.format(item.laba_kotor));
-                    $("#tlh").text(formatcur.format(item.total_hpp));
-                    $("#tlp").text(formatcur.format(item.total_pen));
-                    $("#tld").text(formatcur.format(item.total_disk));
-                    $("#tlc").text(formatcur.format(item.total_cb));
-                    tablelaba(m,y);
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error('Error: ' + error);
-            }
-        });
-    });
-}
 function detailasset() {
     $('#DetailAssetProduk').on('show.bs.modal', function (e) {
         var button = $(e.relatedTarget);
         var total = button.data('total_asset');
         $("#tap").text(total);
+        $("#dapcab").text(cabangNama);
         tableasset();
     });
 }
@@ -1175,6 +1196,7 @@ function detailsales() {
         var button = $(e.relatedTarget);
         var total = button.data('total_sales');
         $("#totp").text(total);
+        $("#dtpcab").text(cabangNama);
         tablesales();
     });
 }
@@ -1194,6 +1216,7 @@ function detaildiskon() {
         var button = $(e.relatedTarget);
         var total = button.data('diskon_sales');
         $("#td").text(total);
+        $("#ddcab").text(cabangNama);
         tablediskon();
     });
 }
@@ -1204,6 +1227,7 @@ function detailcb() {
         var m = button.data('bulancb');
         var y = button.data('tahuncb');
         $("#tca").text(total);
+        $("#dccab").text(cabangNama);
         filtercb();
         tablecb(m,y);
     });
@@ -1213,7 +1237,7 @@ function filtercb(){
         let cbval = $(this).val();
         let [y, m] = cbval.split('-');
         $.ajax({
-            url: base_url + 'Welcome/tcb',  
+            url: base_url + 'DashboardCab/tcb/'+cabset,  
             type: 'POST',
             data: {
                 cbval: cbval,

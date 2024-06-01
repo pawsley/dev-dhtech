@@ -153,7 +153,7 @@
                     <ul class="sidebar-submenu">
                       <li class="scab"><a class="scab" href="<?=base_url()?>">Semua Cabang</a></li>
                       <?php foreach ($setcabang as $sc) { ?>
-                        <li class="<?=$sc['id_toko']?>"><a class="<?=$sc['id_toko']?>" href="<?=base_url()?><?=$sc['id_toko']?>"><?=$sc['nama_toko']?></a></li>
+                        <li class="<?=$sc['id_toko']?>" data-cabangnama="<?=$sc['nama_toko']?>"><a class="<?=$sc['id_toko']?>" href="<?=base_url()?>cabang/<?=$sc['id_toko']?>"><?=$sc['nama_toko']?></a></li>
                       <?php } ?>
                     </ul>
                   </li>
@@ -351,8 +351,14 @@
             var segment2 = "<?php echo $this->uri->segment(2); ?>";
             $(".copyright-year").text(currentYear);
 
+            $('.sidebar-submenu').on('click', 'li', function(event) {
+                event.preventDefault(); // Prevent the default action if necessary
+                var cabangNama = $(this).data('cabangnama');
+                localStorage.setItem('cabangNama', cabangNama); // Save to localStorage
+                window.location.href = $(this).find('a').attr('href');
+            });
+
             $(".dash").removeClass("active");
-            // $(".sidebar-list, .sidebar-link, .sidebar-title").removeClass("active");
                 
             if (segment1 == "") {
                 $(".dash").addClass("active");
@@ -360,13 +366,13 @@
                 $(".sidebar-list.dash").addClass('active');
                 $(".sidebar-list.dash .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".sidebar-list.dash ul.sidebar-submenu").slideDown('normal');
-            }else if (segment1=="DHC-0001"){
+            }else if (segment1=="cabang" && segment2=="DHC-0001"){
                 $(".dash").addClass("active");
                 $(".DHC-0001").addClass("active");
                 $(".sidebar-list.dash").addClass('active');
                 $(".sidebar-list.dash .sidebar-title").find('.according-menu i').removeClass('fa-angle-right').addClass('fa-angle-down');
                 $(".sidebar-list.dash ul.sidebar-submenu").slideDown('normal');
-            }else if (segment1=="DHC-0002"){
+            }else if (segment1=="cabang" && segment2=="DHC-0002"){
                 $(".dash").addClass("active");
                 $(".DHC-0002").addClass("active");
                 $(".sidebar-list.dash").addClass('active');
