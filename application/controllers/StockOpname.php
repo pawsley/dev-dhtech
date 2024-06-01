@@ -251,13 +251,13 @@ class StockOpname extends Auth
   public function loadopnamelist() {
     $auditor = $this->session->userdata('nama_lengkap');
     $role = $this->session->userdata('jabatan');
-    if ($role == 'OWNER') {
+    if ($role == 'OWNER' || $role == 'Finance') {
       $this->load->library('datatables');
       $this->datatables->select('id_opname,kode_opname, DATE_FORMAT(tgl_opname, "%d-%M-%Y") AS tgl_opname,nama_lengkap,id_toko,nama_toko,status');
       $this->datatables->from('vopname');
       $this->datatables->where('status','1');
       return print_r($this->datatables->generate());
-    } else if ($role == 'KEPALA CABANG'){
+    } else if ($role == 'KEPALA CABANG' || $role == 'Manager Oprasional'){
       $this->load->library('datatables');
       $this->datatables->select('id_opname,kode_opname, DATE_FORMAT(tgl_opname, "%d-%M-%Y") AS tgl_opname,nama_lengkap,id_toko,nama_toko,status');
       $this->datatables->from('vopname');
