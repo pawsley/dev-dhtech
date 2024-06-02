@@ -98,7 +98,10 @@
                 <div class="media profile-media">
                     <img class="b-r-10" src="<?=base_url()?>assets/images/dashboard/profile.png" alt="gambar-principle" loading="lazy">
                   <div class="media-body"><span><?php echo $this->session->userdata('nama_lengkap'); ?></span>
-                    <p class="mb-0"><?php echo $this->session->userdata('jabatan'); ?><i class="middle fa fa-angle-down"></i><br></p>
+                    <p class="mb-0">
+                      <?php echo $this->session->userdata('jabatan'); ?>
+                      <i class="middle fa fa-angle-down"></i>
+                    </p>
                   </div>
                 </div>
                 <ul class="profile-dropdown onhover-show-div">

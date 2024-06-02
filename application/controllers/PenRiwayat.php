@@ -11,6 +11,8 @@ class PenRiwayat extends Auth
   }
 
   public function index(){
+    $cab = $this->session->userdata('id_toko');
+    $data['barangcabang'] = $this->second->barangCabang($cab);
     $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('kasir/riwayatsales', '', true);
     $data['modal'] = '';

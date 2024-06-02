@@ -12,6 +12,8 @@ class PenOrderIn extends Auth
   }
 
   public function index(){
+    $cab = $this->session->userdata('id_toko');
+    $data['barangcabang'] = $this->second->barangCabang($cab);
     $data['setcabang'] = $this->first->getCabang();
     $data['setcabang'] = $this->PenOrderIn_model->countHJ();
     $data['content'] = $this->load->view('kasir/ordermasuk', $data, true);

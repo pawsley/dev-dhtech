@@ -34,6 +34,8 @@ class MasterCabang extends Auth
   public function index()
   {
     $data = $this->generateid();
+    $cab = $this->session->userdata('id_toko');
+    $data['barangcabang'] = $this->second->barangCabang($cab);
     $data['setcabang'] = $this->first->getCabang();
     $data['kacab'] = $this->Mcabang_model->getAllKar();
     $data['content'] = $this->load->view('master/mastercabang', $data, true);

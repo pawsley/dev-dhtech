@@ -91,12 +91,23 @@ class StockOpname_model extends CI_Model {
   public function getProdOP($idt,$idop,$sn) {
     $this->db->select(['id_opname','id_keluar', 'sn_brg', 'merk', 'jenis', 'nama_brg','kondisi','spek','hrg_hpp','hrg_jual','id_toko'])
     ->from('vprdop')
+    ->where_not_in('jenis','Aksesoris')
     ->where('id_toko',$idt)
     ->where('id_opname',$idop)
     ->where('sn_brg', $sn);
     $query = $this->db->get();
     return $query->result_array();
   } 
+  public function getAccOP($idt,$idop,$sn) {
+    $this->db->select(['id_opname','id_keluar', 'sn_brg', 'merk', 'jenis', 'nama_brg','kondisi','spek','hrg_hpp','hrg_jual','id_toko'])
+    ->from('vprdop')
+    ->where_in('jenis','Aksesoris')
+    ->where('id_toko',$idt)
+    ->where('id_opname',$idop)
+    ->where('sn_brg', $sn);
+    $query = $this->db->get();
+    return $query->result_array();
+  }  
   public function getFilterJenis($searchTerm) {
     $this->db->select(['jenis']);
     $this->db->from('vprdop');

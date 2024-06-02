@@ -25,6 +25,8 @@ class MasterKaryawan extends Auth
 
   public function index()
   {
+    $cab = $this->session->userdata('id_toko');
+    $data['barangcabang'] = $this->second->barangCabang($cab);
     $data['setcabang'] = $this->first->getCabang();
     $data['newID'] = $this->generateid();
     $data['content'] = $this->load->view('master/masterkaryawan', $data, true);

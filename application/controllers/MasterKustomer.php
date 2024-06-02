@@ -25,8 +25,10 @@ class MasterKustomer extends Auth
 
   public function index()
   {
-    $data['setcabang'] = $this->first->getCabang();
     $data = $this->generateid();
+    $cab = $this->session->userdata('id_toko');
+    $data['barangcabang'] = $this->second->barangCabang($cab);
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('master/masterkustomer', $data, true);
     $data['modal'] = '';
     $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">

@@ -11,11 +11,6 @@ class InventoriStok extends Auth
     $this->load->library('zend');
   }
 
-  public function index()
-  {
-    
-  }
-
   public function loadsupp(){
     $searchTerm = $this->input->get('q');
     $results = $this->InventoriStok_model->getSupp($searchTerm);
@@ -53,6 +48,8 @@ class InventoriStok extends Auth
   }
 
   public function bm() {
+    $cab = $this->session->userdata('id_toko');
+    $data['barangcabang'] = $this->second->barangCabang($cab);
     $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('inventaris/barangmasuk', '', true);
     $data['modal'] = '';

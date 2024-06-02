@@ -27,6 +27,8 @@ class StockOpname extends Auth
 
   public function index()
   {
+    $cab = $this->session->userdata('id_toko');
+    $data['barangcabang'] = $this->second->barangCabang($cab);
     $data['setcabang'] = $this->BarangKeluar_model->getCabang();
     $data['content'] = $this->load->view('inventaris/stockopname', $data, true);
     $data['modal'] = '';
@@ -148,7 +150,7 @@ class StockOpname extends Auth
   public function addstockopname()
   {
     $data['setcabang'] = $this->BarangKeluar_model->getCabang();
-    $data['content'] = $this->load->view('inventaris/opnamebaru', '', true);
+    $data['content'] = $this->load->view('inventaris/opnamebaru', $data, true);
     $data['modal'] = '';
     $data['css'] = '
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/datatables.css') . '">
@@ -270,6 +272,7 @@ class StockOpname extends Auth
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis');
     $this->datatables->from('vprdop');
+    $this->datatables->where('jenis <>', 'Aksesoris');
     $this->datatables->where('id_toko',$id_toko);
     return print_r($this->datatables->generate());
   }  
@@ -277,10 +280,28 @@ class StockOpname extends Auth
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis');
     $this->datatables->from('vopname_dtl');
+    $this->datatables->where('jenis <>', 'Aksesoris');
     $this->datatables->where('id_toko',$id_toko);
     $this->datatables->where('id_opname',$ido);
     return print_r($this->datatables->generate());
   }
+  public function loadacclist($id_toko) {
+    $this->load->library('datatables');
+    $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis');
+    $this->datatables->from('vprdop');
+    $this->datatables->where_in('jenis', 'Aksesoris');
+    $this->datatables->where('id_toko',$id_toko);
+    return print_r($this->datatables->generate());
+  }  
+  public function loadpropacclist($id_toko,$ido) {
+    $this->load->library('datatables');
+    $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis');
+    $this->datatables->from('vopname_dtl');
+    $this->datatables->where_in('jenis', 'Aksesoris');
+    $this->datatables->where('id_toko',$id_toko);
+    $this->datatables->where('id_opname',$ido);
+    return print_r($this->datatables->generate());
+  }  
   public function getbarang($id){
     $data['get_id']= $this->StockOpname_model->getWhere($id);
     echo json_encode($data);
@@ -305,6 +326,11 @@ class StockOpname extends Auth
     header('Content-Type: application/json');
     echo json_encode($results);
   }
+  public function searchAccSN($idt,$idop,$sn){
+    $results = $this->StockOpname_model->getAccOP($idt,$idop,$sn);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }  
 }
 
 

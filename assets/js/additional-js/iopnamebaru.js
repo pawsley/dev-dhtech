@@ -1,6 +1,8 @@
 var tableOL;
 var tablePR;
 var tablePROP;
+var tablePRACC;
+var tablePROPACC;
 
 $(document).ready(function () {
     generateid();
@@ -9,6 +11,7 @@ $(document).ready(function () {
     addauditor();
     reload();
     getbarang();
+    getbarangAcc();
     // $('#addprod').click(function() {
     //     var id_opname = $(this).data('id_opname');
     //     addproduk(id_opname);
@@ -75,7 +78,8 @@ function tableol() {
                         return `
                                 <ul class="action">
                                     <div class="btn-group">
-                                        <button class="btn btn-success" data-id="${data}" data-bs-toggle="modal" data-bs-target="#CariBarang"><i class="fa fa-plus"></i></button>
+                                        <button class="btn btn-success" data-id="${data}" data-bs-toggle="modal" data-bs-target="#CariBarang">Unit <i class="fa fa-plus"></i></button>
+                                        <button class="btn btn-warning" data-id="${data}" data-bs-toggle="modal" data-bs-target="#CariBarangAcc">Aksesoris <i class="fa fa-plus"></i></button>
                                         <button class="btn btn-secondary" id="delete-btn" data-id="${data}"><i class="fa fa-trash-o"></i></button>
                                     </div>
                                 </ul>
@@ -119,7 +123,7 @@ function tableol() {
     });
     return tableOL;
 }
-
+//unit
 function tablepr(id_toko) {
     if ($.fn.DataTable.isDataTable('#table-pr')) {
         tablePR.destroy();
@@ -166,7 +170,6 @@ function tablepr(id_toko) {
     });
     return tablePR;    
 }
-
 function tableprop(id_toko,ido) {
     if ($.fn.DataTable.isDataTable('#table-prop')) {
         tablePROP.destroy();
@@ -214,7 +217,102 @@ function tableprop(id_toko,ido) {
     });
     return tablePROP;
 }
-
+//unit
+//acc
+function tablepracc(id_toko) {
+    if ($.fn.DataTable.isDataTable('#table-pracc')) {
+        tablePRACC.destroy();
+    }
+    tablePRACC = $("#table-pracc").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [],
+        "ajax": {
+            "url": base_url + 'StockOpname/loadacclist/'+id_toko+'/',
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },
+            { "data": "merk" },
+            { "data": "jenis" },  
+        ],
+        "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-2'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+                "buttons": [
+                {
+                    "text": 'Refresh', // Font Awesome icon for refresh
+                    "className": 'custom-refresh-button', // Add a class name for identification
+                    "attr": {
+                        "id": "refresh-button" // Set the ID attribute
+                    },
+                    "init": function (api, node, config) {
+                        $(node).removeClass('btn-default');
+                        $(node).addClass('btn-primary');
+                        $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                    },
+                    "action": function () {
+                        tablePRACC.ajax.reload();
+                    }
+                }
+            ]
+            
+    });
+    return tablePRACC;    
+}
+function tablepropacc(id_toko,ido) {
+    if ($.fn.DataTable.isDataTable('#table-propacc')) {
+        tablePROPACC.destroy();
+    }
+    tablePROPACC = $("#table-propacc").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [],
+        "ajax": {
+            "url": base_url + 'StockOpname/loadpropacclist/'+id_toko+'/'+ido,
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "sn_brg" },
+            { "data": "nama_brg" },
+            { "data": "merk" },
+            { "data": "jenis" },  
+        ],
+        "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-2'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+                "buttons": [
+                {
+                    "text": 'Refresh', // Font Awesome icon for refresh
+                    "className": 'custom-refresh-button', // Add a class name for identification
+                    "attr": {
+                        "id": "refresh-button" // Set the ID attribute
+                    },
+                    "init": function (api, node, config) {
+                        $(node).removeClass('btn-default');
+                        $(node).addClass('btn-primary');
+                        $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                    },
+                    "action": function () {
+                        tablePROPACC.ajax.reload();
+                        // $('#cprod').text('0');
+                    }
+                }
+            ]
+            
+    });
+    return tablePROPACC;
+}
+//acc
 function getSelect() {
     $('#auditor').select2({
         language: 'id',
@@ -423,6 +521,73 @@ function getProdOP() {
     });
        
 }
+function inputacc() {
+    $('#carisnacc').on('input', function() {
+        var idtacc = $(this).data('idtacc');
+        var idopacc = $(this).data('idopacc');
+        var otglacc = $(this).data('otglacc');
+        var searchTerm = $(this).val();
+        if (searchTerm.trim() === '') {
+            return; // Do nothing if the search term is empty
+        }
+        $.ajax({
+            url: base_url + 'StockOpname/searchAccSN/'+idtacc+'/'+idopacc+'/'+searchTerm,
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                if (response.length === 1) {
+                    var data = response[0];
+                    var sn_brg = data.sn_brg;
+                    var merk = data.merk;
+                    var jenis = data.jenis;
+                    var idk = data.id_keluar;
+                    $('#hsnacc').val(sn_brg);
+                    $('#merkacc').val(merk);
+                    $('#jenisacc').val(jenis);
+                    $.ajax({
+                        url: base_url + 'StockOpname/addpr',
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            idopname: idopacc,
+                            idkeluar: idk
+                        },
+                        success: function(response) {
+                            swal({
+                                title: "Success",
+                                text: "Produk ditambahkan",
+                                icon: "success",
+                                timer: 1000, // Time in milliseconds (2 seconds in this example)
+                                buttons: false // Hides the "OK" button
+                            }).then(() => {
+                                $('#carisnacc').val('');
+                                $('#carisnacc').focus();
+                                tablePROPACC.ajax.reload();
+                                tablePRACC.ajax.reload();
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error inserting data:', error);
+                        }
+                    });
+                } else {
+                    swal("error", "Serial Number "+searchTerm+ " tidak ada", "error").then(() => {
+                        $('#carisnacc').val('');
+                        $('#hsnacc').val('');
+                        $('#merkacc').val('');
+                        $('#jenisacc').val('');
+                        $('#carisnacc').focus();
+                    });
+                    // console.log('No data found or multiple entries found for serial number:', searchTerm);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error searching serial number:', error);
+            }
+        });
+    });
+       
+}
 function getbarang(){
     $('#CariBarang').on('show.bs.modal', function (e) {
         var button = $(e.relatedTarget);
@@ -455,6 +620,43 @@ function getbarang(){
                     getProdOP();
                     tableprop(item.id_toko,id_opname);
                     tablepr(item.id_toko);
+                });
+            }
+        });
+    });
+}
+function getbarangAcc(){
+    $('#CariBarangAcc').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        var id = button.data('id');
+        setTimeout(function (){
+            $('#carisnacc').focus();
+        }, 1000);
+        
+        $.ajax({
+            url: base_url + "stock-opname/getbarang/"+id,
+            dataType: "json",
+            success: function(data) {
+                $.each(data.get_id, function(index, item) {
+                    var date = new Date(item.tgl_opname);
+                    var year = date.getFullYear();
+                    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    var day = date.getDate().toString().padStart(2, '0');
+                    var tgl = year + '-' + month + '-' + day;
+                    var formattedDate = formatDate(date);
+                    var id_opname = item.id_opname;
+                    $('#idoacc').text(item.kode_opname);
+                    $('#audacc').text(item.nama_lengkap);
+                    $('#cabacc').text(item.id_toko+'|'+item.nama_toko);
+                    $('#dtglacc').text(formattedDate);
+                    $('#carisnacc').attr({
+                        'data-idtacc': item.id_toko,
+                        'data-idopacc': item.id_opname,
+                        'data-otglacc': tgl
+                    });
+                    inputacc();
+                    tablepropacc(item.id_toko,id_opname);
+                    tablepracc(item.id_toko);
                 });
             }
         });

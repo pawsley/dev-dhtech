@@ -25,7 +25,7 @@
           <!-- Container-fluid starts-->
           <div class="container-fluid">
             <!-- Card Status Data Barang -->
-            <?php if ($this->session->userdata('jabatan')=='OWNER' || $this->session->userdata('jabatan')=='Manager Oprasional' || $this->session->userdata('jabatan')=='Finance') { ?>
+            <?php if ($this->session->userdata('jabatan')=='OWNER' || $this->session->userdata('jabatan')=='Finance') { ?>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -78,7 +78,7 @@
                   <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
                     <h4>Opname List</h4>
                     <div class="d-flex align-items-center">
-                        <?php if ($this->session->userdata('jabatan')=='OWNER' || $this->session->userdata('jabatan')=='Manager Oprasional' || $this->session->userdata('jabatan')=='Finance') { ?>
+                        <?php if ($this->session->userdata('jabatan')=='OWNER' || $this->session->userdata('jabatan')=='Finance') { ?>
                             <button class="btn btn-primary simpanopnm" id="simpanopnm" style="border-left-style: solid;border-left-width: 1px;border-right-style: solid;margin-right: 16px;">
                                 <i class="fa fa-save"></i> Simpan
                             </button>
@@ -95,7 +95,7 @@
                                 <th>TANGGAL OPNAME</th>
                                 <th>AUDITOR</th>
                                 <th>CABANG</th>
-                                <th>AKSI</th>
+                                <th style="text-align:center;">AKSI</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -114,7 +114,7 @@
                         <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
                             <div class="modal-toggle-wrapper">
                                 <div class="modal-header mb-4">
-                                    <h3>Tambah Detail Stock Opname</h3>
+                                    <h3>Tambah Detail Stock Opname Unit</h3>
                                     <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <!-- Isi Konten -->
@@ -242,6 +242,136 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade bd-example-modal-xl" id="CariBarangAcc" tabindex="-1" role="dialog" aria-labelledby="CariBarangAcc" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content dark-sign-up">
+                        <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
+                            <div class="modal-toggle-wrapper">
+                                <div class="modal-header mb-4">
+                                    <h3>Tambah Detail Stock Opname Aksesoris</h3>
+                                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <!-- Isi Konten -->
+                                <ul class="list-group">
+                                    <!-- ID OPNAME -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>ID OPNAME</span>
+                                        <strong id="idoacc">-</strong>
+                                    </li>
+                                    <!-- Nama Auditor -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>NAMA AUDITOR</span>
+                                        <strong id="audacc">-</strong>
+                                    </li>
+                                    <!-- NAMA CABANG -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>DETAIL CABANG</span>
+                                        <strong id="cabacc">-</strong>
+                                    </li>
+                                    <!-- TANGGAL & WAKTU -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>TANGGAL</span>
+                                        <strong id="dtglacc">-</strong>
+                                    </li>
+                                    <!-- TOTAL PRODUK -->
+                                    <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>TOTAL PRODUK</span>
+                                        <strong id="cprod">0</strong>
+                                    </li> -->
+                                    <!-- add produk opname -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <form class="row g-3">
+                                            <div class="col-4 position-relative"> 
+                                                <label class="form-label" for="carisnacc">Scan Produk</label>
+                                                <input class="form-control" id="carisnacc" name="carisnacc" type="text" placeholder="Scan serial number produk" aria-label="carisn">
+                                            </div>
+                                            <!-- SN Product -->
+                                            <div class="col-4 position-relative"> 
+                                                <label class="form-label" for="hsnacc">Serial Number</label>
+                                                <input class="form-control" id="hsnacc" name="hsnacc" type="text" placeholder="TERISI OTOMATIS" aria-label="hsnacc" readonly>
+                                            </div>
+                                            <!-- Brand Product -->
+                                            <div class="col-2 position-relative"> 
+                                                <label class="form-label" for="merkacc">Merek</label>
+                                                <input class="form-control" id="merkacc" name="merkacc" type="text" placeholder="TERISI OTOMATIS" aria-label="merkacc" readonly>
+                                            </div>
+
+                                            <!-- Jenis Product -->
+                                            <div class="col-2 position-relative"> 
+                                                <label class="form-label" for="jenisacc">Jenis</label>
+                                                <input class="form-control" id="jenisacc" name="jenisacc" type="text" placeholder="TERISI OTOMATIS" aria-label="jenisacc" readonly>
+                                            </div>
+                                                          
+                                            <!-- Submit -->
+                                            <!-- <div class="col-12 mt-3">
+                                                <button class="btn btn-primary" id="tambahdata" type="button">Tambah Data</button>
+                                            </div> -->
+                                        </form>
+                                    </li>
+                                </ul>
+                                <br>
+                                <!-- Produk List -->
+                                <div class="col-lg-12"> 
+                                    <div class="card"> 
+                                        <div class="card-header pb-0 card-no-border">
+                                            <div class="row">
+                                                <div class="col-md-8 position-relative">
+                                                    <h5>Data Produk Tersedia</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="display" id="table-pracc">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SN PRODUK</th>
+                                                            <th>NAMA PRODUK</th>
+                                                            <th>MERK</th>
+                                                            <th>JENIS</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- data opname -->
+                                <div class="col-lg-12"> 
+                                    <div class="card"> 
+                                        <div class="card-header pb-0 card-no-border">
+                                            <div class="row">
+                                                <div class="col-md-8 position-relative">
+                                                    <h5>Data Produk Opname</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="display" id="table-propacc">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>SN PRODUK</th>
+                                                            <th>NAMA PRODUK</th>
+                                                            <th>MERK</th>
+                                                            <th>JENIS</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- data opname -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
             <!-- End Modal -->
           </div>
           <!-- Container-fluid Ends-->
