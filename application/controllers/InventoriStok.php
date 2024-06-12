@@ -217,6 +217,10 @@ class InventoriStok extends Auth
     echo $imagePath;
   }
 
+  public function exportbarcode()  {
+    $data['products'] = $this->InventoriStok_model->layoutbarcode();
+    $this->load->view('print/formatbarcode',$data);
+  }
 
 }
 
