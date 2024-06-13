@@ -38,8 +38,9 @@
         h6 {
             margin: 0;
             font-size: 4pt;
-            font-family: 'Source Sans 3', sans-serif; /* Apply the Source Sans font */
-            font-weight: 200; /* Light weight */
+            font-family: 'Source Sans 3', sans-serif; 
+            font-weight: 600;
+            font-style: normal;
             word-wrap: break-word;
             text-transform: uppercase;
             width: 100%;
