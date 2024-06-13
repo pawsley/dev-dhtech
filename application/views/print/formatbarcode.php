@@ -1,66 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Custom Paper Size</title>
-        <style>
-            @page {
-                size: 2in 0.4479in; /* Custom size: 2 inches by 0.4479 inches */
-                margin: 0;          /* Set margin to 0 to avoid any default margins */
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Barcode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: 33mm 15mm;
+            margin: 0;
+        }
 
-            body {
-                margin: 0;
-                padding: 0;
-            }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Source Sans 3', sans-serif; /* Set the default font */
+        }
 
-            .content {
-                width: 192px;
-                height: 43px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                border: 1px solid black; /* Optional: for visual reference */
-            }
+        table {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+        }
 
-            table, th, td {
-                border: none;
-                border-collapse: collapse;
-            }
-            h6 {
-                text-align:center;
-                margin-top:2px;
-                font-size: 4px;
-            }
-            img {
-                margin-top:-20px;
-                margin-left: 4px;
-                width: 84px;
-                height: 21px;
-            }
-        </style>
-    </head>
-    <body>
-        <table>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-                <?php foreach ($products as $index => $product): ?>
-                    <?php if ($index % 2 == 0): ?>
-                        <tr>
-                    <?php endif; ?>
-                    <td class="product-cell">
-                        <h6><?php echo $product['nama_brg']; ?></h6>
-                        <img src="<?= base_url() ?>assets/dhdokumen/snbarcode/<?php echo $product['sn_brg']; ?>.jpg" alt="Product Image">
-                    </td>
-                    <?php if ($index % 2 == 1 || $index == count($products) - 1): ?>
-                        </tr>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-        </table>
-    </body>
+        td {
+            width: 33mm;
+            height: 15mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2px; /* Adjusted padding */
+            box-sizing: border-box;
+            text-align: center; /* Center text within the cell */
+        }
+
+        h6 {
+            margin: 0;
+            font-size: 4pt;
+            font-family: 'Source Sans 3', sans-serif; /* Apply the Source Sans font */
+            font-weight: 200; /* Light weight */
+            word-wrap: break-word;
+            text-transform: uppercase;
+            width: 100%;
+            height: auto;
+        }
+
+        img {
+            width: 88px;
+            height: 38px;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <?php foreach ($products as $product): ?>
+            <tr>
+                <td>
+                    <h6><?php echo $product['nama_brg']; ?></h6>
+                    <img src="<?= base_url() ?>assets/dhdokumen/snbarcode/<?php echo $product['sn_brg']; ?>.jpg" alt="Product Image">
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </table>
+</body>
 </html>
