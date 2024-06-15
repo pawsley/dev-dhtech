@@ -308,7 +308,6 @@
                     </ul>
                   </li>
                   <!-- Penjualan -->
-                  <?php if ($jab=='OWNER' || $jab=='Finance') { ?>
                   <li class="sidebar-list sales"><i class="fa fa-thumb-tack"></i>
                       <a class="sidebar-link sidebar-title sales" href="#">
                           <svg class="stroke-icon">
@@ -327,7 +326,6 @@
                           <li class="shst"><a class="shst" href="<?=base_url()?>riwayat-penjualan/">Riwayat Penjualan</a></li>
                       </ul>
                   </li>
-                  <?php } ?>     
                   <!-- End Menu Toko -->
                 </ul>
               </div>
