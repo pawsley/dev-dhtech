@@ -60,8 +60,13 @@
                     <div class="card">
                         <div class="card-header pb-0 card-no-border">
                             <div class="row">
-                                <div class="col-md-8 position-relative">
+                                <div class="col-md-4 position-relative">
                                     <h4>Daftar Produk</h4>
+                                </div>
+                                <div class="col-md-4 position-relative">
+                                    <select class="form-select" id="tipe" name="tipe" required="">
+                                        <option selected="" value="0">Semua Tipe</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-4 position-relative">
                                     <select class="form-select" id="cab" name="cab" required="">

@@ -53,6 +53,10 @@
             object-fit: contain;
         }
     </style>
+    <script>
+        window.onafterprint = window.close;
+        window.print();
+  </script>
 </head>
 <body>
     <table>

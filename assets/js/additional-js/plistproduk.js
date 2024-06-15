@@ -7,17 +7,33 @@ var formatcur = new Intl.NumberFormat('id-ID', {
     minimumFractionDigits: 0
 });
 $(document).ready(function () {
-    $("#cab").val('0').trigger('change.select2');
-    defaultSelectedName = $("#cab").val();
+    // $("#cab").val('0').trigger('change.select2');
+    // defaultSelectedName = $("#cab").val();
+    filterexport();
     tablepl();
     detailbrg();
     getselect();
     // card(formatcur);
 });
+function filterexport() {
+    $('#tipe').on('select2:select', function(e) {
+        var selectedText = e.params.data.id;
+        $('#update').attr('data-jenis', selectedText);
+    });
+    $('#cab').on('select2:select', function(e) {
+        var selectedText = e.params.data.id;
+        $('#update').attr('data-cab', selectedText);
+    });
+}
 function tablepl() {
+    getselect();
     var ajaxConfig = {
         type: "POST",
         url: base_url + 'produk-list/daftar/',
+        data: function(d) {
+            d.cab = $('#cab').val();
+            d.jns = $('#tipe').val();
+        }
     };
     if ($.fn.DataTable.isDataTable('#table-pl')) {
         tablePL.destroy();
@@ -82,7 +98,7 @@ function tablepl() {
             }
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
-                "<'row'<'col-sm-12 col-md-2'B>>" +
+                "<'row'<'col-sm-12 col-md-6'B>>" +
                 "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
         "buttons": [
@@ -110,9 +126,32 @@ function tablepl() {
                     columns: ':visible:not(:last-child):not(:nth-last-child(1))'
                 }
             },
+            {
+                "text": 'Export Barcode', 
+                "attr": {
+                    "id": "update",
+                    "data-jenis": "all",
+                    "data-cab": "AllCab"
+                },
+                "action": function () {
+                    var dataJenis = $('#update').attr('data-jenis');
+                    var dataCab = $('#update').attr('data-cab');
+                    if (dataJenis === 'all') {
+                        dataJenis = 'all';
+                    }
+                    if (dataCab === 'AllCab') {
+                        dataCab = 'all';
+                    }
+                    var printUrl = base_url + 'produk-list/export-barcode/' + encodeURIComponent(dataJenis) + '/' + encodeURIComponent(dataCab);
+                    window.open(printUrl, '_blank');
+                }
+            }
         ]
             
     });
+    $('#tipe, #cab').on('change', function() {
+        tablePL.draw();
+    }); 
     return tablePL;
 }
 function detailbrg() {
@@ -143,19 +182,18 @@ function detailbrg() {
         });
     });
 }
-$(document).on('select2:select', '#cab', function (e) {
-    e.preventDefault();
-    var selectedValue = e.params.data.id;
-    var selectedName = selectedValue.split('|')[1];
+// $(document).on('select2:select', '#cab', function (e) {
+//     e.preventDefault();
+//     var selectedValue = e.params.data.id;
     
-    if (selectedName !== 'AllCab') { 
-        var ajaxUrl = base_url + 'produk-list/filtercab/' + selectedName;
-        filterCab(ajaxUrl, selectedName); 
-    } else {
-        var ajaxUrl = base_url + 'produk-list/daftar/';
-        filterCab(ajaxUrl, null); 
-    }
-});
+//     if (selectedValue !== 'AllCab') { 
+//         var ajaxUrl = base_url + 'produk-list/filtercab/' + selectedValue;
+//         filterCab(ajaxUrl, selectedValue); 
+//     } else {
+//         var ajaxUrl = base_url + 'produk-list/daftar/';
+//         filterCab(ajaxUrl, null); 
+//     }
+// });
 function getselect(){
     $('#cab').select2({
         language: 'id',
@@ -171,14 +209,46 @@ function getselect(){
             processResults: function (data) {
                 var results = $.map(data, function (item) {
                     return {
-                        id: item.id_toko+'|'+item.nama_toko,
+                        id: item.id_toko,
                         text: item.id_toko+' | '+item.nama_toko,
                     };
                 });
     
                 results.unshift({
-                    id: '0|AllCab',
+                    id: 'AllCab',
                     text: 'Semua Cabang',
+                    value: '0',
+                });
+    
+                return {
+                    results: results,
+                };
+            },
+            cache: false,
+        },
+    });
+    $('#tipe').select2({
+        language: 'id',
+        ajax: {
+            url: base_url + 'MasterBarang/loadjenis',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, 
+                };
+            },
+            processResults: function (data) {
+                var results = $.map(data, function (item) {
+                    return {
+                        id: item.nama_kategori,
+                        text: item.nama_kategori,
+                    };
+                });
+    
+                results.unshift({
+                    id: 'all',
+                    text: 'Semua Tipe',
                     value: '0',
                 });
     

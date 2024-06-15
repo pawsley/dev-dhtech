@@ -103,7 +103,7 @@ function tablebk(formatter) {
                 "orderable": false,
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
-                        if (full.status === "1") { 
+                        if (full.status === "1" || full.status === "2") { 
                             return `
                                 <ul class="action">
                                     <li class="delete">
@@ -111,7 +111,7 @@ function tablebk(formatter) {
                                     </li>
                                 </ul>
                             `;
-                        } else {
+                        } else if(full.status === "5" || full.status === "3" || full.status === "4") {
                             return `
                                 <ul class="action">
                                     <li class="delete">

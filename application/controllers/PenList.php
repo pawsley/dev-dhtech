@@ -64,11 +64,19 @@ class PenList extends Auth
   }
   public function produklist(){
     $this->load->library('datatables');
+    $jns = $this->input->post('jns'); 
+    $cab = $this->input->post('cab'); 
     $this->datatables->select('id_keluar,sn_brg,nama_brg,hrg_hpp,hrg_jual,nama_toko,status');
     $this->datatables->from('vbarangkeluar');
     $this->datatables->where('hrg_hpp !=0');
     $this->datatables->where('hrg_jual !=0');
-    $this->datatables->where_in('status',[2,3,4]);
+    if (!empty($jns) && $jns !== 'all') {
+      $this->datatables->where('jenis', $jns);
+    }
+    if (!empty($cab) && $cab !== 'AllCab') {
+      $this->datatables->where('id_toko', $cab);
+    }
+    $this->datatables->where_in('status',[2]);
     return print_r($this->datatables->generate());
   }
   public function infoBrg($id){
@@ -82,7 +90,7 @@ class PenList extends Auth
     $this->datatables->from('vbarangkeluar');
     $this->datatables->where('hrg_hpp !=0');
     $this->datatables->where('hrg_jual !=0');
-    $this->datatables->where_in('status',[2,3,4]);
+    $this->datatables->where_in('status',[2]);
     $this->datatables->like('nama_toko', $decoded_cab);
     return print_r($this->datatables->generate());    
   }
@@ -90,6 +98,18 @@ class PenList extends Auth
     $results = $this->PenList_model->countHJ($id);
     header('Content-Type: application/json');
     echo json_encode($results);
+  }
+  public function exportbarcode($jns,$cab=null){
+    $decode_jns = urldecode($jns);
+    $decode_cab = urldecode($cab);
+    if ($decode_jns === 'all') {
+      $decode_jns = 'all';
+    }
+    if ($decode_cab === 'AllCab') {
+      $decode_cab = 'all';
+    }
+    $data['products'] = $this->PenList_model->layoutbarcode($decode_jns,$decode_cab);
+    $this->load->view('print/formatbarcode',$data);
   }
 
 }

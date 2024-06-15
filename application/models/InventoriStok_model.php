@@ -92,12 +92,6 @@ class InventoriStok_model extends CI_Model {
     $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
     return array('success' => $success, 'message' => $message);
   }
-  public function layoutbarcode() {
-    $this->db->select(['sn_brg','nama_brg']);
-    $this->db->from('vbarangmasuk');
-    $query = $this->db->get();
-    return $query->result_array();
-  }
 }
 
 /* End of file InventoriStok_model.php */

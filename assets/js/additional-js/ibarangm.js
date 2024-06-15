@@ -106,11 +106,19 @@ function tablebm() {
                 "orderable": false, // Disable sorting for this column
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
-                        if (data) {
+                        if (full.status === "1") { 
                             return `
                                 <ul class="action">
                                     <li class="delete">
                                         <button class="btn" id="delete-btn" type="button" data-id="${data}"><i class="icon-trash"></i></button>
+                                    </li>
+                                </ul>
+                            `;
+                        } else if(full.status === "2") {
+                            return `
+                                <ul class="action">
+                                    <li class="delete">
+                                        <button class="btn" id="disabled-btn" type="button" data-id="${data}"><i class="icon-trash disabled"></i></button>
                                     </li>
                                 </ul>
                             `;

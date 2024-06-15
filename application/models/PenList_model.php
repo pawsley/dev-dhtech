@@ -24,6 +24,19 @@ class PenList_model extends CI_Model {
     $query = $this->db->get_where('vbarangkeluar', array('id_keluar' => $id));
     return $query->result_array();
   }
+  public function layoutbarcode($jenis,$cab=null) {
+    $this->db->select(['sn_brg','nama_brg']);
+    $this->db->from('vbarangkeluar');
+    if ($jenis !== 'all') {
+      $this->db->where('jenis', $jenis);
+    }
+    if ($cab !== null && $cab !== 'all') {
+      $this->db->where('id_toko', $cab);
+    }
+    $this->db->where_in('status',[2]);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
 }
 
 /* End of file PenList_model.php */

@@ -184,7 +184,9 @@
                         <li class="mcab"><a class="mcab" href="<?=base_url()?>master-cabang">Master Cabang</a></li>
                         <li class="mdis"><a class="mdis" href="<?=base_url()?>master-diskon">Master Diskon</a></li>
                         <li class="msup"><a class="msup" href="<?=base_url()?>master-supplier">Master Supplier</a></li>
+                        <?php if ($jab=='OWNER') { ?>
                         <li class="mkar"><a class="mkar" href="<?=base_url()?>master-karyawan">Master Karyawan</a></li>
+                        <?php } ?>
                         <li class="mkus"><a class="mkus" href="<?=base_url()?>master-kustomer">Master Kustomer</a></li>
                         <li class="mkat"><a class="mkat" href="<?=base_url()?>master-kategori">Master Kategori</a></li>
                         <li class="mbrg"><a class="mbrg" href="<?=base_url()?>master-barang">Master Barang</a></li>
@@ -208,6 +210,15 @@
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-social"></use>
                       </svg><span>Order Masuk</span></a>
                   </li>
+                  <!-- <li class="sidebar-list order">
+                      <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav order" href="<?=base_url()?>order-masuk/">
+                      <svg class="stroke-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-table"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-table"></use>
+                      </svg><span>Retur Barang</span></a>
+                  </li> -->
                   <?php } ?>       
                   <!-- Finnance -->
                   <!-- <li class="sidebar-list finance"><i class="fa fa-thumb-tack"></i>
