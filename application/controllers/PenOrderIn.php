@@ -143,22 +143,23 @@ class PenOrderIn extends Auth
   public function cancel() {
     if ($this->input->is_ajax_request()) {
         $inv = $this->input->post('inv');
-        // $idk = $this->input->post('idk');
         $getbrg = $this->PenOrderIn_model->getidbarang($inv);
         $data = [
           'status' => '3',
         ];
         $this->PenOrderIn_model->cancel($inv, $data);
         foreach ($getbrg as $idk ) {
-          $data2 = [
+          $stokdata = [
             'status' => '2',
           ];
           $data3 = [
             'total_diskon'=>$idk['total_diskon'],
             'kuota'=>$idk['kuota']
           ];
-          $this->PenOrderIn_model->stok($idk['id_keluar'], $data2);
-          $this->PenOrderIn_model->diskon($idk['id_diskon'], $data3);
+          $this->PenOrderIn_model->stok($idk['id_keluar'], $stokdata);
+          if ($idk['id_diskon']!== '') {
+            $this->PenOrderIn_model->diskon($idk['id_diskon'], $data3);
+          }
         }
         echo json_encode(['status' => 'success']);
     } else {

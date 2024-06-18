@@ -16,10 +16,12 @@ class PenRiwayat extends Auth
     $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('kasir/riwayatsales', '', true);
     $data['modal'] = '';
-    $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">';
+    $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/additional-js/priwayat.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
+    <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
@@ -40,7 +42,23 @@ class PenRiwayat extends Auth
     ';
     $this->load->view('layout/base', $data);      
   }
-
+  public function laporanjual(){
+    $this->load->library('datatables');
+    $this->datatables->select('kode_penjualan, tgl_transaksi, nama_toko, id_ksr,nama_ksr,total, total_harga_jual, 
+    total_diskon,total_cb, total_laba, nama_plg, cara_bayar, bank_tf,no_rek, tunai, bank, kredit, status');
+    $this->datatables->from('vreportsale');
+    $this->datatables->where_in('status',[1,2,3]);
+    return print_r($this->datatables->generate());
+  }
+  public function detaillapjual($id) {
+    $this->load->library('datatables');
+    $this->datatables->select('kode_penjualan,sn_brg,nama_brg, 
+    harga_jual, harga_diskon ,harga_cashback,harga_bayar,COALESCE((harga_bayar - hrg_hpp),0) as laba_unit');
+    $this->datatables->from('vpenjualan');
+    $this->datatables->where_in('status',[1,2,3]);
+    $this->datatables->where('kode_penjualan',$id);
+    return print_r($this->datatables->generate());
+  }
   public function laporansales() {
     $this->load->library('datatables');
     $this->datatables->select('id_ksr, nama_ksr, CONCAT(id_ksr, " | ", nama_ksr) AS sales, total_penjualan, total_diskon');
@@ -56,6 +74,9 @@ class PenRiwayat extends Auth
     $this->datatables->where_in('status',[1,2]);
     $this->datatables->where('id_ksr',$id);
     return print_r($this->datatables->generate());
+  }
+  public function cancel($id) {
+    
   }
 
 }

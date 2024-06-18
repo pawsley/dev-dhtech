@@ -40,10 +40,11 @@ class PenOrderIn_model extends CI_Model {
     $this->db->update('tb_diskon', $data);
   }
   public function getidbarang($idkel) {
-    $this->db->select(['id_keluar','id_diskon','(COUNT(id_diskon)+td.kuota) AS kuota',
+    $this->db->select(['id_keluar','id_diskon',
+    '(COUNT(id_diskon)+td.kuota) AS kuota',
     '((harga_diskon * COUNT(id_diskon))+td.total_diskon) AS total_diskon']);
     $this->db->from('vpenjualan v');
-    $this->db->join('tb_diskon td','v.id_diskon = td.kode_diskon');
+    $this->db->join('tb_diskon td','v.id_diskon = td.kode_diskon', 'left');
     $this->db->where('kode_penjualan', $idkel);
     $this->db->group_by('id_keluar');
     $query = $this->db->get();

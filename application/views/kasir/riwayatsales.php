@@ -31,7 +31,36 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
-                            <h4>Laporan Penjualan</h4>
+                            <h4>Laporan Penjualan </h4>
+                                <div class="d-flex align-items-center">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="display" id="table-jual">
+                                <thead>
+                                    <tr>
+                                        <th style="min-width: 30%; width: 30%;"><span class="f-light f-w-600">INVOICE</span></th>
+                                        <th style="min-width: 20%; width: 20%;"><span class="f-light f-w-600">TANGGAL & JAM</span></th>
+                                        <th style="min-width: 30%; width: 30%;"><span class="f-light f-w-600">CABANG</span></th>
+                                        <th style="min-width: 40%; width: 40%;"><span class="f-light f-w-600">GRAND TOTAL</span></th>
+                                        <th style="min-width: 20%; width: 20%;"><span class="f-light f-w-600">STATUS</span></th>
+                                        <th style="min-width: 10%; width: 10%;"><span class="f-light f-w-600">DETAIL</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
+                            <h4>Laporan Penjualan Sales</h4>
                                 <div class="d-flex align-items-center">
                             </div>
                         </div>
@@ -53,6 +82,100 @@
                         </div>
                     </div>
                 </div>
+            </div>            
+            <div class="modal fade bd-example-modal-xl" id="DetailLapPenjualan" tabindex="-1" role="dialog" aria-labelledby="DetailLapPenjualan" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content dark-sign-up">
+                        <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
+                            <div class="modal-toggle-wrapper">
+                                <div class="modal-header mb-4">
+                                    <h3>Detail Invoice <span id="ttdi">-</span></h3>
+                                    <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <!-- Isi Konten -->
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong><span>Customer</span></strong>
+                                        <strong id="ttcs">-</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong><span>Tipe Pembayaran</span></strong>
+                                        <strong id="tp">-</strong>
+                                    </li>
+                                    <li id="banktf" class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong><span>Bank Penerima Transfer</span></strong>
+                                        <strong id="bp">-</strong>
+                                    </li>
+                                    <li id="tftn" class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong><span>Nominal Tunai</span></strong>
+                                        <strong id="tn">-</strong>
+                                    </li>
+                                    <li id="tftb" class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong><span>Nominal Transfer</span></strong>
+                                        <strong id="tb">-</strong>
+                                    </li>
+                                    <li id="tfkr" class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong><span>Nominal Kredit</span></strong>
+                                        <strong id="kr">-</strong>
+                                    </li>
+                                </ul>
+                                <!-- Data Table -->
+                                <div class="col-lg-12"> 
+                                    <div class="card"> 
+                                        <div class="card-header pb-0 card-no-border d-flex justify-content-between align-items-center">
+                                            <h5 id="ttsales">-</h5>
+                                        </div>
+                                        <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="display" id="table-dtpn">
+                                                <thead>
+                                                    <tr>
+                                                        <th><span class="f-light f-w-600">SN PRODUK</span></th>
+                                                        <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
+                                                        <th><span class="f-light f-w-600">HARGA JUAL</span></th>
+                                                        <th><span class="f-light f-w-600">DISKON</span></th>
+                                                        <th><span class="f-light f-w-600">CASHBACK</span></th>
+                                                        <th><span class="f-light f-w-600">HARGA RILL</span></th>
+                                                        <th><span class="f-light f-w-600">LABA UNIT</span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                            </div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="list-group">
+                                    <!-- Total -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong><span>Total Harga Jual</span></strong>
+                                        <strong id="tthj">-</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong><span>Total Diskon</span></strong>
+                                        <strong id="ttds">-</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong><span>Total Cashback</span></strong>
+                                        <strong id="ttcb">-</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong><span>Grand Total</span></strong>
+                                        <strong id="ttgt">-</strong>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <strong><span>Total Laba Bersih</span></strong>
+                                        <strong id="ttlb">-</strong>
+                                    </li>                                    
+                                </ul>
+                                <center class="mt-4">
+                                    <button class="btn btn-primary" type="button" id="canceltrans" data-id="">Batalkan Transaksi</button>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal fade bd-example-modal-xl" id="DetailPenjualan" tabindex="-1" role="dialog" aria-labelledby="DetailPenjualan" aria-hidden="true">
                 <div class="modal-dialog modal-xl" role="document">
@@ -60,7 +183,7 @@
                         <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
                             <div class="modal-toggle-wrapper">
                                 <div class="modal-header mb-4">
-                                    <h3>Detail Penjualan</h3>
+                                    <h3>Detail Penjualan Sales</h3>
                                     <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <!-- Isi Konten -->
@@ -101,7 +224,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>            
           </div>
           <!-- Container-fluid Ends-->
         </div>

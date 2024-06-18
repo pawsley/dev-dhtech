@@ -172,7 +172,7 @@
                                     <strong id="tb">-</strong>
                                 </li>
                                 <li id="tfkr" class="list-group-item d-flex justify-content-between align-items-center">
-                                    <strong><span>Nominal Kedit</span></strong>
+                                    <strong><span>Nominal Kredit</span></strong>
                                     <strong id="kr">-</strong>
                                 </li>
                             </ul> 
