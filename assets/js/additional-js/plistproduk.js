@@ -20,6 +20,10 @@ function filterexport() {
         var selectedText = e.params.data.id;
         $('#update').attr('data-jenis', selectedText);
     });
+    $('#kondisi').on('select2:select', function(e) {
+        var selectedText = e.params.data.id;
+        $('#update').attr('data-kond', selectedText);
+    });
     $('#cab').on('select2:select', function(e) {
         var selectedText = e.params.data.id;
         $('#update').attr('data-cab', selectedText);
@@ -32,6 +36,7 @@ function tablepl() {
         url: base_url + 'produk-list/daftar/',
         data: function(d) {
             d.cab = $('#cab').val();
+            d.kond = $('#kondisi').val();
             d.jns = $('#tipe').val();
         }
     };
@@ -51,6 +56,20 @@ function tablepl() {
         "columns": [
             { "data": "sn_brg" },
             { "data": "nama_brg" },
+            { 
+                "data": "kondisi",
+                "render": function (data, type, full, meta) {
+                    if (type === "display") {
+                        if (type === "display") {
+                            return data === "Baru" ? 
+                                '<span class="badge rounded-pill badge-light-primary">Baru</span>' : 
+                                '<span class="badge rounded-pill badge-light-warning">Bekas</span>';
+                        }
+                        return data;
+                    }
+                    return data;
+                }
+            },
             { "data": "nama_toko" },
             { 
                 "data": "hrg_hpp",
@@ -131,25 +150,30 @@ function tablepl() {
                 "attr": {
                     "id": "update",
                     "data-jenis": "all",
-                    "data-cab": "AllCab"
+                    "data-cab": "AllCab",
+                    "data-kond": "all"
                 },
                 "action": function () {
                     var dataJenis = $('#update').attr('data-jenis');
                     var dataCab = $('#update').attr('data-cab');
+                    var dataKond = $('#update').attr('data-kond');
                     if (dataJenis === 'all') {
                         dataJenis = 'all';
+                    }
+                    if (dataKond === 'all') {
+                        dataKond = 'all';
                     }
                     if (dataCab === 'AllCab') {
                         dataCab = 'all';
                     }
-                    var printUrl = base_url + 'produk-list/export-barcode/' + encodeURIComponent(dataJenis) + '/' + encodeURIComponent(dataCab);
+                    var printUrl = base_url + 'produk-list/export-barcode/' + encodeURIComponent(dataJenis) + '/' + encodeURIComponent(dataKond) + '/' + encodeURIComponent(dataCab);
                     window.open(printUrl, '_blank');
                 }
             }
         ]
             
     });
-    $('#tipe, #cab').on('change', function() {
+    $('#tipe, #kondisi, #cab').on('change', function() {
         tablePL.draw();
     }); 
     return tablePL;
@@ -249,6 +273,38 @@ function getselect(){
                 results.unshift({
                     id: 'all',
                     text: 'Semua Tipe',
+                    value: '0',
+                });
+    
+                return {
+                    results: results,
+                };
+            },
+            cache: false,
+        },
+    });
+    $('#kondisi').select2({
+        language: 'id',
+        ajax: {
+            url: base_url + 'PenList/loadkondisi',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, 
+                };
+            },
+            processResults: function (data) {
+                var results = $.map(data, function (item) {
+                    return {
+                        id: item.kondisi,
+                        text: item.kondisi,
+                    };
+                });
+    
+                results.unshift({
+                    id: 'all',
+                    text: 'Semua Kondisi',
                     value: '0',
                 });
     

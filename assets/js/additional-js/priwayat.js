@@ -36,15 +36,22 @@ function tablejl() {
             "type": "POST"
         },
         "columns": [
-            { "data": "kode_penjualan" },
+            { 
+                "data": "kode_nama",
+                "render": function (data, type, row) {
+                    if (type === "display") {
+                        return row.kode_penjualan + ' ' + '<b>' + row.nama_plg + '</b>';
+                    }
+                    return data;
+                }
+            },
             { 
                 "data": "tgl_transaksi",
                 "render": function (data, type, row) {
                     if (type === 'display' || type === 'filter') {
-                        // Format date to Indonesian format: dd-mm-yyyy hh:mm:ss
                         var date = new Date(data);
                         var day = ('0' + date.getDate()).slice(-2);
-                        var month = monthNames[date.getMonth()]; // Get full month name
+                        var month = monthNames[date.getMonth()];
                         var year = date.getFullYear();
                         var hours = ('0' + date.getHours()).slice(-2);
                         var minutes = ('0' + date.getMinutes()).slice(-2);
@@ -422,6 +429,12 @@ function tabledtliv(inv) {
                     return formatcur.format(data);
                 }
             },
+            { 
+                "data": "hrg_hpp",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },            
             { 
                 "data": "laba_unit",
                 "render": function (data, type, row) {

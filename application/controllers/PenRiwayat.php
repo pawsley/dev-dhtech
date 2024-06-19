@@ -45,14 +45,15 @@ class PenRiwayat extends Auth
   public function laporanjual(){
     $this->load->library('datatables');
     $this->datatables->select('kode_penjualan, tgl_transaksi, nama_toko, id_ksr,nama_ksr,total, total_harga_jual, 
-    total_diskon,total_cb, total_laba, nama_plg, cara_bayar, bank_tf,no_rek, tunai, bank, kredit, status');
+    total_diskon,total_cb, total_laba, nama_plg, cara_bayar, bank_tf,no_rek, tunai, bank, kredit, 
+    CONCAT(kode_penjualan," ",nama_plg) as kode_nama, status');
     $this->datatables->from('vreportsale');
     $this->datatables->where_in('status',[1,2,3]);
     return print_r($this->datatables->generate());
   }
   public function detaillapjual($id) {
     $this->load->library('datatables');
-    $this->datatables->select('kode_penjualan,sn_brg,nama_brg, 
+    $this->datatables->select('kode_penjualan,sn_brg,nama_brg, hrg_hpp,
     harga_jual, harga_diskon ,harga_cashback,harga_bayar,COALESCE((harga_bayar - hrg_hpp),0) as laba_unit');
     $this->datatables->from('vpenjualan');
     $this->datatables->where_in('status',[1,2,3]);

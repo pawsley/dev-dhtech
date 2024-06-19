@@ -24,16 +24,32 @@ class PenList_model extends CI_Model {
     $query = $this->db->get_where('vbarangkeluar', array('id_keluar' => $id));
     return $query->result_array();
   }
-  public function layoutbarcode($jenis,$cab=null) {
+  public function layoutbarcode($jenis,$kond,$cab=null) {
     $this->db->select(['sn_brg','nama_brg']);
     $this->db->from('vbarangkeluar');
     if ($jenis !== 'all') {
       $this->db->where('jenis', $jenis);
     }
+    if ($kond !== 'all') {
+      $this->db->where('kondisi', $kond);
+    }
     if ($cab !== null && $cab !== 'all') {
       $this->db->where('id_toko', $cab);
     }
     $this->db->where_in('status',[2]);
+    $query = $this->db->get();
+    return $query->result_array();
+  }
+  public function getKondisi($searchTerm = null) {
+    $this->db->select(['kondisi']);
+    $this->db->from('vbarangkeluar');
+    if ($searchTerm) {
+      $this->db->group_start();
+      $this->db->like('kondisi', $searchTerm);
+      $this->db->group_end();
+    }
+    $this->db->group_by('kondisi');
+    $this->db->order_by('kondisi', 'asc');
     $query = $this->db->get();
     return $query->result_array();
   }

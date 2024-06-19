@@ -61,11 +61,13 @@
                         <div class="card-header pb-0 card-no-border">
                             <div class="row">
                                 <div class="col-md-4 position-relative">
-                                    <h4>Daftar Produk</h4>
-                                </div>
-                                <div class="col-md-4 position-relative">
                                     <select class="form-select" id="tipe" name="tipe" required="">
                                         <option selected="" value="0">Semua Tipe</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 position-relative">
+                                    <select class="form-select" id="kondisi" name="kondisi" required="">
+                                        <option selected="" value="0">Semua Kondisi</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 position-relative">
@@ -82,6 +84,7 @@
                                         <tr>
                                             <th style="min-width: 160px;"><span class="f-light f-w-600">SN PRODUK</span></th>
                                             <th style="min-width: 200px;"><span class="f-light f-w-600">NAMA PRODUK</span></th>
+                                            <th style="min-width: 80px;"><span class="f-light f-w-600">KONDISI</span></th>
                                             <th style="min-width: 200px;"><span class="f-light f-w-600">CABANG</span></th>
                                             <th style="min-width: 200px;"><span class="f-light f-w-600">HARGA HPP</span></th>
                                             <th style="min-width: 160px;"><span class="f-light f-w-600">HARGA JUAL</span></th>

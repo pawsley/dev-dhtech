@@ -130,13 +130,14 @@
                                             <table class="display" id="table-dtpn">
                                                 <thead>
                                                     <tr>
-                                                        <th><span class="f-light f-w-600">SN PRODUK</span></th>
-                                                        <th><span class="f-light f-w-600">NAMA PRODUK</span></th>
-                                                        <th><span class="f-light f-w-600">HARGA JUAL</span></th>
-                                                        <th><span class="f-light f-w-600">DISKON</span></th>
-                                                        <th><span class="f-light f-w-600">CASHBACK</span></th>
-                                                        <th><span class="f-light f-w-600">HARGA RILL</span></th>
-                                                        <th><span class="f-light f-w-600">LABA UNIT</span></th>
+                                                        <th style="min-width: 100px;"><span class="f-light f-w-600">SN PRODUK</span></th>
+                                                        <th style="min-width: 200px;"><span class="f-light f-w-600">NAMA PRODUK</span></th>
+                                                        <th style="min-width: 100px;"><span class="f-light f-w-600">HARGA JUAL</span></th>
+                                                        <th style="min-width: 100px;"><span class="f-light f-w-600">DISKON</span></th>
+                                                        <th style="min-width: 100px;"><span class="f-light f-w-600">CASHBACK</span></th>
+                                                        <th style="min-width: 100px;"><span class="f-light f-w-600">HARGA RILL</span></th>
+                                                        <th style="min-width: 100px;"><span class="f-light f-w-600">HARGA HPP</span></th>
+                                                        <th style="min-width: 100px;"><span class="f-light f-w-600">LABA UNIT</span></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

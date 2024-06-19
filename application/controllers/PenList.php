@@ -62,14 +62,24 @@ class PenList extends Auth
     ';
     $this->load->view('layout/base', $data);
   }
+  public function loadkondisi(){
+    $searchTerm = $this->input->get('q');
+    $results = $this->PenList_model->getKondisi($searchTerm);
+    header('Content-Type: application/json');
+    echo json_encode($results);
+  }
   public function produklist(){
     $this->load->library('datatables');
     $jns = $this->input->post('jns'); 
+    $kond = $this->input->post('kond'); 
     $cab = $this->input->post('cab'); 
-    $this->datatables->select('id_keluar,sn_brg,nama_brg,hrg_hpp,hrg_jual,nama_toko,status');
+    $this->datatables->select('id_keluar,sn_brg,nama_brg,kondisi,hrg_hpp,hrg_jual,nama_toko,status');
     $this->datatables->from('vbarangkeluar');
     if (!empty($jns) && $jns !== 'all') {
       $this->datatables->where('jenis', $jns);
+    }
+    if (!empty($kond) && $kond !== 'all') {
+      $this->datatables->where('kondisi', $kond);
     }
     if (!empty($cab) && $cab !== 'AllCab') {
       $this->datatables->where('id_toko', $cab);
@@ -97,16 +107,20 @@ class PenList extends Auth
     header('Content-Type: application/json');
     echo json_encode($results);
   }
-  public function exportbarcode($jns,$cab=null){
+  public function exportbarcode($jns,$kond,$cab=null){
     $decode_jns = urldecode($jns);
+    $decode_kond = urldecode($kond);
     $decode_cab = urldecode($cab);
     if ($decode_jns === 'all') {
       $decode_jns = 'all';
     }
+    if ($decode_kond === 'all') {
+      $decode_kond = 'all';
+    }
     if ($decode_cab === 'AllCab') {
       $decode_cab = 'all';
     }
-    $data['products'] = $this->PenList_model->layoutbarcode($decode_jns,$decode_cab);
+    $data['products'] = $this->PenList_model->layoutbarcode($decode_jns,$decode_kond,$decode_cab);
     $this->load->view('print/formatbarcode',$data);
   }
 
