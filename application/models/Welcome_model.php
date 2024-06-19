@@ -124,14 +124,17 @@ class Welcome_model extends CI_Model {
   }
   public function countTopSales(){
     $this->db->select([
-      "SUM(DISTINCT (harga_bayar)) as total_jual, id_ksr, nama_ksr"
-    ]);
+      "SUM(harga_bayar) as total_jual", 
+      "id_ksr",
+      "nama_ksr"
+  ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
     $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
     $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
-    $this->db->group_by('id_ksr');
+    $this->db->group_by(['id_ksr', 'nama_ksr']);
     $this->db->order_by('total_jual','desc');
+    $this->db->limit(5);
     $query = $this->db->get();
     return $query->result_array();
   }
