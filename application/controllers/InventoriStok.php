@@ -111,9 +111,11 @@ class InventoriStok extends Auth
     $imageName = $sn.'.jpg';
       
       if ($_SERVER['SERVER_NAME'] == 'localhost') {
-          $imagePath = './assets/dhdokumen/snbarcode/';
-      } else {
-          $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/snbarcode/';
+        $imagePath = './assets/dhdokumen/snbarcode/';
+      } else if($_SERVER['SERVER_NAME'] == 'live.akira.id'){
+        $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/snbarcode/';
+      }else {
+        $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/snbarcode/';
       }
     imagejpeg($imageResource, $imagePath.$imageName);    
   }
@@ -212,15 +214,6 @@ class InventoriStok extends Auth
 
   public function check(){
     echo $_SERVER['SERVER_NAME']; 
-    // if ($_SERVER['SERVER_NAME'] == 'localhost') {
-    //   $imagePath = './assets/dhdokumen/snbarcode/';
-    // } else if($_SERVER['SERVER_NAME'] == 'localhost'){
-
-    // } else {
-    //     $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/snbarcode/';
-    // }
-    // $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/snbarcode/';
-    // echo $imagePath;
   }
 
 }

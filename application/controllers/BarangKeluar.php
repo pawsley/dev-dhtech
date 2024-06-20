@@ -119,13 +119,12 @@ class BarangKeluar extends Auth
     $this->zend->load('Zend/Barcode');
     $imageResource = Zend_Barcode::factory('code128','image', array('text'=>$sp), array())->draw();
     $imageName = $sp.'.jpg';
-        // Define the image path based on the environment
-        if ($_SERVER['SERVER_NAME'] == 'localhost') {
-          // Path for localhost
-          $imagePath = './assets/dhdokumen/suratkeluarbarcode/';
+      if ($_SERVER['SERVER_NAME'] == 'localhost') {
+        $imagePath = './assets/dhdokumen/suratkeluarbarcode/';
+      } else if($_SERVER['SERVER_NAME'] == 'live.akira.id'){
+        $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/suratkeluarbarcode/';
       } else {
-          // Path for server
-          $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/suratkeluarbarcode/';
+        $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/suratkeluarbarcode/';
       }
     imagejpeg($imageResource, $imagePath.$imageName);    
   }

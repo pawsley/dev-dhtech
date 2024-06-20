@@ -218,13 +218,12 @@ class BarangPindah extends Auth
     $this->zend->load('Zend/Barcode');
     $imageResource = Zend_Barcode::factory('code128','image', array('text'=>$sp), array())->draw();
     $imageName = $sp.'.jpg';
-        // Define the image path based on the environment
-        if ($_SERVER['SERVER_NAME'] == 'localhost') {
-          // Path for localhost
-          $imagePath = './assets/dhdokumen/suratpindahbarcode/';
+      if ($_SERVER['SERVER_NAME'] == 'localhost') {
+        $imagePath = './assets/dhdokumen/suratpindahbarcode/';
+      } else if($_SERVER['SERVER_NAME'] == 'live.akira.id'){
+        $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/suratpindahbarcode/';
       } else {
-          // Path for server
-          $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/suratpindahbarcode/';
+        $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/suratpindahbarcode/';
       }
     imagejpeg($imageResource, $imagePath.$imageName);    
   }
