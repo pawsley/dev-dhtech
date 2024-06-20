@@ -109,12 +109,10 @@ class InventoriStok extends Auth
     $this->zend->load('Zend/Barcode');
     $imageResource = Zend_Barcode::factory('code128','image', array('text'=>$sn), array())->draw();
     $imageName = $sn.'.jpg';
-        // Define the image path based on the environment
-        if ($_SERVER['SERVER_NAME'] == 'localhost') {
-          // Path for localhost
+      
+      if ($_SERVER['SERVER_NAME'] == 'localhost') {
           $imagePath = './assets/dhdokumen/snbarcode/';
       } else {
-          // Path for server
           $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/snbarcode/';
       }
     imagejpeg($imageResource, $imagePath.$imageName);    
@@ -213,8 +211,16 @@ class InventoriStok extends Auth
   }
 
   public function check(){
-    $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/snbarcode/';
-    echo $imagePath;
+    echo $_SERVER['SERVER_NAME']; 
+    // if ($_SERVER['SERVER_NAME'] == 'localhost') {
+    //   $imagePath = './assets/dhdokumen/snbarcode/';
+    // } else if($_SERVER['SERVER_NAME'] == 'localhost'){
+
+    // } else {
+    //     $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/snbarcode/';
+    // }
+    // $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/snbarcode/';
+    // echo $imagePath;
   }
 
 }
