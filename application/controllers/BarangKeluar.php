@@ -125,7 +125,7 @@ class BarangKeluar extends Auth
           $imagePath = './assets/dhdokumen/suratkeluarbarcode/';
       } else {
           // Path for server
-          $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/suratkeluarbarcode/';
+          $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/suratkeluarbarcode/';
       }
     imagejpeg($imageResource, $imagePath.$imageName);    
   }

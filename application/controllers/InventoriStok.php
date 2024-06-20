@@ -213,7 +213,7 @@ class InventoriStok extends Auth
   }
 
   public function check(){
-    $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/snbarcode/';
+    $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/snbarcode/';
     echo $imagePath;
   }
 

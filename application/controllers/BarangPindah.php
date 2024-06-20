@@ -224,7 +224,7 @@ class BarangPindah extends Auth
           $imagePath = './assets/dhdokumen/suratpindahbarcode/';
       } else {
           // Path for server
-          $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/suratpindahbarcode/';
+          $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/suratpindahbarcode/';
       }
     imagejpeg($imageResource, $imagePath.$imageName);    
   }
