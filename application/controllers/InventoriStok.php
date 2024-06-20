@@ -115,7 +115,7 @@ class InventoriStok extends Auth
           $imagePath = './assets/dhdokumen/snbarcode/';
       } else {
           // Path for server
-          $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/snbarcode/';
+          $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/snbarcode/';
       }
     imagejpeg($imageResource, $imagePath.$imageName);    
   }
