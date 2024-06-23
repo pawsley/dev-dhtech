@@ -74,8 +74,13 @@ class Mbarang_model extends CI_Model {
     $this->db->update('tb_barang', $data);
   }
 
-  public function delete($id)
-  {
+  public function delete($id){ 
+    $this->db->where('id_brg', $id);
+    $query = $this->db->get('tb_brg_masuk');
+
+    if ($query->num_rows() > 0) {
+        return array('success' => false, 'message' => 'Data barang dengan id "'.$id.'" tidak bisa dihapus, karena masih digunakan di Barang Gudang');
+    }
     $success = $this->db->delete('tb_barang', array("id_brg" => $id));
     $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
     return array('success' => $success, 'message' => $message);

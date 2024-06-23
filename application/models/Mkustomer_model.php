@@ -27,6 +27,12 @@ class Mkustomer_model extends CI_Model {
 
   public function delete($id)
   {
+    $this->db->where('id_plg', $id);
+    $query = $this->db->get('tb_detail_penjualan');
+
+    if ($query->num_rows() > 0) {
+      return array('success' => false, 'message' => 'Data customer dengan id "'.$id.'" tidak bisa dihapus, karena sudah pernah melakukan pembelian barang');
+    }   
     $success = $this->db->delete('tb_pelanggan', array("id_plg" => $id));
     $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
     return array('success' => $success, 'message' => $message);
@@ -39,7 +45,7 @@ class Mkustomer_model extends CI_Model {
   }
 
   public function getWhere($id)
-  {   
+  {
     $query = $this->db->get_where('tb_pelanggan', array('id_plg' => $id));
     return $query->result_array();
   }

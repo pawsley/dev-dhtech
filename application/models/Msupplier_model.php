@@ -31,6 +31,12 @@ class Msupplier_model extends CI_Model {
 
   public function delete($id)
   {
+    $this->db->where('id_supplier', $id);
+    $query = $this->db->get('tb_brg_masuk');
+
+    if ($query->num_rows() > 0) {
+        return array('success' => false, 'message' => 'Data supplier dengan id "'.$id.'" tidak bisa dihapus');
+    }
     $success = $this->db->delete('tb_supplier', array("id_supplier" => $id));
     $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
     return array('success' => $success, 'message' => $message);

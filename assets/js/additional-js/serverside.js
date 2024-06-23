@@ -330,12 +330,9 @@ function deletedata() {
                             swal('Deleted!', response.result.message, 'success');
                             reload();
                         } else {
-                            swal('Error!', 'An error occurred while deleting the data.', 'error');
+                            swal('Error!', 'Tidak bisa menghapus data karyawan ini', 'error');
                         }
                     },
-                    error: function (error) {
-                        swal('Error!', 'An error occurred while processing the request.', 'error');
-                    }
                 });
             }
         });        

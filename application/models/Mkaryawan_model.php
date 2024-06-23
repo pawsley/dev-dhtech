@@ -85,18 +85,60 @@ class Mkaryawan_model extends CI_Model {
 
   public function delete($id)
   {
+    $this->db->where('id_karyawan', $id);
+    $query = $this->db->get('tb_toko');
+    $this->db->where('id_ksr', $id);
+    $query2 = $this->db->get('tb_detail_penjualan');
+    $this->db->where('id_user', $id);
+    $query3 = $this->db->get('tb_opname');
+
+    if ($query->num_rows() > 0) {
+      return array('success' => false, 'message' => 'Data karyawan dengan id "'.$id.'" tidak bisa dihapus, karena terdaftar di Cabang');
+    } elseif ($query2->num_rows() > 0) {
+        return array('success' => false, 'message' => 'Data karyawan dengan id "'.$id.'" tidak bisa dihapus, karena sudah melakukan Transaksi Penjualan');
+    } elseif ($query3->num_rows() > 0) {
+        return array('success' => false, 'message' => 'Data karyawan dengan id "'.$id.'" tidak bisa dihapus, karena sudah melakukan Stock Opname');
+    }
     $success = $this->db->delete('tb_user', array("id_user" => $id));
     $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
     return array('success' => $success, 'message' => $message);
   }
   public function deleteksr($id)
   {
+    $this->db->where('id_karyawan', $id);
+    $query = $this->db->get('tb_toko');
+    $this->db->where('id_ksr', $id);
+    $query2 = $this->db->get('tb_detail_penjualan');
+    $this->db->where('id_user', $id);
+    $query3 = $this->db->get('tb_opname');
+
+    if ($query->num_rows() > 0) {
+      return array('success' => false, 'message' => 'Data karyawan dengan id "'.$id.'" tidak bisa dihapus, karena terdaftar di Cabang');
+    } elseif ($query2->num_rows() > 0) {
+        return array('success' => false, 'message' => 'Data karyawan dengan id "'.$id.'" tidak bisa dihapus, karena sudah melakukan Transaksi Penjualan');
+    } elseif ($query3->num_rows() > 0) {
+        return array('success' => false, 'message' => 'Data karyawan dengan id "'.$id.'" tidak bisa dihapus, karena sudah melakukan Stock Opname');
+    }
     $success = $this->db->delete('tb_kasir', array("id_ksr" => $id));
     $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
     return array('success' => $success, 'message' => $message);
   }
   public function deleteadm($id)
   {
+    $this->db->where('id_karyawan', $id);
+    $query = $this->db->get('tb_toko');
+    $this->db->where('id_ksr', $id);
+    $query2 = $this->db->get('tb_detail_penjualan');
+    $this->db->where('id_user', $id);
+    $query3 = $this->db->get('tb_opname');
+
+    if ($query->num_rows() > 0) {
+      return array('success' => false, 'message' => 'Data karyawan dengan id "'.$id.'" tidak bisa dihapus, karena terdaftar di Cabang');
+    } elseif ($query2->num_rows() > 0) {
+      return array('success' => false, 'message' => 'Data karyawan dengan id "'.$id.'" tidak bisa dihapus, karena sudah melakukan Transaksi Penjualan');
+    } elseif ($query3->num_rows() > 0) {
+      return array('success' => false, 'message' => 'Data karyawan dengan id "'.$id.'" tidak bisa dihapus, karena sudah melakukan Stock Opname');
+    }
     $success = $this->db->delete('tb_admin', array("id_admin" => $id));
     $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
     return array('success' => $success, 'message' => $message);

@@ -222,22 +222,36 @@ class MasterKaryawan extends Auth
     }
   }
   public function deletepost($id) {
-    $image = $this->Mkaryawan_model->getWhere($id);
     $result = $this->Mkaryawan_model->delete($id);
     $result2 = $this->Mkaryawan_model->deleteksr($id);
     $result3 = $this->Mkaryawan_model->deleteadm($id);
+    $image = $this->Mkaryawan_model->getWhere($id);
     $response = array(
       'result' => $result,
       'result2' => $result2,
       'result3' => $result3
     );
 
-    foreach ($image as $i) {
+    if ($result['success'] && $result2['success'] && $result3['success']) {
+      foreach ($image as $i) {
         if (!empty($i['file_cv'])) {
-            if ($result) {
-                unlink(realpath(APPPATH . '../assets/dhdokumen/karyawan/') . '/' . $i['file_cv']);
-            }
+          $filePath = realpath(APPPATH . '../assets/dhdokumen/karyawan') . '/' . $i['file_cv'];
+          if (file_exists($filePath)) {
+              unlink($filePath);
+          }
         }
+      }
+      $response['success'] = true;
+      $response['message'] = 'Data and associated files successfully deleted.';
+    } else {
+      if (!$result['success']) {
+        $response['message'] = $result['message'];
+      } elseif (!$result2['success']) {
+          $response['message'] = $result2['message'];
+      } elseif (!$result3['success']) {
+          $response['message'] = $result3['message'];
+      }
+      $response['success'] = false;
     }
     echo json_encode($response);
   }  
