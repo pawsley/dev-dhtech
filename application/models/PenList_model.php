@@ -24,7 +24,7 @@ class PenList_model extends CI_Model {
     $query = $this->db->get_where('vbarangkeluar', array('id_keluar' => $id));
     return $query->result_array();
   }
-  public function layoutbarcode($jenis,$kond,$cab=null) {
+  public function layoutbarcode($jenis,$kond,$cab=null,$searchTerm=null) {
     $this->db->select(['sn_brg','nama_brg']);
     $this->db->from('vbarangkeluar');
     if ($jenis !== 'all') {
@@ -35,6 +35,12 @@ class PenList_model extends CI_Model {
     }
     if ($cab !== null && $cab !== 'all') {
       $this->db->where('id_toko', $cab);
+    }
+    if ($searchTerm !== null && $searchTerm !== '') {
+      $this->db->group_start();
+      $this->db->like('sn_brg', $searchTerm);
+      $this->db->or_like('nama_brg', $searchTerm);
+      $this->db->group_end();
     }
     $this->db->where_in('status',[2]);
     $query = $this->db->get();

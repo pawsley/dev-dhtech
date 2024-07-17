@@ -28,6 +28,11 @@ function filterexport() {
         var selectedText = e.params.data.id;
         $('#update').attr('data-cab', selectedText);
     });
+    $('#table-pl').on('search.dt', function() {
+        var searchValue = $('.dataTables_filter input').val();
+        $('#update').attr('data-search', searchValue);
+        console.log('Search query:', searchValue);
+    });
 }
 function tablepl() {
     getselect();
@@ -138,7 +143,7 @@ function tablepl() {
             },
             {
                 extend: 'excelHtml5', // Specify the Excel button
-                text: 'Export', // Text for the button
+                text: 'Export Excel', // Text for the button
                 className: 'btn btn-success', // Add a class for styling
                 title: 'Produk List',
                 exportOptions: {
@@ -151,22 +156,30 @@ function tablepl() {
                     "id": "update",
                     "data-jenis": "all",
                     "data-cab": "AllCab",
-                    "data-kond": "all"
+                    "data-kond": "all",
+                    'data-search': ''
                 },
                 "action": function () {
                     var dataJenis = $('#update').attr('data-jenis');
                     var dataCab = $('#update').attr('data-cab');
                     var dataKond = $('#update').attr('data-kond');
-                    if (dataJenis === 'all') {
-                        dataJenis = 'all';
+                    var dataSearch = $('#update').attr('data-search');
+
+                    dataSearch = dataSearch ? dataSearch : '';
+
+                    var printUrl;
+                    if (dataSearch !== '') {
+                        printUrl = base_url + 'produk-list/export-barcode/' + 
+                            encodeURIComponent(dataJenis) + '/' + 
+                            encodeURIComponent(dataKond) + '/' + 
+                            encodeURIComponent(dataCab) + '/' + 
+                            encodeURIComponent(dataSearch);
+                    } else {
+                        printUrl = base_url + 'produk-list/export-barcode-select/' + 
+                            encodeURIComponent(dataJenis) + '/' + 
+                            encodeURIComponent(dataKond) + '/' + 
+                            encodeURIComponent(dataCab);
                     }
-                    if (dataKond === 'all') {
-                        dataKond = 'all';
-                    }
-                    if (dataCab === 'AllCab') {
-                        dataCab = 'all';
-                    }
-                    var printUrl = base_url + 'produk-list/export-barcode/' + encodeURIComponent(dataJenis) + '/' + encodeURIComponent(dataKond) + '/' + encodeURIComponent(dataCab);
                     window.open(printUrl, '_blank');
                 }
             }
