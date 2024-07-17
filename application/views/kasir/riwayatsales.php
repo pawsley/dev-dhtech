@@ -43,6 +43,7 @@
                                         <th style="min-width: 30%; width: 30%;"><span class="f-light f-w-600">INVOICE</span></th>
                                         <th style="min-width: 20%; width: 20%;"><span class="f-light f-w-600">TANGGAL & JAM</span></th>
                                         <th style="min-width: 30%; width: 30%;"><span class="f-light f-w-600">CABANG</span></th>
+                                        <th style="min-width: 30%; width: 30%;"><span class="f-light f-w-600">KASIR</span></th>
                                         <th style="min-width: 40%; width: 40%;"><span class="f-light f-w-600">GRAND TOTAL</span></th>
                                         <th style="min-width: 20%; width: 20%;"><span class="f-light f-w-600">STATUS</span></th>
                                         <th style="min-width: 10%; width: 10%;"><span class="f-light f-w-600">DETAIL</span></th>

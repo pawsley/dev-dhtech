@@ -12,13 +12,7 @@ $(document).ready(function () {
     reload();
     getbarang();
     getbarangAcc();
-    // $('#addprod').click(function() {
-    //     var id_opname = $(this).data('id_opname');
-    //     addproduk(id_opname);
-    // });
-    $('#simpanopnm').click(function() {
-        simpanop();
-    });
+    approveoplist();
     deleteop();
 });
 
@@ -80,6 +74,7 @@ function tableol() {
                                     <div class="btn-group">
                                         <button class="btn btn-success" data-id="${data}" data-bs-toggle="modal" data-bs-target="#CariBarang">Unit <i class="fa fa-plus"></i></button>
                                         <button class="btn btn-warning" data-id="${data}" data-bs-toggle="modal" data-bs-target="#CariBarangAcc">Aksesoris <i class="fa fa-plus"></i></button>
+                                        <button class="btn btn-primary" id="approveop-btn" data-id="${data}" data-idop="${full.kode_opname}"><i class="icofont icofont-ui-check"></i></button>
                                         <button class="btn btn-secondary" id="delete-btn" data-id="${data}"><i class="fa fa-trash-o"></i></button>
                                     </div>
                                 </ul>
@@ -109,22 +104,13 @@ function tableol() {
                         tableOL.ajax.reload();
                     }
                 },
-                {
-                    extend: 'excelHtml5', // Specify the Excel button
-                    text: 'Export', // Text for the button
-                    className: 'btn btn-success', // Add a class for styling
-                    title: 'Opname List',
-                    exportOptions: {
-                        columns: ':visible:not(:last-child):not(:nth-last-child(2))'
-                    }
-                }
             ]
             
     });
     return tableOL;
 }
 //unit
-function tablepr(id_toko) {
+function tablepr(id_toko,ido) {
     if ($.fn.DataTable.isDataTable('#table-pr')) {
         tablePR.destroy();
     }
@@ -136,14 +122,29 @@ function tablepr(id_toko) {
         "serverSide": true,
         "order": [],
         "ajax": {
-            "url": base_url + 'StockOpname/loadproduklist/'+id_toko+'/',
+            "url": base_url + 'StockOpname/loadproduklist/'+id_toko+'/'+ido,
             "type": "POST"
         },
         "columns": [
             { "data": "sn_brg" },
             { "data": "nama_brg" },
             { "data": "merk" },
-            { "data": "jenis" },  
+            { "data": "jenis" }, 
+            { 
+                "data": "status_brg",
+                "render": function (data, type, full, meta) {
+                    // You can customize the rendering here
+                    if (type === "display") {
+                        if (data === "2") {
+                            return `<span class="badge rounded-pill badge-primary">READY</span>`;
+                        } else if(data==="6"){
+                            return `<span class="badge rounded-pill badge-warning">UNVERIFIED</span>`;
+                        }
+                        return data; // return the original value for other cases
+                    }
+                    return data;
+                }
+            },
         ],
         "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-2'B>>" +
@@ -189,7 +190,22 @@ function tableprop(id_toko,ido) {
             { "data": "sn_brg" },
             { "data": "nama_brg" },
             { "data": "merk" },
-            { "data": "jenis" },  
+            { "data": "jenis" },
+            { 
+                "data": "status",
+                "render": function (data, type, full, meta) {
+                    // You can customize the rendering here
+                    if (type === "display") {
+                        if (data === "2") {
+                            return `<span class="badge rounded-pill badge-primary">READY</span>`;
+                        } else if(data==="6"){
+                            return `<span class="badge rounded-pill badge-warning">UNVERIFIED</span>`;
+                        }
+                        return data; // return the original value for other cases
+                    }
+                    return data;
+                }
+            },
         ],
         "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-2'B>>" +
@@ -218,8 +234,9 @@ function tableprop(id_toko,ido) {
     return tablePROP;
 }
 //unit
+
 //acc
-function tablepracc(id_toko) {
+function tablepracc(id_toko,ido) {
     if ($.fn.DataTable.isDataTable('#table-pracc')) {
         tablePRACC.destroy();
     }
@@ -231,7 +248,7 @@ function tablepracc(id_toko) {
         "serverSide": true,
         "order": [],
         "ajax": {
-            "url": base_url + 'StockOpname/loadacclist/'+id_toko+'/',
+            "url": base_url + 'StockOpname/loadacclist/'+id_toko+'/'+ido,
             "type": "POST"
         },
         "columns": [
@@ -239,6 +256,21 @@ function tablepracc(id_toko) {
             { "data": "nama_brg" },
             { "data": "merk" },
             { "data": "jenis" },  
+            { 
+                "data": "status_brg",
+                "render": function (data, type, full, meta) {
+                    // You can customize the rendering here
+                    if (type === "display") {
+                        if (data === "2") {
+                            return `<span class="badge rounded-pill badge-primary">READY</span>`;
+                        } else if(data==="6"){
+                            return `<span class="badge rounded-pill badge-warning">UNVERIFIED</span>`;
+                        }
+                        return data; // return the original value for other cases
+                    }
+                    return data;
+                }
+            },
         ],
         "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-2'B>>" +
@@ -284,7 +316,22 @@ function tablepropacc(id_toko,ido) {
             { "data": "sn_brg" },
             { "data": "nama_brg" },
             { "data": "merk" },
-            { "data": "jenis" },  
+            { "data": "jenis" },
+            { 
+                "data": "status",
+                "render": function (data, type, full, meta) {
+                    // You can customize the rendering here
+                    if (type === "display") {
+                        if (data === "2") {
+                            return `<span class="badge rounded-pill badge-primary">READY</span>`;
+                        } else if(data==="6"){
+                            return `<span class="badge rounded-pill badge-warning">UNVERIFIED</span>`;
+                        }
+                        return data; // return the original value for other cases
+                    }
+                    return data;
+                }
+            },  
         ],
         "dom":  "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12 col-md-2'B>>" +
@@ -313,6 +360,7 @@ function tablepropacc(id_toko,ido) {
     return tablePROPACC;
 }
 //acc
+
 function getSelect() {
     $('#auditor').select2({
         language: 'id',
@@ -429,19 +477,12 @@ function reload() {
     var olReloaded = tableol();
     olReloaded.on('draw.dt', function () {
         var counting = olReloaded.rows().count();
-        if (counting === 0) {
-            $('#simpanopnm').addClass('d-none');
-        } else {
-            $('#simpanopnm').removeClass('d-none');
-        }
+        // if (counting === 0) {
+        //     $('#simpanopnm').addClass('d-none');
+        // } else {
+        //     $('#simpanopnm').removeClass('d-none');
+        // }
     });
-    if (olReloaded) {
-        olReloaded.clear().draw();
-        olReloaded.ajax.reload();
-    }
-}
-function reloadpr(id_toko) {
-    var olReloaded = tablepr(id_toko);
     if (olReloaded) {
         olReloaded.clear().draw();
         olReloaded.ajax.reload();
@@ -545,7 +586,7 @@ function inputacc() {
                     $('#merkacc').val(merk);
                     $('#jenisacc').val(jenis);
                     $.ajax({
-                        url: base_url + 'StockOpname/addpr',
+                        url: base_url + 'StockOpname/addprodacc',
                         type: 'POST',
                         dataType: 'json',
                         data: {
@@ -619,7 +660,7 @@ function getbarang(){
                     });
                     getProdOP();
                     tableprop(item.id_toko,id_opname);
-                    tablepr(item.id_toko);
+                    tablepr(item.id_toko,id_opname);
                 });
             }
         });
@@ -656,7 +697,7 @@ function getbarangAcc(){
                     });
                     inputacc();
                     tablepropacc(item.id_toko,id_opname);
-                    tablepracc(item.id_toko);
+                    tablepracc(item.id_toko,id_opname);
                 });
             }
         });
@@ -682,8 +723,6 @@ function addproduk(id_opname) {
                     if (response.status === 'success') {
                             swal("success", "Data berhasil ditambahkan", "success").then(() => {
                                 tablepr(id_toko);
-                                // reloadpr(id_toko);
-                                // $('#CariBarang').modal('hide');
                             });
                     } else if(response.status === 'exists') {
                         swal("Warning", "Barang sudah diinputkan", "warning").then(() => {
@@ -756,6 +795,53 @@ function deleteop() {
                             generateid();
                         } else {
                             swal('Error!', response.message, 'error');
+                        }
+                    },
+                    error: function (error) {
+                        swal('Error!', 'An error occurred while processing the request.', 'error');
+                    }
+                });
+            }
+        });        
+    });
+}
+function approveoplist() {
+    $('#table-ol').on('click', '#approveop-btn', function (e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        var idop = $(this).data('idop');
+        swal({
+            title: 'Apa anda yakin?',
+            text: 'Data yang sudah disetujui tidak dapat ditambahkan lagi!',
+            icon: 'warning',
+            buttons: {
+                cancel: {
+                    text: 'Cancel',
+                    value: null,
+                    visible: true,
+                    className: 'btn-secondary',
+                    closeModal: true,
+                },
+                confirm: {
+                    text: 'Approve',
+                    value: true,
+                    visible: true,
+                    className: 'btn-success',
+                    closeModal: true
+                }
+            }
+        }).then((willApprove) => {
+            if (willApprove) {
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + 'StockOpname/approvebyop/' + id,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            swal('Success!', "Stock opname dengan id "+idop+" berhasil disetujui", 'success');
+                            reload();
+                        } else {
+                            swal('Error!', "Gagal!", 'error');
                         }
                     },
                     error: function (error) {

@@ -106,36 +106,6 @@ class StockOpname extends Auth
     $this->datatables->where('status','2');
     return print_r($this->datatables->generate());
   }
-  public function exportexcel($kode_opname){
-    $spreadsheet = new Spreadsheet();
-    $sheet = $spreadsheet->getActiveSheet();
-    $sheet->setCellValue('A1', 'NO');
-    $sheet->setCellValue('B1', 'SN PRODUK');
-    $sheet->setCellValue('C1', 'NAMA PRODUK');
-    $sheet->setCellValue('D1', 'MERK');
-    $sheet->setCellValue('E1', 'JENIS');
-    
-    $detailopname = $this->StockOpname_model->getDetailOpname($kode_opname);
-    $no = 1;
-    $x = 2;
-    foreach($detailopname as $row)
-    {
-      $sheet->setCellValue('A'.$x, $no++);
-      $sheet->setCellValue('B'.$x, $row->sn_brg);
-      $sheet->setCellValue('C'.$x, $row->nama_brg);
-      $sheet->setCellValue('D'.$x, $row->merk);
-      $sheet->setCellValue('E'.$x, $row->jenis);
-      $x++;
-    }
-    $writer = new Xlsx($spreadsheet);
-    $filename = 'Laporan-Opname';
-    
-    header('Content-Type: application/vnd.ms-excel');
-    header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
-    header('Cache-Control: max-age=0');
-
-    $writer->save('php://output');
-  } 
   public function loaddetail($id_opname) {
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis');
@@ -147,6 +117,8 @@ class StockOpname extends Auth
   // function for opnm_new
   public function addstockopname()
   {
+    $cab = $this->session->userdata('id_toko');
+    $data['barangcabang'] = $this->second->barangCabang($cab);
     $data['setcabang'] = $this->BarangKeluar_model->getCabang();
     $data['content'] = $this->load->view('inventaris/opnamebaru', $data, true);
     $data['modal'] = '';
@@ -209,7 +181,8 @@ class StockOpname extends Auth
   }
   public function loadcabang() {
     $searchTerm = $this->input->get('q');
-    $results = $this->StockOpname_model->getCabang($searchTerm);
+    $idtoko = $this->session->userdata('id_toko');
+    $results = $this->StockOpname_model->getCabang($idtoko,$searchTerm);
     header('Content-Type: application/json');
     echo json_encode($results);
   }
@@ -248,16 +221,29 @@ class StockOpname extends Auth
       redirect('stock-opname');
     }    
   }
+  public function addprodacc() {
+    if ($this->input->is_ajax_request()) {
+      $data = [
+        'id_opname'      => $this->input->post('idopname'),
+        'id_keluar'      => $this->input->post('idkeluar'),
+      ];
+      
+      $this->StockOpname_model->createpr($data);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('stock-opname');
+    }    
+  }
   public function loadopnamelist() {
     $auditor = $this->session->userdata('nama_lengkap');
     $role = $this->session->userdata('jabatan');
-    if ($role == 'OWNER' || $role == 'Finance') {
+    if ($role == 'OWNER' || $role == 'Finance' || $role == 'Manager Oprasional') {
       $this->load->library('datatables');
       $this->datatables->select('id_opname,kode_opname, DATE_FORMAT(tgl_opname, "%d-%M-%Y") AS tgl_opname,nama_lengkap,id_toko,nama_toko,status');
       $this->datatables->from('vopname');
       $this->datatables->where('status','1');
       return print_r($this->datatables->generate());
-    } else if ($role == 'KEPALA CABANG' || $role == 'Manager Oprasional'){
+    } else if ($role == 'KEPALA CABANG'){
       $this->load->library('datatables');
       $this->datatables->select('id_opname,kode_opname, DATE_FORMAT(tgl_opname, "%d-%M-%Y") AS tgl_opname,nama_lengkap,id_toko,nama_toko,status');
       $this->datatables->from('vopname');
@@ -266,34 +252,36 @@ class StockOpname extends Auth
       return print_r($this->datatables->generate());
     }
   }
-  public function loadproduklist($id_toko) {
+  public function loadproduklist($id_toko,$ido) {
     $this->load->library('datatables');
-    $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis');
+    $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis,status_brg');
     $this->datatables->from('vprdop');
     $this->datatables->where('jenis <>', 'Aksesoris');
     $this->datatables->where('id_toko',$id_toko);
+    $this->datatables->where('id_opname',$ido);
     return print_r($this->datatables->generate());
   }  
   public function loadproplist($id_toko,$ido) {
     $this->load->library('datatables');
-    $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis');
+    $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis,status');
     $this->datatables->from('vopname_dtl');
     $this->datatables->where('jenis <>', 'Aksesoris');
     $this->datatables->where('id_toko',$id_toko);
     $this->datatables->where('id_opname',$ido);
     return print_r($this->datatables->generate());
   }
-  public function loadacclist($id_toko) {
+  public function loadacclist($id_toko,$ido) {
     $this->load->library('datatables');
-    $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis');
+    $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis,status_brg');
     $this->datatables->from('vprdop');
     $this->datatables->where_in('jenis', 'Aksesoris');
     $this->datatables->where('id_toko',$id_toko);
+    $this->datatables->where('id_opname',$ido);
     return print_r($this->datatables->generate());
   }  
   public function loadpropacclist($id_toko,$ido) {
     $this->load->library('datatables');
-    $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis');
+    $this->datatables->select('id_keluar,sn_brg,nama_brg,merk,jenis,status');
     $this->datatables->from('vopname_dtl');
     $this->datatables->where_in('jenis', 'Aksesoris');
     $this->datatables->where('id_toko',$id_toko);
@@ -311,6 +299,25 @@ class StockOpname extends Auth
       ];
       $this->StockOpname_model->approveop($data);
       echo json_encode(['status' => 'success']);
+    } else {
+      redirect('stock-opname');
+    }
+  }
+  public function approvebyop($idop){
+    if ($this->input->is_ajax_request()) {
+      $getidop = $this->db->where('id_opname', $idop)->get('tb_opname_detail')->result();
+      if (!empty($getidop)) {
+        foreach ($getidop as $row) {
+            $dataop = ['status' => '2'];
+            $databrg = ['status' => '2'];
+
+            $this->StockOpname_model->approvebyop($idop, $dataop);
+            $this->StockOpname_model->updatebrgcab($row->id_keluar, $databrg);
+        }
+        echo json_encode(['status' => 'success']);
+      } else {
+        echo json_encode(['status' => 'error']);
+      }
     } else {
       redirect('stock-opname');
     }

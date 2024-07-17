@@ -69,6 +69,9 @@ class BarangPindah extends Auth
   }
 
   public function indexpemindahan() {
+    $cab = $this->session->userdata('id_toko');
+    $data['barangcabang'] = $this->second->barangCabang($cab);
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('inventaris/pemindahanbarang', '', true);
     $data['modal'] = '';
     $data['css'] = '

@@ -43,6 +43,8 @@ function tablesk() {
                             return `<span class="badge rounded-pill badge-success">TERJUAL</span>`;
                         } else if(data==="4"){
                             return `<span class="badge rounded-pill badge-info">BOOKING</span>`;
+                        }  else if(data==="0"){
+                            return `<span class="badge rounded-pill badge-success">KIRIM</span>`;
                         }
                         return data; // return the original value for other cases
                     }
@@ -354,6 +356,8 @@ function detailsk(sk) {
                             return `<span class="badge rounded-pill badge-success">TERJUAL</span>`;
                         } else if(data==="4"){
                             return `<span class="badge rounded-pill badge-info">BOOKING</span>`;
+                        } else if(data==="0"){
+                            return `<span class="badge rounded-pill badge-success">KIRIM</span>`;
                         }
                         return data; // return the original value for other cases
                     }

@@ -216,6 +216,7 @@ function tabledo(id) {
             "url": base_url + 'stock-opname/detail-opname/'+id,
             "type": "POST"
         },
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "columns": [
             { "data": "sn_brg" },
             { "data": "nama_brg" },

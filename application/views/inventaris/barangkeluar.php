@@ -203,7 +203,7 @@
                                     <!-- No Surat Keluar -->
                                     <div class="col-4 position-relative"> 
                                         <label class="form-label" for="nosuratacc">No Surat Keluar</label>
-                                        <input class="form-control" id="nosuratacc" name="nosuratacc" type="text" placeholder="Masukkan Nomor Surat Keluar" aria-label="nosuratacc" required="">
+                                        <input class="form-control" id="nosuratacc" name="nosuratacc" type="text" placeholder="Masukkan Nomor Surat Keluar" aria-label="nosuratacc" readonly>
                                     </div>
                                     <div class="col-6 position-relative"> 
                                         <label class="form-label" for="prodacc">Nama Produk</label>

@@ -78,7 +78,7 @@ class BarangTerima extends Auth
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,tgl_keluar, no_surat_keluar, nama_toko, status');
     $this->datatables->from('vbarangkeluar');
-    $this->datatables->where('status','1');
+    $this->datatables->where('status','0');
     $this->datatables->group_by('no_surat_keluar');
     return print_r($this->datatables->generate());    
   }
@@ -116,7 +116,7 @@ class BarangTerima extends Auth
     if ($this->input->is_ajax_request()) {
       $sk = $this->input->post('ska');
       $data = [
-        'status'      => '2',
+        'status'      => '6',
       ];
       $data2 = [
         'tb_brg_masuk.status' => '2'
@@ -136,7 +136,7 @@ class BarangTerima extends Auth
         'status'      => '2',
       ];
       $data2 = [
-        'tb_brg_keluar.status' => '2'
+        'tb_brg_keluar.status' => '6'
       ];
       
       $this->BarangTerima_model->approvesp($idp, $data);

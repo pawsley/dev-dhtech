@@ -204,6 +204,24 @@ class BarangKeluar extends Auth
     }
   }
   public function deletepost($id) {
+    $this->db->select('id_masuk');
+    $this->db->from('tb_brg_keluar');
+    $this->db->where('id_keluar', $id);
+    $query = $this->db->get();
+    $cekidm = $query->row()->id_masuk;
+
+    $this->db->select('id_detailp');
+    $this->db->from('tb_pindahbrgdetail');
+    $this->db->where('id_keluar', $id);
+    $query2 = $this->db->get();
+    $cekidp_row = $query2->row();
+    // Delete if there is a record in 
+    if ($cekidp_row !== null) {
+        $cekidp = $cekidp_row->id_detailp;
+        $this->BarangKeluar_model->deleteidk($cekidp);
+    }
+    //update stok gd
+    $this->BarangKeluar_model->updatestokgd($cekidm);
     $result = $this->BarangKeluar_model->delete($id);
     echo json_encode($result);
   }
@@ -212,9 +230,17 @@ class BarangKeluar extends Auth
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,tgl_keluar, no_surat_keluar, nama_toko, status');
     $this->datatables->from('vbarangkeluar');
-    $this->datatables->where_in('status',[1,2]);
+    $this->datatables->where_in('status',[1,0,2,6]);
     $this->datatables->group_by('no_surat_keluar');
     return print_r($this->datatables->generate());    
+  }
+  public function sendingsk($nosk){
+    if ($this->input->is_ajax_request()) {
+      $this->BarangKeluar_model->sendcab($nosk);
+      echo json_encode(['status' => 'success']);
+    } else {
+      redirect('barang-keluar');
+    }
   }
   public function loadbk(){
     $this->load->library('datatables');

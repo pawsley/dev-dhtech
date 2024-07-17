@@ -76,13 +76,14 @@
                                 <table class="display" id="table-om">
                                     <thead>
                                         <tr>
-                                        <th><span class="f-light f-w-600">INVOICE</span></th>
-                                        <th><span class="f-light f-w-600">TGL & JAM</span></th>
-                                        <th><span class="f-light f-w-600">CABANG</span></th>
-                                        <th><span class="f-light f-w-600">TIPE PEMBAYARAN</span></th>
-                                        <th><span class="f-light f-w-600">PENJUALAN</span></th>
-                                        <th><span class="f-light f-w-600">TOTAL</span></th>
-                                        <th><span class="f-light f-w-600">AKSI</span></th>
+                                            <th><span class="f-light f-w-600">INVOICE</span></th>
+                                            <th><span class="f-light f-w-600">TGL & JAM</span></th>
+                                            <th><span class="f-light f-w-600">KASIR</span></th>
+                                            <th><span class="f-light f-w-600">CABANG</span></th>
+                                            <th><span class="f-light f-w-600">TIPE</span></th>
+                                            <th><span class="f-light f-w-600">PENJUALAN</span></th>
+                                            <th><span class="f-light f-w-600">TOTAL</span></th>
+                                            <th><span class="f-light f-w-600">AKSI</span></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -151,6 +152,14 @@
                                 <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong><span>Kasir</span></strong>
+                                    <strong id="adm">-</strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong><span>Sales</span></strong>
+                                    <strong id="ksr">-</strong>
+                                </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong><span>Tipe Pembayaran</span></strong>
                                     <strong id="tp">-</strong>

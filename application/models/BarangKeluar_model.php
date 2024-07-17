@@ -118,7 +118,18 @@ class BarangKeluar_model extends CI_Model {
     $message = $success ? 'Data berhasil dihapus' : 'Gagal dihapus';
     return array('success' => $success, 'message' => $message);
   }
-
+  public function deleteidk($id)
+  {
+    $this->db->delete('tb_pindahbrgdetail', array("id_detailp" => $id));
+  }
+  public function updatestokgd($id) {
+    $this->db->where('id_masuk', $id);
+    $this->db->update('tb_brg_masuk', array('status'=>'1'));
+  }
+  public function sendcab($nosk) {
+    $this->db->where('no_surat_keluar', $nosk);
+    $this->db->update('tb_brg_keluar', array('status'=>'0'));
+  }
   public function getWhere($id)
   {   
     $query = $this->db->group_by('no_surat_keluar')->get_where('vbarangkeluar', array('no_surat_keluar' => $id));

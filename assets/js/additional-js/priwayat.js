@@ -35,6 +35,7 @@ function tablejl() {
             "url": base_url + 'riwayat-penjualan/laporan-jual/',
             "type": "POST"
         },
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "columns": [
             { 
                 "data": "kode_nama",
@@ -55,13 +56,13 @@ function tablejl() {
                         var year = date.getFullYear();
                         var hours = ('0' + date.getHours()).slice(-2);
                         var minutes = ('0' + date.getMinutes()).slice(-2);
-                        var seconds = ('0' + date.getSeconds()).slice(-2);
-                        return `${day} ${month} ${year} ${hours}:${minutes}:${seconds}`;
+                        return `${day} ${month} ${year} <br><b>${hours}:${minutes}</b>`;
                     }
                     return data;
                 }
             },
             { "data": "nama_toko" },
+            { "data": "nama_admin" },
             { 
                 "data": "total",
                 "render": function (data, type, row) {
@@ -159,6 +160,7 @@ function tablers() {
             "url": base_url + 'riwayat-penjualan/laporan-penjualan/',
             "type": "POST"
         },
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "columns": [
             { "data": "sales" },
             { 

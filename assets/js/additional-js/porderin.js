@@ -44,7 +44,8 @@ function tableom() {
                 "data": "format_tgl",
                 "searchable": false
             },
-            { "data": "nama_toko" },             
+            { "data": "nama_admin" },
+            { "data": "nama_toko" },
             { "data": "cara_bayar" },
             { "data": "tipe_penjualan" },
             { 
@@ -64,7 +65,7 @@ function tableom() {
                                         <button class="btn btn-primary" data-id="${data}" data-total="${full.total_harga_jual}" data-diskon="${full.total_diskon}" data-cashback="${full.total_cashback}" data-grand="${full.total_keranjang}"
                                         data-tipe="${full.cara_bayar}" data-banktf="${full.bank_tf}" data-norek="${full.no_rek}"
                                         data-tunai="${full.total_keranjang}" data-tf="${full.total_keranjang}"
-                                        data-stn="${full.tunai}" data-stf="${full.bank}" data-skr="${full.kredit}"
+                                        data-stn="${full.tunai}" data-stf="${full.bank}" data-skr="${full.kredit}" data-ksr="${full.nama_admin}" data-sl="${full.nama_ksr}"
                                         data-bs-toggle="modal" data-bs-target="#DetailInvoice" title="detail invoice"><i class="fa fa-exclamation-circle"></i></button>
                                         <button class="btn btn-success" id="approve" data-id="${data}" data-id_toko="${full.id_toko}" title="approve"><i class="icofont icofont-ui-check"></i></button>
                                         <button class="btn btn-danger" id="cancel" data-id="${data}" data-keluar="${full.id_keluar}" title="cancel"><i class="icofont icofont-ui-close"></i></button>
@@ -248,6 +249,10 @@ function detailinv(){
         var stn = button.data('stn');
         var stf = button.data('stf');
         var skr = button.data('skr');
+        var kasir = button.data('ksr');
+        var sales = button.data('sl');
+        $("#adm").text(kasir);
+        $("#ksr").text(sales);
         $("#noinv").text(inv);
         $("#tp").text(tp);
         if (tp == 'Tunai') {

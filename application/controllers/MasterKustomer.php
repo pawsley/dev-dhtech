@@ -85,6 +85,9 @@ class MasterKustomer extends Auth
     return print_r($this->datatables->generate());
   }
   public function datacustomer(){
+    $cab = $this->session->userdata('id_toko');
+    $data['barangcabang'] = $this->second->barangCabang($cab);
+    $data['setcabang'] = $this->first->getCabang();
     $data['content'] = $this->load->view('kasir/datacustomer', '', true);
     $data['modal'] = '';
     $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">';

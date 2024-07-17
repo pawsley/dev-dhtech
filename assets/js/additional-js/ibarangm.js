@@ -20,6 +20,7 @@ function tablebm() {
             "url": base_url + 'barang-masuk/loadbm/',
             "type": "POST"
         },
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "columns": [
             { "data": "tgl_masuk" },
             { "data": "no_fm" },

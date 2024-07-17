@@ -72,7 +72,7 @@ class PenOrderIn extends Auth
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,id_toko,kode_penjualan,sn_brg,
     DATE_FORMAT(tgl_transaksi, "%d %M %Y %H:%i")AS format_tgl,nama_toko,cara_bayar,bayar,
-    status,tipe_penjualan,bank_tf,no_rek,total_keranjang,diskon, tunai,bank,kredit,
+    status,tipe_penjualan,bank_tf,no_rek,total_keranjang,diskon, tunai,bank,kredit,nama_admin,nama_ksr,
     sum(harga_jual) as total_harga_jual, sum(harga_diskon) as total_diskon, sum(harga_cashback) as total_cashback');
     $this->datatables->from('vpenjualan');
     $this->datatables->where_in('status',0);
@@ -91,7 +91,7 @@ class PenOrderIn extends Auth
     $currentDate = date('Y-m-d');
     $this->load->library('datatables');
     $this->datatables->select('kode_penjualan,sn_brg,nama_brg,
-    DATE_FORMAT(tgl_transaksi, "%Y-%m-%d") AS format_tgl,harga_bayar,status,tipe_penjualan,id_toko');
+    DATE_FORMAT(tgl_transaksi, "%Y-%m-%d") AS format_tgl,harga_bayar,status,tipe_penjualan,id_toko,nama_admin,nama_ksr');
     $this->datatables->from('vpenjualan');
     $this->datatables->where('id_toko',$idt);
     $this->datatables->where('DATE(tgl_transaksi)', $currentDate);

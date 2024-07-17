@@ -121,6 +121,7 @@ $route['barang-keluar/simpan-barang-bekas']='BarangKeluar/addmk';
 $route['barang-keluar/simpan-acc']='BarangKeluar/addacc';
 $route['barang-keluar/hapus/(:num)'] = 'BarangKeluar/deletepost/$1';
 $route['barang-keluar/printsk/(:any)'] = 'BarangKeluar/formatsk/$1';
+$route['barang-keluar/approve-sk/(:any)']='BarangKeluar/sendingsk/$1';
 $route['terima-barang']='BarangTerima';
 $route['terima-barang/groupsk']='BarangTerima/groupsk';
 $route['terima-barang/groupsp']='BarangTerima/groupsp';

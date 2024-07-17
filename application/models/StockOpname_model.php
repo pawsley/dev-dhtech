@@ -41,7 +41,7 @@ class StockOpname_model extends CI_Model {
     return $query->result_array();
   }
 
-  public function getCabang($searchTerm=null){
+  public function getCabang($idt=null,$searchTerm=null){
     $this->db->select(['id_user', 'nama_lengkap','nama_toko','id_toko']);
     $this->db->from('vtoko');
     if ($searchTerm) {
@@ -49,6 +49,9 @@ class StockOpname_model extends CI_Model {
         $this->db->like('id_toko', $searchTerm);
         $this->db->or_like('nama_toko', $searchTerm);
         $this->db->group_end();
+    }
+    if ($idt !== null) {
+      $this->db->where('id_toko', $idt);
     }
     $query = $this->db->get();
     return $query->result_array();
@@ -80,6 +83,14 @@ class StockOpname_model extends CI_Model {
   public function approveop($data){
     $this->db->where('status','1');
     $this->db->update('tb_opname', $data);
+  }
+  public function approvebyop($idop,$data){
+    $this->db->where('id_opname',$idop);
+    $this->db->update('tb_opname', $data);
+  }
+  public function updatebrgcab($idk,$data){
+    $this->db->where('id_keluar',$idk);
+    $this->db->update('tb_brg_keluar', $data);
   }
   public function delete($id){
     $success_opname = $this->db->delete('tb_opname', array("id_opname" => $id));

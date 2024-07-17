@@ -14,7 +14,7 @@ class PenList extends Auth
     $cab = $this->session->userdata('id_toko');
     $data['barangcabang'] = $this->second->barangCabang($cab);
     $data['setcabang'] = $this->first->getCabang();
-    $data['setcabang'] = $this->PenList_model->countHJ();
+    // $data['setcabang'] = $this->PenList_model->countHJ();
     $data['content'] = $this->load->view('kasir/produklist', '', true);
     $data['modal'] = '';
     $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">

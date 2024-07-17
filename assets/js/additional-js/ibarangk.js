@@ -78,6 +78,12 @@ function tablebk(formatter) {
                             return `<span class="badge rounded-pill badge-info">BOOKING</span>`;
                         } else if(data==="5"){
                             return `<span class="badge rounded-pill badge-danger">PINDAH</span>`;
+                        } else if(data==="6"){
+                            return `<span class="badge rounded-pill badge-warning">UNVERIFIED</span>`;
+                        } else if(data==="0"){
+                            return `<span class="badge rounded-pill badge-success">KIRIM</span>`;
+                        } else if(data==="9"){
+                            return `<span class="badge rounded-pill badge-success">GESTUN</span>`;
                         }
                         return data; // return the original value for other cases
                     }
@@ -103,7 +109,7 @@ function tablebk(formatter) {
                 "orderable": false,
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
-                        if (full.status === "1" || full.status === "2") { 
+                        if (full.status === "1") { 
                             return `
                                 <ul class="action">
                                     <li class="delete">
@@ -111,7 +117,7 @@ function tablebk(formatter) {
                                     </li>
                                 </ul>
                             `;
-                        } else if(full.status === "5" || full.status === "3" || full.status === "4") {
+                        } else if(full.status === "2"  || full.status === "3" || full.status === "4" || full.status === "5" || full.status ==="6" || full.status ==="0" || full.status ==="9") {
                             return `
                                 <ul class="action">
                                     <li class="delete">
@@ -191,6 +197,12 @@ function tablesk(formatter) {
                             return `<span class="badge rounded-pill badge-success">TERJUAL</span>`;
                         } else if(data==="4"){
                             return `<span class="badge rounded-pill badge-info">BOOKING</span>`;
+                        } else if(data==="6"){
+                            return `<span class="badge rounded-pill badge-warning">UNVERIFIED</span>`;
+                        } else if(data==="0"){
+                            return `<span class="badge rounded-pill badge-success">KIRIM</span>`;
+                        } else if(data==="9"){
+                            return `<span class="badge rounded-pill badge-success">GESTUN</span>`;
                         }
                         return data; // return the original value for other cases
                     }
@@ -202,7 +214,21 @@ function tablesk(formatter) {
                 "orderable": false,
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
-                        if (data) { 
+                        if (full.status == 1) {
+                            return `
+                                <ul class="action">
+                                    <li class="edit">
+                                        <button class="btn kirim-button" type="button" id="kirimcb" data-id="${data}"><i class="icofont icofont-ui-check"></i></button>
+                                    </li>
+                                    <li class="delete">
+                                        <button class="btn" type="button" data-id="${data}" data-bs-toggle="modal" data-bs-target="#DetailSuratKeluar"><i class="fa fa-info-circle"></i></button>
+                                    </li>
+                                    <li class="edit">
+                                        <button class="btn download-button" type="button" id="downloadsk" data-id="${data}"><i class="icofont icofont-print"></i></button>
+                                    </li>
+                                </ul>
+                            `;
+                        } else {
                             return `
                                 <ul class="action">
                                     <li class="delete">
@@ -315,6 +341,12 @@ function detailsk(sk) {
                             return `<span class="badge rounded-pill badge-success">TERJUAL</span>`;
                         } else if(data==="4"){
                             return `<span class="badge rounded-pill badge-info">BOOKING</span>`;
+                        } else if(data==="6"){
+                            return `<span class="badge rounded-pill badge-warning">UNVERIFIED</span>`;
+                        } else if(data==="0"){
+                            return `<span class="badge rounded-pill badge-success">KIRIM</span>`;
+                        } else if(data==="9"){
+                            return `<span class="badge rounded-pill badge-success">GESTUN</span>`;
                         }
                         return data; // return the original value for other cases
                     }
@@ -543,6 +575,53 @@ $(document).on('click', '#delete-btn', function (e) {
                         reload(formatter);
                     } else {
                         swal('Error!', response.message, 'error');
+                    }
+                },
+                error: function (error) {
+                    swal('Error!', 'An error occurred while processing the request.', 'error');
+                }
+            });
+        }
+    });
+});
+$(document).on('click', '#kirimcb', function (e) {
+    e.preventDefault();
+
+    var nosk = $(this).data('id');
+
+    swal({
+        title: 'Apa anda yakin?',
+        text: 'Surat yang sudah disetujui, wajib dikirim kecabang tujuan',
+        icon: 'warning',
+        buttons: {
+            cancel: {
+                text: 'Batal',
+                value: null,
+                visible: true,
+                className: 'btn-secondary',
+                closeModal: true,
+            },
+            confirm: {
+                text: 'Setuju',
+                value: true,
+                visible: true,
+                className: 'btn-success',
+                closeModal: true
+            }
+        }
+    }).then((result) => {
+        if (result) {
+            
+            $.ajax({
+                type: 'POST',
+                url: base_url + 'barang-keluar/approve-sk/' + nosk,
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === 'success') {
+                        swal("success", "Surat berhasil dikirim", "success");
+                        reload(formatter);
+                    } else {
+                        swal('Error!', "Gagal disetujui", 'error');
                     }
                 },
                 error: function (error) {
@@ -1073,6 +1152,11 @@ function addmk(formatter) {
 }
 function addacc(formatter) {
     $("#tambahacc").on("click", function () {
+        var nsc = $('#nosuratacc').val();
+        if (!nsc) {
+            swal("Error", "Lengkapi form yang kosong", "error");
+            return;
+        }
         var checkedCheckboxes = [];
         $('.checkbox_prod:checked').each(function() {
             var idm = $(this).val();

@@ -75,9 +75,12 @@ class InventoriStok_model extends CI_Model {
   }
 
   public function create($data){
+    $subQuery = "(SELECT sn_brg FROM vbarangkeluar WHERE status = 9)";
+    
     $existingRecord = $this->db->where('sn_brg', $data['sn_brg'])
-                        ->get('tb_brg_masuk')
-                        ->row();
+                      ->where_not_in('sn_brg', $subQuery, false)
+                      ->get('tb_brg_masuk')
+                      ->row();
     if (!$existingRecord) {
         $this->db->insert('tb_brg_masuk', $data);
         return true;
