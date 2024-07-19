@@ -34,8 +34,9 @@ class Welcome_model extends CI_Model {
   }
   public function countlaba() {
     $this->db->select([
-      "(SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp) as laba_kotor, tgl_transaksi,
+      "(SUM(harga_jual) + SUM(DISTINCT jml_donasi) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp) as laba_kotor, tgl_transaksi,
       SUM(harga_jual) as total_pen, SUM(harga_diskon) as total_disk, SUM(harga_cashback) total_cb, SUM(hrg_hpp) as total_hpp",
+      "COALESCE(SUM(DISTINCT jml_donasi),0) as total_jasa",
       "MONTH(tgl_transaksi) AS bulan","YEAR(tgl_transaksi) AS tahun"
     ]);
     $this->db->from('vpenjualan');
@@ -47,12 +48,13 @@ class Welcome_model extends CI_Model {
   }
   public function filtercountlaba($m,$y){
     $this->db->select([
-      "COALESCE((SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp),0) as laba_kotor, 
+      "COALESCE((SUM(harga_jual) + SUM(DISTINCT jml_donasi) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp),0) as laba_kotor, 
       tgl_transaksi,
       COALESCE(SUM(harga_jual),0) as total_pen, 
       COALESCE(SUM(harga_diskon),0) as total_disk, 
       COALESCE(SUM(harga_cashback),0) total_cb, 
-      COALESCE(SUM(hrg_hpp),0) as total_hpp",
+      COALESCE(SUM(hrg_hpp),0) as total_hpp,
+      COALESCE(SUM(DISTINCT jml_donasi),0) as total_jasa",
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
@@ -72,7 +74,9 @@ class Welcome_model extends CI_Model {
   }
   public function countpenjualan(){
     $this->db->select([
-      "(SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback))AS total_penjualan"
+      "(SUM(harga_jual) + SUM(DISTINCT jml_donasi) - SUM(harga_diskon) - SUM(harga_cashback))AS total_penjualan",
+      "(SUM(harga_jual) - SUM(harga_diskon) - SUM(harga_cashback))AS total_penjualan_no_jasa",
+      "COALESCE(SUM(DISTINCT jml_donasi),0) as total_jasa"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
@@ -124,7 +128,7 @@ class Welcome_model extends CI_Model {
   }
   public function countTopSales(){
     $this->db->select([
-      "SUM(harga_bayar) as total_jual", 
+      "SUM(harga_bayar) + SUM(DISTINCT jml_donasi) as total_jual", 
       "id_ksr",
       "nama_ksr"
   ]);

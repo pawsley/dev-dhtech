@@ -70,7 +70,7 @@ class PenOrderIn extends Auth
 
   public function orderin(){
     $this->load->library('datatables');
-    $this->datatables->select('id_keluar,id_toko,kode_penjualan,sn_brg,
+    $this->datatables->select('id_keluar,id_toko,kode_penjualan,sn_brg, id_plg, nama_plg, jasa, jml_donasi,
     DATE_FORMAT(tgl_transaksi, "%d %M %Y %H:%i")AS format_tgl,nama_toko,cara_bayar,bayar,
     status,tipe_penjualan,bank_tf,no_rek,total_keranjang,diskon, tunai,bank,kredit,nama_admin,nama_ksr,
     sum(harga_jual) as total_harga_jual, sum(harga_diskon) as total_diskon, sum(harga_cashback) as total_cashback');
@@ -79,12 +79,15 @@ class PenOrderIn extends Auth
     $this->datatables->group_by('kode_penjualan');
     return print_r($this->datatables->generate());
   }
-  public function detialinv($inv){
+  public function detailinv(){
+    $inv = $this->input->post('inv');
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,kode_penjualan,sn_brg,nama_brg,jenis,kondisi,harga_jual,harga_diskon,harga_cashback');
     $this->datatables->from('vpenjualan');
     $this->datatables->where_in('status',0);
-    $this->datatables->where('kode_penjualan',$inv);
+    if (!empty($inv)) {
+      $this->datatables->where('kode_penjualan',$inv);
+    }
     return print_r($this->datatables->generate());
   }
   public function detailsales($idt){
@@ -135,6 +138,27 @@ class PenOrderIn extends Auth
             ];
             $this->PenOrderIn_model->approve($invoice, $data);
             echo json_encode(['status' => 'success']);
+        }
+    } else {
+        redirect('order-masuk');
+    }
+  }
+  public function approvegestun() {
+    if ($this->input->is_ajax_request()) {
+        $inv = $this->input->post('inv');
+        $cek_query = "SELECT kode_penjualan, cara_bayar, id_keluar FROM vpenjualan WHERE kode_penjualan = ?";
+        $cek_result = $this->db->query($cek_query, array($inv))->result();
+        foreach ($cek_result as $row) {
+          if ($row->cara_bayar == 'DP') {
+            echo json_encode(['status' => 'errorr']);
+          } else if ($row->cara_bayar == 'Transfer' || $row->cara_bayar == 'Tunai' || $row->cara_bayar == 'Split Bill') {
+            $invoice = $row->kode_penjualan;
+            $data = ['status' => '9'];
+            $datags = ['status' => '9'];
+            $this->PenOrderIn_model->approve($invoice, $data);
+            $this->PenOrderIn_model->approvegestun($row->id_keluar, $datags);
+            echo json_encode(['status' => 'success']);
+          }
         }
     } else {
         redirect('order-masuk');

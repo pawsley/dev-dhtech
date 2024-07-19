@@ -2,6 +2,7 @@ var tableRS;
 var tableDRS;
 var tableJL;
 var tableDJL;
+var tablePRDJ;
 var formatcur = new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR',
@@ -14,8 +15,10 @@ var monthNames = [
 $(document).ready(function () {
     tablers();
     tablejl();
+    tableprdj();
     detailpen();
     detaillappen();
+    detailprdj();
 });
 
 function tablejl() {
@@ -79,6 +82,8 @@ function tablejl() {
                             return `<span class="badge rounded-pill badge-success">LUNAS</span>`;
                         } else if(data==="3"){
                             return `<span class="badge rounded-pill badge-warning">BATAL</span>`;
+                        } else if(data==="9"){
+                            return `<span class="badge rounded-pill badge-warning">GESTUN</span>`;
                         }
                         return data; // return the original value for other cases
                     }
@@ -99,6 +104,7 @@ function tablejl() {
                                         data-cb="${full.total_cb}" data-lb="${full.total_laba}" data-cst="${full.nama_plg}" data-tb="${full.cara_bayar}" 
                                         data-btf="${full.bank_tf}" data-nr="${full.no_rek}" data-tn="${full.tunai}" data-status="${full.status}"
                                         data-bnk="${full.bank}" data-krd="${full.kredit}" data-toko="${full.nama_toko}" data-tgltr="${full.tgl_transaksi}"
+                                        data-jasa="${full.jasa}" data-jasanom="${full.jml_donasi}"
                                         data-bs-toggle="modal" data-bs-target="#DetailLapPenjualan" title="detail penjualan"><i class="fa fa-exclamation-circle"></i></button>
                                     </div>
                                 </ul>
@@ -143,6 +149,107 @@ function tablejl() {
     return tableJL;
 }
 
+function tableprdj() {
+    if ($.fn.DataTable.isDataTable('#table-prdj')) {
+        tablePRDJ.destroy();
+    }
+    tablePRDJ = $("#table-prdj").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [
+            [0, 'asc'] 
+        ],
+        "ajax": {
+            "url": base_url + 'riwayat-penjualan/laporan-produk-jual/',
+            "type": "POST"
+        },
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "columns": [
+            { 
+                "data": "sn_brg",
+                "render": function(data, type, row, meta) {
+                    return `<a href="#" id="infoprd" 
+                    data-inv="${row.kode_penjualan}" data-cab="${row.nama_toko}" data-tgl="${row.tgl_transaksi}"
+                    data-ksr="${row.nama_ksr}" data-sls="${row.nama_admin}" data-plg="${row.nama_plg}" data-idplg="${row.id_plg}"
+                    data-bs-toggle="modal" data-bs-target="#InfoDetail">${data}</a>`;
+                }
+            },   
+            { "data": "nama_brg" },   
+            { 
+                "data": "harga_jual",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "harga_diskon",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "harga_cashback",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "harga_bayar",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "hrg_hpp",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },            
+            { 
+                "data": "laba_unit",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },      
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'row'<'col-sm-12 col-md-4'B>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-8'p>>",
+        "buttons": [
+            {
+                "text": 'Refresh', // Font Awesome icon for refresh
+                "className": 'custom-refresh-button', // Add a class name for identification
+                "attr": {
+                    "id": "refresh-button" // Set the ID attribute
+                },
+                "init": function (api, node, config) {
+                    $(node).removeClass('btn-default');
+                    $(node).addClass('btn-primary');
+                    $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                },
+                "action": function () {
+                    tablePRDJ.ajax.reload();
+                }
+            },
+            {
+                extend: 'excelHtml5', // Specify the Excel button
+                text: 'Export', // Text for the button
+                className: 'btn btn-success', // Add a class for styling
+                title: 'Laporan Produk Terjual',
+                exportOptions: {
+                    columns: ':visible:not(:last-child):not(:nth-last-child(1))'
+                }
+            }
+        ]
+            
+    });
+    return tablePRDJ;
+}
+
 function tablers() {
     if ($.fn.DataTable.isDataTable('#table-sales')) {
         tableRS.destroy();
@@ -164,7 +271,13 @@ function tablers() {
         "columns": [
             { "data": "sales" },
             { 
-                "data": "total_penjualan",
+                "data": "total_harga_jual",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "total_jasa",
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
@@ -174,7 +287,19 @@ function tablers() {
                 "render": function (data, type, row) {
                     return formatcur.format(data);
                 }
-            },            
+            },
+            { 
+                "data": "total_harga_cb",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "total_penjualan",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
             {
                 "data": "id_ksr",
                 "orderable": false,
@@ -183,7 +308,11 @@ function tablers() {
                         return `
                                 <ul class="action">
                                     <div class="btn-group">
-                                        <button class="btn btn-primary" data-id="${data}" data-total="${full.total_penjualan}" data-ids="${full.id_ksr}" data-sales="${full.nama_ksr}" data-bs-toggle="modal" data-bs-target="#DetailPenjualan" title="detail penjualan"><i class="fa fa-exclamation-circle"></i></button>
+                                        <button class="btn btn-primary" data-id="${data}" 
+                                        data-total="${full.total_penjualan}" data-ids="${full.id_ksr}" data-sales="${full.nama_ksr}" 
+                                        data-hj="${full.total_harga_jual}" data-cb="${full.total_harga_cb}" data-ds="${full.total_diskon}"
+                                        data-js="${full.total_jasa}" data-subt="${full.subtotal}"
+                                        data-bs-toggle="modal" data-bs-target="#DetailPenjualan" title="detail penjualan"><i class="fa fa-exclamation-circle"></i></button>
                                     </div>
                                 </ul>
                             `;
@@ -240,7 +369,6 @@ function detaillappen(){
             year: 'numeric',
             hour: '2-digit',
             minute: '2-digit',
-            second: '2-digit',
             hour12: false
         }).replace(' pukul ', ' ').replace(/\./g, ':');
         var cst = button.data('cst');
@@ -257,6 +385,8 @@ function detaillappen(){
         var cb = button.data('cb');
         var lb = button.data('lb');
         var total = button.data('total');
+        var jasanom = button.data('jasanom');
+        var jasa = button.data('jasa');
         $('#ttcs').text(cst+' ('+monthName+') ');
         $('#ttdi').text(inv);
         $('#tp').text(tipe);
@@ -286,11 +416,13 @@ function detaillappen(){
         }
         $("#ttsales").text(idksr+' | '+sales);
         $("#tthj").text(formatcur.format(hj));
+        $("#ketjasa").text(jasa);
+        $("#nomjasa").text(formatcur.format(jasanom));
         $("#ttds").text(formatcur.format(dis));
         $("#ttcb").text(formatcur.format(cb));
         $("#ttlb").text(formatcur.format(lb));
         $("#ttgt").text(formatcur.format(total));
-        if (stat == '3') {
+        if (stat == '3' || stat == '9') {
             $("#canceltrans").addClass('d-none');
         }else{
             $("#canceltrans").removeClass('d-none');
@@ -306,10 +438,51 @@ function detailpen(){
         var button = $(e.relatedTarget);
         var ids = button.data('id');
         var tt = button.data('total');
+        var subt = button.data('subt');
+        var hj = button.data('hj');
+        var js = button.data('js');
+        var ds = button.data('ds');
+        var cb = button.data('cb');
         var sl = button.data('sales');
+        $("#tthjs").text(formatcur.format(hj));
+        $("#ttjs").text(formatcur.format(js));
+        $("#ttdis").text(formatcur.format(ds));
+        $("#ttcbs").text(formatcur.format(cb));
         $("#ttdh").text(formatcur.format(tt));
+        $("#ttst").text(formatcur.format(subt));
         $("#saldh").text(ids+' | '+sl);
         tabledts(ids);
+    });
+}
+function detailprdj(){
+    $('#InfoDetail').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        var inv = button.data('inv');
+        var cab = button.data('cab');
+        var tgl = button.data('tgl');
+        var sl = button.data('sls');
+        var ksr = button.data('ksr');
+        var plg = button.data('plg');
+        var idplg = button.data('idplg');
+        var date = new Date(tgl);
+        var monthName = date.toLocaleString('id-ID', { 
+            day: 'numeric', 
+            month: 'long', 
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }).replace(' pukul ', ' ').replace(/\./g, ':');
+        $("#prdcab").text(cab);
+        $("#prdiv").text(inv);
+        $('#prdtgl').text(monthName);
+        $("#prdks").text(ksr);
+        $("#prdsl").text(sl);
+        if (idplg == 'Umum') {
+            $("#prdcst").text(idplg);
+        } else {
+            $("#prdcst").text(plg);
+        }
     });
 }
 
@@ -346,6 +519,12 @@ function tabledts(ids) {
                     return formatcur.format(data);
                 }
             },
+            { 
+                "data": "harga_cashback",
+                "render": function (data, type, row) {
+                    return formatcur.format(data);
+                }
+            },            
             { 
                 "data": "harga_ril",
                 "render": function (data, type, row) {
@@ -401,8 +580,11 @@ function tabledtliv(inv) {
             [0, 'desc'] 
         ],
         "ajax": {
-            "url": base_url + 'riwayat-penjualan/detail-laporan-jual/'+inv,
-            "type": "POST"
+            "url": base_url + 'riwayat-penjualan/detail-laporan-jual/',
+            "type": "POST",
+            "data": function(d) {
+                d.invid = inv;
+            }
         },
         "columns": [
             { "data": "sn_brg" },   

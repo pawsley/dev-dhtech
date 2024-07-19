@@ -211,6 +211,10 @@
                                       <strong id="tlp">-</strong>
                                   </li>
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <strong><span>Total Pendapatan Jasa</span></strong>
+                                      <strong id="tpj">-</strong>
+                                  </li>                                  
+                                  <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <strong><span>Total Diskon</span></strong>
                                       <strong id="tld">-</strong>
                                   </li>
@@ -394,6 +398,10 @@
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <strong><span>Total Penjualan</span></strong>
                                       <strong id="totp">-</strong>
+                                  </li>
+                                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                                      <strong><span>Total Pendapatan Jasa</span></strong>
+                                      <strong id="totj">-</strong>
                                   </li>
                               </ul>
                               <!-- Data Table -->

@@ -17,6 +17,7 @@ $(document).ready(function () {
     detailpenjualan();
     detailinv();
     approve();
+    gestun();
     cancel();
 });
 
@@ -64,11 +65,13 @@ function tableom() {
                                     <div class="btn-group">
                                         <button class="btn btn-primary" data-id="${data}" data-total="${full.total_harga_jual}" data-diskon="${full.total_diskon}" data-cashback="${full.total_cashback}" data-grand="${full.total_keranjang}"
                                         data-tipe="${full.cara_bayar}" data-banktf="${full.bank_tf}" data-norek="${full.no_rek}"
-                                        data-tunai="${full.total_keranjang}" data-tf="${full.total_keranjang}"
+                                        data-tunai="${full.total_keranjang}" data-tf="${full.total_keranjang}" data-cst="${full.nama_plg}" data-idcst="${full.id_plg}" 
+                                        data-jasa="${full.jasa}" data-jasanom="${full.jml_donasi}"
                                         data-stn="${full.tunai}" data-stf="${full.bank}" data-skr="${full.kredit}" data-ksr="${full.nama_admin}" data-sl="${full.nama_ksr}"
                                         data-bs-toggle="modal" data-bs-target="#DetailInvoice" title="detail invoice"><i class="fa fa-exclamation-circle"></i></button>
                                         <button class="btn btn-success" id="approve" data-id="${data}" data-id_toko="${full.id_toko}" title="approve"><i class="icofont icofont-ui-check"></i></button>
                                         <button class="btn btn-danger" id="cancel" data-id="${data}" data-keluar="${full.id_keluar}" title="cancel"><i class="icofont icofont-ui-close"></i></button>
+                                        <button class="btn btn-warning" id="gestun" data-id="${data}" data-id_toko="${full.id_toko}" title="gestun">Gestun</button>
                                     </div>
                                 </ul>
                             `;
@@ -170,8 +173,11 @@ function tableiv(inv) {
             [0, 'desc'] 
         ],
         "ajax": {
-            "url": base_url + 'order-masuk/detail-invoice/'+inv,
-            "type": "POST"
+            "url": base_url + 'order-masuk/detail-invoice/',
+            "type": "POST",
+            "data": function(d) {
+                d.inv = inv;
+            }
         },
         "columns": [
             { "data": "sn_brg" },
@@ -251,8 +257,17 @@ function detailinv(){
         var skr = button.data('skr');
         var kasir = button.data('ksr');
         var sales = button.data('sl');
+        var plg = button.data('cst');
+        var idcst = button.data('idcst');
+        var jasanom = button.data('jasanom');
+        var jasa = button.data('jasa');
         $("#adm").text(kasir);
         $("#ksr").text(sales);
+        if (idcst == 'Umum') {
+            $("#cst").text(idcst);
+        } else {
+            $("#cst").text(plg);
+        }
         $("#noinv").text(inv);
         $("#tp").text(tp);
         if (tp == 'Tunai') {
@@ -284,6 +299,8 @@ function detailinv(){
             $('#kr').text(formatcur.format(skr));
         }
         $("#tt").text(formatcur.format(tt));
+        $("#ketjasa").text(jasa);
+        $("#nomjasa").text(formatcur.format(jasanom));
         $("#di").text(formatcur.format(ds));
         $("#cb").text(formatcur.format(cb));
         $("#gt").text(formatcur.format(gd));
@@ -314,6 +331,42 @@ function approve() {
                     });
                 } else {
                     swal("Transaksi gagal disetujui", {
+                        icon: "error",
+                    });
+                }
+            },
+            error: function (error) {
+                swal("Gagal", {
+                    icon: "error",
+                });
+            }
+        });
+    });
+}
+function gestun() {
+    $('#table-om').on('click', '#gestun', function() {
+        var id = $(this).data('id');
+        var idt = $(this).data('id_toko');
+        $.ajax({
+            type: "POST",
+            url: base_url+"order-masuk/approve-gestun",
+            dataType: "json", 
+            data: {
+                inv: id
+            },
+            success: function (response) {
+                if (response.status === 'success') {
+                    swal("Gestun disetujui", {
+                        icon: "success",
+                    }).then((value) => {
+                        tableOM.ajax.reload();
+                        $('#spinner-' + idt).removeClass('d-none');
+                        $('#counting-' + idt).addClass('d-none');
+                        countbystore(idt, formatcur);
+                        card();
+                    });
+                } else {
+                    swal("Gestun gagal disetujui, karena cara bayar DP", {
                         icon: "error",
                     });
                 }

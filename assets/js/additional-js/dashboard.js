@@ -134,6 +134,7 @@ function countlaba(formatcur) {
             $.each(data, function(index, item) {
                 var formattedValue = formatcur.format(item.laba_kotor);
                 var fpen = formatcur.format(item.total_pen);
+                var fjasa = formatcur.format(item.total_jasa);
                 var fhpp = formatcur.format(item.total_hpp);
                 var fdisk = formatcur.format(item.total_disk);
                 var fcashb = formatcur.format(item.total_cb);
@@ -143,6 +144,7 @@ function countlaba(formatcur) {
                 $('.cardlaba').attr('data-total_laba', formattedValue);
                 $('.cardlaba').attr('data-total_hpp', fhpp);
                 $('.cardlaba').attr('data-total_pen', fpen);
+                $('.cardlaba').attr('data-total_jasa', fjasa);
                 $('.cardlaba').attr('data-total_disk', fdisk);
                 $('.cardlaba').attr('data-total_cashb', fcashb);
                 $('.cardlaba').attr('data-bulanlb', bulan);
@@ -178,8 +180,11 @@ function countpen(formatcur) {
             $('#cardp').removeClass('d-none');
             $.each(data, function(index, item) {
                 var sales = formatcur.format(item.total_penjualan)
+                var salesprd = formatcur.format(item.total_penjualan_no_jasa)
+                var totjasa = formatcur.format(item.total_jasa)
                 $('#cardp').text(sales);
-                $('.cp').attr('data-total_sales', sales);
+                $('.cp').attr('data-total_sales', salesprd);
+                $('.cp').attr('data-total_jasa', totjasa);
                 return false;
             });
             $('#spinp').addClass('d-none');
@@ -1086,6 +1091,7 @@ function detaillaba() {
         var total = button.data('total_laba');
         var totalhpp = button.data('total_hpp');
         var totalpen = button.data('total_pen');
+        var totaljasa = button.data('total_jasa');
         var totaldisk = button.data('total_disk');
         var totalcba = button.data('total_cashb');
         var m = button.data('bulanlb');
@@ -1093,6 +1099,7 @@ function detaillaba() {
         $("#tlk").text(total);
         $("#tlh").text(totalhpp);
         $("#tlp").text(totalpen);
+        $("#tpj").text(totaljasa);
         $("#tld").text(totaldisk);
         $("#tlc").text(totalcba);
         filterlb();
@@ -1117,6 +1124,7 @@ function filterlb(){
                     $("#tlk").text(formatcur.format(item.laba_kotor));
                     $("#tlh").text(formatcur.format(item.total_hpp));
                     $("#tlp").text(formatcur.format(item.total_pen));
+                    $("#tpj").text(formatcur.format(item.total_jasa));
                     $("#tld").text(formatcur.format(item.total_disk));
                     $("#tlc").text(formatcur.format(item.total_cb));
                     tablelaba(m,y);
@@ -1174,7 +1182,9 @@ function detailsales() {
     $('#DetailSales').on('show.bs.modal', function (e) {
         var button = $(e.relatedTarget);
         var total = button.data('total_sales');
+        var totalj = button.data('total_jasa');
         $("#totp").text(total);
+        $("#totj").text(totalj);
         tablesales();
     });
 }

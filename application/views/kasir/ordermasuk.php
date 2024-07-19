@@ -161,6 +161,10 @@
                                     <strong id="ksr">-</strong>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong><span>Customer</span></strong>
+                                    <strong id="cst">-</strong>
+                                </li>                                
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong><span>Tipe Pembayaran</span></strong>
                                     <strong id="tp">-</strong>
                                 </li>
@@ -212,6 +216,10 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong><span>Total Harga Jual</span></strong>
                                     <strong id="tt">-</strong>                                                           
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <strong>Jasa <span id="ketjasa"></span></strong>
+                                    <strong id="nomjasa">-</strong>                                                           
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <strong><span>Total Diskon</span></strong>
