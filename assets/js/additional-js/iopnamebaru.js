@@ -492,8 +492,16 @@ function formatDate(date) {
     var options = { day: 'numeric', month: 'long', year: 'numeric' };
     return date.toLocaleDateString('id-ID', options);
 }
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+}
 function getProdOP() {
-    $('#carisn').on('input', function() {
+    $('#carisn').on('input', debounce(function() {
         var idt = $(this).data('idt');
         var idop = $(this).data('idop');
         var otgl = $(this).data('otgl');
@@ -502,7 +510,7 @@ function getProdOP() {
             return; // Do nothing if the search term is empty
         }
         $.ajax({
-            url: base_url + 'StockOpname/searchSN/'+idt+'/'+idop+'/'+searchTerm,
+            url: base_url + 'StockOpname/searchSN/' + idt + '/' + idop + '/' + searchTerm,
             type: 'GET',
             dataType: 'json',
             success: function(response) {
@@ -544,7 +552,7 @@ function getProdOP() {
                         }
                     });
                 } else {
-                    swal("error", "Serial Number "+searchTerm+ " tidak ada", "error").then(() => {
+                    swal("error", "Serial Number " + searchTerm + " tidak ada", "error").then(() => {
                         $('#carisn').val('');
                         $('#hsn').val('');
                         $('#merk').val('');
@@ -552,15 +560,13 @@ function getProdOP() {
                         $('#spek').val('');
                         $('#carisn').focus();
                     });
-                    // console.log('No data found or multiple entries found for serial number:', searchTerm);
                 }
             },
             error: function(xhr, status, error) {
                 console.error('Error searching serial number:', error);
             }
         });
-    });
-       
+    }, 500)); // Adjust the debounce wait time as needed
 }
 function inputacc() {
     $('#carisnacc').on('input', function() {
