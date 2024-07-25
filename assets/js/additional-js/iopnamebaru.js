@@ -552,7 +552,13 @@ function getProdOP() {
                         }
                     });
                 } else {
-                    swal("error", "Serial Number " + searchTerm + " tidak ada", "error").then(() => {
+                    swal({
+                        title: "error",
+                        text: "Serial Number "+searchTerm+ " tidak ada",
+                        icon: "error",
+                        timer: 1000, // Time in milliseconds (2 seconds in this example)
+                        buttons: false // Hides the "OK" button
+                    }).then(() => {
                         $('#carisn').val('');
                         $('#hsn').val('');
                         $('#merk').val('');
@@ -560,6 +566,8 @@ function getProdOP() {
                         $('#spek').val('');
                         $('#carisn').focus();
                     });
+                    // swal("error", "Serial Number " + searchTerm + " tidak ada", "error").then(() => {
+                    // });
                 }
             },
             error: function(xhr, status, error) {
@@ -569,7 +577,7 @@ function getProdOP() {
     }, 500)); // Adjust the debounce wait time as needed
 }
 function inputacc() {
-    $('#carisnacc').on('input', function() {
+    $('#carisnacc').on('input', debounce(function() {
         var idtacc = $(this).data('idtacc');
         var idopacc = $(this).data('idopacc');
         var otglacc = $(this).data('otglacc');
@@ -618,21 +626,28 @@ function inputacc() {
                         }
                     });
                 } else {
-                    swal("error", "Serial Number "+searchTerm+ " tidak ada", "error").then(() => {
+                    swal({
+                        title: "error",
+                        text: "Serial Number "+searchTerm+ " tidak ada",
+                        icon: "error",
+                        timer: 1000, // Time in milliseconds (2 seconds in this example)
+                        buttons: false // Hides the "OK" button
+                    }).then(() => {
                         $('#carisnacc').val('');
                         $('#hsnacc').val('');
                         $('#merkacc').val('');
                         $('#jenisacc').val('');
                         $('#carisnacc').focus();
                     });
-                    // console.log('No data found or multiple entries found for serial number:', searchTerm);
+                    // swal("error", "Serial Number "+searchTerm+ " tidak ada", "error").then(() => {
+                    // });
                 }
             },
             error: function(xhr, status, error) {
                 console.error('Error searching serial number:', error);
             }
         });
-    });
+    }, 500));
        
 }
 function getbarang(){

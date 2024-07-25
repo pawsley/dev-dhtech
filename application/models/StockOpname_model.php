@@ -78,7 +78,17 @@ class StockOpname_model extends CI_Model {
     $this->db->insert('tb_opname',$data);
   }
   public function createpr($data) {
-    $this->db->insert('tb_opname_detail',$data);
+    $existdata = $this->db->select('id_opname, id_keluar')
+                ->where('id_opname', $data['id_opname'])
+                ->where('id_keluar', $data['id_keluar'])
+                ->get('tb_opname_detail')
+                ->row();
+    if (!$existdata) {
+      $this->db->insert('tb_opname_detail',$data);
+      return true;
+    } else {
+      return false;
+    }
   }
   public function approveop($data){
     $this->db->where('status','1');

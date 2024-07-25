@@ -149,7 +149,7 @@ class StockOpname extends Auth
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/iopnamebaru.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/iopnamebaru.js?v=2.0') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
@@ -214,9 +214,12 @@ class StockOpname extends Auth
         'id_opname'      => $this->input->post('idopname'),
         'id_keluar'      => $this->input->post('idkeluar'),
       ];
-      
-      $this->StockOpname_model->createpr($data);
-      echo json_encode(['status' => 'success']);
+      $inserted = $this->StockOpname_model->createpr($data);
+      if ($inserted) {
+        echo json_encode(['status' => 'success']);
+      } else {
+        echo json_encode(['status' => 'exists']);
+      }
     } else {
       redirect('stock-opname');
     }    
