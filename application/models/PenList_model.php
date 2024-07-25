@@ -42,7 +42,7 @@ class PenList_model extends CI_Model {
       $this->db->or_like('nama_brg', $searchTerm);
       $this->db->group_end();
     }
-    $this->db->where_in('status',[2]);
+    $this->db->where_in('status',[2,6]);
     $query = $this->db->get();
     return $query->result_array();
   }

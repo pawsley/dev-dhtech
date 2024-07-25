@@ -84,7 +84,7 @@ class PenList extends Auth
     if (!empty($cab) && $cab !== 'AllCab') {
       $this->datatables->where('id_toko', $cab);
     }
-    $this->datatables->where_in('status',[2]);
+    $this->datatables->where_in('status',[2,6]);
     return print_r($this->datatables->generate());
   }
   public function infoBrg($id){
@@ -98,7 +98,7 @@ class PenList extends Auth
     $this->datatables->from('vbarangkeluar');
     $this->datatables->where('hrg_hpp !=0');
     $this->datatables->where('hrg_jual !=0');
-    $this->datatables->where_in('status',[2]);
+    $this->datatables->where_in('status',[2,6]);
     $this->datatables->like('nama_toko', $decoded_cab);
     return print_r($this->datatables->generate());    
   }
