@@ -400,50 +400,42 @@ class Zend_Barcode_Renderer_Image extends Zend_Barcode_Renderer_RendererAbstract
             ($color & 0x00FF00) >> 8,
             $color & 0x0000FF
         );
-
+    
         if ($font == null) {
             $font = 3;
         }
-        $position[0] += $this->_leftOffset;
-        $position[1] += $this->_topOffset;
-
+        $position[0] = (int) ($position[0] + $this->_leftOffset);
+        $position[1] = (int) ($position[1] + $this->_topOffset);
+    
         if (is_numeric($font)) {
             if ($orientation) {
-                /**
-                 * imagestring() doesn't allow orientation, if orientation
-                 * needed: a TTF font is required.
-                 * Throwing an exception here, allow to use automaticRenderError
-                 * to informe user of the problem instead of simply not drawing
-                 * the text
-                 */
                 require_once 'Zend/Barcode/Renderer/Exception.php';
                 throw new Zend_Barcode_Renderer_Exception(
                     'No orientation possible with GD internal font'
                 );
             }
             $fontWidth = imagefontwidth($font);
-            $positionY = $position[1] - imagefontheight($font) + 1;
+            $positionY = (int) ($position[1] - imagefontheight($font) + 1);
             switch ($alignment) {
                 case 'left':
-                    $positionX = $position[0];
+                    $positionX = (int) $position[0];
                     break;
                 case 'center':
-                    $positionX = $position[0] - ceil(($fontWidth * strlen($text)) / 2);
+                    $positionX = (int) ($position[0] - ceil(($fontWidth * strlen($text)) / 2));
                     break;
                 case 'right':
-                    $positionX = $position[0] - ($fontWidth * strlen($text));
+                    $positionX = (int) ($position[0] - ($fontWidth * strlen($text)));
                     break;
             }
             imagestring($this->_resource, $font, $positionX, $positionY, $text, $color);
         } else {
-
             if (!function_exists('imagettfbbox')) {
                 require_once 'Zend/Barcode/Renderer/Exception.php';
                 throw new Zend_Barcode_Renderer_Exception(
                     'A font was provided, but this instance of PHP does not have TTF (FreeType) support'
-                    );
+                );
             }
-
+    
             $box = imagettfbbox($size, 0, $font, $text);
             switch ($alignment) {
                 case 'left':
@@ -460,12 +452,12 @@ class Zend_Barcode_Renderer_Image extends Zend_Barcode_Renderer_RendererAbstract
                 $this->_resource,
                 $size,
                 $orientation,
-                $position[0] - ($width * cos(pi() * $orientation / 180)),
-                $position[1] + ($width * sin(pi() * $orientation / 180)),
+                (int) ($position[0] - ($width * cos(pi() * $orientation / 180))),
+                (int) ($position[1] + ($width * sin(pi() * $orientation / 180))),
                 $allocatedColor,
                 $font,
                 $text
             );
         }
-    }
+    }    
 }

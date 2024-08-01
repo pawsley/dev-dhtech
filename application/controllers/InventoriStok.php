@@ -105,19 +105,49 @@ class InventoriStok extends Auth
     $this->load->view('layout/base', $data);
   }
 
-  public function barcode($sn){
+  public function barcode($sn) {
     $this->zend->load('Zend/Barcode');
-    $imageResource = Zend_Barcode::factory('code128','image', array('text'=>$sn), array())->draw();
-    $imageName = $sn.'.jpg';
-      
-      if ($_SERVER['SERVER_NAME'] == 'localhost') {
+
+    // Opsi untuk barcode
+    $options = array(
+        'text' => $sn,
+        'drawText' => true,
+        'factor' => 2, // Konversi eksplisit ke integer
+        'dpi' => 500,
+        'stretchText' => true,
+    );
+
+    // Menentukan jalur ke file font yang diunduh
+    $fontPath = FCPATH . 'assets/fonts/SourceSans3-Regular.ttf'; // Sesuaikan dengan nama file font
+
+    if (file_exists($fontPath)) {
+        $options['font'] = $fontPath;
+        $options['fontSize'] = 8; // Pastikan ini integer
+    }
+
+    // Opsi renderer (output)
+    $rendererOptions = array(
+        'imageType' => 'jpg',
+    );
+
+    // Membuat resource gambar barcode
+    $imageResource = Zend_Barcode::factory('code128', 'image', $options, $rendererOptions)->draw();
+
+    // Menentukan jalur penyimpanan gambar berdasarkan lingkungan
+    if ($_SERVER['SERVER_NAME'] == 'localhost') {
         $imagePath = './assets/dhdokumen/snbarcode/';
-      } else if($_SERVER['SERVER_NAME'] == 'live.akira.id'){
+    } else if ($_SERVER['SERVER_NAME'] == 'live.akira.id') {
         $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/dev-dhtech/assets/dhdokumen/snbarcode/';
-      }else {
+    } else {
         $imagePath = $_SERVER['DOCUMENT_ROOT'] . '/assets/dhdokumen/snbarcode/';
-      }
-    imagejpeg($imageResource, $imagePath.$imageName);    
+    }
+
+    // Nama file gambar
+    $imageName = $sn . '.jpg';
+
+    // Menyimpan gambar
+    imagepng($imageResource, $imagePath . $imageName);
+    imagedestroy($imageResource); // Menghancurkan resource gambar untuk membebaskan memori
   }
 
   public function addmb() {
