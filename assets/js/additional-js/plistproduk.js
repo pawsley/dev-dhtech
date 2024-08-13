@@ -98,6 +98,8 @@ function tablepl() {
                             return `<span class="badge rounded-pill badge-success">TERJUAL</span>`;
                         } else if(data==="4"){
                             return `<span class="badge rounded-pill badge-info">BOOKING</span>`;
+                        } else if(data==="6"){
+                            return `<span class="badge rounded-pill badge-warning">BOOKING</span>`;
                         }
                         return data; // return the original value for other cases
                     }

@@ -327,7 +327,7 @@
                           <?php if ($jab=='OWNER') { ?>
                           <li class="seta"><a class="seta" href="<?=base_url()?>etalase-toko/">Etalase Toko</a></li>
                           <?php } ?>
-                          <?php if ($jab=='OWNER' || $jab=='Finance') { ?>
+                          <?php if ($jab=='OWNER' || $jab=='Finance' || $jab=='Manager Oprasional' || $jab=='KEPALA CABANG') { ?>
                           <li class="shst"><a class="shst" href="<?=base_url()?>riwayat-penjualan/">Riwayat Penjualan</a></li>
                           <?php } ?>
                       </ul>
