@@ -240,9 +240,6 @@ function tableprdj() {
                 text: 'Export', // Text for the button
                 className: 'btn btn-success', // Add a class for styling
                 title: 'Laporan Produk Terjual',
-                exportOptions: {
-                    columns: ':visible:not(:last-child):not(:nth-last-child(1))'
-                }
             }
         ]
             
@@ -651,9 +648,6 @@ function tabledtliv(inv) {
                 text: 'Export', // Text for the button
                 className: 'btn btn-success', // Add a class for styling
                 title: 'Detail Laporan Penjualan '+inv,
-                exportOptions: {
-                    columns: ':visible:not(:last-child):not(:nth-last-child(1))'
-                }
             }
         ]
             
