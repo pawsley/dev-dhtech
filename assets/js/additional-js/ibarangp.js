@@ -525,6 +525,14 @@ function dtsp(){
         tabledt(idp);
     });
 }
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+}
 function getProdukFCab(fcab) {
     $('#prod').select2({
         dropdownParent: $("#PindahBarang"),
@@ -571,23 +579,22 @@ function getProdukFCab(fcab) {
             },
             cache: false,
         },
-        templateResult: function (data) {
-            if (!data.id) {
-                return data.text;
-            }
-            return getDataBM(data);
-        }
+        // templateResult: function (data) {
+        //     if (!data.id) {
+        //         return data.text;
+        //     }
+        //     return getDataBM(data);
+        // }
     });
-    $('#prod').on('select2:select', function(e) {
+    $('#prod').on('select2:select', debounce(function(e) {
         var data = e.params.data;
-        var textParts = data.id.split('-');
         var merk = e.params.data.merk;
         var jenis = e.params.data.jenis;
         var spek = e.params.data.spek;
         $('#merk').val(merk);
         $('#jenis').val(jenis);
         $('#spek').val(spek);
-    });
+    }, 500));
 }
 function getDataBM(data) {
     var $option = $('<span></span>');
@@ -600,7 +607,7 @@ function getDataBM(data) {
     return $option;
 }
 function submitpindah() {
-    $("#tambahdata").on("click", function () {
+    $("#tambahdata").off("click").on("click", function () {
         var idk = $("#prod").val();
         var idp = $("#ns").text().split('-');
         var kcab = $('#kc').text().split('|');
