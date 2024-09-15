@@ -512,10 +512,14 @@ function dtsp(){
         var idp = button.data('idp');
         var dcab = button.data('dcid');
         var kcab = button.data('kcid');
+        setTimeout(function (){
+            $('#carisnacc').val('').focus();
+        }, 1000);
         $('#ns').text(sp+'-'+idp);
         $('#dc').text(dcab);
         $('#kc').text(kcab);
-        $("#prod").val('0').trigger('change.select2');
+        $('#idk').val('');
+        $('#hsnacc').val('');
         $("#merk").val('');
         $("#jenis").val('');
         $("#spek").val('');
@@ -534,66 +538,53 @@ function debounce(func, wait) {
     };
 }
 function getProdukFCab(fcab) {
-    $('#prod').select2({
-        dropdownParent: $("#PindahBarang"),
-        language: 'id',
-        ajax: {
-            url: base_url + 'BarangPindah/loadprodf/'+fcab,
+    $('#carisnacc').on('input', debounce(function() {
+        var searchTerm = $(this).val();
+        if (searchTerm.trim() === '') {
+            $('#idk').val('');
+            $('#hsnacc').val('');
+            $('#merk').val('');
+            $('#jenis').val('');
+            $('#spek').val('');
+            return;
+        }
+        $.ajax({
+            url: base_url + 'BarangPindah/loadprodf/'+fcab+'/'+searchTerm,
+            type: 'GET',
             dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return {
-                    q: params.term, 
-                };
-            },
-            processResults: function (data) {
-                var groups = {};
-                var results = [];
-    
-                data.forEach(function (item) {
-                    var groupName = item.merk + ' - ' + item.jenis;
-                    if (!groups[groupName]) {
-                        groups[groupName] = [];
-                    }
-                    groups[groupName].push({
-                        id: item.id_keluar,
-                        text: item.sn_brg+' | '+item.nama_brg,
-                        merk : item.merk,
-                        spek : item.spek,
-                        jenis : item.jenis,
-                        hrg_hpp: item.hrg_hpp, 
-                        hrg_jual: item.hrg_jual
+            success: function(response) {
+                if (response.length === 1) {
+                    var data = response[0];
+                    var sn_brg = data.sn_brg;
+                    var merk = data.merk;
+                    var jenis = data.jenis;
+                    var idk = data.id_keluar;
+                    $('#idk').val(idk);
+                    $('#hsnacc').val(sn_brg+' | '+data.nama_brg);
+                    $('#merk').val(merk);
+                    $('#jenis').val(jenis);
+                    $('#spek').val(jenis);
+                } else {
+                    swal({
+                        title: "error",
+                        text: "Serial Number "+searchTerm+ " tidak ada",
+                        icon: "error",
+                        timer: 1000, // Time in milliseconds (2 seconds in this example)
+                        buttons: false // Hides the "OK" button
+                    }).then(() => {
+                        $('#carisnacc').val('').focus();
+                        $('#idk').val('');
+                        $('#hsnacc').val('');
+                        $('#merk').val('');
+                        $('#jenis').val('');
+                        $('#spek').val('');
                     });
-                });
-    
-                Object.keys(groups).forEach(function (groupName) {
-                    results.push({
-                        text: groupName,
-                        children: groups[groupName]
-                    });
-                });
-    
-                return {
-                    results: results
-                };
+                }
             },
-            cache: false,
-        },
-        // templateResult: function (data) {
-        //     if (!data.id) {
-        //         return data.text;
-        //     }
-        //     return getDataBM(data);
-        // }
-    });
-    $('#prod').on('select2:select', debounce(function(e) {
-        var data = e.params.data;
-        var merk = e.params.data.merk;
-        var jenis = e.params.data.jenis;
-        var spek = e.params.data.spek;
-        $('#merk').val(merk);
-        $('#jenis').val(jenis);
-        $('#spek').val(spek);
+            error: function(xhr, status, error) {
+                console.error('Error searching serial number:', error);
+            }
+        });
     }, 500));
 }
 function getDataBM(data) {
@@ -608,15 +599,15 @@ function getDataBM(data) {
 }
 function submitpindah() {
     $("#tambahdata").off("click").on("click", function () {
-        var idk = $("#prod").val();
+        var idk = $("#idk").val();
         var idp = $("#ns").text().split('-');
         var kcab = $('#kc').text().split('|');
         var split_idp = idp[1].trim();
         var split_kc = kcab[0].trim();
-        if ($("#prod").val() === '0') {
-            swal("Error", "Produk belum dipilih", "error");
-            return;
-        }
+        // if ($("#prod").val() === '0') {
+        //     swal("Error", "Produk belum dipilih", "error");
+        //     return;
+        // }
         
         $.ajax({
             type: "POST",
@@ -630,18 +621,22 @@ function submitpindah() {
             success: function (response) {
                 if (response.status === 'success') {
                     swal("success", "Barang berhasil ditambahkan", "success").then(() => {
-                        $("#prod").val('0').trigger('change.select2');
-                        $("#merk").val('');
-                        $("#jenis").val('');
-                        $("#spek").val('');
+                        $('#carisnacc').val('').focus();
+                        $('#idk').val('');
+                        $('#hsnacc').val('');
+                        $('#merk').val('');
+                        $('#jenis').val('');
+                        $('#spek').val('');
                         reloadtsp(split_idp)
                     });
                 } else if(response.status === 'error') {
                     swal("Error", "Barang gagal ditambahkan", "error").then(() => {
-                        $("#prod").val('0').trigger('change.select2');
-                        $("#merk").val('');
-                        $("#jenis").val('');
-                        $("#spek").val('');
+                        $('#carisnacc').val('').focus();
+                        $('#idk').val('');
+                        $('#hsnacc').val('');
+                        $('#merk').val('');
+                        $('#jenis').val('');
+                        $('#spek').val('');
                     });
                 }
             },

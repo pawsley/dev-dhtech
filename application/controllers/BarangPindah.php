@@ -45,7 +45,7 @@ class BarangPindah extends Auth
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/ibarangp.js?v=1.2') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/ibarangp.js?v=1.3') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
@@ -101,7 +101,7 @@ class BarangPindah extends Auth
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/ibarangp.js?v=1.2') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/ibarangp.js?v=1.3') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
@@ -170,8 +170,8 @@ class BarangPindah extends Auth
       redirect('pindah-barang');
     }
   }
-  public function loadprodf($fcab) {
-    $searchTerm = $this->input->get('q');
+  public function loadprodf($fcab,$searchTerm) {
+    // $searchTerm = $this->input->get('carisnacc');
     $results = $this->BarangPindah_model->getProd($fcab,$searchTerm);
     header('Content-Type: application/json');
     echo json_encode($results);    

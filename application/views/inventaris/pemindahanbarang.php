@@ -124,14 +124,17 @@
                                         <span>KEPADA CABANG</span>
                                         <strong id="kc">-</strong>
                                     </li>
+                                    <!-- CARISN -->
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <input class="form-control" id="carisnacc" name="carisnacc" type="text" placeholder="Scan serial number produk" aria-label="carisn">
+                                    </li>
                                     <!-- PRODUK -->
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <form class="row g-3">
                                             <div class="col-6 position-relative">
-                                                <label class="form-label" for="NamaProduk">Nama Produk</label>
-                                                <select class="form-select" id="prod" name="prod" required="">
-                                                    <option selected="" disabled="" value="0">Pilih Produk</option>
-                                                </select>
+                                                <label class="form-label" for="hsnacc">Nama Produk</label>
+                                                <input class="form-control" id="hsnacc" name="hsnacc" type="text" placeholder="TERISI OTOMATIS" readonly>
+                                                <input class="form-control" id="idk" name="idk" type="hidden">
                                             </div>
                                             <!-- Brand Product -->
                                             <div class="col-3 position-relative"> 
