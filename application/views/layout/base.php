@@ -94,21 +94,18 @@
                 </div>
               </li>
               <!-- Notifikasi -->
-              <li class="profile-nav onhover-dropdown pe-0 py-0">
-                <div class="media profile-media">
-                    <img class="b-r-10" src="<?=base_url()?>assets/images/dashboard/profile.png" alt="gambar-principle" loading="lazy">
-                  <div class="media-body"><span><?php echo $this->session->userdata('nama_lengkap'); ?></span>
-                    <p class="mb-0">
-                      <?php echo $this->session->userdata('jabatan'); ?>
-                      <i class="middle fa fa-angle-down"></i>
-                    </p>
-                  </div>
-                </div>
-                <ul class="profile-dropdown onhover-show-div">
-                  <!-- <li><a href="#"><i data-feather="settings"></i><span>Pengaturan</span></a></li> -->
-                  <li><a href="<?=base_url()?>logout/"><i data-feather="log-in"> </i><span>Keluar</span></a></li>
+              <div class="btn-group">
+                <button class="btn dropdown-toggle d-flex align-items-center rounded-pill px-0 py-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img class="rounded-circle me-2" src="<?=base_url()?>assets/images/dashboard/profile.png" alt="Profile Picture" loading="lazy" width="40" height="40">
+                    <div class="text-start">
+                        <span class="d-block fw-bold"><?php echo $this->session->userdata('nama_lengkap'); ?></span>
+                        <small class="text-muted"><?php echo $this->session->userdata('jabatan'); ?></small>
+                    </div>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="<?=base_url()?>logout/"><i data-feather="log-in"></i> Keluar</a></li>
                 </ul>
-              </li>
+              </div>
             </ul>
           </div>
         </div>

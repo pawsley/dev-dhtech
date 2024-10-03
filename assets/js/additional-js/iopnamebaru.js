@@ -571,7 +571,23 @@ function getProdOP() {
                 }
             },
             error: function(xhr, status, error) {
-                console.error('Error searching serial number:', error);
+                if (xhr.status === 400 || xhr.status === 500) {
+                    swal({
+                        title: "Error",
+                        text: "Serial Number "+searchTerm+ " tidak ada",
+                        icon: "error",
+                        timer: 1000,
+                        buttons: false
+                    }).then(() => {
+                        $('#carisn').val('');
+                        $('#hsn').val('');
+                        $('#merk').val('');
+                        $('#jenis').val('');
+                        $('#carisn').focus();
+                    });
+                } else {
+                    console.error('Error searching serial number:', error);
+                }
             }
         });
     }, 500)); // Adjust the debounce wait time as needed
@@ -639,12 +655,26 @@ function inputacc() {
                         $('#jenisacc').val('');
                         $('#carisnacc').focus();
                     });
-                    // swal("error", "Serial Number "+searchTerm+ " tidak ada", "error").then(() => {
-                    // });
                 }
             },
             error: function(xhr, status, error) {
-                console.error('Error searching serial number:', error);
+                if (xhr.status === 400 || xhr.status === 500) {
+                    swal({
+                        title: "Error",
+                        text: "Serial Number "+searchTerm+ " tidak ada",
+                        icon: "error",
+                        timer: 1000,
+                        buttons: false
+                    }).then(() => {
+                        $('#carisnacc').val('');
+                        $('#hsnacc').val('');
+                        $('#merkacc').val('');
+                        $('#jenisacc').val('');
+                        $('#carisnacc').focus();
+                    });
+                } else {
+                    console.error('Error searching serial number:', error);
+                }
             }
         });
     }, 500));
