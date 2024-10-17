@@ -43,19 +43,19 @@
                     <!-- Alamat Email Kustomer -->
                     <div class="col-md-6 position-relative">
                         <label class="form-label" for="FormEmailKustomer">Email Kustomer</label>
-                        <input class="form-control" id="FormEmailKustomer" name="email" type="email" placeholder="alamat@email.com" required="">
+                        <input class="form-control" id="FormEmailKustomer" name="email" type="email" placeholder="alamat@email.com">
                         <div class="valid-tooltip">Looks good!</div>
                     </div>
                     <!-- Kontak Kustomer -->
                     <div class="col-md-6 position-relative">
                         <label class="form-label" for="FormNomorKustomer">Kontak Kustomer</label>
-                        <input class="form-control" id="FormNomorKustomer" name="wa" type="text" oninput="formatPhoneNumber(this)" placeholder="ex: 081220812206" required="">
+                        <input class="form-control" id="FormNomorKustomer" name="wa" type="text" oninput="formatPhoneNumber(this)" placeholder="ex: 081220812206">
                         <div class="valid-tooltip">Looks good!</div>
                     </div>
                     <!-- Detai Alamat Kustomer -->
                     <div class="col-md-12 position-relative">
                         <label class="form-label" for="FormDetailAlamatKustomer">Detail Alamat Kustomer</label>
-                        <input class="form-control" id="FormDetailAlamatKustomer" name="alamat" type="text" placeholder="contoh: Jl. Tamtama No 19" required="">
+                        <input class="form-control" id="FormDetailAlamatKustomer" name="alamat" type="text" placeholder="contoh: Jl. Tamtama No 19">
                         <div class="valid-tooltip">Looks good!</div>
                     </div>
                     <!-- Button Tambah Kustomer Baru -->

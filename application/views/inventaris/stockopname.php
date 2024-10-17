@@ -146,6 +146,12 @@
                             </div>
                         </div>
                       <div class="card-body">
+                        <div class="row mb-2">
+                          <div class="col-md-6">
+                            <label for="ftgl">Filter Tanggal Opname</label>
+                            <input type="date" id="ftgl" class="form-control">
+                          </div>
+                        </div>
                         <div class="table-responsive">
                           <table class="display" id="table-ro">
                             <thead>

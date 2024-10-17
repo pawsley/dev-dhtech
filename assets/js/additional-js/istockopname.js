@@ -16,7 +16,14 @@ $(document).ready(function () {
     reload();
     // exportexcel();
     detailopname();
+    filter();
 });
+function filter() {
+    $('#ftgl').on('change', function() {
+        var selectedDate = $(this).val();
+        tableRO.ajax.reload(); 
+    });
+}
 //count produk in and out
 function cardgd() {
     $('#cardLink').click(function(event) {
@@ -108,7 +115,10 @@ function tablero() {
         ],
         "ajax": {
             "url": base_url + 'stock-opname/riwayat-opname/',
-            "type": "POST"
+            "type": "POST",
+            data: function(d) {
+                d.tgl = $('#ftgl').val();
+            }
         },
         "columns": [
             { "data": "kode_opname" },

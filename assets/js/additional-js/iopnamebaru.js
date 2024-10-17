@@ -514,8 +514,8 @@ function getProdOP() {
             type: 'GET',
             dataType: 'json',
             success: function(response) {
-                if (response.length === 1) {
-                    var data = response[0];
+                if (response.data.length === 1 && response.is_not == 1) {
+                    var data = response.data[0];
                     var sn_brg = data.sn_brg;
                     var merk = data.merk;
                     var jenis = data.jenis;
@@ -550,6 +550,21 @@ function getProdOP() {
                         error: function(xhr, status, error) {
                             console.error('Error inserting data:', error);
                         }
+                    });
+                } else if(response.data.length === 1 && response.is_alr == 1) {
+                    swal({
+                        title: "warning",
+                        text: "Serial Number "+searchTerm+ " sudah diopname",
+                        icon: "warning",
+                        timer: 1500, // Time in milliseconds (2 seconds in this example)
+                        buttons: false // Hides the "OK" button
+                    }).then(() => {
+                        $('#carisn').val('');
+                        $('#hsn').val('');
+                        $('#merk').val('');
+                        $('#jenis').val('');
+                        $('#spek').val('');
+                        $('#carisn').focus();
                     });
                 } else {
                     swal({
@@ -606,8 +621,8 @@ function inputacc() {
             type: 'GET',
             dataType: 'json',
             success: function(response) {
-                if (response.length === 1) {
-                    var data = response[0];
+                if (response.data.length === 1 && response.is_not == 1) {
+                    var data = response.data[0];
                     var sn_brg = data.sn_brg;
                     var merk = data.merk;
                     var jenis = data.jenis;
@@ -640,6 +655,20 @@ function inputacc() {
                         error: function(xhr, status, error) {
                             console.error('Error inserting data:', error);
                         }
+                    });
+                } else if(response.data.length === 1 && response.is_alr == 1) {
+                    swal({
+                        title: "warning",
+                        text: "Serial Number "+searchTerm+ " sudah diopname",
+                        icon: "warning",
+                        timer: 1500, // Time in milliseconds (2 seconds in this example)
+                        buttons: false // Hides the "OK" button
+                    }).then(() => {
+                        $('#carisnacc').val('');
+                        $('#hsnacc').val('');
+                        $('#merkacc').val('');
+                        $('#jenisacc').val('');
+                        $('#carisnacc').focus();
                     });
                 } else {
                     swal({

@@ -82,10 +82,6 @@ function updatedata(){
       var kontak = $("#ekontak").val();
       var email = $("#emailkus").val();
       var alamat = $("#ealamat").val();
-      if (!id || !nama || !kontak || !email || !alamat) {
-          swal("Error", "Lengkapi form yang kosong", "error");
-          return;
-      }
       $.ajax({
           type: "POST",
           url: "master-kustomer/update-data",

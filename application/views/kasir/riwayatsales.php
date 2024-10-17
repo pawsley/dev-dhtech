@@ -191,7 +191,7 @@
                                         <strong id="tthj">-</strong>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <strong>Jasa <span id="ketjasa"></span></strong>
+                                        <strong>Keterangan : <span id="ketjasa"></span></strong>
                                         <strong id="nomjasa">-</strong>
                                     </li>                                    
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -211,9 +211,11 @@
                                         <strong id="ttlb">-</strong>
                                     </li>                                    
                                 </ul>
-                                <center class="mt-4">
+                                <div class="mt-4 text-center">
+                                    <?php if ($this->session->userdata('jabatan')=='OWNER' || $this->session->userdata('jabatan')=='Finance') { ?>
                                     <button class="btn btn-primary" type="button" id="canceltrans" data-id="">Batalkan Transaksi</button>
-                                </center>
+                                    <?php } ?>
+                                </div>
                             </div>
                         </div>
                     </div>

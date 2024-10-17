@@ -99,7 +99,7 @@ function tablepl() {
                         } else if(data==="4"){
                             return `<span class="badge rounded-pill badge-info">BOOKING</span>`;
                         } else if(data==="6"){
-                            return `<span class="badge rounded-pill badge-warning">BOOKING</span>`;
+                            return `<span class="badge rounded-pill badge-warning">UNVERIFIED</span>`;
                         }
                         return data; // return the original value for other cases
                     }
