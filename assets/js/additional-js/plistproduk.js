@@ -31,7 +31,6 @@ function filterexport() {
     $('#table-pl').on('search.dt', function() {
         var searchValue = $('.dataTables_filter input').val();
         $('#update').attr('data-search', searchValue);
-        console.log('Search query:', searchValue);
     });
 }
 function tablepl() {
@@ -43,6 +42,7 @@ function tablepl() {
             d.cab = $('#cab').val();
             d.kond = $('#kondisi').val();
             d.jns = $('#tipe').val();
+            d.search = $('input[type="search"]').val();
         }
     };
     if ($.fn.DataTable.isDataTable('#table-pl')) {
