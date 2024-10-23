@@ -73,7 +73,7 @@ class PenList extends Auth
     $jns = $this->input->post('jns'); 
     $kond = $this->input->post('kond'); 
     $cab = $this->input->post('cab'); 
-    $search = $this->input->post('search');
+    // $search = $this->input->post('search');
     $this->datatables->select('id_keluar,sn_brg,nama_brg,kondisi,hrg_hpp,hrg_jual,nama_toko,status');
     $this->datatables->from('vbarangkeluar');
     if (!empty($jns) && $jns !== 'all') {
@@ -85,10 +85,10 @@ class PenList extends Auth
     if (!empty($cab) && $cab !== 'AllCab') {
       $this->datatables->where('id_toko', $cab);
     }
-    if (!empty($search)) {
-      $search = $this->db->escape($search);
-      $this->datatables->where("MATCH(nama_brg) AGAINST ($search IN BOOLEAN MODE)");
-    }
+    // if (!empty($search)) {
+    //   $search = $this->db->escape($search);
+    //   $this->datatables->where("MATCH(nama_brg) AGAINST ($search IN BOOLEAN MODE)");
+    // }
     $this->datatables->where_in('status',[2,6]);
     return print_r($this->datatables->generate());
   }
