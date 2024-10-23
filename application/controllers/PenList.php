@@ -38,7 +38,7 @@ class PenList extends Auth
         }
     </style>';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/plistproduk.js?v=1.3') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/plistproduk.js?v=1.4') . '"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
