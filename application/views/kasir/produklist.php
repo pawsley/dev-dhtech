@@ -24,36 +24,6 @@
           </div>
           <!-- Container-fluid starts-->
           <div class="container-fluid">
-            <!-- Card Status Data Barang -->
-            <!-- <div class="row">
-                <?php foreach ($setcabang as $sc) { ?>
-                    <div class="col-md-4 col-sm-6">
-                        <a href="#" class="cardLink" data-id="<?=$sc['id_toko']?>" data-total="<?=$sc['total_asset']?>" data-cabang="<?=$sc['nama_toko']?>">
-                            <div class="card widget-hover overflow-hidden">
-                                <div class="card-header card-no-border pb-2">
-                                    <h5 id="id_toko" data-id="<?=$sc['id_toko']?>">Asset <?=$sc['nama_toko']?></h5>
-                                </div>
-                                <div class="card-body pt-0 count-student">
-                                    <div class="school-wrapper"> 
-                                        <div class="school-header" data-id="<?=$sc['id_toko']?>">
-                                            <div class="spinner-border text-primary d-none" role="status" id="spinner-<?=$sc['id_toko']?>">
-                                                <span class="visually-hidden">Memuat...</span>
-                                            </div>
-                                            <h4 class="txt-success counting" id="counting-<?=$sc['id_toko']?>">Rp <?=$sc['total_asset']?></h4>
-                                            <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
-                                                <p class="text-muted">Update Hari ini</p>
-                                            </div>                          
-                                        </div>
-                                        <div class="school-body"> <img src="<?=base_url()?>assets/images/inventoriassets/assetstore.png" alt="store-produk-dh">
-                                            <div class="right-line"><img src="<?=base_url()?>assets/images/inventoriassets/line.png" alt="line"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                <?php } ?>
-            </div> -->
             <!-- Listing Produk -->
             <div class="row">
                 <div class="col-sm-12">
