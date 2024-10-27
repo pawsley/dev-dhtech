@@ -122,23 +122,24 @@ class PenOrderIn extends Auth
   public function approve() {
     if ($this->input->is_ajax_request()) {
         $inv = $this->input->post('inv');
-        $cek_query = "SELECT cara_bayar, kode_penjualan FROM vpenjualan WHERE kode_penjualan = ?";
-        $cek_result = $this->db->query($cek_query, array($inv))->row();
-        if ($cek_result->cara_bayar == 'DP') {
-            $invoice = $cek_result->kode_penjualan;
+        $cek_query = "SELECT cara_bayar, kode_penjualan,id_keluar FROM vpenjualan WHERE kode_penjualan = ?";
+        $cek_result = $this->db->query($cek_query, array($inv))->result();
+        foreach ($cek_result as $row) {
+          if ($row->cara_bayar == 'DP') {
+            $invoice = $row->kode_penjualan;
             $data = [
                 'status' => '1',
             ];
             $this->PenOrderIn_model->approve($invoice, $data);
-            echo json_encode(['status' => 'success']);
-        } else if ($cek_result->cara_bayar == 'Transfer' || $cek_result->cara_bayar == 'Tunai' || $cek_result->cara_bayar == 'Split Bill') {
-            $invoice = $cek_result->kode_penjualan;
-            $data = [
-                'status' => '2',
-            ];
+          } else if ($row->cara_bayar == 'Transfer' || $row->cara_bayar == 'Tunai' || $row->cara_bayar == 'Split Bill') {
+            $invoice = $row->kode_penjualan;
+            $data = ['status' => '2'];
+            $datasold = ['status' => '3'];
             $this->PenOrderIn_model->approve($invoice, $data);
-            echo json_encode(['status' => 'success']);
+            $this->PenOrderIn_model->approvedsold($row->id_keluar, $datasold);
+          }
         }
+        echo json_encode(['status' => 'success']);
     } else {
         redirect('order-masuk');
     }
@@ -150,16 +151,17 @@ class PenOrderIn extends Auth
         $cek_result = $this->db->query($cek_query, array($inv))->result();
         foreach ($cek_result as $row) {
           if ($row->cara_bayar == 'DP') {
-            echo json_encode(['status' => 'errorr']);
+            echo json_encode(['status' => 'error']);
+            return;
           } else if ($row->cara_bayar == 'Transfer' || $row->cara_bayar == 'Tunai' || $row->cara_bayar == 'Split Bill') {
             $invoice = $row->kode_penjualan;
             $data = ['status' => '9'];
             $datags = ['status' => '9'];
             $this->PenOrderIn_model->approve($invoice, $data);
             $this->PenOrderIn_model->approvegestun($row->id_keluar, $datags);
-            echo json_encode(['status' => 'success']);
           }
         }
+        echo json_encode(['status' => 'success']);
     } else {
         redirect('order-masuk');
     }
