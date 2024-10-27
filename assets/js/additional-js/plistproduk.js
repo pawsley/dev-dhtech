@@ -42,7 +42,7 @@ function tablepl() {
             d.cab = $('#cab').val();
             d.kond = $('#kondisi').val();
             d.jns = $('#tipe').val();
-            // d.search = $('input[type="search"]').val();
+            d.search = $('input[type="search"]').val();
         }
     };
     if ($.fn.DataTable.isDataTable('#table-pl')) {
