@@ -48,7 +48,7 @@ class PenEtalase extends Auth
     <script>var base_url = "' . base_url() . '";</script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/select2/select2.full.min.js') . '"></script>
-    <script src="' . base_url('assets/js/additional-js/petalase.js') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/petalase.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
@@ -76,6 +76,7 @@ class PenEtalase extends Auth
     $this->load->library('datatables');
     $supp = $this->input->post('supp'); 
     $cabr = $this->input->post('cabr'); 
+    $tipe = $this->input->post('tipe'); 
     $this->datatables->select('id_keluar,id_masuk,sn_brg,nama_brg,jenis,id_supplier,nama_supplier,id_toko,nama_toko,
     hrg_hpp,hrg_jual,margin,hrg_cashback,status');
     $this->datatables->from('vbarangkeluar');
@@ -86,9 +87,12 @@ class PenEtalase extends Auth
     if (!empty($cabr) && $cabr !== '0') {
         $this->datatables->where('id_toko', $cabr);
     }
+    if (!empty($tipe) && $tipe !== '0') {
+        $this->datatables->where('jenis', $tipe);
+    }
     return print_r($this->datatables->generate());
   }
-  public function filtersupp($cab=null,$cabr=null){
+  public function filtersupp($cab=null,$cabr=null, $tipe=null){
     $this->load->library('datatables');
     $this->datatables->select('id_keluar,sn_brg,nama_brg,jenis,id_supplier,nama_supplier,nama_toko,
     hrg_hpp,hrg_jual,margin,hrg_cashback,status');
@@ -96,6 +100,7 @@ class PenEtalase extends Auth
     $this->datatables->where('status','2');
     $this->datatables->where('nama_supplier',$cab);
     $this->datatables->where('nama_toko',$cabr);
+    $this->datatables->where('jenis',$tipe);
     return print_r($this->datatables->generate());    
   }
   public function infoBrg($id){

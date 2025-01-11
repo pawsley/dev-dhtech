@@ -58,6 +58,7 @@ function tablepl() {
             [0, 'desc'] 
         ],
         "ajax": ajaxConfig,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "columns": [
             { "data": "sn_brg" },
             { "data": "nama_brg" },

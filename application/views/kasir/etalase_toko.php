@@ -32,10 +32,12 @@
                         <div class="card">
                             <div class="card-header pb-0 card-no-border">
                                 <div class="row">
-                                    <div class="col-md-4 position-relative">
-                                        <h4>Daftar Produk Tersedia</h4>
-                                    </div>
                                     <!-- filter -->
+                                    <div class="col-md-4 position-relative">
+                                        <select class="form-select" id="tipe" name="tipe" required="">
+                                            <option selected="" disabled="" value="0">Pilih Tipe</option>
+                                        </select>
+                                    </div>
                                     <div class="col-md-4 position-relative">
                                         <select class="form-select" id="cabr" name="cabr" required="">
                                             <option selected="" disabled="" value="0">Pilih Cabang</option>

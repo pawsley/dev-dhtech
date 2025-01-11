@@ -18,6 +18,7 @@ function table_etalase() {
         data: function(d) {
                 d.cabr = $('#cabr').val();
                 d.supp = $('#cab').val();
+                d.tipe = $('#tipe').val();
         }
     };
     if ($.fn.DataTable.isDataTable('#table-etalase')) {
@@ -33,6 +34,7 @@ function table_etalase() {
             [1, 'asc']
         ],
         "ajax": ajaxConfig,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "columns": [
             { 
                 "data": "id_keluar",
@@ -231,7 +233,7 @@ function table_etalase() {
             var margin = ((pubValue - hppValue) / hppValue) * 100;
             $('#' + marInputId).val(margin.toFixed(2));
     });   
-    $('#cabr, #cab').on('change', function() {
+    $('#cabr, #cab, #tipe').on('change', function() {
         Tetalase.draw();
     }); 
     return Tetalase;
@@ -291,6 +293,38 @@ function getselect(){
                 results.unshift({
                     id: '0',
                     text: 'Semua Cabang',
+                    value: '0',
+                });
+    
+                return {
+                    results: results,
+                };
+            },
+            cache: false,
+        },
+    });
+    $('#tipe').select2({
+        language: 'id',
+        ajax: {
+            url: base_url + 'MasterBarang/loadjenis',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, 
+                };
+            },
+            processResults: function (data) {
+                var results = $.map(data, function (item) {
+                    return {
+                        id: item.nama_kategori,
+                        text: item.nama_kategori,
+                    };
+                });
+    
+                results.unshift({
+                    id: '0',
+                    text: 'Semua Tipe',
                     value: '0',
                 });
     
