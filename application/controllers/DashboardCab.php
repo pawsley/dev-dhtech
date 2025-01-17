@@ -4,12 +4,19 @@ include_once(APPPATH . 'controllers/Auth.php');
 class DashboardCab extends Auth
 {
   private $currentDay;
+	private $startDateFormatted;
+	private $endDateFormatted;  
   public function __construct()
   {
     parent::__construct();
     $this->load->model('BarangKeluar_model');
     $this->load->model('DashboarCab_model');
     $this->currentDay = 27;
+		$today = new DateTime();
+    $startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 28);
+    $endDate = (clone $today)->modify('first day of this month')->setDate($today->format('Y'), $today->format('m'), 27);
+    $this->startDateFormatted = $startDate->format('Y-m-d');
+    $this->endDateFormatted = $endDate->format('Y-m-d');
   }
 
   // public function tes() {
@@ -151,9 +158,8 @@ class DashboardCab extends Auth
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
 		$this->datatables->where('id_toko', $cab);
-    $this->datatables->where('DAY(tgl_transaksi) <=', $this->currentDay);
-		$this->datatables->where('MONTH(tgl_transaksi)', $m);
-		$this->datatables->where('YEAR(tgl_transaksi)', $y);
+		$this->datatables->where('tgl_transaksi >=', $this->startDateFormatted);
+    $this->datatables->where('tgl_transaksi <=', $this->endDateFormatted);
 		return print_r($this->datatables->generate());
 	}
   public function detailcashback($cab,$m=0,$y=0){
@@ -161,9 +167,8 @@ class DashboardCab extends Auth
 		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
 		$this->datatables->from('vtotalcashback');
     $this->datatables->where('id_toko', $cab);
-    $this->datatables->where('DAY(tgl_transaksi) <=', $this->currentDay);
-		$this->datatables->where('MONTH(tgl_transaksi)', $m);
-		$this->datatables->where('YEAR(tgl_transaksi)', $y);
+		$this->datatables->where('tgl_transaksi >=', $this->startDateFormatted);
+    $this->datatables->where('tgl_transaksi <=', $this->endDateFormatted);
 		return print_r($this->datatables->generate());
 	}
   public function detaildiskon($cab){

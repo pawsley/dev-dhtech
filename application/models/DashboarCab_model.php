@@ -54,8 +54,8 @@ class DashboarCab_model extends CI_Model {
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
     $this->db->where('id_toko', $cab);
-    $this->db->where('MONTH(tgl_transaksi)', $m);
-    $this->db->where('YEAR(tgl_transaksi)', $y);
+    $this->db->where('tgl_transaksi >=', $this->startDateFormatted);
+    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
     $query = $this->db->get();
     return $query->result_array();
   }
