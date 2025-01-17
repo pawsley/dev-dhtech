@@ -137,6 +137,7 @@ class PenOrderIn extends Auth
             $datasold = ['status' => '3'];
             $this->PenOrderIn_model->approve($invoice, $data);
             $this->PenOrderIn_model->approvedsold($row->id_keluar, $datasold);
+            log_message('debug', $row->id_keluar);
           }
         }
         echo json_encode(['status' => 'success']);

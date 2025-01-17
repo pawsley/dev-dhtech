@@ -6,11 +6,13 @@ class Welcome_model extends CI_Model {
   private $currentDate;
   private $currentYear;
   private $currentMonth;
+  private $currentDay;
 
   public function __construct() {
     $this->currentDate = date('Y-m-d');
     $this->currentYear = date('Y', strtotime($this->currentDate));
     $this->currentMonth = date('m', strtotime($this->currentDate));
+    $this->currentDay = 27;
   }
   public function countTerjual($id = null) {
     $this->db->select([
@@ -20,6 +22,7 @@ class Welcome_model extends CI_Model {
     $this->db->from('tb_toko AS stores');
     $this->db->join('vbarangkeluar AS v', 'stores.id_toko = v.id_toko', 'LEFT');
     $this->db->join('vpenjualan AS vj', 'v.id_keluar = vj.id_keluar', 'LEFT');
+    $this->db->where('DAY(vj.tgl_transaksi) <=', $this->currentDay);
     $this->db->where('MONTH(vj.tgl_transaksi)', $this->currentMonth);
     $this->db->where('YEAR(vj.tgl_transaksi)', $this->currentYear);
     $this->db->where_in('vj.status',[1,2]);
@@ -41,6 +44,7 @@ class Welcome_model extends CI_Model {
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
+    $this->db->where('DAY(tgl_transaksi) <=', $this->currentDay);
     $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
     $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
     $query = $this->db->get();
@@ -80,6 +84,7 @@ class Welcome_model extends CI_Model {
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
+    $this->db->where('DAY(tgl_transaksi) <=', $this->currentDay);
     $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
     $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
     $query = $this->db->get();
@@ -91,6 +96,7 @@ class Welcome_model extends CI_Model {
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
+    $this->db->where('DAY(tgl_transaksi) <=', $this->currentDay);
     $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
     $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
     $query = $this->db->get();
@@ -110,6 +116,7 @@ class Welcome_model extends CI_Model {
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
+    $this->db->where('DAY(tgl_transaksi) <=', $this->currentDay);
     $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
     $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
     $query = $this->db->get();
@@ -134,6 +141,7 @@ class Welcome_model extends CI_Model {
   ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
+    $this->db->where('DAY(tgl_transaksi) <=', $this->currentDay);
     $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
     $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
     $this->db->group_by(['id_ksr', 'nama_ksr']);

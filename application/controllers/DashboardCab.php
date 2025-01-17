@@ -3,13 +3,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
 include_once(APPPATH . 'controllers/Auth.php');
 class DashboardCab extends Auth
 {
-    
+  private $currentDay;
   public function __construct()
   {
     parent::__construct();
     $this->load->model('BarangKeluar_model');
     $this->load->model('DashboarCab_model');
+    $this->currentDay = 27;
   }
+
+  // public function tes() {
+  //   $today = new DateTime(); // Current date
+  //   $startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 28);
+  //   $endDate = (clone $today)->modify('first day of this month')->setDate($today->format('Y'), $today->format('m'), 27);
+    
+  //   // Format dates as 'Y-m-d' for the SQL query
+  //   $startDateFormatted = $startDate->format('Y-m-d');
+  //   $endDateFormatted = $endDate->format('Y-m-d');
+  //   echo $startDateFormatted . ' - ' . $endDateFormatted;
+  // }
   
   public function dashcab($cab){
     $data['setcabang'] = $this->BarangKeluar_model->getCabang();
@@ -139,6 +151,7 @@ class DashboardCab extends Auth
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
 		$this->datatables->where('id_toko', $cab);
+    $this->datatables->where('DAY(tgl_transaksi) <=', $this->currentDay);
 		$this->datatables->where('MONTH(tgl_transaksi)', $m);
 		$this->datatables->where('YEAR(tgl_transaksi)', $y);
 		return print_r($this->datatables->generate());
@@ -148,6 +161,7 @@ class DashboardCab extends Auth
 		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
 		$this->datatables->from('vtotalcashback');
     $this->datatables->where('id_toko', $cab);
+    $this->datatables->where('DAY(tgl_transaksi) <=', $this->currentDay);
 		$this->datatables->where('MONTH(tgl_transaksi)', $m);
 		$this->datatables->where('YEAR(tgl_transaksi)', $y);
 		return print_r($this->datatables->generate());

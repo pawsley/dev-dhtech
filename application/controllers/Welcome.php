@@ -3,11 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 include_once(APPPATH . 'controllers/Auth.php');
 
 class Welcome extends Auth {
+	private $currentDay;
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Welcome_model');
 		$this->load->model('BarangKeluar_model');
 		$this->load->model('PenList_model');
+		$this->currentDay = 27;
 	}
 	public function index(){
 		$data['hpp'] = $this->PenList_model->countHJ();
@@ -155,6 +157,7 @@ class Welcome extends Auth {
 		status,tipe_penjualan,nama_toko');
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
+		$this->datatables->where('DAY(tgl_transaksi) <=', $this->currentDay);
 		$this->datatables->where('MONTH(tgl_transaksi)', $m);
 		$this->datatables->where('YEAR(tgl_transaksi)', $y);
 		return print_r($this->datatables->generate());
@@ -187,6 +190,7 @@ class Welcome extends Auth {
 		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,harga_diskon,harga_cashback,harga_bayar,nama_toko');
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
+		$this->datatables->where('DAY(tgl_transaksi) <=', $this->currentDay);
 		$this->datatables->where('MONTH(tgl_transaksi)', date('m'));
 		$this->datatables->where('YEAR(tgl_transaksi)', date('Y'));
 		return print_r($this->datatables->generate());
@@ -197,6 +201,7 @@ class Welcome extends Auth {
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where('id_toko',$id);
 		$this->datatables->where_in('status',[1,2]);
+		$this->datatables->where('DAY(tgl_transaksi) <=', $this->currentDay);
 		$this->datatables->where('MONTH(tgl_transaksi)', date('m'));
 		$this->datatables->where('YEAR(tgl_transaksi)', date('Y'));
 		return print_r($this->datatables->generate());
@@ -211,6 +216,7 @@ class Welcome extends Auth {
 		$this->load->library('datatables');
 		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
 		$this->datatables->from('vtotalcashback');
+		$this->datatables->where('DAY(tgl_transaksi) <=', $this->currentDay);
 		$this->datatables->where('MONTH(tgl_transaksi)', $m);
 		$this->datatables->where('YEAR(tgl_transaksi)', $y);
 		return print_r($this->datatables->generate());
