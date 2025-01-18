@@ -151,8 +151,8 @@ function countlaba(formatcur) {
                 var fhpp = formatcur.format(item.total_hpp);
                 var fdisk = formatcur.format(item.total_disk);
                 var fcashb = formatcur.format(item.total_cb);
-                var bulan = item.bulan;
-                var tahun = item.tahun;
+                var bulan = item.start_date;
+                var tahun = item.end_date;
                 var cabang = item.nama_toko;
                 $('#laba').text(formattedValue);
                 $('.cardlaba').attr('data-total_laba', formattedValue);
@@ -274,16 +274,19 @@ function detaillaba() {
     });
 }
 function filterlb(){
+	flatpickr("#fdlb", {
+		mode: "range",
+	});
     $('#fdlb').on('change', function() {
-        let lbval = $(this).val();
-        let [y, m] = lbval.split('-');
+		let lbval = $(this).val();
+        let [start, end] = lbval.split(' to ');
         $.ajax({
             url: base_url + 'DashboardCab/labakotor/'+cabset,  
             type: 'POST',
             data: {
                 lbval: lbval,
-                month: m,  
-                year: y, 
+                start: start,  
+                end: end, 
                 id_toko: cabset
             },
             dataType: 'json',
@@ -294,7 +297,7 @@ function filterlb(){
                     $("#tlp").text(formatcur.format(item.total_pen));
                     $("#tld").text(formatcur.format(item.total_disk));
                     $("#tlc").text(formatcur.format(item.total_cb));
-                    tablelaba(m,y);
+                    tablelaba(start,end);
                 });
             },
             error: function(xhr, status, error) {
@@ -365,8 +368,8 @@ function countct(formatcur) {
             $('#cardtc').removeClass('d-none');
             $.each(data, function(index, item) {
                 var tcba = formatcur.format(item.total_cashback);
-                var bulan = item.bulan;
-                var tahun = item.tahun;
+                var bulan = item.start_date;
+                var tahun = item.end_date;
                 var cabang = item.nama_toko;
                 $('#cardtc').text(tcba);
                 $('.ctc').attr('data-total_cba', tcba);
@@ -1242,22 +1245,25 @@ function detailcb() {
     });
 }
 function filtercb(){
+	flatpickr("#fdcb", {
+		mode: "range",
+	});
     $('#fdcb').on('change', function() {
         let cbval = $(this).val();
-        let [y, m] = cbval.split('-');
+        let [start, end] = cbval.split(' to ');
         $.ajax({
             url: base_url + 'DashboardCab/tcb/'+cabset,  
             type: 'POST',
             data: {
                 cbval: cbval,
-                month: m,  
-                year: y    
+                start: start,  
+                end: end    
             },
             dataType: 'json',
             success: function(response) {
                 $.each(response, function(index, item) {
                     $("#tca").text(formatcur.format(item.total_cashback));
-                    tablecb(m,y);
+                    tablecb(start,end);
                 });
             },
             error: function(xhr, status, error) {

@@ -7,12 +7,19 @@ class Welcome_model extends CI_Model {
   private $currentYear;
   private $currentMonth;
   private $currentDay;
+  private $startDateFormatted;
+  private $endDateFormatted;	
 
   public function __construct() {
     $this->currentDate = date('Y-m-d');
     $this->currentYear = date('Y', strtotime($this->currentDate));
     $this->currentMonth = date('m', strtotime($this->currentDate));
     $this->currentDay = 27;
+    $today = new DateTime();
+    $startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 28);
+    $endDate = (clone $today)->modify('first day of this month')->setDate($today->format('Y'), $today->format('m'), 27);
+    $this->startDateFormatted = $startDate->format('Y-m-d');
+    $this->endDateFormatted = $endDate->format('Y-m-d');		
   }
   public function countTerjual($id = null) {
     $this->db->select([
@@ -22,9 +29,8 @@ class Welcome_model extends CI_Model {
     $this->db->from('tb_toko AS stores');
     $this->db->join('vbarangkeluar AS v', 'stores.id_toko = v.id_toko', 'LEFT');
     $this->db->join('vpenjualan AS vj', 'v.id_keluar = vj.id_keluar', 'LEFT');
-    $this->db->where('DAY(vj.tgl_transaksi) <=', $this->currentDay);
-    $this->db->where('MONTH(vj.tgl_transaksi)', $this->currentMonth);
-    $this->db->where('YEAR(vj.tgl_transaksi)', $this->currentYear);
+		$this->db->where('vj.tgl_transaksi >=', $this->startDateFormatted);
+    $this->db->where('vj.tgl_transaksi <=', $this->endDateFormatted);
     $this->db->where_in('vj.status',[1,2]);
     $this->db->group_by('stores.id_toko');
     if ($id) {
@@ -40,17 +46,17 @@ class Welcome_model extends CI_Model {
       "(SUM(harga_jual) + SUM(DISTINCT jml_donasi) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp) as laba_kotor, tgl_transaksi,
       SUM(harga_jual) as total_pen, SUM(harga_diskon) as total_disk, SUM(harga_cashback) total_cb, SUM(hrg_hpp) as total_hpp",
       "COALESCE(SUM(DISTINCT jml_donasi),0) as total_jasa",
-      "MONTH(tgl_transaksi) AS bulan","YEAR(tgl_transaksi) AS tahun"
+      "DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH)), INTERVAL -3 DAY), '%Y-%m-28') AS start_date",
+			"DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 0 MONTH)), INTERVAL -4 DAY), '%Y-%m-27') AS end_date"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-    $this->db->where('DAY(tgl_transaksi) <=', $this->currentDay);
-    $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
-    $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
+		$this->db->where('tgl_transaksi >=', $this->startDateFormatted);
+    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
     $query = $this->db->get();
     return $query->result_array();
   }
-  public function filtercountlaba($m,$y){
+  public function filtercountlaba($start,$end){
     $this->db->select([
       "COALESCE((SUM(harga_jual) + SUM(DISTINCT jml_donasi) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp),0) as laba_kotor, 
       tgl_transaksi,
@@ -62,8 +68,8 @@ class Welcome_model extends CI_Model {
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-    $this->db->where('MONTH(tgl_transaksi)', $m);
-    $this->db->where('YEAR(tgl_transaksi)', $y);
+    $this->db->where('tgl_transaksi >=', $start);
+    $this->db->where('tgl_transaksi <=', $end);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -84,9 +90,8 @@ class Welcome_model extends CI_Model {
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-    $this->db->where('DAY(tgl_transaksi) <=', $this->currentDay);
-    $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
-    $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
+		$this->db->where('tgl_transaksi >=', $this->startDateFormatted);
+    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -96,9 +101,8 @@ class Welcome_model extends CI_Model {
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-    $this->db->where('DAY(tgl_transaksi) <=', $this->currentDay);
-    $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
-    $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
+		$this->db->where('tgl_transaksi >=', $this->startDateFormatted);
+    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -112,24 +116,25 @@ class Welcome_model extends CI_Model {
   }
   public function countcb(){
     $this->db->select([
-      "SUM(harga_cashback) as total_cashback","MONTH(tgl_transaksi) AS bulan","YEAR(tgl_transaksi) AS tahun"
+      "SUM(harga_cashback) as total_cashback",
+			"DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH)), INTERVAL -3 DAY), '%Y-%m-28') AS start_date",
+			"DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 0 MONTH)), INTERVAL -4 DAY), '%Y-%m-27') AS end_date"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-    $this->db->where('DAY(tgl_transaksi) <=', $this->currentDay);
-    $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
-    $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
+		$this->db->where('tgl_transaksi >=', $this->startDateFormatted);
+    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
     $query = $this->db->get();
     return $query->result_array();
   }
-  public function filtercountcb($m,$y){
+  public function filtercountcb($start,$end){
     $this->db->select([
       "COALESCE(SUM(harga_cashback), 0) as total_cashback"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-    $this->db->where('MONTH(tgl_transaksi)', $m);
-    $this->db->where('YEAR(tgl_transaksi)', $y);
+    $this->db->where('tgl_transaksi >=', $start);
+    $this->db->where('tgl_transaksi <=', $end);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -141,9 +146,8 @@ class Welcome_model extends CI_Model {
   ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-    $this->db->where('DAY(tgl_transaksi) <=', $this->currentDay);
-    $this->db->where('MONTH(tgl_transaksi)', $this->currentMonth);
-    $this->db->where('YEAR(tgl_transaksi)', $this->currentYear);
+		$this->db->where('tgl_transaksi >=', $this->startDateFormatted);
+    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
     $this->db->group_by(['id_ksr', 'nama_ksr']);
     $this->db->order_by('total_jual','desc');
     $this->db->limit(5);
@@ -178,7 +182,7 @@ class Welcome_model extends CI_Model {
     $this->db->where('id_admin', $id);
     $this->db->update('tb_admin', $data);
     // $this->db->update_batch('tb_brg_keluar', $data);
-}
+	}
 
 }
 

@@ -383,7 +383,8 @@
                                   <!-- Total -->
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <strong><span>Filter Data</span></strong>
-                                      <strong><input type="month" class="form-control digits" id="fdlb" name="fdlb" min="2024-01" /></strong>
+                                      <!-- <strong><input type="month" class="form-control digits" id="fdlb" name="fdlb" min="2024-01" /></strong> -->
+                                      <strong><input class="form-control" id="fdlb" type="date" style="width: 100%;"></strong>
                                   </li>
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <strong><span>Total Laba Bersih</span></strong>
@@ -768,7 +769,8 @@
                                   <!-- Total -->
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <strong><span>Filter Data</span></strong>
-                                      <strong><input type="month" class="form-control digits" id="fdcb" name="fdcb" min="2024-01" /></strong>
+                                      <!-- <strong><input type="month" class="form-control digits" id="fdcb" name="fdcb" min="2024-01" /></strong> -->
+                                      <strong><input class="form-control" id="fdcb" type="date" style="width: 100%;"></strong>
                                   </li>
                                   <li class="list-group-item d-flex justify-content-between align-items-center">
                                       <strong><span>Total Cashback</span></strong>

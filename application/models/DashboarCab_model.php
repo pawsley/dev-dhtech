@@ -28,8 +28,8 @@ class DashboarCab_model extends CI_Model {
         "SUM(harga_cashback) as total_cb",
         "SUM(hrg_hpp) as total_hpp",
         "COALESCE(SUM(DISTINCT jml_donasi), 0) as total_jasa",
-        "MONTH(tgl_transaksi) AS bulan",
-        "YEAR(tgl_transaksi) AS tahun",
+				"DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH)), INTERVAL -3 DAY), '%Y-%m-28') AS start_date",
+				"DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 0 MONTH)), INTERVAL -4 DAY), '%Y-%m-27') AS end_date",
         "nama_toko"
     ]);
     $this->db->from('vpenjualan');
@@ -41,7 +41,7 @@ class DashboarCab_model extends CI_Model {
     $query = $this->db->get();
     return $query->result_array();    
   }
-  public function filtercountlaba($cab,$m,$y){
+  public function filtercountlaba($cab,$start,$end){
     $this->db->select([
       "COALESCE((SUM(harga_jual) + SUM(DISTINCT jml_donasi) - SUM(harga_diskon) - SUM(harga_cashback)) - SUM(hrg_hpp),0) as laba_kotor, 
       tgl_transaksi,
@@ -54,8 +54,8 @@ class DashboarCab_model extends CI_Model {
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
     $this->db->where('id_toko', $cab);
-    $this->db->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
+    $this->db->where('tgl_transaksi >=', $start);
+    $this->db->where('tgl_transaksi <=', $end);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -111,7 +111,8 @@ class DashboarCab_model extends CI_Model {
   }
   public function countcb($cab){
     $this->db->select([
-      "SUM(harga_cashback) as total_cashback","MONTH(tgl_transaksi) AS bulan","YEAR(tgl_transaksi) AS tahun","nama_toko"
+      "SUM(harga_cashback) as total_cashback","DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH)), INTERVAL -3 DAY), '%Y-%m-28') AS start_date",
+				"DATE_FORMAT(DATE_ADD(LAST_DAY(DATE_SUB(CURRENT_DATE, INTERVAL 0 MONTH)), INTERVAL -4 DAY), '%Y-%m-27') AS end_date","nama_toko"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
@@ -121,15 +122,15 @@ class DashboarCab_model extends CI_Model {
     $query = $this->db->get();
     return $query->result_array();
   }
-  public function filtercountcb($cab,$m,$y){
+  public function filtercountcb($cab,$start,$end){
     $this->db->select([
       "COALESCE(SUM(harga_cashback), 0) as total_cashback"
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
     $this->db->where('id_toko', $cab);
-    $this->db->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
+    $this->db->where('tgl_transaksi >=', $start);
+    $this->db->where('tgl_transaksi <=', $end);
     $query = $this->db->get();
     return $query->result_array();
   }

@@ -4,12 +4,19 @@ include_once(APPPATH . 'controllers/Auth.php');
 
 class Welcome extends Auth {
 	private $currentDay;
+	private $startDateFormatted;
+	private $endDateFormatted;		
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Welcome_model');
 		$this->load->model('BarangKeluar_model');
 		$this->load->model('PenList_model');
 		$this->currentDay = 27;
+		$today = new DateTime();
+		$startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 28);
+		$endDate = (clone $today)->modify('first day of this month')->setDate($today->format('Y'), $today->format('m'), 27);
+		$this->startDateFormatted = $startDate->format('Y-m-d');
+		$this->endDateFormatted = $endDate->format('Y-m-d');
 	}
 	public function index(){
 		$data['hpp'] = $this->PenList_model->countHJ();
@@ -20,6 +27,7 @@ class Welcome extends Auth {
 		$data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
 		<link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
 		<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+		<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/flatpickr/flatpickr.min.css').'">
 		<style>
 			.select2-selection__rendered {
 				line-height: 35px !important;
@@ -47,7 +55,7 @@ class Welcome extends Auth {
 			<script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
 			<script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
 			<script src="' . base_url() . 'assets/js/animation/wow/wow.min.js"></script>
-			<script src="' . base_url('assets/js/additional-js/dashboard.js') . '"></script>
+			<script src="' . base_url('assets/js/additional-js/dashboard.js?v='.time()) . '"></script>
 			<script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
 			<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
 			<script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
@@ -65,15 +73,16 @@ class Welcome extends Auth {
 			<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
 			<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
 			<script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
+			<script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
 			<script>new WOW().init();</script>';
 		$this->load->view('layout/base', $data);		
 	}
 	public function labakotor() {
 		if (isset($_POST['lbval'])) {
 			if ($this->input->is_ajax_request()) {
-				$m = $this->input->post('month');
-				$y = $this->input->post('year');
-				$results = $this->Welcome_model->filtercountlaba($m,$y);
+				$start = $this->input->post('start');
+				$end = $this->input->post('end');
+				$results = $this->Welcome_model->filtercountlaba($start,$end);
 				header('Content-Type: application/json');
 				echo json_encode($results);
                 return;
@@ -111,9 +120,9 @@ class Welcome extends Auth {
 	public function tcb() {
 		if (isset($_POST['cbval'])) {
 			if ($this->input->is_ajax_request()) {
-				$m = $this->input->post('month');
-				$y = $this->input->post('year');
-				$results = $this->Welcome_model->filtercountcb($m,$y);
+				$start = $this->input->post('start');
+				$end = $this->input->post('end');
+				$results = $this->Welcome_model->filtercountcb($start,$end);
 				header('Content-Type: application/json');
 				echo json_encode($results);
                 return;
@@ -148,7 +157,7 @@ class Welcome extends Auth {
 		header('Content-Type: application/json');
 		echo json_encode($results);
 	}
-	public function detaillabak($m =0,$y=0){
+	public function detaillabak($start,$end){
 		$this->load->library('datatables');
 		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,hrg_hpp,harga_jual,
 		diskon,harga_cashback,
@@ -157,9 +166,8 @@ class Welcome extends Auth {
 		status,tipe_penjualan,nama_toko');
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
-		$this->datatables->where('DAY(tgl_transaksi) <=', $this->currentDay);
-		$this->datatables->where('MONTH(tgl_transaksi)', $m);
-		$this->datatables->where('YEAR(tgl_transaksi)', $y);
+		$this->datatables->where('tgl_transaksi >=', $start);
+		$this->datatables->where('tgl_transaksi <=', $end);
 		return print_r($this->datatables->generate());
 	}
 	public function detailasset(){
@@ -190,9 +198,8 @@ class Welcome extends Auth {
 		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,harga_diskon,harga_cashback,harga_bayar,nama_toko');
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
-		$this->datatables->where('DAY(tgl_transaksi) <=', $this->currentDay);
-		$this->datatables->where('MONTH(tgl_transaksi)', date('m'));
-		$this->datatables->where('YEAR(tgl_transaksi)', date('Y'));
+		$this->datatables->where('tgl_transaksi >=', $this->startDateFormatted);
+		$this->datatables->where('tgl_transaksi <=', $this->endDateFormatted);
 		return print_r($this->datatables->generate());
 	}	
 	public function detailsalescabang($id){
@@ -201,9 +208,8 @@ class Welcome extends Auth {
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where('id_toko',$id);
 		$this->datatables->where_in('status',[1,2]);
-		$this->datatables->where('DAY(tgl_transaksi) <=', $this->currentDay);
-		$this->datatables->where('MONTH(tgl_transaksi)', date('m'));
-		$this->datatables->where('YEAR(tgl_transaksi)', date('Y'));
+		$this->datatables->where('tgl_transaksi >=', $this->startDateFormatted);
+		$this->datatables->where('tgl_transaksi <=', $this->endDateFormatted);
 		return print_r($this->datatables->generate());
 	}
 	public function detaildiskon(){
@@ -212,13 +218,12 @@ class Welcome extends Auth {
 		$this->datatables->from('vtotaldiskon');
 		return print_r($this->datatables->generate());
 	}	
-	public function detailcashback($m=0,$y=0){
+	public function detailcashback($start,$end){
 		$this->load->library('datatables');
 		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
 		$this->datatables->from('vtotalcashback');
-		$this->datatables->where('DAY(tgl_transaksi) <=', $this->currentDay);
-		$this->datatables->where('MONTH(tgl_transaksi)', $m);
-		$this->datatables->where('YEAR(tgl_transaksi)', $y);
+		$this->datatables->where('tgl_transaksi >=', $start);
+		$this->datatables->where('tgl_transaksi <=', $end);
 		return print_r($this->datatables->generate());
 	}
 	public function detailcust(){
@@ -233,8 +238,8 @@ class Welcome extends Auth {
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
 		$this->datatables->where('id_ksr',$id);
-		$this->datatables->where('MONTH(tgl_transaksi)', date('m'));
-		$this->datatables->where('YEAR(tgl_transaksi)', date('Y'));
+		$this->datatables->where('tgl_transaksi >=', $this->startDateFormatted);
+		$this->datatables->where('tgl_transaksi <=', $this->endDateFormatted);
 		return print_r($this->datatables->generate());
 	}
 	public function detailkar(){

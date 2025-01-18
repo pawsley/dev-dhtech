@@ -19,16 +19,6 @@ class DashboardCab extends Auth
     $this->endDateFormatted = $endDate->format('Y-m-d');
   }
 
-  // public function tes() {
-  //   $today = new DateTime(); // Current date
-  //   $startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 28);
-  //   $endDate = (clone $today)->modify('first day of this month')->setDate($today->format('Y'), $today->format('m'), 27);
-    
-  //   // Format dates as 'Y-m-d' for the SQL query
-  //   $startDateFormatted = $startDate->format('Y-m-d');
-  //   $endDateFormatted = $endDate->format('Y-m-d');
-  //   echo $startDateFormatted . ' - ' . $endDateFormatted;
-  // }
   
   public function dashcab($cab){
     $data['setcabang'] = $this->BarangKeluar_model->getCabang();
@@ -38,6 +28,7 @@ class DashboardCab extends Auth
     $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
     <link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
     <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/flatpickr/flatpickr.min.css').'">
     <style>
       .select2-selection__rendered {
         line-height: 35px !important;
@@ -66,7 +57,7 @@ class DashboardCab extends Auth
       <script src="' . base_url('assets/js/additional-js/id.js') . '"></script>
       <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
       <script src="' . base_url() . 'assets/js/animation/wow/wow.min.js"></script>
-      <script src="' . base_url('assets/js/additional-js/dashcabang.js') . '"></script>
+      <script src="' . base_url('assets/js/additional-js/dashcabang.js?v='.time()) . '"></script>
       <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
       <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') . '"></script>
       <script src="' . base_url('assets/js/datatable/datatable-extension/jszip.min.js') . '"></script>
@@ -84,16 +75,17 @@ class DashboardCab extends Auth
       <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
       <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
       <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
+      <script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
       <script>new WOW().init();</script>';
     $this->load->view('layout/base', $data);		
   }
   public function labakotor($cab) {
 		if (isset($_POST['lbval'])) {
 			if ($this->input->is_ajax_request()) {
-				$m = $this->input->post('month');
-				$y = $this->input->post('year');
+				$start = $this->input->post('start');
+				$end = $this->input->post('end');
 				$cab = $this->input->post('id_toko');
-				$results = $this->DashboarCab_model->filtercountlaba($cab,$m,$y);
+				$results = $this->DashboarCab_model->filtercountlaba($cab,$start,$end);
 				header('Content-Type: application/json');
 				echo json_encode($results);
         return;
@@ -131,9 +123,9 @@ class DashboardCab extends Auth
   public function tcb($cab) {
 		if (isset($_POST['cbval'])) {
 			if ($this->input->is_ajax_request()) {
-				$m = $this->input->post('month');
-				$y = $this->input->post('year');
-				$results = $this->DashboarCab_model->filtercountcb($cab,$m,$y);
+				$start = $this->input->post('start');
+				$end = $this->input->post('end');
+				$results = $this->DashboarCab_model->filtercountcb($cab,$start,$end);
 				header('Content-Type: application/json');
 				echo json_encode($results);
                 return;
@@ -148,7 +140,7 @@ class DashboardCab extends Auth
 			echo json_encode($results);
 		}
 	}
-  public function detaillabak($cab,$m =0,$y=0){
+  public function detaillabak($cab,$start,$end){
 		$this->load->library('datatables');
 		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,hrg_hpp,harga_jual,
 		diskon,harga_cashback,
@@ -158,17 +150,17 @@ class DashboardCab extends Auth
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
 		$this->datatables->where('id_toko', $cab);
-		$this->datatables->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->datatables->where('tgl_transaksi <=', $this->endDateFormatted);
+		$this->datatables->where('tgl_transaksi >=', $start);
+		$this->datatables->where('tgl_transaksi <=', $end);
 		return print_r($this->datatables->generate());
 	}
-  public function detailcashback($cab,$m=0,$y=0){
+  public function detailcashback($cab,$start,$end){
 		$this->load->library('datatables');
 		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
 		$this->datatables->from('vtotalcashback');
     $this->datatables->where('id_toko', $cab);
-		$this->datatables->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->datatables->where('tgl_transaksi <=', $this->endDateFormatted);
+		$this->datatables->where('tgl_transaksi >=', $start);
+    $this->datatables->where('tgl_transaksi <=', $end);
 		return print_r($this->datatables->generate());
 	}
   public function detaildiskon($cab){
