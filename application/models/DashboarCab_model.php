@@ -15,8 +15,13 @@ class DashboarCab_model extends CI_Model {
     $this->currentMonth = date('m', strtotime($this->currentDate));
     $this->currentDay = date('d', strtotime($this->currentDate));
     $today = new DateTime();
-    $startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 28);
-    $endDate = (clone $today)->modify('first day of this month')->setDate($today->format('Y'), $today->format('m'), 27);
+    if ($today->format('d') > 27) {
+        $startDate = (clone $today)->setDate($today->format('Y'), $today->format('m'), 28);
+				$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m') + 1, 27);
+    } else {
+        $startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 28);
+				$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m'), 27);
+    }
     $this->startDateFormatted = $startDate->format('Y-m-d');
     $this->endDateFormatted = $endDate->format('Y-m-d');
   }
