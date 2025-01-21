@@ -169,8 +169,8 @@ class DashboardCab extends Auth
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
 		$this->datatables->where('id_toko', $cab);
-		$this->datatables->where('tgl_transaksi >=', $start);
-		$this->datatables->where('tgl_transaksi <=', $end);
+		$this->datatables->where('DATE(tgl_transaksi) >=', $start);
+		$this->datatables->where('DATE(tgl_transaksi) <=', $end);
 		return print_r($this->datatables->generate());
 	}
   public function detailcashback($cab,$start,$end){
@@ -178,8 +178,8 @@ class DashboardCab extends Auth
 		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
 		$this->datatables->from('vtotalcashback');
     $this->datatables->where('id_toko', $cab);
-		$this->datatables->where('tgl_transaksi >=', $start);
-    $this->datatables->where('tgl_transaksi <=', $end);
+		$this->datatables->where('DATE(tgl_transaksi) >=', $start);
+    $this->datatables->where('DATE(tgl_transaksi) <=', $end);
 		return print_r($this->datatables->generate());
 	}
   public function detaildiskon($cab){

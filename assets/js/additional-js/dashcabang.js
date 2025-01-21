@@ -171,8 +171,8 @@ function countlaba(formatcur) {
     });
 }
 function tablelaba(m,y) {
-    m = m || 0;
-    y = y || 0;
+    m = m;
+    y = y ? y : m;
     let ajaxConfig = {
         type: "POST",
         url: base_url + 'detail-laba-cab/'+cabset+'/'+m+'/'+y,
@@ -286,7 +286,7 @@ function filterlb(){
             data: {
                 lbval: lbval,
                 start: start,  
-                end: end, 
+                end: end ? end : start, 
                 id_toko: cabset
             },
             dataType: 'json',
@@ -980,8 +980,8 @@ function tablediskon() {
     return tableDK;
 }
 function tablecb(m, y) {
-    m = m || 0;
-    y = y || 0;
+    m = m;
+    y = y ? y : m;
     let ajaxConfig = {
         type: "POST",
         url: base_url + 'detail-cashback-cab/'+cabset+'/'+m+'/'+y,
@@ -1257,7 +1257,7 @@ function filtercb(){
             data: {
                 cbval: cbval,
                 start: start,  
-                end: end    
+                end: end ? end : start
             },
             dataType: 'json',
             success: function(response) {

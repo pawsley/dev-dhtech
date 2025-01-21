@@ -40,8 +40,8 @@ class DashboarCab_model extends CI_Model {
     $this->db->from('vpenjualan');
     $this->db->where_in('status', [1, 2]);
     $this->db->where('id_toko', $cab);
-    $this->db->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
     
     $query = $this->db->get();
     return $query->result_array();    
@@ -59,8 +59,8 @@ class DashboarCab_model extends CI_Model {
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
     $this->db->where('id_toko', $cab);
-    $this->db->where('tgl_transaksi >=', $start);
-    $this->db->where('tgl_transaksi <=', $end);
+    $this->db->where('DATE(tgl_transaksi) >=', $start);
+    $this->db->where('DATE(tgl_transaksi) <=', $end);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -69,8 +69,8 @@ class DashboarCab_model extends CI_Model {
       "SUM(DISTINCT harga_bayar) + SUM(DISTINCT jml_donasi) as total_jual, id_ksr, nama_ksr"
     ]);
     $this->db->from('vpenjualan');
-    $this->db->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
     $this->db->where('id_toko', $cab);
     $this->db->where_in('status',[1,2]);
     $this->db->group_by('id_ksr');
@@ -97,8 +97,8 @@ class DashboarCab_model extends CI_Model {
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
     $this->db->where('id_toko', $cab);
-    $this->db->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -109,8 +109,8 @@ class DashboarCab_model extends CI_Model {
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
     $this->db->where('id_toko', $cab);
-    $this->db->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -122,8 +122,8 @@ class DashboarCab_model extends CI_Model {
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
     $this->db->where('id_toko', $cab);
-    $this->db->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -134,8 +134,8 @@ class DashboarCab_model extends CI_Model {
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
     $this->db->where('id_toko', $cab);
-    $this->db->where('tgl_transaksi >=', $start);
-    $this->db->where('tgl_transaksi <=', $end);
+    $this->db->where('DATE(tgl_transaksi) >=', $start);
+    $this->db->where('DATE(tgl_transaksi) <=', $end);
     $query = $this->db->get();
     return $query->result_array();
   }

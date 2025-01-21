@@ -171,8 +171,8 @@ class Welcome extends Auth {
 		status,tipe_penjualan,nama_toko');
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
-		$this->datatables->where('tgl_transaksi >=', $start);
-		$this->datatables->where('tgl_transaksi <=', $end);
+		$this->datatables->where('DATE(tgl_transaksi) >=', $start);
+		$this->datatables->where('DATE(tgl_transaksi) <=', $end);
 		return print_r($this->datatables->generate());
 	}
 	public function detailasset(){
@@ -203,8 +203,8 @@ class Welcome extends Auth {
 		$this->datatables->select('kode_penjualan,sn_brg,nama_brg,harga_jual,harga_diskon,harga_cashback,harga_bayar,nama_toko');
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
-		$this->datatables->where('tgl_transaksi >=', $this->startDateFormatted);
-		$this->datatables->where('tgl_transaksi <=', $this->endDateFormatted);
+		$this->datatables->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+		$this->datatables->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
 		return print_r($this->datatables->generate());
 	}	
 	public function detailsalescabang($id){
@@ -213,8 +213,8 @@ class Welcome extends Auth {
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where('id_toko',$id);
 		$this->datatables->where_in('status',[1,2]);
-		$this->datatables->where('tgl_transaksi >=', $this->startDateFormatted);
-		$this->datatables->where('tgl_transaksi <=', $this->endDateFormatted);
+		$this->datatables->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+		$this->datatables->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
 		return print_r($this->datatables->generate());
 	}
 	public function detaildiskon(){
@@ -227,8 +227,8 @@ class Welcome extends Auth {
 		$this->load->library('datatables');
 		$this->datatables->select('sn_brg,nama_brg,cbd,nama_supplier');
 		$this->datatables->from('vtotalcashback');
-		$this->datatables->where('tgl_transaksi >=', $start);
-		$this->datatables->where('tgl_transaksi <=', $end);
+		$this->datatables->where('DATE(tgl_transaksi) >=', $start);
+		$this->datatables->where('DATE(tgl_transaksi) <=', $end);
 		return print_r($this->datatables->generate());
 	}
 	public function detailcust(){
@@ -243,8 +243,8 @@ class Welcome extends Auth {
 		$this->datatables->from('vpenjualan');
 		$this->datatables->where_in('status',[1,2]);
 		$this->datatables->where('id_ksr',$id);
-		$this->datatables->where('tgl_transaksi >=', $this->startDateFormatted);
-		$this->datatables->where('tgl_transaksi <=', $this->endDateFormatted);
+		$this->datatables->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+		$this->datatables->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
 		return print_r($this->datatables->generate());
 	}
 	public function detailkar(){

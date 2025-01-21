@@ -459,8 +459,8 @@ function getCountStock(formatcur) {
     });
 }
 function tablelaba(m,y) {
-    m = m || 0;
-    y = y || 0;
+    m = m;
+    y = y ? y : m;
     let ajaxConfig = {
         type: "POST",
         url: base_url + 'detail-laba/'+m+'/'+y,
@@ -907,8 +907,8 @@ function tablediskon() {
     return tableDK;
 }
 function tablecb(m, y) {
-    m = m || 0;
-    y = y || 0;
+    m = m;
+    y = y ? y : m;
     let ajaxConfig = {
         type: "POST",
         url: base_url + 'detail-cb/'+m+'/'+y,
@@ -1119,7 +1119,7 @@ function filterlb(){
             data: {
                 lbval: lbval,
                 start: start,  
-                end: end    
+                end: end ? end : start
             },
             dataType: 'json',
             success: function(response) {
@@ -1234,7 +1234,7 @@ function filtercb(){
             data: {
                 cbval: cbval,
                 start: start,  
-                end: end
+                end: end ? end : start
             },
             dataType: 'json',
             success: function(response) {

@@ -34,8 +34,8 @@ class Welcome_model extends CI_Model {
     $this->db->from('tb_toko AS stores');
     $this->db->join('vbarangkeluar AS v', 'stores.id_toko = v.id_toko', 'LEFT');
     $this->db->join('vpenjualan AS vj', 'v.id_keluar = vj.id_keluar', 'LEFT');
-		$this->db->where('vj.tgl_transaksi >=', $this->startDateFormatted);
-    $this->db->where('vj.tgl_transaksi <=', $this->endDateFormatted);
+		$this->db->where('DATE(vj.tgl_transaksi) >=', $this->startDateFormatted);
+    $this->db->where('DATE(vj.tgl_transaksi) <=', $this->endDateFormatted);
     $this->db->where_in('vj.status',[1,2]);
     $this->db->group_by('stores.id_toko');
     if ($id) {
@@ -56,8 +56,8 @@ class Welcome_model extends CI_Model {
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-		$this->db->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
+		$this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -73,8 +73,8 @@ class Welcome_model extends CI_Model {
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-    $this->db->where('tgl_transaksi >=', $start);
-    $this->db->where('tgl_transaksi <=', $end);
+    $this->db->where('DATE(tgl_transaksi) >=', $start);
+    $this->db->where('DATE(tgl_transaksi) <=', $end);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -95,8 +95,8 @@ class Welcome_model extends CI_Model {
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-		$this->db->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
+		$this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -106,8 +106,8 @@ class Welcome_model extends CI_Model {
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-		$this->db->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
+		$this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -127,8 +127,8 @@ class Welcome_model extends CI_Model {
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-		$this->db->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
+		$this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -138,8 +138,8 @@ class Welcome_model extends CI_Model {
     ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-    $this->db->where('tgl_transaksi >=', $start);
-    $this->db->where('tgl_transaksi <=', $end);
+    $this->db->where('DATE(tgl_transaksi) >=', $start);
+    $this->db->where('DATE(tgl_transaksi) <=', $end);
     $query = $this->db->get();
     return $query->result_array();
   }
@@ -151,8 +151,8 @@ class Welcome_model extends CI_Model {
   ]);
     $this->db->from('vpenjualan');
     $this->db->where_in('status',[1,2]);
-		$this->db->where('tgl_transaksi >=', $this->startDateFormatted);
-    $this->db->where('tgl_transaksi <=', $this->endDateFormatted);
+		$this->db->where('DATE(tgl_transaksi) >=', $this->startDateFormatted);
+    $this->db->where('DATE(tgl_transaksi) <=', $this->endDateFormatted);
     $this->db->group_by(['id_ksr', 'nama_ksr']);
     $this->db->order_by('total_jual','desc');
     $this->db->limit(5);
