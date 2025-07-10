@@ -125,7 +125,7 @@ class PenList extends Auth
     $decode_search = urldecode($searchTerm);
     $decode_cab = ($decode_cab === 'AllCab') ? 'all' : $decode_cab;
     $data['products'] = $this->PenList_model->layoutbarcode($decode_jns,$decode_kond,$decode_cab,$decode_search);
-    $this->load->view('print/formatbarcode',$data);
+    $this->load->view('print/formatbarcodev2',$data);
   }
 
 }

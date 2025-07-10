@@ -25,7 +25,7 @@ class PenList_model extends CI_Model {
     return $query->result_array();
   }
   public function layoutbarcode($jenis,$kond,$cab=null,$searchTerm=null) {
-    $this->db->select(['sn_brg','nama_brg']);
+    $this->db->select(['sn_brg','nama_brg','jenis','kondisi','tgl_keluar']);
     $this->db->from('vbarangkeluar');
     if ($jenis !== 'all') {
       $this->db->where('jenis', $jenis);
