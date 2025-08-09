@@ -216,7 +216,16 @@
                           <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-table"></use>
                       </svg><span>Retur Barang</span></a>
                   </li> -->
-                  <?php } ?>       
+                  <?php } ?>
+                  <li class="sidebar-list karyawan">
+                      <i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav karyawan" href="<?=base_url()?>dashboard-karyawan/">
+                      <svg class="stroke-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#stroke-user"></use>
+                      </svg>
+                      <svg class="fill-icon">
+                          <use href="<?=base_url()?>assets/svg/icon-sprite.svg#fill-user"></use>
+                      </svg><span>Karyawan</span></a>
+                  </li>       
                   <!-- Finnance -->
                   <!-- <li class="sidebar-list finance"><i class="fa fa-thumb-tack"></i>
                     <a class="sidebar-link sidebar-title" href="#">
@@ -514,6 +523,8 @@
                 $(".sidebar-list.sales ul.sidebar-submenu").slideDown('normal');
             }else if (segment1 == "order-masuk"){
                 $(".order").addClass("active");
+            }else if(segment1 == "dashboard-karyawan"){
+                $(".karyawan").addClass("active");
             }else if (segment1 == "finance-supplier" && segment2 == "dp-supplier"){
                 $(".finance").addClass("active");
                 $(".dps").addClass("active");

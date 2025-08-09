@@ -185,6 +185,39 @@ function tablepl() {
                     }
                     window.open(printUrl, '_blank');
                 }
+            },
+            {
+                "text": 'Export Barcode V2', 
+                "attr": {
+                    "id": "update",
+                    "data-jenis": "all",
+                    "data-cab": "AllCab",
+                    "data-kond": "all",
+                    'data-search': ''
+                },
+                "action": function () {
+                    var dataJenis = $('#update').attr('data-jenis');
+                    var dataCab = $('#update').attr('data-cab');
+                    var dataKond = $('#update').attr('data-kond');
+                    var dataSearch = $('#update').attr('data-search');
+
+                    dataSearch = dataSearch ? dataSearch : '';
+
+                    var printUrl;
+                    if (dataSearch !== '') {
+                        printUrl = base_url + 'produk-list/export-barcode-v2/' + 
+                            encodeURIComponent(dataJenis) + '/' + 
+                            encodeURIComponent(dataKond) + '/' + 
+                            encodeURIComponent(dataCab) + '/' + 
+                            encodeURIComponent(dataSearch);
+                    } else {
+                        printUrl = base_url + 'produk-list/export-barcode-select-v2/' + 
+                            encodeURIComponent(dataJenis) + '/' + 
+                            encodeURIComponent(dataKond) + '/' + 
+                            encodeURIComponent(dataCab);
+                    }
+                    window.open(printUrl, '_blank');
+                }
             }
         ]
             
