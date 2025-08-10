@@ -1,4 +1,9 @@
         <!-- Begin Content -->
+        <?php 
+            $jab= $this->session->userdata('jabatan'); 
+            $allowed_roles = ['Finance', 'Manager Oprasional', 'OWNER'];
+            $is_allowed = in_array($jab, $allowed_roles);
+        ?>
         <div class="page-body">
             <div class="container-fluid">
                 <div class="page-title">
@@ -29,21 +34,28 @@
                 <div class="row">
                     <!-- Total Karyawan -->
                     <div class="col-md-4 col-sm-6">
-                        <a href="#" class="ctu" data-bs-toggle="modal" data-bs-target="#DetailUser" data-total_usr="">
-                            <div class="card widget-hover overflow-hidden">
+                        <a href="#" class="ctf <?= $is_allowed ? '' : 'disabled-link' ?>" 
+                        <?= $is_allowed ? 'data-bs-toggle="modal" data-bs-target="#DetailUser" data-total_usr=""' : '' ?>>
+                            <div class="card widget-hover overflow-hidden" style="<?= $is_allowed ? '' : 'opacity:0.5; pointer-events:none;' ?>">
                                 <div class="card-header card-no-border pb-2">
                                     <h5>Fingerprint Karyawan</h5>
                                 </div>
                                 <div class="card-body pt-0 count-student">
                                     <div class="school-wrapper"> 
                                         <div class="school-header">
-                                            <h4 class="text-warning">20</h4>
+                                            <div class="spinner-border text-primary d-none" role="status" id="spintf">
+                                                <span class="visually-hidden"></span>
+                                            </div>
+                                            <h4 class="text-warning" id="counttf"></h4>
                                             <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
                                                 <p class="text-muted">Realtime Updated</p>
                                             </div>
                                         </div>
-                                        <div class="school-body"><img src="../assets/images/karyawan/karyawans.png" alt="dh-karyawan">
-                                            <div class="right-line"><img src="../assets/images/inventoriassets/line.png" alt="line"></div>
+                                        <div class="school-body">
+                                            <img src="../assets/images/karyawan/absen-karyawan.png" alt="dh-karyawan">
+                                            <div class="right-line">
+                                                <img src="../assets/images/inventoriassets/line.png" alt="line">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -51,7 +63,7 @@
                         </a>
                     </div>
                     <div class="col-md-4 col-sm-6">
-                        <a href="#" class="ctu" data-bs-toggle="modal" data-bs-target="#DetailRest" data-total_usr="">
+                        <a href="#" class="cti" data-bs-toggle="modal" data-bs-target="#DetailRest" data-total_usr="">
                             <div class="card widget-hover overflow-hidden">
                                 <div class="card-header card-no-border pb-2">
                                     <h5>Istirahat Karyawan</h5>
@@ -59,12 +71,15 @@
                                 <div class="card-body pt-0 count-student">
                                     <div class="school-wrapper"> 
                                         <div class="school-header">
-                                            <h4 class="text-primary">0</h4>
+                                            <div class="spinner-border text-primary d-none" role="status" id="spinti">
+                                                <span class="visually-hidden"></span>
+                                            </div>
+                                            <h4 class="text-primary" id="countti"></h4>
                                             <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
                                                 <p class="text-muted">Realtime Updated</p>
                                             </div>
                                         </div>
-                                        <div class="school-body"><img src="../assets/images/karyawan/karyawans.png" alt="dh-karyawan">
+                                        <div class="school-body"><img src="../assets/images/karyawan/karyawan-terlambat.png" alt="dh-karyawan">
                                             <div class="right-line"><img src="../assets/images/inventoriassets/line.png" alt="line"></div>
                                         </div>
                                     </div>
@@ -74,24 +89,24 @@
                     </div>
                     <!-- Denda Karyawan Bulanan -->
                     <div class="col-md-4 col-sm-6">
-                    <div class="card widget-hover overflow-hidden">
-                        <div class="card-header card-no-border pb-2">
-                        <h5>Denda Karyawan</h5>
-                        </div>
-                        <div class="card-body pt-0 count-student">
-                        <div class="school-wrapper"> 
-                            <div class="school-header">
-                            <h4 class="text-danger">Rp350.000</h4>
-                            <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
-                                <p class="text-muted">Bulan Ini</p>
+                        <div class="card widget-hover overflow-hidden">
+                            <div class="card-header card-no-border pb-2">
+                                <h5>Denda Karyawan</h5>
                             </div>
-                            </div>
-                            <div class="school-body"><img src="../assets/images/karyawan/dendakaryawan.png" alt="dh-karyawan">
-                            <div class="right-line"><img src="../assets/images/inventoriassets/line.png" alt="line"></div>
+                            <div class="card-body pt-0 count-student">
+                                <div class="school-wrapper"> 
+                                    <div class="school-header">
+                                        <h4 class="text-danger">Rp0</h4>
+                                        <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
+                                            <p class="text-muted">Bulan Ini</p>
+                                        </div>
+                                    </div>
+                                    <div class="school-body"><img src="../assets/images/karyawan/dendakaryawan.png" alt="dh-karyawan">
+                                        <div class="right-line"><img src="../assets/images/inventoriassets/line.png" alt="line"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        </div>
-                    </div>
                     </div>
                     <!-- Denda Karyawan -->
                     <!-- <div class="col-md-4 col-sm-6">

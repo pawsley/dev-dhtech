@@ -1,10 +1,17 @@
 var tableKry;
 var tableTlAbsen;
 var tableTlRest;
+var formatcur = new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0
+});
 $(document).ready(function() {
     getFingerKaryawan();
     getTimelineAbsen();
     getTimelineRest();
+    card();
+    allcount(formatcur);
 });
 
 function getFingerKaryawan() {
@@ -230,4 +237,56 @@ function getTimelineRest() {
             ]
     });
     return tableTlRest;
+}
+function card(){
+    $('.ctf').click(function(event) {
+        event.preventDefault();
+        $('#spintf').removeClass('d-none');
+        $('#counttf').addClass('d-none');
+        countus(formatcur);
+    });
+    $('.cti').click(function(event) {
+        event.preventDefault();
+        $('#spinti').removeClass('d-none');
+        $('#countti').addClass('d-none');
+        countti(formatcur);
+    });
+}
+function allcount(formatcur) {
+    $('#spintf').removeClass('d-none');
+    $('#spinti').removeClass('d-none');
+    countus(formatcur);
+    countti(formatcur);
+}
+function countus(formatcur) {
+    $.ajax({
+        url: base_url + 'DashboardKar/totalFinger/',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            $('#counttf').removeClass('d-none');
+            
+            var tf = formatcur.format(data.total_finger).replace(/\D/g, '');
+            $('#counttf').text(tf);
+            $('.ctf').attr('data-total_tf', tf);
+            
+            $('#spintf').addClass('d-none');
+        }
+    });
+}
+function countti(formatcur) {
+    $.ajax({
+        url: base_url + 'DashboardKar/totalIstirahat/',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            $('#countti').removeClass('d-none');
+            
+            var ti = formatcur.format(data.total_istirahat).replace(/\D/g, '');
+            $('#countti').text(ti);
+            $('.cti').attr('data-total_ti', ti);
+            
+            $('#spinti').addClass('d-none');
+        }
+    });
 }
