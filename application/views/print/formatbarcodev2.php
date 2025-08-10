@@ -98,7 +98,7 @@
 <body>
   <table>
 <?php foreach ($products as $product): ?>
-  <?php if ($product['jenis'] !== 'AKSESORIS'): ?>
+  <?php if ($product['jenis'] !== 'Aksesoris' && $product['jenis'] !== 'AKSESORIS'): ?>
     <!-- Original layout for non-accessory -->
 <!-- Flex layout for non-AKSESORIS -->
 <div style="width: 100%; height: 18.78mm; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; padding: 0;">
@@ -134,11 +134,11 @@
 
       <!-- Barcode -->
       <div style="text-align: center;">
-        <img class="barcode-img" src="<?= base_url() ?>assets/dhdokumen/snbarcode/<?= $product['sn_brg']; ?>.jpg" alt="Barcode" />
+        <img style="width: 100%; height:38px; object-fit: contain;" src="<?= base_url() ?>assets/dhdokumen/snbarcode/<?= $product['sn_brg']; ?>.jpg" alt="Barcode" />
       </div>
 
       <!-- Footer always at bottom -->
-      <div class="footer-bar">
+      <div class="footer-bar" style="margin-top: -2px;">
         <div class="footer-content">
           <span class="left"><?= $product['jenis']; ?></span>
           <span class="right"><?= date('d/m/Y', strtotime($product['tgl_keluar'])); ?></span>
