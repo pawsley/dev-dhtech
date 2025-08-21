@@ -369,18 +369,75 @@
                           <div class="col-lg-12"> 
                               <div class="card"> 
                                   <div class="card-body">
-                                  <div class="table-responsive">
-                                      <table class="display" id="table-kry">
-                                          <thead>
-                                              <tr>
-                                                  <th><span class="f-light f-w-600">FINGER ID</span></th>
-                                                  <th><span class="f-light f-w-600">NAMA KARYAWAN</span></th>
-                                              </tr>
-                                          </thead>
-                                          <tbody>
-                                          </tbody>
-                                      </table>
-                                    </div>                                            
+                                    <ul class="nav nav-tabs" id="icon-tab" role="tablist">
+                                        <li class="nav-item"><a class="nav-link active txt-primary" id="list-fingerprint-tab" data-bs-toggle="tab" href="#list-fingerprint" role="tab" aria-controls="list-fingerprint" aria-selected="true"><i class="icofont icofont-database"></i>List Fingerprint</a></li>
+                                        <li class="nav-item"><a class="nav-link txt-primary" id="setting-shift-tab" data-bs-toggle="tab" href="#setting-shift" role="tab" aria-controls="setting-shift" aria-selected="false"><i class="icofont icofont-ui-settings"></i>Setting Shift</a></li>
+                                        <li class="nav-item"><a class="nav-link txt-primary" id="shift-karyawan-tab" data-bs-toggle="tab" href="#shift-karyawan" role="tab" aria-controls="shift-karyawan" aria-selected="false"><i class="icofont icofont-time"></i>Shift Karyawan</a></li>
+                                    </ul>
+                                    <div class="tab-content" id="icon-tabContent">
+                                        <div class="tab-pane fade show active" id="list-fingerprint" role="tabpanel" aria-labelledby="list-fingerprint-tab">
+                                            <div class="table-responsive mt-2">
+                                                <table class="display" id="table-kry">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><span class="f-light f-w-600">FINGER ID</span></th>
+                                                            <th><span class="f-light f-w-600">NAMA KARYAWAN</span></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="setting-shift" role="tabpanel" aria-labelledby="setting-shift-tab">
+                                            <div class="mt-2">
+                                                <form id="form-setting-shift" class="row g-3">
+                                                    <div class="col-12 position-relative">
+                                                        <label for="shift-name" class="form-label">Nama Shift</label>
+                                                        <input type="text" class="form-control" id="nama_shift" name="nama_shift" required>
+                                                    </div>
+                                                    <div class="col-6 position-relative">
+                                                        <label for="shift-time" class="form-label">Shift Masuk</label>
+                                                        <input type="time" class="form-control" id="shift_in" name="shift_in" required>
+                                                    </div>
+                                                    <div class="col-6 position-relative">
+                                                        <label for="shift-time" class="form-label">Shift Pulang</label>
+                                                        <input type="time" class="form-control" id="shift_out" name="shift_out" required>
+                                                    </div>
+                                                    <div class="col-6 position-relative">
+                                                        <button type="button" id="btnsave" class="btn btn-primary">Simpan Shift</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="table-responsive mt-2">
+                                                <table class="display" id="table-shift">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><span class="f-light f-w-600">SHIFT</span></th>
+                                                            <th><span class="f-light f-w-600">WAKTU</span></th>
+                                                            <th><span class="f-light f-w-600">AKSI</span></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="shift-karyawan" role="tabpanel" aria-labelledby="shift-karyawan-tab">
+                                            <div class="table-responsive mt-2">
+                                                <table class="display" id="table-shift-kry">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><span class="f-light f-w-600">NAMA KARYAWAN</span></th>
+                                                            <th><span class="f-light f-w-600">SHIFT</span></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                   </div>
                               </div>
                           </div>

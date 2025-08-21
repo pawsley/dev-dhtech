@@ -37,7 +37,7 @@ class DashboardKar extends Auth
 					height: 37px !important;
 				}
 				.select2-container{
-				margin-bottom :-4%;
+				margin-bottom :-2%;
 				}
 			</style>
 			';
@@ -77,6 +77,16 @@ class DashboardKar extends Auth
 		$this->datatables->from('vfingerdata');
 		return print_r($this->datatables->generate());
 	}
+	public function getShiftKaryawan(){
+		$this->datatables->select('id_user,nama_lengkap,id,shift');
+		$this->datatables->from('vkaryawanshift');
+		return print_r($this->datatables->generate());
+	}
+	public function getSettingShift(){
+		$this->datatables->select('id,nama,concat(shift_in," - ",shift_out) as waktu_shift');
+		$this->datatables->from('tb_user_shift');
+		return print_r($this->datatables->generate());
+	}
 	public function getTimelineAbsen(){
 		$this->datatables->select('finger_id,nama_lengkap,shift,absen_at,status_absen');
 		$this->datatables->from('vfingerlistabsen');
@@ -102,6 +112,21 @@ class DashboardKar extends Auth
 		header('Content-Type: application/json');
 		echo json_encode($results);
 	}
+	public function getShiftData(){
+		$searchTerm = $this->input->get('q');
+		$this->db->select(['id', 'nama']);
+		$this->db->from('tb_user_shift');
+		if ($searchTerm) {
+		$this->db->group_start();
+		$this->db->like('id', $searchTerm);
+		$this->db->or_like('nama', $searchTerm);
+		$this->db->group_end();
+		}
+		$query = $this->db->get();
+		$results = $query->result_array();
+		header('Content-Type: application/json');
+		echo json_encode($results);
+	}
 	public function updateFinger(){
 		if ($this->input->is_ajax_request()) {
 		$finger_id = $this->input->post('finger_id');
@@ -116,6 +141,67 @@ class DashboardKar extends Auth
 		echo json_encode(['status' => 'success']);
 		} else {
 		redirect('dashboard-karyawan');
+		}
+	}
+	public function updateShiftKaryawan(){
+		if ($this->input->is_ajax_request()) {
+		$id_shift = $this->input->post('id_shift');
+		$id_user = $this->input->post('id_user');
+
+		$data = array(
+		'id_shift' => $id_shift,
+		);
+		$this->db->where('id_user', $id_user);
+		$this->db->update('tb_user', $data);
+
+		echo json_encode(['status' => 'success']);
+		} else {
+		redirect('dashboard-karyawan');
+		}
+	}
+	public function addShift(){
+		if ($this->input->is_ajax_request()) {
+
+			$data = array(
+				'nama' => $this->input->post('nama'),
+				'shift_in' => $this->input->post('shift_in'),
+				'shift_out' => $this->input->post('shift_out'),
+			);
+			if ($this->db->insert('tb_user_shift', $data)) {
+				echo json_encode(['status' => 'success']);
+			} else {
+				echo json_encode(['status' => 'error']);
+			}
+		} 
+	}
+	public function updateShift(){
+		if ($this->input->is_ajax_request()) {
+			$id = $this->input->post('id');
+
+			$data = array(
+				'nama' => $this->input->post('nama'),
+				'shift_in' => $this->input->post('shift_in'),
+				'shift_out' => $this->input->post('shift_out'),
+			);
+			$this->db->where('id', $id);
+
+			if ($this->db->update('tb_user_shift', $data)) {
+				echo json_encode(['status' => 'success']);
+			} else {
+				echo json_encode(['status' => 'error']);
+			}
+		} 
+	}
+	public function deleteShift($id){
+		if ($this->input->is_ajax_request()) {
+			$this->db->where('id', $id);
+			if ($this->db->delete('tb_user_shift')) {
+				echo json_encode(['status' => 'success']);
+			} else {
+				echo json_encode(['status' => 'error']);
+			}
+		} else {
+			redirect('dashboard-karyawan');
 		}
 	}
 	public function totalFinger() {
