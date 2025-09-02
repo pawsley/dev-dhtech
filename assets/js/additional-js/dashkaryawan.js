@@ -33,7 +33,7 @@ if ($.fn.DataTable.isDataTable('#table-denda-kry')) {
             "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
         },
         "serverSide": true,
-        "order": [],
+        "order": [3, 'desc'],
         "ajax": {
             "url": base_url + 'DashboardKar/getDendaKaryawan',
             "type": "POST"
@@ -826,7 +826,7 @@ function getTimelineRest() {
             "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
         },
         "serverSide": true,
-        "order": [],
+        "order": [1, 'desc'],
         "ajax": {
             "url": base_url + 'DashboardKar/getTimelineRest',
             "type": "POST"

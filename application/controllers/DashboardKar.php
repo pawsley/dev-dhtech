@@ -122,6 +122,8 @@ class DashboardKar extends Auth
 	public function getTimelineRest(){
 		$this->datatables->select('nama_lengkap,shift,tanggal,durasi_istirahat');
 		$this->datatables->from('vfingerdetailistirahat');
+		$this->datatables->where('tanggal >=', $this->startDateFormatted);
+		$this->datatables->where('tanggal <=', $this->endDateFormatted);
 		return print_r($this->datatables->generate());
 	}
 	public function getKaryawanData(){
