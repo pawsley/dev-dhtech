@@ -117,6 +117,8 @@ class DashboardKar extends Auth
 	public function getTimelineAbsen(){
 		$this->datatables->select('finger_id,nama_lengkap,shift,absen_at,status_absen');
 		$this->datatables->from('vfingerlistabsen');
+		$this->datatables->where('date(absen_at) >=', $this->startDateFormatted);
+		$this->datatables->where('date(absen_at) <=', $this->endDateFormatted);
 		return print_r($this->datatables->generate());
 	}
 	public function getTimelineRest(){
