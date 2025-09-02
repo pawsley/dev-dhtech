@@ -3,6 +3,8 @@ var tableTlAbsen;
 var tableTlRest;
 var tableShift;
 var tableShiftKry;
+var tableDenda;
+var laporanDenda;
 var formatcur = new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR',
@@ -13,12 +15,78 @@ $(document).ready(function() {
     getTimelineAbsen();
     getTimelineRest();
     getSettingShift();
+    getSettingDenda();
     addShift();
+    addDenda();
+    getLaporanDenda();
     getKaryawanShift();
     card();
     allcount(formatcur);
 });
-
+function getLaporanDenda() {
+if ($.fn.DataTable.isDataTable('#table-denda-kry')) {
+        laporanDenda.destroy();
+    }
+    laporanDenda = $("#table-denda-kry").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [],
+        "ajax": {
+            "url": base_url + 'DashboardKar/getDendaKaryawan',
+            "type": "POST"
+        },
+        autoWidth: false,
+        columnDefs: [
+            { width: "40%", targets: 0 },
+            { width: "20%", targets: 1 },
+            { width: "20%", targets: 2 },
+            { width: "20%", targets: 3 },
+        ],
+        "columns": [
+            {
+                "data": "nama_lengkap",
+                "orderable": false,
+            },
+            { 
+                "data": "denda",
+                "orderable": false,
+                "render": function(data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "durasi_terlambat",
+                "orderable": false,
+            },
+            { "data": "tanggal" }
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+            "<'col-sm-12 col-md-2'B>" +
+               "<'row'<'col-sm-12'tr>>" +
+               "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
+        "buttons": [
+            {
+            "text": '<i class="icofont icofont-refresh"></i>', // Use Font Awesome refresh icon
+            "className": 'custom-refresh-button',
+            "attr": {
+                "id": "refresh-button"
+            },
+            "init": function (api, node, config) {
+                $(node).removeClass('btn-default');
+                $(node).addClass('btn-primary');
+                $(node).attr('title', 'Refresh');
+            },
+            "action": function () {
+                laporanDenda.ajax.reload();
+            }
+            },
+        ]
+    });
+    return laporanDenda;
+}
 function getFingerKaryawan() {
     if ($.fn.DataTable.isDataTable('#table-kry')) {
         tableKry.destroy();
@@ -44,12 +112,12 @@ function getFingerKaryawan() {
             {
                 "data": "nama_lengkap",
                 "render": function (data, type, row, meta) {
-                    return '<select class="select2" value="'+row.id_user+'" data-id_user="'+row.id_user+'" data-finger_id="'+row.finger_id+'" data-current-value="' + data + '"></select>';
+                    return '<select class="select2finger" value="'+row.id_user+'" data-id_user="'+row.id_user+'" data-finger_id="'+row.finger_id+'" data-current-value="' + data + '"></select>';
                 },
             },                     
         ],
         "drawCallback": function(settings) {
-            $('.select2').each(function() {
+            $('.select2finger').each(function() {
                 var $select = $(this);
                 var currentValue = $select.data('current-value');
                 var value = $select.data('id_user');
@@ -257,7 +325,7 @@ function getKaryawanShift() {
 }
 function getSettingShift() {
     if ($.fn.DataTable.isDataTable('#table-shift')) {
-        tableKry.destroy();
+        tableShift.destroy();
     }
     tableShift = $("#table-shift").DataTable({
         "processing": true,
@@ -417,6 +485,176 @@ function getSettingShift() {
     });
     return tableShift;
 }
+function getSettingDenda() {
+    if ($.fn.DataTable.isDataTable('#table-denda')) {
+        tableDenda.destroy();
+    }
+    tableDenda = $("#table-denda").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [],
+        "ajax": {
+            "url": base_url + 'DashboardKar/getSettingDenda',
+            "type": "POST"
+        },
+        autoWidth: false,
+        columnDefs: [
+            { width: "30%", targets: 0 },
+            { width: "30%", targets: 1 },
+            { width: "30%", targets: 2 },
+            { width: "10%", targets: 3 }
+        ],
+        "columns": [
+            { 
+                "data": "nominal_denda",
+                "orderable": false,
+                "render": function(data, type, row) {
+                    return formatcur.format(data);
+                }
+            },
+            { 
+                "data": "durasi_denda",
+                "orderable": false,
+            },
+            { 
+                "data": "status_denda",
+                "orderable": false,
+            },
+            {
+                "data": "id",
+                "orderable": false,
+                "render": function (data, type, full, meta) {
+                    if (type === "display") {
+                        return `
+                            <ul class="action">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" id="editdd" data-id="${data}""><i class="icofont icofont-ui-edit"></i></button>
+                                    <button class="btn btn-danger" id="deletedd" data-id="${data}"><i class="icofont icofont-ui-delete"></i></button>
+                                </div>
+                            </ul>
+                        `;
+                    }
+                    return data;
+                }
+            },                     
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+            "<'col-sm-12 col-md-2'B>" +
+               "<'row'<'col-sm-12'tr>>" +
+               "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
+        "buttons": [
+            {
+            "text": '<i class="icofont icofont-refresh"></i>', // Use Font Awesome refresh icon
+            "className": 'custom-refresh-button',
+            "attr": {
+                "id": "refresh-button"
+            },
+            "init": function (api, node, config) {
+                $(node).removeClass('btn-default');
+                $(node).addClass('btn-primary');
+                $(node).attr('title', 'Refresh');
+            },
+            "action": function () {
+                tableDenda.ajax.reload();
+            }
+            },
+        ]
+    });
+    tableDenda.on('click', '#editdd', function() {
+        var id = $(this).data('id');
+
+        var rowData = tableDenda.row($(this).closest('tr')).data();
+        $('#nominal_denda').val(rowData.nominal_denda);
+        $('#durasi_denda').val(rowData.durasi_denda);
+        $('#status_denda').val(rowData.status_denda);
+        $('#btnsavedenda').on('click', function(e) {
+            e.preventDefault();
+            var nominal = parseFloat($('#nominal_denda').val().replace(/\D/g, ''));
+            var durasi = $('#durasi_denda').val();
+            var status = $('#status_denda').val();
+
+            if (nominal && durasi && status) {
+                $.ajax({
+                    url: base_url + 'DashboardKar/updateDenda',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        id: id,
+                        nominal: nominal,
+                        durasi: durasi,
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            swal("Denda berhasil diperbarui!", {
+                                icon: "success",
+                            }).then(() => {
+                                tableDenda.ajax.reload();
+                                $('#nominal_denda').val('');
+                                $('#durasi_denda').val('');
+                                $('#status_denda').val('');
+                                $('#btnsavedenda').off('click');
+                            });
+                        } else {
+                            swal("Gagal memperbarui denda", {
+                                icon: "error",
+                            });
+                        }
+                    },
+                    error: function() {
+                        swal("Terjadi kesalahan saat memperbarui denda", {
+                            icon: "error",
+                        });
+                    }
+                });
+            } else {
+                swal("Semua field harus diisi!", {
+                    icon: "warning",
+                });
+            }
+        });
+    });
+    tableDenda.on('click', '#deletedd', function() {
+        var id = $(this).data('id');
+        swal({
+            title: "Hapus Denda",
+            text: "Apakah Anda yakin ingin menghapus denda ini?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: base_url + 'DashboardKar/deleteDenda/' + id,
+                    type: 'POST',
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            swal("Denda berhasil dihapus!", {
+                                icon: "success",
+                            }).then(() => {
+                                tableDenda.ajax.reload();
+                            });
+                        } else {
+                            swal("Gagal menghapus denda", {
+                                icon: "error",
+                            });
+                        }
+                    },
+                    error: function() {
+                        swal("Terjadi kesalahan saat menghapus denda", {
+                            icon: "error",
+                        });
+                    }
+                });
+            }
+        });
+    });
+    return tableDenda;
+}
 function addShift() {
     $('#btnsave').on('click', function(e) {
         e.preventDefault();
@@ -453,6 +691,53 @@ function addShift() {
                 },
                 error: function() {
                     swal("Terjadi kesalahan saat memperbarui shift", {
+                        icon: "error",
+                    });
+                }
+            });
+        } else {
+            swal("Semua field harus diisi!", {
+                icon: "warning",
+            });
+        }
+    });
+}
+function addDenda() {
+    $('#btnsavedenda').on('click', function(e) {
+        e.preventDefault();
+        var nominal = parseFloat($('#nominal_denda').val().replace(/\D/g, ''));
+        var durasi = $('#durasi_denda').val();
+        var status = $('#status_denda').val();
+
+        if (nominal && durasi && status) {
+            $.ajax({
+                url: base_url + 'DashboardKar/addDenda',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    nominal: nominal,
+                    durasi: durasi,
+                    status: status
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        swal("Denda berhasil diperbarui!", {
+                            icon: "success",
+                        }).then(() => {
+                            tableDenda.ajax.reload();
+                            $('#nominal_denda').val('');
+                            $('#durasi_denda').val('');
+                            $('#status_denda').val('');
+                            $('#btnsavedenda').off('click');
+                        });
+                    } else {
+                        swal("Gagal memperbarui denda", {
+                            icon: "error",
+                        });
+                    }
+                },
+                error: function() {
+                    swal("Terjadi kesalahan saat memperbarui denda", {
                         icon: "error",
                     });
                 }
@@ -588,12 +873,20 @@ function card(){
         $('#countti').addClass('d-none');
         countti(formatcur);
     });
+    $('.cde').click(function(event) {
+        event.preventDefault();
+        $('#spintd').removeClass('d-none');
+        $('#countdenda').addClass('d-none');
+        countdenda(formatcur);
+    });
 }
 function allcount(formatcur) {
     $('#spintf').removeClass('d-none');
     $('#spinti').removeClass('d-none');
+    $('#spintd').removeClass('d-none');
     countus(formatcur);
     countti(formatcur);
+    countdenda(formatcur);
 }
 function countus(formatcur) {
     $.ajax({
@@ -624,6 +917,22 @@ function countti(formatcur) {
             $('.cti').attr('data-total_ti', ti);
             
             $('#spinti').addClass('d-none');
+        }
+    });
+}
+function countdenda(formatcur) {
+    $.ajax({
+        url: base_url + 'DashboardKar/totalDenda/',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            $('#countdenda').removeClass('d-none');
+            
+            var ti = formatcur.format(data.total_denda);
+            $('#countdenda').text(ti);
+            $('.cde').attr('data-total_denda', ti);
+            
+            $('#spintd').addClass('d-none');
         }
     });
 }

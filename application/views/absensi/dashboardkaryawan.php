@@ -89,24 +89,29 @@
                     </div>
                     <!-- Denda Karyawan Bulanan -->
                     <div class="col-md-4 col-sm-6">
-                        <div class="card widget-hover overflow-hidden">
-                            <div class="card-header card-no-border pb-2">
-                                <h5>Denda Karyawan</h5>
-                            </div>
-                            <div class="card-body pt-0 count-student">
-                                <div class="school-wrapper"> 
-                                    <div class="school-header">
-                                        <h4 class="text-danger">Rp0</h4>
-                                        <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
-                                            <p class="text-muted">Bulan Ini</p>
+                        <a href="#" class="cde" data-bs-toggle="modal" data-bs-target="#DetailDenda" data-total_denda="">
+                            <div class="card widget-hover overflow-hidden">
+                                <div class="card-header card-no-border pb-2">
+                                    <h5>Denda Karyawan</h5>
+                                </div>
+                                <div class="card-body pt-0 count-student">
+                                    <div class="school-wrapper"> 
+                                        <div class="school-header">
+                                            <div class="spinner-border text-primary d-none" role="status" id="spintd">
+                                                <span class="visually-hidden"></span>
+                                            </div>
+                                            <h4 class="text-danger" id="countdenda"></h4>
+                                            <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
+                                                <p class="text-muted">Bulan Ini</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="school-body"><img src="../assets/images/karyawan/dendakaryawan.png" alt="dh-karyawan">
-                                        <div class="right-line"><img src="../assets/images/inventoriassets/line.png" alt="line"></div>
+                                        <div class="school-body"><img src="../assets/images/karyawan/dendakaryawan.png" alt="dh-karyawan">
+                                            <div class="right-line"><img src="../assets/images/inventoriassets/line.png" alt="line"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </div>
                     <!-- Denda Karyawan -->
                     <!-- <div class="col-md-4 col-sm-6">
@@ -430,6 +435,88 @@
                                                         <tr>
                                                             <th><span class="f-light f-w-600">NAMA KARYAWAN</span></th>
                                                             <th><span class="f-light f-w-600">SHIFT</span></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade bd-example-modal-xl" id="DetailDenda" tabindex="-1" role="dialog" aria-labelledby="DetailDenda" aria-hidden="true">
+              <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content dark-sign-up">
+                  <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
+                      <div class="modal-toggle-wrapper">
+                          <div class="modal-header mb-4">
+                              <h3>Detail Denda Karyawan</h3>
+                              <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <!-- Data Table -->
+                          <div class="col-lg-12"> 
+                              <div class="card"> 
+                                  <div class="card-body">
+                                    <ul class="nav nav-tabs" id="icon-tab" role="tablist">
+                                        <li class="nav-item"><a class="nav-link active txt-primary" id="list-denda-tab" data-bs-toggle="tab" href="#list-denda" role="tab" aria-controls="list-denda" aria-selected="true"><i class="icofont icofont-list"></i>List Denda Karyawan</a></li>
+                                        <li class="nav-item"><a class="nav-link txt-primary" id="setting-denda-tab" data-bs-toggle="tab" href="#setting-denda" role="tab" aria-controls="setting-denda" aria-selected="false"><i class="icofont icofont-settings"></i>Setting Denda Karyawan</a></li>
+                                    </ul>
+                                    <div class="tab-content" id="icon-tabContent">
+                                        <div class="tab-pane fade show active" id="list-denda" role="tabpanel" aria-labelledby="list-denda-tab">
+                                            <div class="table-responsive mt-2">
+                                                <table class="display" id="table-denda-kry">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><span class="f-light f-w-600">NAMA KARYAWAN</span></th>
+                                                            <th><span class="f-light f-w-600">DENDA TELAT ABSEN</span></th>
+                                                            <th><span class="f-light f-w-600">DURASI TELAT</span></th>
+                                                            <th><span class="f-light f-w-600">TANGGAL</span></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="setting-denda" role="tabpanel" aria-labelledby="setting-denda-tab">
+                                            <div class="mt-2">
+                                                <form id="form-setting-denda" class="row g-3">
+                                                    <div class="col-12 position-relative">
+                                                        <label for="nominal_denda" class="form-label">Nominal</label>
+                                                        <input type="text" class="form-control" id="nominal_denda" name="nominal_denda" onkeyup="formatRupiah(this)" required>
+                                                    </div>
+                                                    <div class="col-6 position-relative">
+                                                        <label for="durasi_denda" class="form-label">Durasi Denda</label>
+                                                        <input type="time" class="form-control" id="durasi_denda" name="durasi_denda" required>
+                                                    </div>
+                                                    <div class="col-6 position-relative">
+                                                        <label for="status_denda" class="form-label">Status Denda</label>
+                                                        <select class="form-select" id="status_denda" name="status_denda" required>
+                                                            <option value="">Pilih Status Denda</option>
+                                                            <option value="ABSEN">ABSEN</option>
+                                                            <option value="ISTIRAHAT">ISTIRAHAT</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-6 position-relative">
+                                                        <button type="button" id="btnsavedenda" class="btn btn-primary">Simpan</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="table-responsive mt-2">
+                                                <table class="display" id="table-denda">
+                                                    <thead>
+                                                        <tr>
+                                                            <th><span class="f-light f-w-600">NOMINAL DENDA</span></th>
+                                                            <th><span class="f-light f-w-600">DURASI</span></th>
+                                                            <th><span class="f-light f-w-600">STATUS</span></th>
+                                                            <th><span class="f-light f-w-600">AKSI</span></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>

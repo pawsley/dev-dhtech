@@ -3,12 +3,25 @@ defined('BASEPATH') or exit('No direct script access allowed');
 include_once(APPPATH . 'controllers/Auth.php');
 class DashboardKar extends Auth
 {
-    
+	private $currentDay;
+	private $startDateFormatted;
+	private $endDateFormatted;
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('BarangKeluar_model');
 		$this->load->library('datatables');
+		$this->currentDay = 27;
+		$today = new DateTime();
+		if ($today->format('d') > 27) {
+			$startDate = (clone $today)->setDate($today->format('Y'), $today->format('m'), 28);
+					$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m') + 1, 27);
+		} else {
+			$startDate = (clone $today)->modify('first day of last month')->setDate($today->format('Y'), $today->format('m') - 1, 28);
+					$endDate = (clone $today)->modify('first day of next month')->setDate($today->format('Y'), $today->format('m'), 27);
+		}
+		$this->startDateFormatted = $startDate->format('Y-m-d');
+		$this->endDateFormatted = $endDate->format('Y-m-d');
 	}
 
 	public function index()
@@ -71,10 +84,24 @@ class DashboardKar extends Auth
 				<script>new WOW().init();</script>';
 			$this->load->view('layout/base', $data);	
 	}
-
+	
+	public function getSettingDenda(){
+		$this->datatables->select('id,nominal_denda,durasi_denda,status_denda');
+		$this->datatables->from('tb_user_denda');
+		return print_r($this->datatables->generate());
+	}
 	public function getFingerData(){
 		$this->datatables->select('finger_id,id_user,nama_lengkap,shift,shift_in,shift_out');
 		$this->datatables->from('vfingerdata');
+		return print_r($this->datatables->generate());
+	}
+	public function getDendaKaryawan(){
+		$this->datatables->select('nama_lengkap,durasi_terlambat,denda,tanggal');
+		$this->datatables->from('vdendakaryawanabsen');
+		$this->datatables->where('tanggal >=', $this->startDateFormatted);
+		$this->datatables->where('tanggal <=', $this->endDateFormatted);
+		$this->datatables->where('denda IS NOT NULL');
+		$this->datatables->where('denda >', 0);
 		return print_r($this->datatables->generate());
 	}
 	public function getShiftKaryawan(){
@@ -174,6 +201,21 @@ class DashboardKar extends Auth
 			}
 		} 
 	}
+	public function addDenda(){
+		if ($this->input->is_ajax_request()) {
+
+			$data = array(
+				'nominal_denda' => $this->input->post('nominal'),
+				'durasi_denda' => $this->input->post('durasi'),
+				'status_denda' => $this->input->post('status'),
+			);
+			if ($this->db->insert('tb_user_denda', $data)) {
+				echo json_encode(['status' => 'success']);
+			} else {
+				echo json_encode(['status' => 'error']);
+			}
+		} 
+	}
 	public function updateShift(){
 		if ($this->input->is_ajax_request()) {
 			$id = $this->input->post('id');
@@ -192,10 +234,40 @@ class DashboardKar extends Auth
 			}
 		} 
 	}
+	public function updateDenda(){
+		if ($this->input->is_ajax_request()) {
+			$id = $this->input->post('id');
+
+			$data = array(
+				'nominal_denda' => $this->input->post('nominal'),
+				'durasi_denda' => $this->input->post('durasi'),
+				'status_denda' => $this->input->post('status'),
+			);
+			$this->db->where('id', $id);
+
+			if ($this->db->update('tb_user_denda', $data)) {
+				echo json_encode(['status' => 'success']);
+			} else {
+				echo json_encode(['status' => 'error']);
+			}
+		} 
+	}
 	public function deleteShift($id){
 		if ($this->input->is_ajax_request()) {
 			$this->db->where('id', $id);
 			if ($this->db->delete('tb_user_shift')) {
+				echo json_encode(['status' => 'success']);
+			} else {
+				echo json_encode(['status' => 'error']);
+			}
+		} else {
+			redirect('dashboard-karyawan');
+		}
+	}
+	public function deleteDenda($id){
+		if ($this->input->is_ajax_request()) {
+			$this->db->where('id', $id);
+			if ($this->db->delete('tb_user_denda')) {
 				echo json_encode(['status' => 'success']);
 			} else {
 				echo json_encode(['status' => 'error']);
@@ -217,6 +289,18 @@ class DashboardKar extends Auth
 	public function totalIstirahat() {
 		$this->db->select("COUNT(*) as total_istirahat");
 		$this->db->from('vfingerdetailistirahat');
+		$query = $this->db->get();
+		
+		$result = $query->row();
+		
+		header('Content-Type: application/json');
+		echo json_encode($result);
+	}
+	public function totalDenda() {
+		$this->db->select("COALESCE(SUM(denda), 0) AS total_denda", FALSE);
+		$this->db->from('vdendakaryawanabsen');
+		$this->db->where('tanggal >=', $this->startDateFormatted);
+		$this->db->where('tanggal <=', $this->endDateFormatted);
 		$query = $this->db->get();
 		
 		$result = $query->row();
