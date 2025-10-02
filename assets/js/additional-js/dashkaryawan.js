@@ -1,6 +1,7 @@
 var tableKry;
 var tableTlAbsen;
 var tableTlRest;
+var tableDtAbsen;
 var tableShift;
 var tableShiftKry;
 var tableDenda;
@@ -10,10 +11,15 @@ var formatcur = new Intl.NumberFormat('id-ID', {
     currency: 'IDR',
     minimumFractionDigits: 0
 });
+var monthNames = [
+    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+];
 $(document).ready(function() {
     getFingerKaryawan();
     getTimelineAbsen();
     getTimelineRest();
+    modalInfoAbsen();
     getSettingShift();
     getSettingDenda();
     addShift();
@@ -22,6 +28,7 @@ $(document).ready(function() {
     getKaryawanShift();
     card();
     allcount(formatcur);
+    rescheduleEvent();
 });
 function getLaporanDenda() {
 if ($.fn.DataTable.isDataTable('#table-denda-kry')) {
@@ -61,7 +68,19 @@ if ($.fn.DataTable.isDataTable('#table-denda-kry')) {
                 "data": "durasi_terlambat",
                 "orderable": false,
             },
-            { "data": "tanggal" }
+            { 
+                "data": "tanggal",
+                "render": function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        var date = new Date(data);
+                        var day = ('0' + date.getDate()).slice(-2);
+                        var month = monthNames[date.getMonth()];
+                        var year = date.getFullYear();
+                        return `${day} ${month} ${year}`;
+                    }
+                    return data;
+                }
+            }
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
             "<'col-sm-12 col-md-2'B>" +
@@ -221,25 +240,79 @@ function getKaryawanShift() {
             "type": "POST"
         },
         autoWidth: false,
-        columnDefs: [
-            { width: "80%", targets: 0 },
-            { width: "20%", targets: 1 }
-        ],
         "columns": [
             { "data": "nama_lengkap" },
             {
-                "data": "shift",
+                "data": "senin",
                 "render": function (data, type, row, meta) {
-                    return '<select class="select2shift" value="'+data+'" data-id_user="'+row.id_user+'" data-ids="'+row.id+'" data-current-value="' + data + '"></select>';
+                    if (!data) return '<select class="select2shift" data-day="monday" data-id_user="'+row.id_user+'"></select>';
+                    let parts = data.split("_");
+                    return '<select class="select2shift" data-day="monday" data-id_user="'+row.id_user+'" data-current-id="' + parts[0] + '" data-current-text="' + parts[1] + '"></select>';
                 },
-            },                     
+                orderable: false,
+            },
+            {
+                "data": "selasa",
+                "render": function (data, type, row, meta) {
+                    if (!data) return '<select class="select2shift" data-day="tuesday" data-id_user="'+row.id_user+'"></select>';
+                    let parts = data.split("_");
+                    return '<select class="select2shift" data-day="tuesday" data-id_user="'+row.id_user+'" data-current-id="' + parts[0] + '" data-current-text="' + parts[1] + '"></select>';
+                },
+                orderable: false,
+            },
+            {
+                "data": "rabu",
+                "render": function (data, type, row, meta) {
+                    if (!data) return '<select class="select2shift" data-day="wednesday" data-id_user="'+row.id_user+'"></select>';
+                    let parts = data.split("_");
+                    return '<select class="select2shift" data-day="wednesday" data-id_user="'+row.id_user+'" data-current-id="' + parts[0] + '" data-current-text="' + parts[1] + '"></select>';
+                },
+                orderable: false,
+            },
+            {
+                "data": "kamis",
+                "render": function (data, type, row, meta) {
+                    if (!data) return '<select class="select2shift" data-day="thursday" data-id_user="'+row.id_user+'"></select>';
+                    let parts = data.split("_");
+                    return '<select class="select2shift" data-day="thursday" data-id_user="'+row.id_user+'" data-current-id="' + parts[0] + '" data-current-text="' + parts[1] + '"></select>';
+                },
+                orderable: false,
+            },
+            {
+                "data": "jumat",
+                "render": function (data, type, row, meta) {
+                    if (!data) return '<select class="select2shift" data-day="friday" data-id_user="'+row.id_user+'"></select>';
+                    let parts = data.split("_");
+                    return '<select class="select2shift" data-day="friday" data-id_user="'+row.id_user+'" data-current-id="' + parts[0] + '" data-current-text="' + parts[1] + '"></select>';
+                },
+                orderable: false,
+            },
+            {
+                "data": "sabtu",
+                "render": function (data, type, row, meta) {
+                    if (!data) return '<select class="select2shift" data-day="saturday" data-id_user="'+row.id_user+'"></select>';
+                    let parts = data.split("_");
+                    return '<select class="select2shift" data-day="saturday" data-id_user="'+row.id_user+'" data-current-id="' + parts[0] + '" data-current-text="' + parts[1] + '"></select>';
+                },
+                orderable: false,
+            },
+            {
+                "data": "minggu",
+                "render": function (data, type, row, meta) {
+                    if (!data) return '<select class="select2shift" data-day="sunday" data-id_user="'+row.id_user+'"></select>';
+                    let parts = data.split("_");
+                    return '<select class="select2shift" data-day="sunday" data-id_user="'+row.id_user+'" data-current-id="' + parts[0] + '" data-current-text="' + parts[1] + '"></select>';
+                },
+                orderable: false,
+            },
         ],
         "drawCallback": function(settings) {
             $('.select2shift').each(function() {
                 var $select = $(this);
-                var currentValue = $select.data('current-value');
-                var value = $select.data('id_user');
-        
+                var currentId = $select.data('current-id');
+                var currentText = $select.data('current-text');
+                var id_user = $select.data('id_user');
+
                 $select.select2({
                     dropdownParent: $("#DetailUser"),
                     language: 'id',
@@ -249,53 +322,82 @@ function getKaryawanShift() {
                         dataType: 'json',
                         delay: 250,
                         data: function(params) {
-                            return {
-                                q: params.term
-                            };
+                            return { q: params.term };
                         },
                         processResults: function(data) {
-                            return {
-                                results: $.map(data, function(item) {
-                                    return {
-                                        id: item.id,
-                                        text: item.nama,
-                                    };
-                                })
-                            };
+                            // prepend Off option
+                            var results = [{
+                                id: "off",
+                                text: "OFF"
+                            }];
+                            $.each(data, function(i, item) {
+                                results.push({
+                                    id: item.id,
+                                    text: item.nama
+                                });
+                            });
+                            return { results: results };
                         },
                         cache: true
                     }
                 });
-                if (currentValue) {
-                    $select.append('<option value="' + value + '" selected>' + currentValue + '</option>').trigger('change');
+
+                // set initial option if exists
+                if (currentId && currentText) {
+                    var option = new Option(currentText, currentId, true, true);
+                    $select.append(option).trigger('change');
+                } else {
+                    // default to Off if nothing
+                    var option = new Option("OFF", "off", true, true);
+                    $select.append(option).trigger('change');
                 }
 
-                $select.on('change', function() {
+                // change handler (with delete if "off")
+                $select.off('change').on('change', function() {
                     var newValue = $(this).val();
                     var id_user = $select.data('id_user');
-                    
-                    $.ajax({
-                        url: base_url+'DashboardKar/updateShiftKaryawan',
-                        method: 'POST',
-                        data: {
-                            id_user: id_user,
-                            id_shift: newValue 
-                        },
-                        dataType: 'json',
-                        success: function(response) {
-                            if (response.status === 'success') {
-                                swal("Berhasil diperbarui!", {
-                                    icon: "success",
-                                }).then((value) => {
-                                    tableShiftKry.ajax.reload();
-                                });
-                            } else {
-                                swal("Gagal diperbarui", {
-                                    icon: "error",
-                                });
-                            }
-                        },
-                    });
+                    var work_day = $select.data('day'); // monday, tuesday, etc.
+
+                    if (newValue === "off") {
+                        // delete shift if "off" chosen
+                        $.ajax({
+                            url: base_url+'DashboardKar/deleteShiftKaryawan',
+                            method: 'POST',
+                            data: {
+                                id_user: id_user,
+                                work_day: work_day
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.status === 'success') {
+                                    swal("Shift dihapus!", { icon: "success" })
+                                        .then(() => tableShiftKry.ajax.reload());
+                                } else {
+                                    swal("Gagal menghapus", { icon: "error" });
+                                }
+                            },
+                        });
+                    } else {
+                        // save or update shift
+                        $.ajax({
+                            url: base_url+'DashboardKar/saveOrUpdateShiftKaryawan',
+                            method: 'POST',
+                            data: {
+                                id_user: id_user,
+                                id_shift: newValue,
+                                work_day: work_day
+                            },
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.status === 'success') {
+                                    swal("Berhasil diperbarui!", { icon: "success" })
+                                        .then(() => tableShiftKry.ajax.reload());
+                                } else {
+                                    swal("Gagal diperbarui", { icon: "error" });
+                                }
+                            },
+                        });
+                    }
                 });
             });
         },
@@ -765,32 +867,41 @@ function getTimelineAbsen() {
             "type": "POST"
         },
         "columns": [
-            { "data": "finger_id" },
+            { 
+                "data": "id_user",
+                "render": function(data, type, row, meta) {
+                    return `<a href="#" id="infoabsen" 
+                    data-id_user="${data}"
+                    data-bs-toggle="modal" data-bs-target="#InfoAbsen">${data}</a>`;
+                }
+            },
             {
                 "data": "nama_lengkap",
             },
             {
-                "data": "absen_at",
-                            render: function(data) {
-                const dt = new Date(data);
-                return dt.getFullYear() + "-" +
-                    String(dt.getMonth() + 1).padStart(2, "0") + "-" +
-                    String(dt.getDate()).padStart(2, "0") + " " +
-                    String(dt.getHours()).padStart(2, "0") + ":" +
-                    String(dt.getMinutes()).padStart(2, "0");
-            }
-            },
-            {
-                "data": "status_absen",
-                "render": function (data, type, full, meta) {
-                    if (type === "display") {
-                        return data === "IN" ? 
-                            '<span class="badge rounded-pill badge-light-primary">IN</span>' : 
-                            '<span class="badge rounded-pill badge-light-danger">OUT</span>';
+                "data": "tanggal_update",
+                "render": function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        var date = new Date(data);
+                        var day = ('0' + date.getDate()).slice(-2);
+                        var month = monthNames[date.getMonth()];
+                        var year = date.getFullYear();
+                        return `${day} ${month} ${year}`;
                     }
                     return data;
                 }
             },
+            // {
+            //     "data": "status_absen",
+            //     "render": function (data, type, full, meta) {
+            //         if (type === "display") {
+            //             return data === "IN" ? 
+            //                 '<span class="badge rounded-pill badge-light-primary">IN</span>' : 
+            //                 '<span class="badge rounded-pill badge-light-danger">OUT</span>';
+            //         }
+            //         return data;
+            //     }
+            // },
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
                 "<'col-sm-12 col-md-2'B>" +
@@ -798,7 +909,7 @@ function getTimelineAbsen() {
                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
                "buttons": [
                 {
-                    "text": 'Refresh', // Font Awesome icon for refresh
+                    "text": '<i class="icofont icofont-refresh"></i>', // Font Awesome icon for refresh
                     "className": 'custom-refresh-button', // Add a class name for identification
                     "attr": {
                         "id": "refresh-button" // Set the ID attribute
@@ -833,7 +944,19 @@ function getTimelineRest() {
         },
         "columns": [
             { "data": "nama_lengkap" },
-            { "data": "tanggal" },
+            { 
+                "data": "tanggal",
+                "render": function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        var date = new Date(data);
+                        var day = ('0' + date.getDate()).slice(-2);
+                        var month = monthNames[date.getMonth()];
+                        var year = date.getFullYear();
+                        return `${day} ${month} ${year}`;
+                    }
+                    return data;
+                }
+            },
             { "data": "durasi_istirahat" },
         ],
         "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
@@ -842,7 +965,7 @@ function getTimelineRest() {
                "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
                "buttons": [
                 {
-                    "text": 'Refresh', // Font Awesome icon for refresh
+                    "text": '<i class="icofont icofont-refresh"></i>', // Font Awesome icon for refresh
                     "className": 'custom-refresh-button', // Add a class name for identification
                     "attr": {
                         "id": "refresh-button" // Set the ID attribute
@@ -859,6 +982,72 @@ function getTimelineRest() {
             ]
     });
     return tableTlRest;
+}
+function modalInfoAbsen() {
+    $('#InfoAbsen').on('show.bs.modal', function (e) {
+        var button = $(e.relatedTarget);
+        var ids = button.data('id_user');
+        getDetailAbsen(ids);
+    });
+}
+function getDetailAbsen(ids) {
+        if ($.fn.DataTable.isDataTable('#table-detailabsen')) {
+        tableDtAbsen.destroy();
+    }
+    tableDtAbsen = $("#table-detailabsen").DataTable({
+        "processing": true,
+        "language": {
+            "processing": '<div class="d-flex justify-content-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>',
+        },
+        "serverSide": true,
+        "order": [2, 'desc'],
+        "ajax": {
+            "url": base_url + 'DashboardKar/getDetailAbsen/'+ids,
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "nama_lengkap", orderable: false, },
+            { "data": "shift", orderable: false, },
+            { 
+                "data": "tanggal",
+                "render": function (data, type, row) {
+                    if (type === 'display' || type === 'filter') {
+                        var date = new Date(data);
+                        var day = ('0' + date.getDate()).slice(-2);
+                        var month = monthNames[date.getMonth()];
+                        var year = date.getFullYear();
+                        return `${day} ${month} ${year}`;
+                    }
+                    return data;
+                }
+            },
+            { "data": "absen_masuk", orderable: false, },
+            { "data": "absen_pulang", orderable: false, },
+            { "data": "durasi_terlambat", orderable: false, },
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                "<'col-sm-12 col-md-2'B>" +
+               "<'row'<'col-sm-12'tr>>" +
+               "<'row'<'col-sm-12 col-md-4'i><'col-sm-12 col-md-6'p>>",
+               "buttons": [
+                {
+                    "text": '<i class="icofont icofont-refresh"></i>', // Font Awesome icon for refresh
+                    "className": 'custom-refresh-button', // Add a class name for identification
+                    "attr": {
+                        "id": "refresh-button" // Set the ID attribute
+                    },
+                    "init": function (api, node, config) {
+                        $(node).removeClass('btn-default');
+                        $(node).addClass('btn-primary');
+                        $(node).attr('title', 'Refresh'); // Add a title attribute for tooltip
+                    },
+                    "action": function () {
+                        tableDtAbsen.ajax.reload();
+                    }
+                },
+            ]
+    });
+    return tableDtAbsen;
 }
 function card(){
     $('.ctf').click(function(event) {
@@ -934,5 +1123,72 @@ function countdenda(formatcur) {
             
             $('#spintd').addClass('d-none');
         }
+    });
+}
+function rescheduleEvent() {
+    $('#rescheduleShift').select2({
+        dropdownParent: $('#eventModal'),
+        placeholder: 'Pilih Shift',
+        width: 'style',
+        ajax: {
+            url: base_url + 'DashboardKar/getShiftData',
+            type: 'GET',
+            dataType: 'json',
+            delay: 250,
+            data: function(params) {
+                return { q: params.term };
+            },
+            processResults: function(data) {
+                // var results = [];
+                var results = [{
+                    id: "OFF",
+                    text: "OFF"
+                }];
+                $.each(data, function(i, item) {
+                    results.push({
+                        id: item.id,
+                        text: item.nama
+                    });
+                });
+                return { results: results };
+            },
+            cache: true
+        }
+    });
+    $("#saveEventChanges").off().on("click", function () {
+        var modal = $("#eventModal");
+
+        var payload = {
+            id_schedule: modal.attr("data-schedule-id"),
+            id_user: modal.attr("data-user-id"),
+            work_date: modal.attr("data-work-date"),
+            id_shift: $("#rescheduleShift").val(),
+            note: $("#floatingTextarea").val()
+        };
+
+        // ✅ Kirim via POST
+        $.post(base_url + "DashboardKar/saveReschedule", payload, function (res) {
+            var data = JSON.parse(res);
+
+            if (data.status === "inserted" || data.status === "updated") {
+            swal({
+                title: "Success",
+                text: "Reschedule berhasil disimpan!",
+                icon: "success",
+                buttons: false,
+                timer: 2000
+            });
+            modal.modal("hide");
+            calendar.refetchEvents(); // refresh kalender
+            } else {
+            swal({
+                title: "Error",
+                text: "Terjadi kesalahan!",
+                icon: "error",
+                buttons: false,
+                timer: 2000
+            });
+            }
+        });
     });
 }

@@ -35,6 +35,7 @@ class DashboardKar extends Auth
 			<link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/select2.css') . '">
 			<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
 			<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/flatpickr/flatpickr.min.css').'">
+			<link rel="stylesheet" type="text/css" href="' . base_url('assets/css/vendors/calendar.css') . '">
 			<style>
 				.select2-selection__rendered {
 					line-height: 35px !important;
@@ -51,6 +52,11 @@ class DashboardKar extends Auth
 				}
 				.select2-container{
 				margin-bottom :-2%;
+				}
+				#rescheduleShift + .select2-container {
+					width: auto !important;
+					min-width: 30% !important;
+					float: right;
 				}
 			</style>
 			';
@@ -81,6 +87,9 @@ class DashboardKar extends Auth
 				<script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
 				<script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
 				<script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
+				<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+				<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
+				<script src="' . base_url('assets/js/calendar/fullcalendar-custom.js?v=' . time()) . '"></script>
 				<script>new WOW().init();</script>';
 			$this->load->view('layout/base', $data);	
 	}
@@ -105,7 +114,7 @@ class DashboardKar extends Auth
 		return print_r($this->datatables->generate());
 	}
 	public function getShiftKaryawan(){
-		$this->datatables->select('id_user,nama_lengkap,id,shift');
+		$this->datatables->select('id_user,nama_lengkap,senin,selasa,rabu,kamis,jumat,sabtu,minggu');
 		$this->datatables->from('vkaryawanshift');
 		return print_r($this->datatables->generate());
 	}
@@ -115,10 +124,18 @@ class DashboardKar extends Auth
 		return print_r($this->datatables->generate());
 	}
 	public function getTimelineAbsen(){
-		$this->datatables->select('finger_id,nama_lengkap,shift,absen_at,status_absen');
+		$this->datatables->select('id_user,nama_lengkap,tanggal_update');
 		$this->datatables->from('vfingerlistabsen');
-		$this->datatables->where('date(absen_at) >=', $this->startDateFormatted);
-		$this->datatables->where('date(absen_at) <=', $this->endDateFormatted);
+		$this->datatables->where('date(tanggal_update) >=', $this->startDateFormatted);
+		$this->datatables->where('date(tanggal_update) <=', $this->endDateFormatted);
+		return print_r($this->datatables->generate());
+	}
+	public function getDetailAbsen($id){
+		$this->datatables->select('id_user,nama_lengkap,tanggal,shift,absen_masuk,absen_pulang,durasi_terlambat,durasi_kerja');
+		$this->datatables->from('vfingerdetailabsen');
+		$this->datatables->where('date(tanggal) >=', $this->startDateFormatted);
+		$this->datatables->where('date(tanggal) <=', $this->endDateFormatted);
+		$this->datatables->where('id_user',$id);
 		return print_r($this->datatables->generate());
 	}
 	public function getTimelineRest(){
@@ -145,7 +162,7 @@ class DashboardKar extends Auth
 	}
 	public function getShiftData(){
 		$searchTerm = $this->input->get('q');
-		$this->db->select(['id', 'nama']);
+		$this->db->select(['id', 'CONCAT(nama, " (", DATE_FORMAT(shift_in, "%H:%i"), " - ", DATE_FORMAT(shift_out, "%H:%i"), ")") AS nama']);
 		$this->db->from('tb_user_shift');
 		if ($searchTerm) {
 		$this->db->group_start();
@@ -312,6 +329,220 @@ class DashboardKar extends Auth
 		header('Content-Type: application/json');
 		echo json_encode($result);
 	}
+	public function saveOrUpdateShiftKaryawan() {
+		$id_user  = $this->input->post('id_user');
+		$id_shift = $this->input->post('id_shift');
+		$work_day = strtolower($this->input->post('work_day')); // normalize to lowercase
+
+		if (!$id_user || !$id_shift || !$work_day) {
+			echo json_encode(['status' => 'error', 'message' => 'Invalid data']);
+			return;
+		}
+
+		// check if already exists
+		$exists = $this->db->get_where('tb_finger_schedule', [
+			'id_user' => $id_user,
+			'work_day' => $work_day
+		])->row();
+
+		if ($exists) {
+			// update existing record
+			$this->db->where('id_user', $id_user);
+			$this->db->where('work_day', $work_day);
+			$this->db->update('tb_finger_schedule', ['id_shift' => $id_shift]);
+		} else {
+			// insert new record
+			$this->db->insert('tb_finger_schedule', [
+				'id_user' => $id_user,
+				'id_shift' => $id_shift,
+				'work_day' => $work_day
+			]);
+		}
+
+		echo json_encode(['status' => 'success']);
+	}
+	public function deleteShiftKaryawan() {
+		$id_user  = $this->input->post('id_user');
+		$work_day = strtolower($this->input->post('work_day'));
+
+		if (!$id_user || !$work_day) {
+			echo json_encode(['status' => 'error', 'message' => 'Invalid data']);
+			return;
+		}
+
+		$this->db->where('id_user', $id_user);
+		$this->db->where('work_day', $work_day);
+		$this->db->delete('tb_finger_schedule');
+
+		echo json_encode(['status' => 'success']);
+	}
+	public function getSchedule() {
+		$start = $this->input->get('start'); 
+		$end   = $this->input->get('end');   
+
+		// 1. Ambil semua data schedule dari view
+		$query = $this->db->query("SELECT * FROM vfingerschedule");
+		$schedules = $query->result();
+
+		// Group by user
+		$byUser = [];
+		foreach ($schedules as $row) {
+			$byUser[$row->id_user][] = $row;
+		}
+
+		// 2. Expand tiap hari di range
+		$events = [];
+		$period = new DatePeriod(
+			new DateTime($start),
+			new DateInterval('P1D'),
+			(new DateTime($end))->modify('+1 day')
+		);
+
+		foreach ($period as $date) {
+			$dayName = $date->format('l');  
+			$dateStr = $date->format('Y-m-d');
+
+			foreach ($byUser as $userSchedules) {
+				$shift = null;
+				$nama_lengkap = null;
+				$id_schedule = null;
+				$id_user = null;
+				$is_rescheduled = 0;
+				$chosen = null;
+
+				foreach ($userSchedules as $row) {
+					// ✅ Rule 1: reschedule selalu prioritas
+					if ($row->reschedule_date === $dateStr) {
+						$shift        = $row->reschedule_shift ?: 'OFF';
+						$nama_lengkap = $row->nama_lengkap;
+						$id_schedule  = $row->id_schedule;
+						$id_user      = $row->id_user;
+						$is_rescheduled = 1;
+						$chosen = $row;
+						break; 
+					}
+
+					// ✅ Rule 2: base schedule
+					if (!$shift && $row->work_day === $dayName && $row->base_shift) {
+						$shift        = $row->base_shift;
+						$nama_lengkap = $row->nama_lengkap;
+						$id_schedule  = $row->id_schedule;
+						$id_user      = $row->id_user;
+						$is_rescheduled = 0;
+						$chosen = $row;
+					}
+				}
+
+				if ($shift) {
+					// mapping warna shift
+					$colorMap = [
+						'P-1' => 'bg-info text-white border-0',
+						'P-2' => 'bg-success text-white border-0',
+						'W-1' => 'bg-warning text-white border-0',
+						'W-2' => 'bg-primary text-dark border-0',
+						'W-3' => 'bg-dark text-white border-0',
+						'OFF' => 'bg-danger text-white border-0'
+					];
+
+					$className = $colorMap[$shift] ?? 'bg-secondary text-white border-0';
+
+					$events[] = [
+						'title' => $nama_lengkap . ' ' . $shift,
+						'start' => $dateStr,
+						'className' => $className,
+						'extendedProps' => [
+							'nama_lengkap' => $nama_lengkap,
+							'shift'       => $shift,
+							'base_shift'  => $chosen->base_shift ?? 'OFF',
+							'base_waktu_shift' => $chosen->base_waktu_shift ?? '',
+							'reschedule_shift' => $chosen->reschedule_shift ?: 'OFF',
+							'reschedule_waktu_shift' => $chosen->reschedule_waktu_shift ?? '',
+							'id_schedule' => $id_schedule,
+							'id_user'     => $id_user,
+							'is_rescheduled' => $is_rescheduled
+						]
+					];
+				} else {
+					// ✅ fallback OFF kalau tidak ada schedule sama sekali
+					$first = reset($userSchedules);
+					$events[] = [
+						'title' => $first->nama_lengkap . ' OFF',
+						'start' => $dateStr,
+						'className' => 'bg-danger text-white border-0',
+						'extendedProps' => [
+							'nama_lengkap' => $first->nama_lengkap,
+							'base_shift'        => 'OFF',
+							'id_schedule'  => null,
+							'reschedule_shift' => 'OFF',
+							'id_user'      => $first->id_user,
+							'is_rescheduled' => 0
+						]
+					];
+				}
+			}
+		}
+
+		echo json_encode($events);
+	}
+	public function saveReschedule() {
+		$id_schedule = $this->input->post('id_schedule');
+		$id_user     = $this->input->post('id_user');
+		$id_shift    = $this->input->post('id_shift');
+		$work_date   = $this->input->post('work_date');
+		$note        = $this->input->post('note');
+
+		// Cek apakah sudah ada data dengan user + tanggal yg sama
+		$exists = $this->db->get_where('tb_finger_reschedule', [
+			'id_user'   => $id_user,
+			'work_date' => $work_date
+		])->row();
+
+		$data = [
+			'id_schedule' => $id_schedule,
+			'id_shift'    => $id_shift,
+			'note'        => $note,
+			'created_at'  => date('Y-m-d H:i:s'),
+		];
+
+		if ($exists) {
+			// ✅ Update
+			$this->db->where('id', $exists->id);
+			$this->db->update('tb_finger_reschedule', $data);
+			$status = "updated";
+		} else {
+			// ✅ Insert
+			$data['id_user'] = $id_user;
+			$data['work_date'] = $work_date;
+			$this->db->insert('tb_finger_reschedule', $data);
+			$status = "inserted";
+		}
+
+		echo json_encode(['status' => $status]);
+	}
+	public function getRescheduleByDate() {
+		$id_user   = $this->input->get('id_user');
+		$work_date = $this->input->get('work_date');
+
+		$this->db->select('tb_finger_reschedule.*, COALESCE(CONCAT(tb_user_shift.nama, " (", DATE_FORMAT(tb_user_shift.shift_in, "%H:%i"), " - ", DATE_FORMAT(tb_user_shift.shift_out, "%H:%i"), ")"),"OFF") AS shift_name');
+		$this->db->from('tb_finger_reschedule');
+		$this->db->join('tb_user_shift', 'tb_user_shift.id = tb_finger_reschedule.id_shift', 'left');
+		$this->db->where('tb_finger_reschedule.id_user', $id_user);
+		$this->db->where('tb_finger_reschedule.work_date', $work_date);
+		$res = $this->db->get()->row();
+
+		if ($res) {
+			echo json_encode([
+				'exists' => true,
+				'id_shift' => $res->id_shift,
+				'shift_name' => $res->shift_name,
+				'note'     => $res->note,
+				'id_schedule' => $res->id_schedule
+			]);
+		} else {
+			echo json_encode(['exists' => false]);
+		}
+	}
+
 }
 
 

@@ -22,7 +22,7 @@
                                 </li>
                                 <li class="breadcrumb-item"> Home</li>
                                 <li class="breadcrumb-item"> Applications</li>
-                                <li class="breadcrumb-item active"> Dashboard Karyawan</li>
+                                <li class="breadcrumb-item active"> Karyawan</li>
                             </ol>
                         </div>
                     </div>
@@ -113,254 +113,72 @@
                             </div>
                         </a>
                     </div>
-                    <!-- Denda Karyawan -->
-                    <!-- <div class="col-md-4 col-sm-6">
-                    <div class="card widget-hover overflow-hidden">
-                        <div class="card-header card-no-border pb-2">
-                        <h5>Total Denda Karyawan</h5>
-                        </div>
-                        <div class="card-body pt-0 count-student">
-                        <div class="school-wrapper"> 
-                            <div class="school-header">
-                            <h4 class="text-danger">Rp4.700.000</h4>
-                            <div class="d-flex gap-1 align-items-center flex-wrap pt-xxl-0 pt-2">
-                                <p class="text-muted">Realtime Updated</p>
-                            </div>
-                            </div>
-                            <div class="school-body"><img src="../assets/images/karyawan/totaldenda.png" alt="dh-karyawan">
-                            <div class="right-line"><img src="../assets/images/inventoriassets/line.png" alt="line"></div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                    </div> -->
                 </div>
                 <!-- Card Section Ends -->
                 <!-- Section Akhir -->
                 <div class="row">
-                <!-- Detail Denda Karyawan -->
-                <!-- <div class="col-xxl-6 col-md-6">
-                    <div class="card height-equal">
-                    <div class="card-header">
-                        <h4>Denda Karyawan Tahunan</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="vertical-scroll scroll-demo scroll-b-none">
-                        <ul class="schedule-list">
-                            <li class="warning">
-                            <img src="../assets/images/karyawan/user-1.png" alt="profile">
-                            <div> 
-                                <h6 class="mb-1">FIGO VIO HIDAYAT</h6>
-                                <ul>
-                                <li class="f-light">
-                                    <svg class="fill-icon f-light">
-                                    <use href="../assets/svg/icon-sprite.svg#bag"></use>
-                                    </svg><span>DHEMP-0001</span>
-                                </li>
-                                <li class="f-light">
-                                    <svg class="fill-icon f-success">
-                                    <use href="../assets/svg/icon-sprite.svg#clock"></use>
-                                    </svg><span> 75 Menit</span>
-                                </li>
+                    <!-- Detail Absen Karyawan -->
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="m-3">
+                                <ul class="nav nav-tabs" id="icon-tab" role="tablist">
+                                    <li class="nav-item"><a class="nav-link active txt-primary" id="timeline-tab" data-bs-toggle="tab" href="#timeline" role="tab" aria-controls="timeline" aria-selected="true"><i class="fa fa-list-alt"></i>Timeline Karyawan</a></li>
+                                    <li class="nav-item"><a class="nav-link txt-primary" id="calender-tab" data-bs-toggle="tab" href="#calender" role="tab" aria-controls="calender" aria-selected="false"><i class="fa fa-calendar"></i>Kalender Karyawan</a></li>
                                 </ul>
+                                <div class="tab-content" id="icon-tabContent">
+                                    <div class="tab-pane fade show active" id="timeline" role="tabpanel" aria-labelledby="timeline-tab">
+                                        <div class="dt-ext table-responsive mt-2">
+                                            <table class="display" id="table-timelineabsen">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID KARYAWAN</th>
+                                                        <th>NAMA KARYAWAN</th>
+                                                        <th>TANGGAL</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="calender" role="tabpanel" aria-labelledby="calender-tab">
+                                        <div class="mt-2 calendar-basic">
+                                            <!-- <div class="card">
+                                                <div class="card-body"> -->
+                                                    <div class="row" id="wrap">
+                                                        <div class="col-xxl-12 box-col-12">
+                                                            <div class="calendar-default" id="calendar-container">
+                                                                <div id="calendar"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <!-- </div>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class=" justify-content-between">
-                                <h6 class="text-danger text-end"> Rp750.000</h6>
-                            </div>
-                            </li>
-                            <li class="warning">
-                            <img src="../assets/images/karyawan/user-3.png" alt="profile">
-                            <div> 
-                                <h6 class="mb-1">ALDO DIO HIDAYAT</h6>
-                                <ul>
-                                <li class="f-light">
-                                    <svg class="fill-icon f-light">
-                                    <use href="../assets/svg/icon-sprite.svg#bag"></use>
-                                    </svg><span>DHEMP-0002</span>
-                                </li>
-                                <li class="f-light">
-                                    <svg class="fill-icon f-success">
-                                    <use href="../assets/svg/icon-sprite.svg#clock"></use>
-                                    </svg><span> 69 Menit</span>
-                                </li>
-                                </ul>
-                            </div>
-                            <div class=" justify-content-between">
-                                <h6 class="text-danger text-end"> Rp690.000</h6>
-                            </div>
-                            </li>
-                            <li class="warning">
-                            <img src="../assets/images/karyawan/user-5.png" alt="profile">
-                            <div> 
-                                <h6 class="mb-1">RANGGIA SATRIA PUTRA</h6>
-                                <ul>
-                                <li class="f-light">
-                                    <svg class="fill-icon f-light">
-                                    <use href="../assets/svg/icon-sprite.svg#bag"></use>
-                                    </svg><span>DHEMP-0004</span>
-                                </li>
-                                <li class="f-light">
-                                    <svg class="fill-icon f-success">
-                                    <use href="../assets/svg/icon-sprite.svg#clock"></use>
-                                    </svg><span> 50 Menit</span>
-                                </li>
-                                </ul>
-                            </div>
-                            <div class=" justify-content-between">
-                                <h6 class="text-danger text-end"> Rp500.000</h6>
-                            </div>
-                            </li>
-                            <li class="warning">
-                            <img src="../assets/images/karyawan/user-2.png" alt="profile">
-                            <div> 
-                                <h6 class="mb-1">SHERLY TANAPUTRA</h6>
-                                <ul>
-                                <li class="f-light">
-                                    <svg class="fill-icon f-light">
-                                    <use href="../assets/svg/icon-sprite.svg#bag"></use>
-                                    </svg><span>DHEMP-0003</span>
-                                </li>
-                                <li class="f-light">
-                                    <svg class="fill-icon f-success">
-                                    <use href="../assets/svg/icon-sprite.svg#clock"></use>
-                                    </svg><span> 30 Menit</span>
-                                </li>
-                                </ul>
-                            </div>
-                            <div class=" justify-content-between">
-                                <h6 class="text-danger text-end"> Rp300.000</h6>
-                            </div>
-                            </li>
-                        </ul>
                         </div>
                     </div>
-                    </div>
-                </div> -->
-                <!-- Detail Absen Karyawan -->
-                <div class="col-xxl-12 col-md-12 notification main-timeline">
-                    <div class="card">
-                    <div class="card-header">
-                        <h4>Timeline Absensi</h4>
-                    </div>
-                    <div class="card-body dark-timeline">
-                        <div class="table-responsive">
-                            <table class="display" id="table-timelineabsen">
-                                <thead>
-                                    <tr>
-                                        <th><span class="f-light f-w-600">FINGER ID</span></th>
-                                        <th><span class="f-light f-w-600">NAMA KARYAWAN</span></th>
-                                        <th><span class="f-light f-w-600">ABSEN</span></th>
-                                        <th><span class="f-light f-w-600">STATUS</span></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- <div class="vertical-scroll scroll-demo scroll-b-none">
-                        <ul>
-                            <li class="d-flex">
-                            <div class="timeline-dot-danger"></div>
-                            <div class="w-100 ms-3">
-                                <p class="d-flex justify-content-between mb-2">
-                                <span class="date-content light-background">Absen Keluar</span>
-                                <span>23/01/2024 20:03 WIB</span>
-                                </p>
-                                <h6>FIGO VIO HIDAYAT | DHEMP-0001<span class="dot-notification"></span></h6>
-                                <p class="f-light">
-                                Telah melakukan absen keluar
-                                </p>
+                    <div class="col-md-12">
+                        <!-- <div class="container-fluid calendar-basic">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row" id="wrap">
+                                        <div class="col-xxl-12 box-col-12">
+                                            <div class="calendar-default" id="calendar-container">
+                                                <div id="calendar"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            </li>
-                            <li class="d-flex">
-                            <div class="timeline-dot-danger"></div>
-                            <div class="w-100 ms-3">
-                                <p class="d-flex justify-content-between mb-2">
-                                <span class="date-content light-background">Absen Keluar</span>
-                                <span>23/01/2024 18:17 WIB</span>
-                                </p>
-                                <h6>ALDO DIO HIDAYAT | DHEMP-0002<span class="dot-notification"></span></h6>
-                                <p class="f-light">
-                                Telah melakukan absen keluar
-                                </p>
-                            </div>
-                            </li>
-                            <li class="d-flex">
-                            <div class="timeline-dot-success"></div>
-                            <div class="w-100 ms-3">
-                                <p class="d-flex justify-content-between mb-2"><span class="date-content light-background">Absen Masuk</span><span>23/01/2024 09:00 WIB</span></p>
-                                <h6>FIGO VIO HIDAYAT | DHEMP-0001<span class="dot-notification"></span></h6>
-                                <p class="f-light">Telah hadir di 
-                                <span class="light-background">
-                                    <a href="javascrip(0);" data-bs-toggle="modal" data-bs-target="#MapKaryawan">Lokasi</a>
-                                </span>
-                                dan
-                                <span class="light-background">
-                                    <a href="javascrip(0);" data-bs-toggle="modal" data-bs-target="#FotoKaryawanAbsen">Foto</a>
-                                </span>
-                                </p>
-                            </div>
-                            </li>
-                            <li class="d-flex">
-                            <div class="timeline-dot-success"></div>
-                            <div class="w-100 ms-3">
-                                <p class="d-flex justify-content-between mb-2"><span class="date-content light-background">Absen Masuk</span><span>23/01/2024 08:45 WIB</span></p>
-                                <h6>ALDO DIO HIDAYAT | DHEMP-0002<span class="dot-notification"></span></h6>
-                                <p class="f-light">Telah hadir di 
-                                <span class="light-background">
-                                    <a href="javascrip(0);" data-bs-toggle="modal" data-bs-target="#MapKaryawan">Lokasi</a>
-                                </span>
-                                dan
-                                <span class="light-background">
-                                    <a href="javascrip(0);" data-bs-toggle="modal" data-bs-target="#FotoKaryawanAbsen">Foto</a>
-                                </span>
-                                </p>
-                            </div>
-                            </li>
-                        </ul>
                         </div> -->
                     </div>
-                    </div>
-                </div>
                 </div>
             </div>
             <!-- Container-fluid Ends-->
             <!-- Modal Map -->
-            <div class="modal fade  bd-example-modal-lg" id="MapKaryawan" tabindex="-1" role="dialog" aria-labelledby="MapKaryawan" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                    <div class="modal-content dark-sign-up">
-                        <div class="modal-body social-profile text-start" style="border-radius:5%; max-height: 90vh; overflow-y: auto;">
-                        <div class="modal-toggle-wrapper">
-                        <div class="modal-header mb-4">
-                            <h3>Detail Map Lokasi</h3>
-                            <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="card-body z-1">
-                            <div class="map-js-height" id="weathermap"></div>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal Gambar Absen -->
-            <div class="modal fade" id="FotoKaryawanAbsen" tabindex="-1" role="dialog" aria-labelledby="FotoKaryawanAbsen" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content dark-sign-up">
-                        <div class="modal-body social-profile text-start" style="border-radius:5%; max-height: 90vh; overflow-y: auto;">
-                        <div class="modal-toggle-wrapper">
-                        <div class="modal-header mb-4">
-                            <h3>Detil Foto Absen</h3>
-                            <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="card-body align-content-center">
-                            <img class="img-thumbnail" src="../assets/images/fotoabsen/test.jpeg">
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
             <div class="modal fade bd-example-modal-xl" id="DetailUser" tabindex="-1" role="dialog" aria-labelledby="DetailUser" aria-hidden="true">
               <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content dark-sign-up">
@@ -434,7 +252,13 @@
                                                     <thead>
                                                         <tr>
                                                             <th><span class="f-light f-w-600">NAMA KARYAWAN</span></th>
-                                                            <th><span class="f-light f-w-600">SHIFT</span></th>
+                                                            <th><span class="f-light f-w-600">SENIN</span></th>
+                                                            <th><span class="f-light f-w-600">SELASA</span></th>
+                                                            <th><span class="f-light f-w-600">RABU</span></th>
+                                                            <th><span class="f-light f-w-600">KAMIS</span></th>
+                                                            <th><span class="f-light f-w-600">JUMAT</span></th>
+                                                            <th><span class="f-light f-w-600">SABTU</span></th>
+                                                            <th><span class="f-light f-w-600">MINGGU</span></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -566,6 +390,93 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="modal fade bd-example-modal-xl" id="InfoAbsen" tabindex="-1" role="dialog" aria-labelledby="InfoAbsen" aria-hidden="true">
+              <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content dark-sign-up">
+                  <div class="modal-body social-profile text-start" style="max-height: 95vh; overflow-y: auto;">
+                      <div class="modal-toggle-wrapper">
+                          <div class="modal-header mb-4">
+                              <h3>Detail Absensi Karyawan</h3>
+                              <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <!-- Data Table -->
+                          <div class="col-lg-12"> 
+                              <div class="card"> 
+                                  <div class="card-body">
+                                  <div class="table-responsive">
+                                      <table class="display" id="table-detailabsen">
+                                          <thead>
+                                              <tr>
+                                                  <th><span class="f-light f-w-600">NAMA KARYAWAN</span></th>
+                                                  <th><span class="f-light f-w-600">SHIFT</span></th>
+                                                  <th><span class="f-light f-w-600">TANGGAL</span></th>
+                                                  <th><span class="f-light f-w-600">ABSEN MASUK</span></th>
+                                                  <th><span class="f-light f-w-600">ABSEN PULANG</span></th>
+                                                  <th><span class="f-light f-w-600">TERLAMBAT</span></th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                          </tbody>
+                                      </table>
+                                    </div>                                            
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>            
+            <div class="modal fade" id="eventModal" tabindex="-1" aria-hidden="true" 
+                data-schedule-id="" data-user-id="" data-work-date="">
+                <div class="modal-dialog modal-fullscreen-md-down">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Detail Jadwal</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Nama Karyawan</span>
+                                    <strong id="eventName"></strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Tanggal</span>
+                                    <strong id="eventDate"></strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Shift Awal</span>
+                                    <strong id="eventShift"></strong>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Ganti Shift</span>
+                                    <select class="form-select form-select-sm w-auto" 
+                                            id="rescheduleShift" 
+                                            data-schedule-id="" 
+                                            data-user-id="">
+                                    </select>
+
+                                </li>
+                                <li class="list-group-item px-0 py-0">
+                                    <div class="form-floating">
+                                        <textarea class="form-control border-0 shadow-none" 
+                                                id="floatingTextarea" 
+                                                placeholder="Leave a comment here" 
+                                                style="height:100px"></textarea>
+                                        <label for="floatingTextarea">Keterangan</label>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="mt-2">
+                                <button type="button" class="btn btn-primary w-100" id="saveEventChanges">
+                                    Simpan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- End Content -->
