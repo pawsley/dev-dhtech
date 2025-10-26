@@ -152,7 +152,7 @@ class PenOrderIn extends Auth
               ->set_content_type('application/json')
               ->set_output(json_encode([
                   'status' => 'failed',
-                  'message' => "Transaksi gagal, Invoice sudah $status_text"
+                  'message' => "Invoice sudah pernah $status_text"
               ]));
       }
 
@@ -258,7 +258,7 @@ class PenOrderIn extends Auth
               ->set_content_type('application/json')
               ->set_output(json_encode([
                   'status'  => 'failed',
-                  'message' => "Transaksi gagal, Invoice sudah $status_text"
+                  'message' => "Invoice sudah pernah $status_text"
               ]));
       }
 
