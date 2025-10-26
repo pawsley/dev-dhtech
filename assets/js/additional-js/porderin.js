@@ -333,7 +333,7 @@ function approve() {
                     swal(response.message, {
                         icon: "warning",
                     });
-                    tableOM.ajax.reload();
+                    tableOM.ajax.reload(null, false);
                     $('#spinner-' + idt).removeClass('d-none');
                     $('#counting-' + idt).addClass('d-none');
                     countbystore(idt, formatcur);
@@ -412,7 +412,7 @@ function cancel() {
                     swal(response.message, {
                         icon: "warning",
                     });
-                    tableOM.ajax.reload();
+                    tableOM.ajax.reload(null, false);
                 } else {
                     swal("Gagal membatalkan transaksi", {
                         icon: "error",
