@@ -120,30 +120,88 @@ class PenOrderIn extends Auth
     echo json_encode($results);
   }
   public function approve() {
-    if ($this->input->is_ajax_request()) {
-        $inv = $this->input->post('inv');
-        $cek_query = "SELECT cara_bayar, kode_penjualan,id_keluar FROM vpenjualan WHERE kode_penjualan = ?";
-        $cek_result = $this->db->query($cek_query, array($inv))->result();
-        foreach ($cek_result as $row) {
-          if ($row->cara_bayar == 'DP') {
-            $invoice = $row->kode_penjualan;
-            $data = [
-                'status' => '1',
-            ];
-            $this->PenOrderIn_model->approve($invoice, $data);
-          } else if ($row->cara_bayar == 'Transfer' || $row->cara_bayar == 'Tunai' || $row->cara_bayar == 'Split Bill') {
-            $invoice = $row->kode_penjualan;
-            $data = ['status' => '2'];
-            $datasold = ['status' => '3'];
-            $this->PenOrderIn_model->approve($invoice, $data);
-            $this->PenOrderIn_model->approvedsold($row->id_keluar, $datasold);
-            log_message('debug', $row->id_keluar);
-          }
-        }
-        echo json_encode(['status' => 'success']);
-    } else {
-        redirect('order-masuk');
-    }
+      if (!$this->input->is_ajax_request()) {
+          return redirect('order-masuk');
+      }
+
+      $inv = $this->input->post('inv', true);
+
+      // Get invoice first
+      $current = $this->db->get_where('tb_detail_penjualan', [
+          'kode_penjualan' => $inv
+      ])->row();
+
+      if (!$current) {
+          return $this->output
+              ->set_content_type('application/json')
+              ->set_output(json_encode(['status' => 'failed', 'message' => 'Invoice tidak ditemukan']));
+      }
+
+      // Check status first to prevent double approve/cancel
+      if ($current->status != '0') {
+
+          $admin = $this->db->select('nama_lengkap')
+                            ->from('tb_user')
+                            ->where('id_user', $current->id_admin)
+                            ->get()
+                            ->row('nama_lengkap');
+
+          $status_text = ($current->status == '2') ? 'disetujui' : 'dibatalkan';
+
+          return $this->output
+              ->set_content_type('application/json')
+              ->set_output(json_encode([
+                  'status' => 'failed',
+                  'message' => "Transaksi gagal, Invoice sudah $status_text"
+              ]));
+      }
+
+      // Get detail for update actions
+      $cek_result = $this->db->select('cara_bayar, id_keluar')
+                            ->from('vpenjualan')
+                            ->where('kode_penjualan', $inv)
+                            ->get()->result();
+
+      if (empty($cek_result)) {
+          return $this->output
+              ->set_content_type('application/json')
+              ->set_output(json_encode(['status' => 'failed', 'message' => 'Detail not found']));
+      }
+
+      // Start transaction
+      $this->db->trans_begin();
+
+      $cara = $cek_result[0]->cara_bayar;
+
+      // Payment type logic
+      if ($cara == 'DP') {
+
+          $this->PenOrderIn_model->approve($inv, ['status' => '1']);
+
+      } else if (in_array($cara, ['Transfer', 'Tunai', 'Split Bill'])) {
+
+          $this->PenOrderIn_model->approve($inv, ['status' => '2']);
+
+          // Batch item update
+          $id_keluar_list = array_column($cek_result, 'id_keluar');
+          $this->db->where_in('id_keluar', $id_keluar_list)
+                  ->update('tb_brg_keluar', ['status' => '3']);
+      }
+
+      // Commit or rollback
+      if ($this->db->trans_status() === FALSE) {
+          $this->db->trans_rollback();
+
+          return $this->output
+              ->set_content_type('application/json')
+              ->set_output(json_encode(['status' => 'failed', 'message' => 'Gagal menyetujui transaksi']));
+      }
+
+      $this->db->trans_commit();
+
+      return $this->output
+          ->set_content_type('application/json')
+          ->set_output(json_encode(['status' => 'success']));
   }
   public function approvegestun() {
     if ($this->input->is_ajax_request()) {
@@ -168,30 +226,85 @@ class PenOrderIn extends Auth
     }
   }
   public function cancel() {
-    if ($this->input->is_ajax_request()) {
-        $inv = $this->input->post('inv');
-        $getbrg = $this->PenOrderIn_model->getidbarang($inv);
-        $data = [
-          'status' => '3',
-        ];
-        $this->PenOrderIn_model->cancel($inv, $data);
-        foreach ($getbrg as $idk ) {
-          $stokdata = [
-            'status' => '2',
-          ];
-          $data3 = [
-            'total_diskon'=>$idk['total_diskon'],
-            'kuota'=>$idk['kuota']
-          ];
-          $this->PenOrderIn_model->stok($idk['id_keluar'], $stokdata);
-          if ($idk['id_diskon']!== '') {
-            $this->PenOrderIn_model->diskon($idk['id_diskon'], $data3);
+      if (!$this->input->is_ajax_request()) {
+          return redirect('order-masuk');
+      }
+
+      $inv = $this->input->post('inv', true);
+
+      // Get invoice first
+      $current = $this->db->get_where('tb_detail_penjualan', [
+          'kode_penjualan' => $inv
+      ])->row();
+
+      if (!$current) {
+          return $this->output
+              ->set_content_type('application/json')
+              ->set_output(json_encode(['status' => 'failed', 'message' => 'Invoice tidak ditemukan']));
+      }
+
+      // Prevent double cancel/approve
+      if ($current->status != '0') {
+
+          $admin = $this->db->select('nama_lengkap')
+                            ->from('tb_user')
+                            ->where('id_user', $current->id_admin)
+                            ->get()
+                            ->row('nama_lengkap');
+
+          $status_text = ($current->status == '2') ? 'disetujui' : 'dibatalkan';
+
+          return $this->output
+              ->set_content_type('application/json')
+              ->set_output(json_encode([
+                  'status'  => 'failed',
+                  'message' => "Transaksi gagal, Invoice sudah $status_text"
+              ]));
+      }
+
+      // Get stock + discount detail
+      $items = $this->PenOrderIn_model->getidbarang($inv);
+
+      if (empty($items)) {
+          return $this->output
+              ->set_content_type('application/json')
+              ->set_output(json_encode(['status' => 'failed', 'message' => 'Detail barang tidak ditemukan']));
+      }
+
+      // Start transaction
+      $this->db->trans_begin();
+
+      // Cancel invoice
+      $this->PenOrderIn_model->cancel($inv, ['status' => '3']);
+
+      // ✅ Batch restore stock
+      $id_keluar_list = array_column($items, 'id_keluar');
+      $this->db->where_in('id_keluar', $id_keluar_list)
+              ->update('tb_brg_keluar', ['status' => '2']);
+
+      // ✅ Restore discount (cannot batch because values differ per item)
+      foreach ($items as $row) {
+          if (!empty($row['id_diskon'])) {
+              $this->PenOrderIn_model->diskon($row['id_diskon'], [
+                  'total_diskon' => $row['total_diskon'],
+                  'kuota'        => $row['kuota']
+              ]);
           }
-        }
-        echo json_encode(['status' => 'success']);
-    } else {
-        redirect('order-masuk');
-    }
+      }
+
+      // Commit or rollback
+      if ($this->db->trans_status() === FALSE) {
+          $this->db->trans_rollback();
+          return $this->output
+              ->set_content_type('application/json')
+              ->set_output(json_encode(['status' => 'failed', 'message' => 'Gagal membatalkan transaksi']));
+      }
+
+      $this->db->trans_commit();
+
+      return $this->output
+          ->set_content_type('application/json')
+          ->set_output(json_encode(['status' => 'success']));
   }
   public function getinv($idkel){
     $results = $this->PenOrderIn_model->getidbarang($idkel);

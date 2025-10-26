@@ -329,10 +329,20 @@ function approve() {
                         countbystore(idt, formatcur);
                         card();
                     });
+                } else if(response.status === 'failed'){
+                    swal(response.message, {
+                        icon: "warning",
+                    });
+                    tableOM.ajax.reload();
+                    $('#spinner-' + idt).removeClass('d-none');
+                    $('#counting-' + idt).addClass('d-none');
+                    countbystore(idt, formatcur);
+                    card();
                 } else {
                     swal("Transaksi gagal disetujui", {
                         icon: "error",
                     });
+                    tableOM.ajax.reload();
                 }
             },
             error: function (error) {
@@ -398,6 +408,11 @@ function cancel() {
                     }).then((value) => {
                         tableOM.ajax.reload();
                     });
+                }  else if(response.status === 'failed'){
+                    swal(response.message, {
+                        icon: "warning",
+                    });
+                    tableOM.ajax.reload();
                 } else {
                     swal("Gagal membatalkan transaksi", {
                         icon: "error",
