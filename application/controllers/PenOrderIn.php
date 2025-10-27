@@ -244,7 +244,7 @@ class PenOrderIn extends Auth
       }
 
       // Prevent double cancel/approve
-      if ($current->status != '0') {
+      if ($current->status == '3') {
 
           $admin = $this->db->select('nama_lengkap')
                             ->from('tb_user')
