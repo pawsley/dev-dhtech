@@ -63,13 +63,16 @@ function tablepl() {
             { "data": "sn_brg" },
             { "data": "nama_brg" },
             { 
-                "data": "kondisi",
+                "data": "kondisi_filter",
                 "render": function (data, type, full, meta) {
                     if (type === "display") {
                         if (type === "display") {
                             return data === "Baru" ? 
                                 '<span class="badge rounded-pill badge-light-primary">Baru</span>' : 
-                                '<span class="badge rounded-pill badge-light-warning">Bekas</span>';
+                                (data === "AKS" ?
+                                    '<span class="badge rounded-pill badge-light-info">AKS</span>' :
+                                    '<span class="badge rounded-pill badge-light-warning">Bekas</span>'
+                                );
                         }
                         return data;
                     }

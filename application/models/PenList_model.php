@@ -20,7 +20,7 @@ class PenList_model extends CI_Model {
     return $query->result_array();
   }
   public function getWhere($id){   
-    $this->db->select('id_keluar,sn_brg,nama_brg,hrg_hpp,hrg_jual,jenis,merk,spek,kondisi,nama_toko,status');
+    $this->db->select('id_keluar,sn_brg,nama_brg,hrg_hpp,hrg_jual,jenis,merk,spek,kondisi_filter as kondisi,nama_toko,status');
     $query = $this->db->get_where('vbarangkeluar', array('id_keluar' => $id));
     return $query->result_array();
   }
