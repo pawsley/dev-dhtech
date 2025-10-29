@@ -30,11 +30,12 @@ class PenList_model extends CI_Model {
     if ($jenis !== 'all') {
       $this->db->where('jenis', $jenis);
     }
-    if ($kond !== 'all') {
-      $this->db->where('kondisi_filter', $kond);
-    }
-    if (!empty($kond) && $kond ==='unit') {
-      $this->datatables->where_in('kondisi_filter', ['Baru','Bekas']);
+    if (!empty($kond)) {
+        if ($kond === 'unit') {
+            $this->db->where_in('kondisi_filter', ['Baru','Bekas']);
+        } elseif ($kond !== 'all') {
+            $this->db->where('kondisi_filter', $kond);
+        }
     }
     if ($cab !== null && $cab !== 'all') {
       $this->db->where('id_toko', $cab);

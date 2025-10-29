@@ -79,11 +79,12 @@ class PenList extends Auth
     if (!empty($jns) && $jns !== 'all') {
       $this->datatables->where('jenis', $jns);
     }
-    if (!empty($kond) && $kond !== 'all') {
-      $this->datatables->where('kondisi_filter', $kond);
-    }
-    if (!empty($kond) && $kond ==='unit') {
-      $this->datatables->where_in('kondisi_filter', ['Baru','Bekas']);
+    if (!empty($kond)) {
+        if ($kond === 'unit') {
+            $this->datatables->where_in('kondisi_filter', ['Baru','Bekas']);
+        } elseif ($kond !== 'all') {
+            $this->datatables->where('kondisi_filter', $kond);
+        }
     }
     if (!empty($cab) && $cab !== 'AllCab') {
       $this->datatables->where('id_toko', $cab);
