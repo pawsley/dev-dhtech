@@ -25,13 +25,16 @@ class PenList_model extends CI_Model {
     return $query->result_array();
   }
   public function layoutbarcode($jenis,$kond,$cab=null,$searchTerm=null) {
-    $this->db->select(['sn_brg','nama_brg','jenis','kondisi','tgl_keluar']);
+    $this->db->select(['sn_brg','nama_brg','jenis','kondisi','kondisi_filter','tgl_keluar']);
     $this->db->from('vbarangkeluar');
     if ($jenis !== 'all') {
       $this->db->where('jenis', $jenis);
     }
     if ($kond !== 'all') {
-      $this->db->where('kondisi', $kond);
+      $this->db->where('kondisi_filter', $kond);
+    }
+    if (!empty($kond) && $kond ==='unit') {
+      $this->datatables->where_in('kondisi_filter', ['Baru','Bekas']);
     }
     if ($cab !== null && $cab !== 'all') {
       $this->db->where('id_toko', $cab);
@@ -47,15 +50,15 @@ class PenList_model extends CI_Model {
     return $query->result_array();
   }
   public function getKondisi($searchTerm = null) {
-    $this->db->select(['kondisi']);
+    $this->db->select(['kondisi_filter']);
     $this->db->from('vbarangkeluar');
     if ($searchTerm) {
       $this->db->group_start();
-      $this->db->like('kondisi', $searchTerm);
+      $this->db->like('kondisi_filter', $searchTerm);
       $this->db->group_end();
     }
-    $this->db->group_by('kondisi');
-    $this->db->order_by('kondisi', 'asc');
+    $this->db->group_by('kondisi_filter');
+    $this->db->order_by('kondisi_filter', 'asc');
     $query = $this->db->get();
     return $query->result_array();
   }

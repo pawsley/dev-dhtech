@@ -346,11 +346,16 @@ function getselect(){
             processResults: function (data) {
                 var results = $.map(data, function (item) {
                     return {
-                        id: item.kondisi,
-                        text: item.kondisi,
+                        id: item.kondisi_filter,
+                        text: item.kondisi_filter,
                     };
                 });
     
+                results.unshift({
+                    id: 'unit',
+                    text: 'Semua Unit',
+                    value: 'Unit',
+                });
                 results.unshift({
                     id: 'all',
                     text: 'Semua Kondisi',
