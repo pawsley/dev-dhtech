@@ -101,7 +101,7 @@ class StockOpname extends Auth
     $tgl = $this->input->post('tgl'); 
     $this->datatables->select('id_opname,kode_opname, 
     DATE_FORMAT(tgl_opname, "%d-%M-%Y") AS tgl_opname,
-    (SELECT COUNT(id_opname) FROM tb_opname_detail WHERE tb_opname_detail.id_opname = vopname.id_opname) AS total_produk,
+    total_produk,
     nama_lengkap,id_toko,nama_toko,jabatan,status');
     $this->datatables->from('vopname');
     if (!empty($tgl)) {
