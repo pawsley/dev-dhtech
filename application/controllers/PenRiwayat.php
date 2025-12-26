@@ -65,6 +65,42 @@ class PenRiwayat extends Auth
     if ($this->input->post('fstat')) {
         $this->datatables->where('status', $this->input->post('fstat'));
     }
+    if (!empty($this->input->post('fnama'))) {
+        $keywords = preg_split('/\s+/', trim($this->input->post('fnama')));
+        $existsConditions = [];
+
+        foreach ($keywords as $word) {
+            $word = $this->db->escape_like_str($word);
+            $existsConditions[] = "v2.nama_brg LIKE '%{$word}%'";
+        }
+
+        $this->datatables->where("
+            EXISTS (
+                SELECT 1
+                FROM vpenjualan v2
+                WHERE v2.kode_penjualan = vreportsale.kode_penjualan
+                AND " . implode(' AND ', $existsConditions) . "
+            )
+        ", null, false);
+    }
+    if (!empty($this->input->post('fsn'))) {
+        $keywords = preg_split('/\s+/', trim($this->input->post('fsn')));
+        $existsConditions = [];
+
+        foreach ($keywords as $word) {
+            $word = $this->db->escape_like_str($word);
+            $existsConditions[] = "v2.sn_brg LIKE '%{$word}%'";
+        }
+
+        $this->datatables->where("
+            EXISTS (
+                SELECT 1
+                FROM vpenjualan v2
+                WHERE v2.kode_penjualan = vreportsale.kode_penjualan
+                AND " . implode(' AND ', $existsConditions) . "
+            )
+        ", null, false);
+    }
     return print_r($this->datatables->generate());
   }
   public function detaillapjual() {

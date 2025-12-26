@@ -37,13 +37,13 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="mb-3">
                                         <label class="form-label">Filter Tanggal</label>
                                         <input class="form-control" id="ftgl" type="text" placeholder="Pilih Tanggal" />
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="mb-3">
                                         <label class="form-label">Filter Status</label>
                                         <select class="form-select" id="fstatus">
@@ -51,6 +51,18 @@
                                             <option value="2">Lunas</option>
                                             <option value="3">Batal</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">Filter SN Barang</label>
+                                        <input class="form-control" id="fsn" type="text" placeholder="Cari SN Barang" />
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">Filter Nama Barang</label>
+                                        <input class="form-control" id="fnama" type="text" placeholder="Cari Nama Barang" />
                                     </div>
                                 </div>
                             </div>

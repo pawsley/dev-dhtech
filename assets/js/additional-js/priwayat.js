@@ -31,6 +31,8 @@ $(document).ready(function () {
     detailprdj();
     filtertgl();
     filterstatus();
+    filterfsn();
+    filterfnama();
 });
 
 function filtertgl() {
@@ -54,15 +56,48 @@ function filtertgl() {
         } 
     });
     $('#ftgl').on('change', function() {
-        tableJL.draw();
+        tableJL.ajax.reload();
     });
 }
 function filterstatus() {
     $('#fstatus').on('change', function() {
-        tableJL.draw();
+        tableJL.ajax.reload();
     });
 }
+function filterfsn() {
+    let searchTimer;
+    $('#fsn').on('keyup', function () {
+        clearTimeout(searchTimer);
 
+        const value = this.value.trim();
+
+        // optional: minimum 3 characters
+        if (value.length > 0 && value.length < 2) {
+            return;
+        }
+
+        searchTimer = setTimeout(function () {
+            tableJL.ajax.reload(); // 👈 better than draw()
+        }, 500); // 500ms debounce
+    });
+}
+function filterfnama() {
+    let searchTimer;
+    $('#fnama').on('keyup', function () {
+        clearTimeout(searchTimer);
+
+        const value = this.value.trim();
+
+        // optional: minimum 3 characters
+        if (value.length > 0 && value.length < 2) {
+            return;
+        }
+
+        searchTimer = setTimeout(function () {
+            tableJL.ajax.reload(); // 👈 better than draw()
+        }, 500); // 500ms debounce
+    });
+}
 function tablejl() {
     if ($.fn.DataTable.isDataTable('#table-jual')) {
         tableJL.destroy();
@@ -82,6 +117,8 @@ function tablejl() {
             data: function(d) {
                 d.ftgl = $('#ftgl').val();
                 d.fstat = $('#fstatus').val();
+                d.fsn = $('#fsn').val();
+                d.fnama = $('#fnama').val();
             }
         },
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
@@ -256,13 +293,26 @@ function exportToExcel(data) {
 
     if (!data || !data.length) return;
 
-    // buat worksheet
-    let ws = XLSX.utils.json_to_sheet(data);
+    // 🔥 FIX 1: Force Grand Total numeric (only once per invoice)
+    let lastInvoice = null;
 
+    data.forEach(row => {
+        if (row.Invoice === lastInvoice) {
+            row["Grand Total"] = null; // keep merged cells clean
+        } else {
+            row["Grand Total"] = Number(row["Grand Total"]);
+            lastInvoice = row.Invoice;
+        }
+    });
+
+    // Create worksheet (raw = keep number type)
+    let ws = XLSX.utils.json_to_sheet(data, { raw: true });
     let headers = Object.keys(data[0]);
 
-    // kolom yang akan di-merge
-    let mergeColumns = [
+    // =============================
+    // MERGE PER INVOICE
+    // =============================
+    const mergeColumns = [
         "Invoice",
         "Tanggal Transaksi",
         "Cabang",
@@ -272,65 +322,85 @@ function exportToExcel(data) {
         "Grand Total"
     ];
 
-    // mapping nama kolom ke index
-    let colIndexes = mergeColumns.map(col => headers.indexOf(col)).filter(i => i !== -1);
+    const mergeIndexes = mergeColumns
+        .map(col => headers.indexOf(col))
+        .filter(i => i !== -1);
 
     ws['!merges'] = [];
 
-    let startRow = 2; // baris excel (1 = header)
-    let currentInvoice = data[0]["Invoice"];
+    let startRow = 2;
+    let currentInvoice = data[0].Invoice;
 
     for (let i = 0; i < data.length; i++) {
-
-        let invoice = data[i]["Invoice"];
-
-        if (invoice !== currentInvoice) {
-
+        if (data[i].Invoice !== currentInvoice) {
             let endRow = i + 1;
 
             if (endRow > startRow) {
-                colIndexes.forEach(colIdx => {
+                mergeIndexes.forEach(c => {
                     ws['!merges'].push({
-                        s: { r: startRow - 1, c: colIdx },
-                        e: { r: endRow - 1, c: colIdx }
+                        s: { r: startRow - 1, c },
+                        e: { r: endRow - 1, c }
                     });
                 });
             }
 
             startRow = i + 2;
-            currentInvoice = invoice;
+            currentInvoice = data[i].Invoice;
         }
     }
 
-    // merge invoice terakhir
+    // last merge
     let lastRow = data.length + 1;
     if (lastRow > startRow) {
-        colIndexes.forEach(colIdx => {
+        mergeIndexes.forEach(c => {
             ws['!merges'].push({
-                s: { r: startRow - 1, c: colIdx },
-                e: { r: lastRow - 1, c: colIdx }
+                s: { r: startRow - 1, c },
+                e: { r: lastRow - 1, c }
             });
         });
     }
 
-    // buat workbook
+    // =============================
+    // 🔥 FORMAT MONEY COLUMNS
+    // =============================
+    const moneyColumns = [
+        "Harga Jual",
+        "Harga HPP",
+        "Harga Diskon",
+        "Harga Cashback",
+        "Harga Bayar",
+        "Laba Unit",
+        "Grand Total"
+    ];
+
+    const range = XLSX.utils.decode_range(ws['!ref']);
+
+    for (let R = range.s.r + 1; R <= range.e.r; R++) {
+        moneyColumns.forEach(col => {
+            let C = headers.indexOf(col);
+            if (C === -1) return;
+
+            let cellRef = XLSX.utils.encode_cell({ r: R, c: C });
+            let cell = ws[cellRef];
+
+            if (cell && typeof cell.v === 'number') {
+                cell.t = 'n';
+                cell.z = '#,##0'; // 1.000.000
+            }
+        });
+    }
+
+    // =============================
+    // WORKBOOK
+    // =============================
     let wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Laporan");
+    XLSX.utils.book_append_sheet(wb, ws, "Laporan Riwayat Penjualan");
 
     let now = new Date();
-    let tanggal =
-        now.getFullYear() + '-' +
-        String(now.getMonth() + 1).padStart(2, '0') + '-' +
-        String(now.getDate()).padStart(2, '0');
+    let tanggal = now.toISOString().slice(0, 10);
+    let jam = now.toTimeString().slice(0, 8).replace(/:/g, '-');
 
-    let jam =
-        String(now.getHours()).padStart(2, '0') + '-' +
-        String(now.getMinutes()).padStart(2, '0') + '-' +
-        String(now.getSeconds()).padStart(2, '0');
-
-    let filename = `laporan_penjualan_detail_${tanggal}_${jam}.xlsx`;
-
-    XLSX.writeFile(wb, filename);
+    XLSX.writeFile(wb, `laporan_penjualan_detail_${tanggal}_${jam}.xlsx`);
 }
 
 function formatDetail(detail_json) {
