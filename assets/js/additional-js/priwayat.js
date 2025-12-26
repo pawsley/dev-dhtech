@@ -8,10 +8,20 @@ var formatcur = new Intl.NumberFormat('id-ID', {
     currency: 'IDR',
     minimumFractionDigits: 0
 });
+var formatdec = new Intl.NumberFormat('id-ID', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+});
 var monthNames = [
     "Januari", "Februari", "Maret", "April", "Mei", "Juni",
     "Juli", "Agustus", "September", "Oktober", "November", "Desember"
 ];
+function formatDate(date) {
+    let d = String(date.getDate()).padStart(2, '0');
+    let m = String(date.getMonth() + 1).padStart(2, '0');
+    let y = date.getFullYear();
+    return `${d}/${m}/${y}`;
+}
 $(document).ready(function () {
     tablers();
     tablejl();
@@ -19,7 +29,39 @@ $(document).ready(function () {
     detailpen();
     detaillappen();
     detailprdj();
+    filtertgl();
+    filterstatus();
 });
+
+function filtertgl() {
+    $('#ftgl').flatpickr({
+        mode: "range",
+        dateFormat: "d-m-Y",
+        maxDate: "today",
+        onReady: (selectedDates, dateStr, instance) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "flatpickr-clear-btn btn btn-sm btn-danger";
+            btn.innerText = "Hapus Filter";
+            btn.style.marginLeft = "10px";
+
+            btn.addEventListener("click", () => {
+                instance.clear();
+                instance.close();
+            });
+
+            instance.calendarContainer.appendChild(btn);
+        } 
+    });
+    $('#ftgl').on('change', function() {
+        tableJL.draw();
+    });
+}
+function filterstatus() {
+    $('#fstatus').on('change', function() {
+        tableJL.draw();
+    });
+}
 
 function tablejl() {
     if ($.fn.DataTable.isDataTable('#table-jual')) {
@@ -32,11 +74,15 @@ function tablejl() {
         },
         "serverSide": true,
         "order": [
-            [0, 'asc'] 
+            [1, 'desc'] 
         ],
         "ajax": {
             "url": base_url + 'riwayat-penjualan/laporan-jual/',
-            "type": "POST"
+            "type": "POST",
+            data: function(d) {
+                d.ftgl = $('#ftgl').val();
+                d.fstat = $('#fstatus').val();
+            }
         },
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         "columns": [
@@ -106,6 +152,7 @@ function tablejl() {
                                         data-bnk="${full.bank}" data-krd="${full.kredit}" data-toko="${full.nama_toko}" data-tgltr="${full.tgl_transaksi}"
                                         data-jasa="${full.jasa}" data-jasanom="${full.jml_donasi}"
                                         data-bs-toggle="modal" data-bs-target="#DetailLapPenjualan" title="detail penjualan"><i class="fa fa-exclamation-circle"></i></button>
+                                        <button class="btn btn-warning details-control"> <i class="fa fa-caret-down"></i></button>
                                     </div>
                                 </ul>
                             `;
@@ -135,18 +182,194 @@ function tablejl() {
                 }
             },
             {
-                extend: 'excelHtml5', // Specify the Excel button
-                text: 'Export', // Text for the button
-                className: 'btn btn-success', // Add a class for styling
+                extend: 'excelHtml5',
+                text: 'Export + Detail',
+                className: 'btn btn-success',
                 title: 'Laporan Penjualan',
-                exportOptions: {
-                    columns: ':visible:not(:last-child):not(:nth-last-child(1))'
+                action: function (e, dt, button, config) {
+
+                    let dataExport = [];
+
+                    dt.rows({ search: 'applied' }).every(function () {
+                        let row = this.data();
+                        let detail = JSON.parse(row.detail_barang);
+
+                        detail.forEach(d => {
+                            dataExport.push({
+                                "Invoice": row.kode_penjualan,
+                                "Tanggal Transaksi": formatDate(new Date(row.tgl_transaksi)),
+                                "Cabang": row.nama_toko,
+                                "Customer": row.nama_plg,
+                                "Kasir": row.nama_ksr,
+                                "SN Barang": d.sn_brg,
+                                "Nama Barang": d.nama_brg,
+                                "Supplier": d.supplier,
+                                "Tanggal Masuk": formatDate(new Date(d.tgl_keluar)),
+                                "Harga Jual": d.harga_jual,
+                                "Harga HPP": d.hrg_hpp,
+                                "Harga Diskon": d.harga_diskon,
+                                "Harga Cashback": d.harga_cashback,
+                                "Harga Bayar": d.harga_bayar,
+                                "Laba Unit": d.laba_unit,
+                                "Grand Total": row.total,
+                                "Status" : (row.status == "1" ? "DP" : (row.status == "2" ? "LUNAS" : (row.status == "3" ? "BATAL" : (row.status == "9" ? "GESTUN" : row.status))))
+                            });
+                        });
+                    });
+
+                    exportToExcel(dataExport);
                 }
-            }
+            },
+            // {
+            //     extend: 'excelHtml5', // Specify the Excel button
+            //     text: 'Export', // Text for the button
+            //     className: 'btn btn-success', // Add a class for styling
+            //     title: 'Laporan Penjualan',
+            //     exportOptions: {
+            //         columns: ':visible:not(:last-child):not(:nth-last-child(1))'
+            //     }
+            // }
         ]
             
     });
+    $('#table-jual tbody').on('click', 'button.details-control', function (e) {
+        e.stopPropagation();
+
+        var tr = $(this).closest('tr');
+        var row = tableJL.row(tr);
+
+        if (row.child.isShown()) {
+            row.child.hide();
+            $(this).find('i')
+                .removeClass('fa-caret-up')
+                .addClass('fa-caret-down');
+        } else {
+            row.child(formatDetail(row.data().detail_barang)).show();
+            $(this).find('i')
+                .removeClass('fa-caret-down')
+                .addClass('fa-caret-up');
+        }
+    });
     return tableJL;
+}
+function exportToExcel(data) {
+
+    if (!data || !data.length) return;
+
+    // buat worksheet
+    let ws = XLSX.utils.json_to_sheet(data);
+
+    let headers = Object.keys(data[0]);
+
+    // kolom yang akan di-merge
+    let mergeColumns = [
+        "Invoice",
+        "Tanggal Transaksi",
+        "Cabang",
+        "Customer",
+        "Kasir",
+        "Status",
+        "Grand Total"
+    ];
+
+    // mapping nama kolom ke index
+    let colIndexes = mergeColumns.map(col => headers.indexOf(col)).filter(i => i !== -1);
+
+    ws['!merges'] = [];
+
+    let startRow = 2; // baris excel (1 = header)
+    let currentInvoice = data[0]["Invoice"];
+
+    for (let i = 0; i < data.length; i++) {
+
+        let invoice = data[i]["Invoice"];
+
+        if (invoice !== currentInvoice) {
+
+            let endRow = i + 1;
+
+            if (endRow > startRow) {
+                colIndexes.forEach(colIdx => {
+                    ws['!merges'].push({
+                        s: { r: startRow - 1, c: colIdx },
+                        e: { r: endRow - 1, c: colIdx }
+                    });
+                });
+            }
+
+            startRow = i + 2;
+            currentInvoice = invoice;
+        }
+    }
+
+    // merge invoice terakhir
+    let lastRow = data.length + 1;
+    if (lastRow > startRow) {
+        colIndexes.forEach(colIdx => {
+            ws['!merges'].push({
+                s: { r: startRow - 1, c: colIdx },
+                e: { r: lastRow - 1, c: colIdx }
+            });
+        });
+    }
+
+    // buat workbook
+    let wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Laporan");
+
+    let now = new Date();
+    let tanggal =
+        now.getFullYear() + '-' +
+        String(now.getMonth() + 1).padStart(2, '0') + '-' +
+        String(now.getDate()).padStart(2, '0');
+
+    let jam =
+        String(now.getHours()).padStart(2, '0') + '-' +
+        String(now.getMinutes()).padStart(2, '0') + '-' +
+        String(now.getSeconds()).padStart(2, '0');
+
+    let filename = `laporan_penjualan_detail_${tanggal}_${jam}.xlsx`;
+
+    XLSX.writeFile(wb, filename);
+}
+
+function formatDetail(detail_json) {
+
+    let detail = JSON.parse(detail_json);
+
+    let html = `
+        <table class="table table-sm table-bordered">
+            <thead>
+                <tr>
+                    <th>SN Produk</th>
+                    <th>Nama Produk</th>
+                    <th>Harga Jual</th>
+                    <th>Diskon</th>
+                    <th>Cashback</th>
+                    <th>Harga Rill</th>
+                    <th>Harga HPP</th>
+                    <th>Laba Unit</th>
+                </tr>
+            </thead><tbody>
+    `;
+
+    detail.forEach(v => {
+        html += `
+            <tr>
+                <td>${v.sn_brg}</td>
+                <td>${v.nama_brg}</td>
+                <td>${formatdec.format(v.harga_jual)}</td>
+                <td>${formatdec.format(v.harga_diskon)}</td>
+                <td>${formatdec.format(v.harga_cashback)}</td>
+                <td>${formatdec.format(v.harga_bayar)}</td>
+                <td>${formatdec.format(v.hrg_hpp)}</td>
+                <td>${formatdec.format(v.laba_unit)}</td>
+            </tr>
+        `;
+    });
+
+    html += '</tbody></table>';
+    return html;
 }
 
 function tableprdj() {

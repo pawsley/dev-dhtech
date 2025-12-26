@@ -17,9 +17,10 @@ class PenRiwayat extends Auth
     $data['content'] = $this->load->view('kasir/riwayatsales', '', true);
     $data['modal'] = '';
     $data['css'] = '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/datatables.css').'">
-    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">';
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/sweetalert2.css').'">
+    <link rel="stylesheet" type="text/css" href="'.base_url('assets/css/vendors/flatpickr/flatpickr.min.css').'">';
     $data['js'] = '<script>var base_url = "' . base_url() . '";</script>
-    <script src="' . base_url('assets/js/additional-js/priwayat.js?v=1.1') . '"></script>
+    <script src="' . base_url('assets/js/additional-js/priwayat.js?v='.time().'') . '"></script>
     <script src="' . base_url('assets/js/modalpage/validation-modal.js') . '"></script>
     <script src="' . base_url('assets/js/sweet-alert/sweetalert.min.js').'"></script>
     <script src="' . base_url('assets/js/datatable/datatables/jquery.dataTables.min.js') . '"></script>
@@ -39,6 +40,8 @@ class PenRiwayat extends Auth
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') . '"></script>
     <script src="' . base_url('assets/js/datatable/datatable-extension/custom.js') . '"></script>
+    <script src="' . base_url('assets/js/flat-pickr/flatpickr.js') . '"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     ';
     $this->load->view('layout/base', $data);      
   }
@@ -46,9 +49,22 @@ class PenRiwayat extends Auth
     $this->load->library('datatables');
     $this->datatables->select('kode_penjualan, tgl_transaksi, nama_toko, id_ksr,nama_ksr,total, total_harga_jual, 
     total_diskon,total_cb, total_laba, nama_plg, cara_bayar, bank_tf,no_rek, tunai, bank, kredit,  
-    CONCAT(kode_penjualan," ",nama_plg) as kode_nama, nama_admin,status,jasa,jml_donasi');
+    CONCAT(kode_penjualan," ",nama_plg) as kode_nama, nama_admin,status,jasa,jml_donasi, detail_barang');
     $this->datatables->from('vreportsale');
     $this->datatables->where_in('status',[1,2,3,9]);
+    $ftgl = $this->input->post('ftgl');
+    if (!empty($ftgl)) {
+        $tgl = explode(" to ", $ftgl);
+        $this->datatables->where("DATE(tgl_transaksi) >=", date('Y-m-d', strtotime($tgl[0])));
+        if (isset($tgl[1])) {
+            $this->datatables->where("DATE(tgl_transaksi) <=", date('Y-m-d', strtotime($tgl[1])));
+        } else {
+            $this->datatables->where("DATE(tgl_transaksi) <=", date('Y-m-d', strtotime($tgl[0])));
+        }
+    }
+    if ($this->input->post('fstat')) {
+        $this->datatables->where('status', $this->input->post('fstat'));
+    }
     return print_r($this->datatables->generate());
   }
   public function detaillapjual() {

@@ -36,6 +36,24 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Filter Tanggal</label>
+                                        <input class="form-control" id="ftgl" type="text" placeholder="Pilih Tanggal" />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Filter Status</label>
+                                        <select class="form-select" id="fstatus">
+                                            <option value="">Semua Status</option>
+                                            <option value="2">Lunas</option>
+                                            <option value="3">Batal</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table class="display" id="table-jual">
                                 <thead>
