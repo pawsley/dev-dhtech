@@ -441,6 +441,8 @@ class DashboardKar extends Auth
 						'W-1' => 'bg-warning text-white border-0',
 						'W-2' => 'bg-primary text-dark border-0',
 						'W-3' => 'bg-dark text-white border-0',
+						'WTC 2 -- 1' => 'bg-info text-white border-0',
+						'WTC 2 -- 2' => 'bg-success text-white border-0',
 						'OFF' => 'bg-danger text-white border-0'
 					];
 
