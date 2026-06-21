@@ -73,8 +73,9 @@ class PenList extends Auth
     $jns = $this->input->post('jns'); 
     $kond = $this->input->post('kond'); 
     $cab = $this->input->post('cab'); 
+    $sup = $this->input->post('sup');
     $search = $this->input->post('search');
-    $this->datatables->select('id_keluar,sn_brg,nama_brg,kondisi,kondisi_filter,hrg_hpp,hrg_jual,nama_toko,status,nama_supplier');
+    $this->datatables->select('id_keluar,sn_brg,nama_brg,kondisi,kondisi_filter,hrg_hpp,hrg_jual,nama_toko,status,nama_supplier,id_supplier');
     $this->datatables->from('vbarangkeluar');
     if (!empty($jns) && $jns !== 'all') {
       $this->datatables->where('jenis', $jns);
@@ -88,6 +89,9 @@ class PenList extends Auth
     }
     if (!empty($cab) && $cab !== 'AllCab') {
       $this->datatables->where('id_toko', $cab);
+    }
+    if (!empty($sup) && $sup !== 'AllSup') {
+      $this->datatables->where('id_supplier', $sup);
     }
     if (!empty($search)) {
       $searchTerms = explode(' ', $search);

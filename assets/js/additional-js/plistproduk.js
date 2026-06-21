@@ -42,6 +42,7 @@ function tablepl() {
             d.cab = $('#cab').val();
             d.kond = $('#kondisi').val();
             d.jns = $('#tipe').val();
+            d.sup = $('#sup').val();
             d.search = $('input[type="search"]').val();
         }
     };
@@ -226,7 +227,7 @@ function tablepl() {
         ]
             
     });
-    $('#tipe, #kondisi, #cab').on('change', function() {
+    $('#tipe, #kondisi, #cab, #sup').on('change', function() {
         tablePL.draw();
     }); 
     return tablePL;
@@ -363,6 +364,38 @@ function getselect(){
                 results.unshift({
                     id: 'all',
                     text: 'Semua Kondisi',
+                    value: '0',
+                });
+    
+                return {
+                    results: results,
+                };
+            },
+            cache: false,
+        },
+    });
+    $('#sup').select2({
+        language: 'id',
+        ajax: {
+            url: base_url + 'InventoriStok/loadsupp',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    q: params.term, 
+                };
+            },
+            processResults: function (data) {
+                var results = $.map(data, function (item) {
+                    return {
+                        id: item.id_supplier,
+                        text: item.nama_supplier,
+                    };
+                });
+    
+                results.unshift({
+                    id: 'AllSup',
+                    text: 'Semua Supplier',
                     value: '0',
                 });
     

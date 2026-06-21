@@ -45,6 +45,11 @@
                                         <option selected="" value="0">Semua Cabang</option>
                                     </select>
                                 </div>
+                                <div class="col-md-12 position-relative mb-3">
+                                    <select class="form-select" id="sup" name="sup" required="">
+                                        <option selected="" value="0">Semua Supplier</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
