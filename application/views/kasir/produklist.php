@@ -56,6 +56,7 @@
                                             <th style="min-width: 200px;"><span class="f-light f-w-600">NAMA PRODUK</span></th>
                                             <th style="min-width: 80px;"><span class="f-light f-w-600">KONDISI</span></th>
                                             <th style="min-width: 200px;"><span class="f-light f-w-600">CABANG</span></th>
+                                            <th style="min-width: 200px;"><span class="f-light f-w-600">SUPPLIER</span></th>
                                             <th style="min-width: 200px;"><span class="f-light f-w-600">HARGA HPP</span></th>
                                             <th style="min-width: 160px;"><span class="f-light f-w-600">HARGA JUAL</span></th>
                                             <th style="min-width: 80px;"><span class="f-light f-w-600">STATUS</span></th>

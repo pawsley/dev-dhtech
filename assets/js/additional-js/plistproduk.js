@@ -80,6 +80,7 @@ function tablepl() {
                 }
             },
             { "data": "nama_toko" },
+            { "data": "nama_supplier" },
             { 
                 "data": "hrg_hpp",
                 "render": function (data, type, row) {

@@ -74,7 +74,7 @@ class PenList extends Auth
     $kond = $this->input->post('kond'); 
     $cab = $this->input->post('cab'); 
     $search = $this->input->post('search');
-    $this->datatables->select('id_keluar,sn_brg,nama_brg,kondisi,kondisi_filter,hrg_hpp,hrg_jual,nama_toko,status');
+    $this->datatables->select('id_keluar,sn_brg,nama_brg,kondisi,kondisi_filter,hrg_hpp,hrg_jual,nama_toko,status,nama_supplier');
     $this->datatables->from('vbarangkeluar');
     if (!empty($jns) && $jns !== 'all') {
       $this->datatables->where('jenis', $jns);
