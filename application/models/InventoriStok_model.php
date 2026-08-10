@@ -68,7 +68,10 @@ class InventoriStok_model extends CI_Model {
     $this->db->select('sn_brg');
     $this->db->from('tb_brg_masuk');
     $this->db->like('sn_brg', 'ACC');
-    $this->db->order_by('sn_brg', 'desc');
+
+    // Gunakan string literal penuh, jangan pisahkan parameter DESC
+    $this->db->order_by("CAST(SUBSTRING(sn_brg, 5) AS UNSIGNED) DESC", null, false);
+
     $this->db->limit(1);
     $query = $this->db->get();
     return $query->result_array();
